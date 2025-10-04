@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+/BDFM-Hub/BDFM.Hub/BDFM.Api\bin
+/BDFM-Hub/BDFM-Mobile/bin
+/BDFM.Mobile

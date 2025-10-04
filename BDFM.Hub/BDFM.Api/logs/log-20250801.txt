@@ -1,0 +1,543 @@
+2025-08-01 18:11:50.778 +03:00 [WRN] The foreign key property 'AIMessage.ConversationId1' was created in shadow state because a conflicting property with the simple name 'ConversationId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-08-01 18:11:51.396 +03:00 [WRN] The foreign key property 'AIMessage.ConversationId1' was created in shadow state because a conflicting property with the simple name 'ConversationId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-08-01 18:14:40.491 +03:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:16:07.750 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:17:34.419 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:17:47.828 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:18:11.140 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:18:32.911 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:18:45.090 +03:00 [INF] Now listening on: http://localhost:5026
+2025-08-01 18:18:45.113 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-01 18:18:45.115 +03:00 [INF] Hosting environment: Development
+2025-08-01 18:18:45.116 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-08-01 18:19:55.836 +03:00 [INF] Application is shutting down...
+2025-08-01 18:20:24.426 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:21:37.628 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:26:36.205 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-08-01 18:31:46.476 +03:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-08-01 18:32:44.412 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-08-01 18:34:38.754 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-08-01 18:34:50.044 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-08-01 18:35:13.855 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-08-01 18:49:52.889 +03:00 [INF] Now listening on: http://localhost:5026
+2025-08-01 18:49:52.910 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-01 18:49:52.913 +03:00 [INF] Hosting environment: Development
+2025-08-01 18:49:52.914 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-08-01 18:51:07.395 +03:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 18:54:04.724 +03:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:08:26.571 +03:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:14:26.043 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:17:25.089 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:17:42.565 +03:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:26:36.193 +03:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:31:47.506 +03:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:32:24.820 +03:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AIConversations" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NOT NULL,
+    "SessionId" character varying(100) NOT NULL,
+    "Title" character varying(500) NOT NULL,
+    "Status" integer NOT NULL,
+    "LastActivityAt" timestamp with time zone,
+    "MessageCount" integer NOT NULL,
+    "Context" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_AIConversations" PRIMARY KEY ("Id")
+);
+2025-08-01 19:38:40.119 +03:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-08-01 19:56:02.080 +03:00 [INF] Now listening on: https://localhost:7123
+2025-08-01 19:56:02.094 +03:00 [INF] Now listening on: http://localhost:5026
+2025-08-01 19:56:02.175 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-01 19:56:02.176 +03:00 [INF] Hosting environment: Development
+2025-08-01 19:56:02.177 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-08-01 19:59:01.751 +03:00 [INF] Now listening on: https://localhost:7123
+2025-08-01 19:59:01.773 +03:00 [INF] Now listening on: http://localhost:5026
+2025-08-01 19:59:01.881 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-01 19:59:01.882 +03:00 [INF] Hosting environment: Development
+2025-08-01 19:59:01.884 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-08-01 20:03:18.776 +03:00 [INF] Executing action CreateUser on controller User. Username: Anonymous, Auth ID: Anonymous
+2025-08-01 20:03:18.816 +03:00 [INF] ----- Handling command CreateUserCommand ({"Username":"saad","UserLogin":"101313","Password":"Saad1987","FullName":"saad alsaree","Email":"user@example.com","OrganizationalUnitId":"c8b1dbf5-3548-47f4-a651-93ca55eef14d","PositionTitle":"string","RfidTagId":"string","IsActive":true,"RoleIds":["f155420c-e317-4faf-a3a7-28aa5034ec7c","29d80fce-824a-4287-97e4-27f2e2a1ffdd","ac1ce7e2-29e9-4ad7-9ea5-3fe7a2e65e31","2f949559-613e-4368-9d9f-a4a16d723b1e","b486d399-0726-400a-beaf-6db135a457f8","c974b504-55b8-41c7-b604-602abc8c8b72","2dec3712-6cf2-46a1-812c-986575b39067","3feefd93-a789-4bec-a2ba-76701eaf74f2","c185033a-8280-473f-a093-924d17636533","fa2cf861-23ec-485e-b30c-850893b277a7","ddda1417-615a-4200-bc9c-82716ca0d907"],"$type":"CreateUserCommand"})
+2025-08-01 20:03:21.602 +03:00 [INF] ----- Command CreateUserCommand handled - response: {"Succeeded":true,"Data":true,"Message":"تم ادخال البيانات","Errors":[],"Code":"103","$type":"Response`1"}
+2025-08-01 20:03:21.707 +03:00 [INF] HTTP POST /BDFM/v1/api/User/CreateUser responded 200 in 3016.8658 ms

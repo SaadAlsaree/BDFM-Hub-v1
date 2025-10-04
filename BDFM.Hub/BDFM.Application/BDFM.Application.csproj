@@ -1,0 +1,113 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Administration\Permissions\**" />
+    <Compile Remove="Features\Administration\Roles\**" />
+    <Compile Remove="Features\Correspondences\Commands\CreateCorrespondence\**" />
+    <EmbeddedResource Remove="Features\Administration\Permissions\**" />
+    <EmbeddedResource Remove="Features\Administration\Roles\**" />
+    <EmbeddedResource Remove="Features\Correspondences\Commands\CreateCorrespondence\**" />
+    <None Remove="Features\Administration\Permissions\**" />
+    <None Remove="Features\Administration\Roles\**" />
+    <None Remove="Features\Correspondences\Commands\CreateCorrespondence\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="CommandScheduler" Version="2.2.3" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.37" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BDFM.Domain\BDFM.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Administration\ExternalEntities\" />
+    <Folder Include="Features\Administration\SystemIntegrations\" />
+    <Folder Include="Features\Administration\Templates\" />
+    <Folder Include="Features\Attachments\Queries\GetAttachmentsList\" />
+    <Folder Include="Features\Attachments\Queries\GetAttachmentById\" />
+    <Folder Include="Features\Attachments\Queries\GetAttachmentsListByPrimaryTableId\" />
+    <Folder Include="Features\Automation\CustomWorkflows\" />
+    <Folder Include="Features\Automation\BusinessRules\" />
+    <Folder Include="Features\Automation\AdvancedAlerts\" />
+    <Folder Include="Features\Comments\Commands\CreateComment\" />
+    <Folder Include="Features\Comments\Commands\UpdateComment\" />
+    <Folder Include="Features\Comments\Queries\GetCommentsListByCorrespondenceId\" />
+    <Folder Include="Features\Correspondences\Commands\LinkCorrespondences\" />
+    <Folder Include="Features\Correspondences\Commands\MoveCorrespondenceToTrash\" />
+    <Folder Include="Features\Correspondences\Commands\RestoreCorrespondenceFromTrash\" />
+    <Folder Include="Features\Correspondences\Commands\SubmitDraft\" />
+    <Folder Include="Features\Correspondences\Commands\UnlinkCorrespondences\" />
+    <Folder Include="Features\Correspondences\Commands\UnpostponeCorrespondence\" />
+    <Folder Include="Features\Correspondences\Commands\PostponeCorrespondence\" />
+    <Folder Include="Features\Correspondences\Commands\ToggleStarCorrespondence\" />
+    <Folder Include="Features\Correspondences\Commands\UpdateCorrespondence\" />
+    <Folder Include="Features\Correspondences\Queries\GetCorrespondenceById\" />
+    <Folder Include="Features\Correspondences\Queries\GetUserInbox\" />
+    <Folder Include="Features\Correspondences\Queries\GetStarredCorrespondences\" />
+    <Folder Include="Features\Correspondences\Queries\GetPostponedCorrespondences\" />
+    <Folder Include="Features\Correspondences\Queries\GetTrashContents\" />
+    <Folder Include="Features\Correspondences\Queries\GetCorrespondenceFullHistory\" />
+    <Folder Include="Features\Correspondences\Queries\GetUserIsStarred\" />
+    <Folder Include="Features\Correspondences\Queries\GetOutgoingInternal\" />
+    <Folder Include="Features\Correspondences\Queries\SearchCorrespondences\" />
+    <Folder Include="Features\MailFiles\Commands\CreateMailFile\" />
+    <Folder Include="Features\MailFiles\Commands\UpdateMailFile\" />
+    <Folder Include="Features\MailFiles\Queries\GetMailFileById\" />
+    <Folder Include="Features\MailFiles\Queries\GetMailFileList\" />
+    <Folder Include="Features\MailFiles\Queries\GetMailFileContents\" />
+    <Folder Include="Features\OrganizationalUnits\Commands\CreateOrganizationalUnit\" />
+    <Folder Include="Features\OrganizationalUnits\Commands\UpdateOrganizationalUnit\" />
+    <Folder Include="Features\OrganizationalUnits\Queries\GetOrganizationalUnitTree\" />
+    <Folder Include="Features\OrganizationalUnits\Queries\GetOrganizationalUnitById\" />
+    <Folder Include="Features\OrganizationalUnits\Queries\GetOrganizationalUnitList\" />
+    <Folder Include="Features\Reports\Queries\GetCorrespondenceVolumeReport\" />
+    <Folder Include="Features\Reports\Queries\GetProcessingTimeReport\" />
+    <Folder Include="Features\Reports\Queries\GetCorrespondenceCountByUnit\" />
+    <Folder Include="Features\Reports\Queries\GetAverageProcessingTime\" />
+    <Folder Include="Features\Security\AuditLogs\Commands\" />
+    <Folder Include="Features\Security\AuditLogs\Queries\" />
+    <Folder Include="Features\Security\Delegations\Commands\" />
+    <Folder Include="Features\Security\Delegations\Queries\" />
+    <Folder Include="Features\Security\RolePermissions\" />
+    <Folder Include="Features\Security\UnitPermissions\" />
+    <Folder Include="Features\Security\UserRoles\" />
+    <Folder Include="Features\Security\Permissions\Commands\" />
+    <Folder Include="Features\Security\Permissions\Queries\" />
+    <Folder Include="Features\Security\Roles\Commands\CreateRole\" />
+    <Folder Include="Features\Security\Roles\Commands\DeleteRole\" />
+    <Folder Include="Features\Security\Roles\Commands\AddPermissionsToRole\" />
+    <Folder Include="Features\Security\Roles\Commands\DeletePermissionsFromRole\" />
+    <Folder Include="Features\Security\Roles\Commands\UpdateRole\" />
+    <Folder Include="Features\Security\Roles\Queries\GetRoleList\" />
+    <Folder Include="Features\Security\Roles\Queries\GetRoleById\" />
+    <Folder Include="Features\Users\Commands\CreateUser\" />
+    <Folder Include="Features\Users\Commands\ChangePassword\" />
+    <Folder Include="Features\Users\Commands\UpdateUser\" />
+    <Folder Include="Features\Users\Commands\UpdateUserStatus\" />
+    <Folder Include="Features\Users\Commands\ResetPassword\" />
+    <Folder Include="Features\Users\Commands\UpdateUserRoles\" />
+    <Folder Include="Features\Users\Queries\GetUserById\" />
+    <Folder Include="Features\Users\Queries\GetAllUsers\" />
+    <Folder Include="Features\WorkflowStepSecondary\Commands\UpdateWorkflowStepSecondary\" />
+    <Folder Include="Features\Workflow\Commands\ReferCorrespondence\" />
+    <Folder Include="Features\Workflow\Queries\GetCurrentCorrespondenceHolders\" />
+  </ItemGroup>
+
+</Project>

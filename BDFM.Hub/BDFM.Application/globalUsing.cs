@@ -1,0 +1,16 @@
+global using BDFM.Application.Contracts.Persistence;
+global using BDFM.Application.Extensions;
+global using BDFM.Application.Helper.Pagination;
+global using BDFM.Application.Models.Authentication;
+global using BDFM.Application.Models.Mail;
+global using BDFM.Domain.Common;
+global using BDFM.Domain.Enums;
+global using FluentValidation;
+global using MediatR;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Query;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using StackExchange.Redis;
+global using System.ComponentModel.DataAnnotations;
+global using System.Linq.Expressions;

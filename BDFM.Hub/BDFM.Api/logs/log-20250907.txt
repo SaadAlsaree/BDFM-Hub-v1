@@ -1,0 +1,5 @@
+2025-09-07 19:17:33.983 +03:00 [INF] Now listening on: https://localhost:7123
+2025-09-07 19:17:33.996 +03:00 [INF] Now listening on: http://localhost:5026
+2025-09-07 19:17:34.057 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-07 19:17:34.059 +03:00 [INF] Hosting environment: Development
+2025-09-07 19:17:34.059 +03:00 [INF] Content root path: C:\Users\saad\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api

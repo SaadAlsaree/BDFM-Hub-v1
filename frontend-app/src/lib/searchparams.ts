@@ -1,0 +1,56 @@
+import {
+  createSearchParamsCache,
+  createSerializer,
+  parseAsBoolean,
+  parseAsInteger,
+  parseAsString
+} from 'nuqs/server';
+
+export const searchParams = {
+  page: parseAsInteger.withDefault(1),
+  perPage: parseAsInteger.withDefault(10),
+  pageSize: parseAsInteger.withDefault(10),
+  name: parseAsString,
+  searchTerm: parseAsString,
+  status: parseAsInteger,
+  isActive: parseAsBoolean,
+  parentUnitId: parseAsString,
+  searchText: parseAsString,
+  organizationalUnitId: parseAsString,
+  mailNum: parseAsString,
+  subject: parseAsString,
+  bodyText: parseAsString,
+  externalReferenceNumber: parseAsString,
+  externalReferenceDate: parseAsString,
+  externalEntityId: parseAsString,
+  fileNumber: parseAsString,
+  secrecyLevel: parseAsString,
+  priorityLevel: parseAsString,
+  personalityLevel: parseAsString,
+  entityType: parseAsString,
+  fromDate: parseAsString,
+  toDate: parseAsString,
+  delegatorUserId: parseAsString,
+  permissionId: parseAsString,
+  roleId: parseAsString,
+  dateFrom: parseAsString,
+  dateTo: parseAsString,
+  workflowStatus: parseAsInteger,
+  isRead: parseAsBoolean,
+  correspondenceType: parseAsInteger,
+  receivedDate: parseAsString,
+  dueDate: parseAsString,
+  correspondenceStatus: parseAsInteger,
+  createdDate: parseAsString,
+  mailDate: parseAsString,
+  user: parseAsString,
+  unit: parseAsString
+
+
+  // advanced filter
+  // filters: getFiltersStateParser().withDefault([]),
+  // joinOperator: parseAsStringEnum(['and', 'or']).withDefault('and')
+};
+
+export const searchParamsCache = createSearchParamsCache(searchParams);
+export const serialize = createSerializer(searchParams);

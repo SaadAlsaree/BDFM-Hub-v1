@@ -1,0 +1,70 @@
+using BDFM.Application.Contracts.Identity;
+using BDFM.Domain.Entities.Core;
+
+namespace BDFM.Application.Features.Correspondences.Queries.SearchCorrespondences
+{
+    public class SearchCorrespondencesHandler : IRequestHandler<SearchCorrespondencesQuery, Response<List<SearchCorrespondencesVm>>>
+    {
+        private readonly IBaseRepository<Correspondence> _repository;
+        private readonly ICurrentUserService _currentUserService;
+
+        public SearchCorrespondencesHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService)
+        {
+            _repository = repository;
+            _currentUserService = currentUserService;
+        }
+
+        public async Task<Response<List<SearchCorrespondencesVm>>> Handle(SearchCorrespondencesQuery request, CancellationToken cancellationToken)
+        {
+            var query = _repository.Query();
+
+            query = query.ApplyFilter(request);
+
+            var correspondences = query.ToList();
+
+            // Map Correspondence entities to SearchCorrespondencesVm objects
+            var searchResults = correspondences.Select(x => new SearchCorrespondencesVm
+            {
+                CorrespondenceId = x.Id,
+                Subject = x.Subject,
+                PriorityLevel = x.PriorityLevel,
+                PriorityLevelName = x.PriorityLevel.GetDisplayName(),
+                SecrecyLevel = x.SecrecyLevel,
+                SecrecyLevelName = x.SecrecyLevel.GetDisplayName(),
+                CorrespondenceType = x.CorrespondenceType,
+                CorrespondenceTypeName = x.CorrespondenceType.GetDisplayName(),
+                WorkflowStepId = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.Id).FirstOrDefault(),
+                MailNum = x.MailNum,
+                MailDate = x.MailDate,
+                ExternalReferenceNumber = x.ExternalReferenceNumber!,
+                ExternalReferenceDate = x.ExternalReferenceDate.HasValue ? x.ExternalReferenceDate.Value.ToDateTime(TimeOnly.MinValue) : DateTime.MinValue,
+                ReceivedDate = x.LastUpdateAt ?? x.CreateAt,
+                FileId = x.FileId,
+                IsDraft = x.IsDraft,
+                FileNumber = x.MailFile != null ? x.MailFile.FileNumber : null,
+                DueDate = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.DueDate).FirstOrDefault(),
+                Status = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.Status).FirstOrDefault(),
+                WorkflowStepStatusName = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.Status.GetDisplayName()).FirstOrDefault() ?? string.Empty,
+
+                UserCorrespondenceInteraction = x.UserCorrespondenceInteractions.Where(y => y.UserId == _currentUserService.UserId).Select(y => new UserCorrespondenceInteractionDto
+                {
+                    UserId = y.UserId,
+                    CorrespondenceId = y.CorrespondenceId,
+                    IsStarred = y.IsStarred,
+                    IsInTrash = y.IsInTrash,
+                    IsRead = y.IsRead,
+                    LastReadAt = y.LastReadAt,
+                    PostponedUntil = y.PostponedUntil,
+                    ReceiveNotifications = y.ReceiveNotifications
+
+                }).FirstOrDefault() ?? new UserCorrespondenceInteractionDto
+                {
+                    UserId = _currentUserService.UserId,
+                    CorrespondenceId = x.Id
+                }
+            }).ToList();
+
+            return await Task.FromResult(SuccessMessage.Get.ToSuccessMessage(searchResults));
+        }
+    }
+}

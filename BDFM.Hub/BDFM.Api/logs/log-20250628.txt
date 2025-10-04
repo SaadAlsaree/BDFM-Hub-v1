@@ -1,0 +1,74 @@
+2025-06-28 00:49:26.612 +03:00 [INF] Now listening on: https://localhost:7123
+2025-06-28 00:49:26.635 +03:00 [INF] Now listening on: http://localhost:5026
+2025-06-28 00:49:26.752 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-28 00:49:26.755 +03:00 [INF] Hosting environment: Development
+2025-06-28 00:49:26.756 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-06-28 00:52:06.802 +03:00 [INF] Executing action MarkNotificationAsRead on controller Notification. Username: Anonymous, Auth ID: Anonymous
+2025-06-28 00:52:06.818 +03:00 [INF] ----- Handling command MarkNotificationAsReadCommand ({"NotificationId":"8e19b550-fa76-473f-adb4-8cb3d05f2493","$type":"MarkNotificationAsReadCommand"})
+2025-06-28 00:52:18.163 +03:00 [ERR] Exception Caught | User Id :
+System.InvalidOperationException: An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+ ---> System.InvalidOperationException: User is not authenticated or 'uid' claim is missing.
+   at BDFM.Identity.Services.CurrentUserService.get_UserId() in C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Identity\Services\CurrentUserService.cs:line 25
+   at System.Linq.Expressions.Interpreter.FuncCallInstruction`2.Run(InterpretedFrame frame)
+   at System.Linq.Expressions.Interpreter.Interpreter.Run(InterpretedFrame frame)
+   at System.Linq.Expressions.Interpreter.LightLambda.Run(Object[] arguments)
+   at System.Dynamic.Utils.DelegateHelpers.FuncThunk[TReturn](Func`2 handler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.GetValue(Expression expression, String& parameterName)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.GetValue(Expression expression, String& parameterName)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Evaluate(Expression expression, Boolean generateParameter)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Visit(Expression expression)
+   at System.Linq.Expressions.ExpressionVisitor.VisitBinary(BinaryExpression node)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.VisitBinary(BinaryExpression binaryExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Visit(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.VisitBinary(BinaryExpression binaryExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Visit(Expression expression)
+   at System.Linq.Expressions.ExpressionVisitor.VisitLambda[T](Expression`1 node)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Visit(Expression expression)
+   at System.Linq.Expressions.ExpressionVisitor.VisitUnary(UnaryExpression node)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Visit(Expression expression)
+   at System.Dynamic.Utils.ExpressionVisitorUtils.VisitArguments(ExpressionVisitor visitor, IArgumentProvider nodes)
+   at System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(MethodCallExpression node)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.VisitMethodCall(MethodCallExpression methodCallExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Visit(Expression expression)
+   at System.Dynamic.Utils.ExpressionVisitorUtils.VisitArguments(ExpressionVisitor visitor, IArgumentProvider nodes)
+   at System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(MethodCallExpression node)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.VisitMethodCall(MethodCallExpression methodCallExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.Visit(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.ExtractParameters(Expression expression, Boolean clearEvaluatedValues)
+   at Microsoft.EntityFrameworkCore.Query.Internal.ParameterExtractingExpressionVisitor.ExtractParameters(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExtractParameters(Expression query, IParameterValues parameterValues, IDiagnosticsLogger`1 logger, Boolean parameterize, Boolean generateContextAccessors)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ExecuteAsync[TSource,TResult](MethodInfo operatorMethodInfo, IQueryable`1 source, Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ExecuteAsync[TSource,TResult](MethodInfo operatorMethodInfo, IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at BDFM.Persistence.Repositories.BaseRepository`1.Find(Expression`1 filter, Func`2 orderBy, Func`2 include, CancellationToken cancellationToken) in C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Persistence\Repositories\BaseRepository.cs:line 87
+   at BDFM.Application.Features.Notifications.Commands.MarkNotificationAsRead.MarkNotificationAsReadHandler.Handle(MarkNotificationAsReadCommand request, CancellationToken cancellationToken) in C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Application\Features\Notifications\Commands\MarkNotificationAsRead\MarkNotificationAsReadHandler.cs:line 27
+   at BDFM.Application.Behaviors.LoggingBehavior`2.Handle(TRequestLog request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Application\Behaviors\LoggingBehavior.cs:line 12
+   at BDFM.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Application\Behaviors\ValidatorBehavior.cs:line 15
+   at BDFM.API.Helpers.Base`1.Okey[TRequest](Func`1 func) in C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api\Helpers\Base.cs:line 61
+2025-06-28 00:52:18.217 +03:00 [INF] HTTP POST /BDFM/v1/api/Notification/MarkNotificationAsRead responded 400 in 11450.0814 ms
+2025-06-28 00:52:36.989 +03:00 [INF] HTTP POST /api/Auth/login responded 200 in 1095.3490 ms
+2025-06-28 00:53:01.837 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-28 00:53:01.839 +03:00 [INF] Executing action MarkNotificationAsRead on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-28 00:53:01.844 +03:00 [INF] ----- Handling command MarkNotificationAsReadCommand ({"NotificationId":"8e19b550-fa76-473f-adb4-8cb3d05f2493","$type":"MarkNotificationAsReadCommand"})
+2025-06-28 00:53:01.875 +03:00 [INF] ----- Command MarkNotificationAsReadCommand handled - response: {"Succeeded":false,"Data":false,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-28 00:53:01.966 +03:00 [INF] HTTP POST /BDFM/v1/api/Notification/MarkNotificationAsRead responded 400 in 132.5853 ms
+2025-06-28 00:53:25.397 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-28 00:53:25.398 +03:00 [INF] Executing action MarkNotificationAsRead on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-28 00:53:25.400 +03:00 [INF] ----- Handling command MarkNotificationAsReadCommand ({"NotificationId":"8e19b550-fa76-473f-adb4-8cb3d05f2493","$type":"MarkNotificationAsReadCommand"})
+2025-06-28 00:53:25.415 +03:00 [INF] ----- Command MarkNotificationAsReadCommand handled - response: {"Succeeded":false,"Data":false,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-28 00:53:25.419 +03:00 [INF] HTTP POST /BDFM/v1/api/Notification/MarkNotificationAsRead responded 400 in 23.4091 ms
+2025-06-28 00:53:51.855 +03:00 [INF] HTTP POST /api/Auth/login responded 200 in 206.3406 ms
+2025-06-28 00:54:07.780 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-28 00:54:07.783 +03:00 [INF] Executing action MarkNotificationAsRead on controller Notification. Username: Anonymous, Auth ID: 7ec7227f-89e2-4e49-baeb-7321bedf3474
+2025-06-28 00:54:07.785 +03:00 [INF] ----- Handling command MarkNotificationAsReadCommand ({"NotificationId":"8e19b550-fa76-473f-adb4-8cb3d05f2493","$type":"MarkNotificationAsReadCommand"})
+2025-06-28 00:54:07.944 +03:00 [INF] Marked notification "8e19b550-fa76-473f-adb4-8cb3d05f2493" as read
+2025-06-28 00:54:07.946 +03:00 [INF] ----- Command MarkNotificationAsReadCommand handled - response: {"Succeeded":true,"Data":true,"Message":"تم تحديث البيانات","Errors":[],"Code":"101","$type":"Response`1"}
+2025-06-28 00:54:07.952 +03:00 [INF] HTTP POST /BDFM/v1/api/Notification/MarkNotificationAsRead responded 200 in 171.9993 ms
+2025-06-28 01:25:56.024 +03:00 [INF] Now listening on: http://localhost:5026
+2025-06-28 01:25:56.035 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-28 01:25:56.036 +03:00 [INF] Hosting environment: Development
+2025-06-28 01:25:56.036 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-06-28 01:45:13.517 +03:00 [INF] Application is shutting down...

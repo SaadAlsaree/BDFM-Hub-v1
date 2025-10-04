@@ -1,0 +1,46 @@
+2025-10-02 22:40:31.417 +03:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "CorrespondenceTemplates" ADD "BodyText" LONGTEXT;
+2025-10-02 22:41:48.547 +03:00 [ERR] Failed executing DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Attachments" (
+    "Id" uuid NOT NULL,
+    "PrimaryTableId" uuid,
+    "TableName" integer NOT NULL,
+    "Description" text,
+    "FileName" text,
+    "FilePath" text,
+    "FileExtension" text,
+    "FileSize" bigint,
+    "OcrText" text,
+    "Secret" text,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_Attachments" PRIMARY KEY ("Id")
+);
+2025-10-02 22:42:14.968 +03:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "CorrespondenceTemplates" (
+    "Id" uuid NOT NULL,
+    "TemplateName" character varying(255) NOT NULL,
+    "Subject" character varying(250) NOT NULL,
+    "BodyText" LONGTEXT,
+    "OrganizationalUnitId" uuid,
+    "UserId" uuid,
+    "CreateAt" timestamp with time zone NOT NULL,
+    "CreateBy" uuid,
+    "LastUpdateAt" timestamp with time zone,
+    "LastUpdateBy" uuid,
+    "StatusId" integer NOT NULL,
+    "IsDeleted" boolean NOT NULL,
+    "DeletedAt" timestamp with time zone,
+    "DoneProcdureDate" timestamp with time zone,
+    "DeletedBy" uuid,
+    CONSTRAINT "PK_CorrespondenceTemplates" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_CorrespondenceTemplates_OrganizationalUnits_OrganizationalU~" FOREIGN KEY ("OrganizationalUnitId") REFERENCES "OrganizationalUnits" ("Id") ON DELETE SET NULL,
+    CONSTRAINT "FK_CorrespondenceTemplates_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id")
+);

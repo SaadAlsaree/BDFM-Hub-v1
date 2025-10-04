@@ -1,0 +1,5 @@
+namespace BDFM.Application.Features.CustomWorkflowSteps.Queries.GetCustomWorkflowStepsByWorkflowId;
+
+internal class GetCustomWorkflowStepsByWorkflowIdHandler
+{
+}

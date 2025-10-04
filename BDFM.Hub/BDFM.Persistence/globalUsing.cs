@@ -1,0 +1,21 @@
+﻿
+global using BDFM.Application.Contracts.Persistence;
+global using BDFM.Domain.Common;
+global using BDFM.Domain.Entities.Automation;
+global using BDFM.Domain.Entities.Configuration;
+global using BDFM.Domain.Entities.Core;
+global using BDFM.Domain.Entities.Security;
+global using BDFM.Domain.Entities.Supporting;
+global using BDFM.Domain.Entities.Workflow;
+global using BDFM.Persistence.Repositories;
+global using FluentFTP;
+//global using DBDFM.Application.Contracts;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Query;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using System.Linq.Expressions;
+global using System.Reflection;
+global using System.Security.Cryptography;

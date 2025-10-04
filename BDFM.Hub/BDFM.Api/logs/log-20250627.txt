@@ -1,0 +1,47 @@
+2025-06-27 21:50:58.027 +03:00 [INF] Now listening on: https://localhost:7123
+2025-06-27 21:50:58.051 +03:00 [INF] Now listening on: http://localhost:5026
+2025-06-27 21:50:58.150 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-27 21:50:58.153 +03:00 [INF] Hosting environment: Development
+2025-06-27 21:50:58.155 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-06-27 23:40:36.002 +03:00 [INF] Now listening on: https://localhost:7123
+2025-06-27 23:40:36.024 +03:00 [INF] Now listening on: http://localhost:5026
+2025-06-27 23:40:36.131 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-27 23:40:36.135 +03:00 [INF] Hosting environment: Development
+2025-06-27 23:40:36.141 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-06-27 23:41:17.654 +03:00 [INF] HTTP POST /api/Auth/login responded 200 in 2517.5736 ms
+2025-06-27 23:47:31.731 +03:00 [INF] Now listening on: https://localhost:7123
+2025-06-27 23:47:31.752 +03:00 [INF] Now listening on: http://localhost:5026
+2025-06-27 23:47:31.852 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-27 23:47:31.855 +03:00 [INF] Hosting environment: Development
+2025-06-27 23:47:31.858 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-06-27 23:47:53.985 +03:00 [INF] HTTP POST /api/Auth/login responded 200 in 2303.6265 ms
+2025-06-27 23:48:22.507 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-27 23:48:22.511 +03:00 [INF] Executing action GetUserNotifications on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-27 23:48:22.525 +03:00 [INF] ----- Handling command GetUserNotificationsQuery ({"IsRead":null,"NotificationType":null,"Page":0,"PageSize":0,"$type":"GetUserNotificationsQuery"})
+2025-06-27 23:48:22.657 +03:00 [INF] ----- Command GetUserNotificationsQuery handled - response: {"Succeeded":false,"Data":null,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-27 23:48:22.758 +03:00 [INF] HTTP GET /BDFM/v1/api/Notification/GetUserNotifications responded 400 in 264.6844 ms
+2025-06-27 23:48:29.316 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-27 23:48:29.322 +03:00 [INF] Executing action GetUserNotifications on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-27 23:48:29.328 +03:00 [INF] ----- Handling command GetUserNotificationsQuery ({"IsRead":false,"NotificationType":null,"Page":0,"PageSize":0,"$type":"GetUserNotificationsQuery"})
+2025-06-27 23:48:29.369 +03:00 [INF] ----- Command GetUserNotificationsQuery handled - response: {"Succeeded":false,"Data":null,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-27 23:48:29.378 +03:00 [INF] HTTP GET /BDFM/v1/api/Notification/GetUserNotifications responded 400 in 65.7467 ms
+2025-06-27 23:48:32.626 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-27 23:48:32.632 +03:00 [INF] Executing action GetUserNotifications on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-27 23:48:32.640 +03:00 [INF] ----- Handling command GetUserNotificationsQuery ({"IsRead":true,"NotificationType":null,"Page":0,"PageSize":0,"$type":"GetUserNotificationsQuery"})
+2025-06-27 23:48:32.675 +03:00 [INF] ----- Command GetUserNotificationsQuery handled - response: {"Succeeded":false,"Data":null,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-27 23:48:32.685 +03:00 [INF] HTTP GET /BDFM/v1/api/Notification/GetUserNotifications responded 400 in 59.8368 ms
+2025-06-27 23:49:00.326 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-27 23:49:00.328 +03:00 [INF] Executing action GetUserNotifications on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-27 23:49:00.330 +03:00 [INF] ----- Handling command GetUserNotificationsQuery ({"IsRead":true,"NotificationType":null,"Page":1,"PageSize":11,"$type":"GetUserNotificationsQuery"})
+2025-06-27 23:49:00.346 +03:00 [INF] ----- Command GetUserNotificationsQuery handled - response: {"Succeeded":false,"Data":null,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-27 23:49:00.353 +03:00 [INF] HTTP GET /BDFM/v1/api/Notification/GetUserNotifications responded 400 in 33.2904 ms
+2025-06-27 23:49:00.703 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-27 23:49:00.705 +03:00 [INF] Executing action GetUserNotifications on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-27 23:49:00.708 +03:00 [INF] ----- Handling command GetUserNotificationsQuery ({"IsRead":true,"NotificationType":null,"Page":1,"PageSize":11,"$type":"GetUserNotificationsQuery"})
+2025-06-27 23:49:00.723 +03:00 [INF] ----- Command GetUserNotificationsQuery handled - response: {"Succeeded":false,"Data":null,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-27 23:49:00.730 +03:00 [INF] HTTP GET /BDFM/v1/api/Notification/GetUserNotifications responded 400 in 28.4110 ms
+2025-06-27 23:49:17.559 +03:00 [WRN] Claim sub not found in user token. User may not be properly authenticated.
+2025-06-27 23:49:17.562 +03:00 [INF] Executing action GetUnreadNotificationCount on controller Notification. Username: Anonymous, Auth ID: 803f990b-0e38-434f-a7a5-3bab8be1d0e8
+2025-06-27 23:49:17.567 +03:00 [INF] ----- Handling command GetUserNotificationsQuery ({"IsRead":false,"NotificationType":null,"Page":0,"PageSize":1,"$type":"GetUserNotificationsQuery"})
+2025-06-27 23:49:17.588 +03:00 [INF] ----- Command GetUserNotificationsQuery handled - response: {"Succeeded":false,"Data":null,"Message":"لا توجد بيانات","Errors":[],"Code":"10007","$type":"Response`1"}
+2025-06-27 23:49:17.609 +03:00 [INF] HTTP GET /BDFM/v1/api/Notification/GetUnreadNotificationCount responded 200 in 53.8221 ms
