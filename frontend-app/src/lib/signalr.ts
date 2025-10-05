@@ -1,4 +1,4 @@
-import { HubConnection, HubConnectionBuilder, LogLevel, HubConnectionState } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, LogLevel, HubConnectionState, HttpTransportType } from '@microsoft/signalr';
 import { SignalREvents, SignalRConnectionState } from '@/types/notifications';
 
 export class NotificationSignalR {
@@ -27,7 +27,7 @@ export class NotificationSignalR {
             this.cleanupConnection();
         }
 
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        let apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
         if (!apiUrl) {
             console.error('NEXT_PUBLIC_API_URL is not configured');
             this.notifyConnectionState({
@@ -40,6 +40,8 @@ export class NotificationSignalR {
         }
 
         // Fixed hub URL casing to match backend
+        // Normalise apiUrl to avoid double slashes
+        apiUrl = apiUrl.replace(/\/+$/g, '');
         const hubUrl = `${apiUrl}/correspondenceHub`;
 
         this.connection = new HubConnectionBuilder()
@@ -51,6 +53,8 @@ export class NotificationSignalR {
                     }
                     return this.accessToken;
                 },
+                // Allow fallback transports for environments where WebSockets are blocked
+                transport: HttpTransportType.WebSockets | HttpTransportType.LongPolling,
                 withCredentials: false
             })
             .withAutomaticReconnect({
@@ -187,7 +191,7 @@ export class NotificationSignalR {
             });
         });
 
-        this.connection.onreconnected((connectionId) => {
+        this.connection.onreconnected(() => {
             // console.log('SignalR reconnected:', connectionId);
             this.reconnectAttempts = 0;
             this.isManualDisconnect = false;
@@ -315,6 +319,16 @@ export class NotificationSignalR {
                 // Reset reconnect attempts for potential future token refresh
                 this.reconnectAttempts = 0;
             }
+
+            // Helpful debug: surface transport/negotiation errors (uncomment during debugging)
+            // try {
+            //     console.debug('SignalR start error details:', {
+            //         message: (error as any)?.message,
+            //         stack: (error as any)?.stack
+            //     });
+            // } catch (e) {
+            //     // ignore
+            // }
 
             return false;
         }
@@ -448,8 +462,8 @@ export class NotificationSignalR {
                     this.initializeConnection();
                     this.start();
                 }
-            }).catch(error => {
-                // console.error('Error during token update reconnection:', error);
+            }).catch(() => {
+                // console.error('Error during token update reconnection');
             });
         } else if (!this.connection) {
             this.initializeConnection();

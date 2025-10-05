@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -34,8 +34,7 @@ import {
   RecipientTypeEnum
 } from '../types/workflow-step-secondary';
 import { useAuthApi } from '@/hooks/use-auth-api';
-import { useQuery } from '@tanstack/react-query';
-import { organizationalService } from '@/features/organizational-unit/api/organizational.service';
+
 import { workflowStepSecondaryService } from '../api/workflow-step-secondary.service';
 import {
   WorkflowStepSecondaryCreateSchema,
@@ -43,7 +42,23 @@ import {
   type WorkflowStepSecondaryCreateFormData,
   type WorkflowStepSecondaryUpdateFormData
 } from '../utils/workflow-step-secondary';
-import { Plus, Edit } from 'lucide-react';
+import { Plus, Edit, ChevronsUpDown, Check } from 'lucide-react';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { useSearchUser } from '@/hooks/use-search-user';
+import { useSearchUnit } from '@/hooks/use-search-unit';
 import { IOrganizationalUnitDetails } from '@/features/organizational-unit/types/organizational';
 import { Spinner } from '@/components/spinner';
 import { toast } from 'sonner';
@@ -69,6 +84,12 @@ export function WorkflowStepSecondaryFormDialog({
   const [recipientType, setRecipientType] = useState<RecipientTypeEnum>(
     RecipientTypeEnum.User
   );
+  const [userSearchValue, setUserSearchValue] = useState('');
+  const [debouncedUserSearch, setDebouncedUserSearch] = useState('');
+  const [unitSearchValue, setUnitSearchValue] = useState('');
+  const [debouncedUnitSearch, setDebouncedUnitSearch] = useState('');
+  const [userPopoverOpen, setUserPopoverOpen] = useState<boolean>(false);
+  const [unitPopoverOpen, setUnitPopoverOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const { authApiCall } = useAuthApi();
   const router = useRouter();
@@ -129,47 +150,67 @@ export function WorkflowStepSecondaryFormDialog({
       }
 
       if (response) {
-        console.log({
-          message: `${isUpdateMode ? 'تم تحديث' : 'تم إنشاء'} المستلم الثانوي بنجاح`
-        });
         setOpen(false);
         form.reset();
-      } else {
-        console.error({
-          error: `فشل في ${isUpdateMode ? 'تحديث' : 'إنشاء'} المستلم الثانوي`
-        });
       }
     } catch (error) {
-      console.error({
-        error: `خطأ في ${isUpdateMode ? 'تحديث' : 'إنشاء'} المستلم الثانوي`,
-        details: error
-      });
+      // swallow or handle error as needed
     } finally {
       setLoading(false);
     }
   }
 
-  const { data: organizationalUnits } = useQuery({
-    queryKey: ['organizational-units'],
-    queryFn: async () => {
-      const response = await authApiCall(() =>
-        organizationalService.getOrganizationalUnits({
-          page: 1,
-          pageSize: 100
-        })
-      );
-      return response?.data?.items as unknown as IOrganizationalUnitDetails[];
-    }
-  });
-
-  const organizationOptions = organizationalUnits?.map((unit) => ({
-    label: unit.unitName,
-    value: unit.id
-  }));
-
   const onRecipientTypeChange = (value: RecipientTypeEnum) => {
     setRecipientType(value);
     form.setValue('recipientType', value);
+  };
+
+  // Debounce user search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUserSearch(userSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [userSearchValue]);
+
+  // Debounce unit search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUnitSearch(unitSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [unitSearchValue]);
+
+  // User Search using existing hook
+  const {
+    data: userList,
+    isLoading: isUserLoading,
+    error: userError
+  } = useSearchUser({
+    user: debouncedUserSearch
+  });
+
+  const users = userList?.data || [];
+
+  // Unit Search using existing hook
+  const {
+    data: unitList,
+    isLoading: isUnitLoading,
+    error: unitError
+  } = useSearchUnit({
+    unit: debouncedUnitSearch
+  });
+
+  const units: IOrganizationalUnitDetails[] = unitList?.data || [];
+
+  const handleUserSearch = (searchText: string) => {
+    setUserSearchValue(searchText);
+  };
+
+  const handleUnitSearch = (searchText: string) => {
+    setUnitSearchValue(searchText);
   };
 
   return (
@@ -251,11 +292,81 @@ export function WorkflowStepSecondaryFormDialog({
                     control={form.control}
                     name='recipientId'
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className='flex flex-col'>
                         <FormLabel>معرف المستخدم</FormLabel>
-                        <FormControl>
-                          <Input placeholder='أدخل معرف المستخدم' {...field} />
-                        </FormControl>
+                        <Popover
+                          open={userPopoverOpen}
+                          onOpenChange={(open) => setUserPopoverOpen(open)}
+                        >
+                          <PopoverTrigger asChild>
+                            <FormControl className='w-full'>
+                              <Button
+                                variant='outline'
+                                role='combobox'
+                                className={cn(
+                                  'w-full justify-between',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                              >
+                                {field.value
+                                  ? users?.find(
+                                      (user: any) => user.id === field.value
+                                    )?.fullName
+                                  : 'اختر موظف'}
+                                <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className='w-[300px] p-0'>
+                            <Command>
+                              <CommandInput
+                                placeholder='ابحث عن موظف...'
+                                value={userSearchValue}
+                                onValueChange={handleUserSearch}
+                              />
+                              <CommandList>
+                                <CommandEmpty>
+                                  {isUserLoading
+                                    ? 'جاري البحث...'
+                                    : userError
+                                      ? 'حدث خطأ في البحث'
+                                      : 'لا يوجد موظفين'}
+                                </CommandEmpty>
+                                <CommandGroup>
+                                  {users?.map((user: any) => (
+                                    <CommandItem
+                                      value={user.fullName}
+                                      key={user.id}
+                                      onSelect={() => {
+                                        form.setValue('recipientId', user.id);
+                                        setUserPopoverOpen(false);
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          'mr-2 h-4 w-4',
+                                          user.id === field.value
+                                            ? 'opacity-100'
+                                            : 'opacity-0'
+                                        )}
+                                      />
+                                      {
+                                        <div className='flex flex-col'>
+                                          <h1 className='text-sm font-medium'>
+                                            {user.fullName}
+                                          </h1>
+                                          <p className='text-muted-foreground text-xs'>
+                                            {user.organizationalUnitName}
+                                          </p>
+                                        </div>
+                                      }
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -265,28 +376,87 @@ export function WorkflowStepSecondaryFormDialog({
                     control={form.control}
                     name='recipientId'
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className='flex flex-col'>
                         <FormLabel>الوحدة التنظيمية</FormLabel>
-                        <Select
-                          onValueChange={(value) => field.onChange(value)}
-                          value={field.value}
+                        <Popover
+                          open={unitPopoverOpen}
+                          onOpenChange={(open) => setUnitPopoverOpen(open)}
                         >
-                          <FormControl className='w-full'>
-                            <SelectTrigger>
-                              <SelectValue placeholder='اختر الوحدة التنظيمية' />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {organizationOptions?.map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value ?? ''}
+                          <PopoverTrigger asChild>
+                            <FormControl className='w-full'>
+                              <Button
+                                variant='outline'
+                                role='combobox'
+                                className={cn(
+                                  'w-full justify-between',
+                                  !field.value && 'text-muted-foreground'
+                                )}
                               >
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                                {field.value
+                                  ? units?.find(
+                                      (unit: IOrganizationalUnitDetails) =>
+                                        unit.id === field.value
+                                    )?.unitName
+                                  : 'اختر الجهة الأساسية'}
+                                <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className='w-[300px] p-0'>
+                            <Command>
+                              <CommandInput
+                                placeholder='ابحث عن جهة...'
+                                value={unitSearchValue}
+                                onValueChange={handleUnitSearch}
+                              />
+                              <CommandList>
+                                <CommandEmpty>
+                                  {isUnitLoading
+                                    ? 'جاري البحث...'
+                                    : unitError
+                                      ? 'حدث خطأ في البحث'
+                                      : 'لا توجد جهات'}
+                                </CommandEmpty>
+                                <CommandGroup>
+                                  {units?.map(
+                                    (unit: IOrganizationalUnitDetails) => (
+                                      <CommandItem
+                                        value={unit.unitName}
+                                        key={unit.id}
+                                        onSelect={() => {
+                                          form.setValue(
+                                            'recipientId',
+                                            unit.id || ''
+                                          );
+                                          setUnitPopoverOpen(false);
+                                        }}
+                                      >
+                                        <Check
+                                          className={cn(
+                                            'mr-2 h-4 w-4',
+                                            unit.id === field.value
+                                              ? 'opacity-100'
+                                              : 'opacity-0'
+                                          )}
+                                        />
+                                        {
+                                          <div className='flex flex-col'>
+                                            <h1 className='text-sm font-medium'>
+                                              {unit?.unitName}
+                                            </h1>
+                                            <p className='text-muted-foreground text-xs'>
+                                              {unit?.parentUnitName}
+                                            </p>
+                                          </div>
+                                        }
+                                      </CommandItem>
+                                    )
+                                  )}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                         <FormMessage />
                       </FormItem>
                     )}

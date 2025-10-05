@@ -6,7 +6,7 @@ import { MailDraftPayload } from '../create-mail-draft/types/mail-draft';
 import { InternalMailPayload, OutgoingExternalMailPayload } from '../create-internalMail/types/internalMail';
 import { CreatePublicMailPayload } from '../create-public-mail/types/create-public-mail';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const correspondenceService = {
 

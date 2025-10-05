@@ -3,7 +3,7 @@ import { InboxList } from '@/features/correspondence/types/register-incoming-ext
 import { IResponseList } from '@/types/response';
 
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const advancedSearchService = {
     // search correspondence /Correspondence/SearchCorrespondences

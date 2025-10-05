@@ -50,12 +50,13 @@ namespace BDFM.Application.Features.WorkflowStepSecondary.Commands.CreateWorkflo
             var result = await _workflowStepSecondaryRecipientRepository.Create(newWorkflowStepSecondaryRecipient);
 
             // Log audit trail
-            await _auditTrailService.CreateCorrespondenceAuditLogAsync(
-                      "إنشاء مستلم ثانوي",
-                      request.StepId,
-                      currentUser.Id,
-                      $" إنشاء مستلم ثانوي للكتاب {result.WorkflowStep.Correspondence.MailNum}"
-                  );
+            //await _auditTrailService.CreateCorrespondenceAuditLogAsync(
+            //          "إنشاء مستلم ثانوي",
+            //          request.StepId,
+            //          currentUser.Id,
+
+            //          $" إنشاء مستلم ثانوي للكتاب {result.WorkflowStep.Correspondence.MailNum}"
+            //      );
 
             return Response<bool>.Success(true);
         }

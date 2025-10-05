@@ -2,7 +2,7 @@ import { axiosClient } from '@/lib/axios';
 import { IResponse } from '@/types/response';
 import { WorkflowStepSecondaryCreate, WorkflowStepSecondaryUpdate } from '../types/workflow-step-secondary';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 
 export const workflowStepSecondaryService = {

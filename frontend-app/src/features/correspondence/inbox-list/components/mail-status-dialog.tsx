@@ -21,7 +21,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
+  AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -39,6 +39,9 @@ import { useState, useMemo, useEffect } from 'react';
 import { correspondenceService } from '../../api/correspondence.service';
 import { useRouter } from 'next/navigation';
 import { CorrespondenceTypeEnumNames } from '@/features/customWorkflow/types/customWorkflow';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { hasAnyRole } from '@/utils/auth/auth-utils';
+import { UserDto } from '@/utils/auth/auth';
 
 interface MailStatusDialogProps {
   correspondenceId: string;
@@ -56,19 +59,34 @@ const MailStatusDialog = ({
   const [status, setStatus] = useState<CorrespondenceStatusEnum | undefined>(
     currentStatus
   );
-  const [correspondenceType, setCorrespondenceType] = useState<CorrespondenceTypeEnum | undefined>(initialCorrespondenceType);
+  const [correspondenceType, setCorrespondenceType] = useState<
+    CorrespondenceTypeEnum | undefined
+  >(initialCorrespondenceType);
   const [reason, setReason] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
-  const [pendingCorrespondenceType, setPendingCorrespondenceType] = useState<CorrespondenceTypeEnum | undefined>();
+  const [pendingCorrespondenceType, setPendingCorrespondenceType] = useState<
+    CorrespondenceTypeEnum | undefined
+  >();
   const { authApiCall } = useAuthApi();
   const { toast } = useToast();
   const router = useRouter();
 
+  const { user } = useCurrentUser();
+
   // دالة لتحديد الحالات المتاحة بناءً على الحالة الحالية
   const getAvailableStatuses = useMemo(() => {
-    const allStatuses = Object.entries(CorrespondenceStatusEnumArabicMap);
+    let allStatuses = Object.entries(CorrespondenceStatusEnumArabicMap);
+
+    // Remove 'Signed' option from the global statuses list for non-Managers so
+    // it cannot be returned by any branch below. This centralizes the role
+    // gating and prevents accidental exposure of Signed via specific case logic.
+    if (!hasAnyRole(user as UserDto, ['Manager'])) {
+      allStatuses = allStatuses.filter(
+        ([key]) => parseInt(key) !== CorrespondenceStatusEnum.Signed
+      );
+    }
 
     // إذا لم تكن هناك حالة حالية (كتاب جديد)، اعرض جميع الحالات
     if (!currentStatus) return allStatuses;
@@ -125,7 +143,17 @@ const MailStatusDialog = ({
         });
 
       case CorrespondenceStatusEnum.Signed: // موقع (7)
-        // لا يمكن العودة إلى الحالات السابقة
+        // ONLY Managers should be able to see/select the 'Signed' status.
+        // If the current user is not a Manager, remove the Signed option entirely
+        // from available statuses. Managers will see the Signed option but cannot
+        // return to previous workflow states listed below.
+        if (!hasAnyRole(user as UserDto, ['Manager'])) {
+          return allStatuses.filter(
+            ([key]) => parseInt(key) !== CorrespondenceStatusEnum.Signed
+          );
+        }
+
+        // For Managers, Signed is available but we prevent reverting to earlier states
         return allStatuses.filter(([key]) => {
           const statusValue = parseInt(key) as CorrespondenceStatusEnum;
           return ![
@@ -155,7 +183,7 @@ const MailStatusDialog = ({
         // للحالات غير المعروفة، اعرض جميع الحالات
         return allStatuses;
     }
-  }, [currentStatus]);
+  }, [currentStatus, user]);
 
   // تحديث الحالة المختارة عند تغيير الحالة الحالية أو الحالات المتاحة
   useEffect(() => {
@@ -173,12 +201,15 @@ const MailStatusDialog = ({
       // إذا لم تكن هناك حالة مختارة، اختر الحالة الحالية
       setStatus(currentStatus);
     }
-  }, [currentStatus, status, getAvailableStatuses]);
+  }, [currentStatus, status, getAvailableStatuses, user]);
 
   // دالة للتحقق من تغيير نوع الكتاب من Draft إلى نوع آخر
   const handleCorrespondenceTypeChange = (newType: CorrespondenceTypeEnum) => {
     // إذا كان النوع الحالي Draft والنوع الجديد مختلف
-    if (initialCorrespondenceType === CorrespondenceTypeEnum.Draft && newType !== CorrespondenceTypeEnum.Draft) {
+    if (
+      initialCorrespondenceType === CorrespondenceTypeEnum.Draft &&
+      newType !== CorrespondenceTypeEnum.Draft
+    ) {
       setPendingCorrespondenceType(newType);
       setShowConfirmationDialog(true);
     } else {
@@ -298,30 +329,34 @@ const MailStatusDialog = ({
                 </SelectContent>
               </Select>
             </div>
-          {initialCorrespondenceType === CorrespondenceTypeEnum.Draft && (
-            <div className='space-y-2'>
-              <Label htmlFor='correspondenceType' className='text-right'>
-                نوع الكتاب
-              </Label>
-              <Select
-                value={correspondenceType?.toString()}
-                onValueChange={(value) => {
-                  handleCorrespondenceTypeChange(parseInt(value) as CorrespondenceTypeEnum);
-                }}
-              >
-                <SelectTrigger className='w-full text-right'>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className='w-full'>
-                  {Object.entries(CorrespondenceTypeEnumNames).map(([key, value]) => (
-                    <SelectItem key={key} value={key}>
-                      {value}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
+            {initialCorrespondenceType === CorrespondenceTypeEnum.Draft && (
+              <div className='space-y-2'>
+                <Label htmlFor='correspondenceType' className='text-right'>
+                  نوع الكتاب
+                </Label>
+                <Select
+                  value={correspondenceType?.toString()}
+                  onValueChange={(value) => {
+                    handleCorrespondenceTypeChange(
+                      parseInt(value) as CorrespondenceTypeEnum
+                    );
+                  }}
+                >
+                  <SelectTrigger className='w-full text-right'>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className='w-full'>
+                    {Object.entries(CorrespondenceTypeEnumNames).map(
+                      ([key, value]) => (
+                        <SelectItem key={key} value={key}>
+                          {value}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
             <div className='grid gap-2'>
               <Label htmlFor='reason'>سبب التغيير</Label>
               <Textarea
@@ -348,16 +383,20 @@ const MailStatusDialog = ({
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* رسالة التأكيد لتغيير نوع الكتاب من Draft */}
-      <AlertDialog open={showConfirmationDialog} onOpenChange={setShowConfirmationDialog}>
+      <AlertDialog
+        open={showConfirmationDialog}
+        onOpenChange={setShowConfirmationDialog}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>تأكيد تغيير نوع الكتاب</AlertDialogTitle>
             <AlertDialogDescription>
-              أنت على وشك تغيير نوع الكتاب من &quot;مسودة&quot; إلى نوع آخر. 
+              أنت على وشك تغيير نوع الكتاب من &quot;مسودة&quot; إلى نوع آخر.
               <br />
-              <strong>تحذير:</strong> بعد تغيير نوع الكتاب، لن تتمكن من تعديل هذا الكتاب مرة أخرى.
+              <strong>تحذير:</strong> بعد تغيير نوع الكتاب، لن تتمكن من تعديل
+              هذا الكتاب مرة أخرى.
               <br />
               هل أنت متأكد من أنك تريد المتابعة؟
             </AlertDialogDescription>

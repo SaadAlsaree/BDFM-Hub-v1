@@ -16,12 +16,9 @@ export const metadata = {
   description: 'إضافة مسودة كتاب جديد'
 };
 
-<<<<<<< HEAD
 // Force dynamic rendering since we use getServerSession which requires headers
 export const dynamic = 'force-dynamic';
 
-const CreateDraftMail = async () => {
-=======
 type pageProps = {
   searchParams: Promise<SearchParams>;
 };
@@ -29,7 +26,6 @@ type pageProps = {
 const CreateDraftMail = async ({ searchParams }: pageProps) => {
   await searchParamsCache.parse(await searchParams);
 
->>>>>>> e44763d (update-3)
   const userData = await currentUserService.getCurrentUser();
   const hasPermission = hasAnyPermission(userData?.data as UserDto, [
     'Correspondence|Create|Draft',

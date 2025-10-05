@@ -27,6 +27,7 @@ type pageProps = {
 
 const EditMailDraftPage = async (props: pageProps) => {
   const params = await props.params;
+  await searchParamsCache.parse(await props.searchParams);
   const mailDraft = await correspondenceService.getCorrespondenceById(
     params.id
   );

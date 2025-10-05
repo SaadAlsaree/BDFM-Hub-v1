@@ -1,7 +1,7 @@
 import { axiosInstance, axiosClient } from '@/lib/axios';
 import { IResponseList, IResponse } from '@/types/response';
 import { IMailFileContent, IMailFileDetail, IMailFilePayload, IMailFileListQuery, IMailFileContentQuery, IMailFileList } from '@/features/mail-files/types/mail-files';
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const mailFilesService = {
     async getMailFiles(query: IMailFileListQuery) {

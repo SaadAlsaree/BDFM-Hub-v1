@@ -3,7 +3,7 @@ import { IResponseList, IResponse } from '@/types/response';
 import { IDelegationList, IDelegationDetail, CreateDelegationPayload } from '@/features/delegations/types/delegation';
 
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const delegationService = {
     async getDelegationList(query: Record<string, any>) {
