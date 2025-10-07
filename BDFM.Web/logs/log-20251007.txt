@@ -1,0 +1,112 @@
+2025-10-07 00:07:54.867 +03:00 [WRN] Overriding address(es) 'https://localhost:7185, http://localhost:5259'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 00:07:54.892 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 00:07:54.916 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:07:54.917 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:07:54.918 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:08:50.327 +03:00 [WRN] Overriding address(es) 'https://localhost:7185, http://localhost:5259'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 00:08:50.350 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 00:08:50.368 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:08:50.369 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:08:50.370 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:09:18.064 +03:00 [WRN] Overriding address(es) 'https://localhost:7185, http://localhost:5259'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 00:09:18.088 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 00:09:18.104 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:09:18.105 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:09:18.105 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:09:53.323 +03:00 [WRN] Overriding address(es) 'https://localhost:7185, http://localhost:5259'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 00:09:53.356 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 00:09:53.371 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:09:53.371 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:09:53.372 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:14:10.254 +03:00 [WRN] Overriding address(es) 'https://localhost:7185, http://localhost:5259'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 00:14:10.276 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 00:14:10.289 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:14:10.290 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:14:10.291 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:25:50.873 +03:00 [WRN] Overriding address(es) 'https://localhost:7185, http://localhost:5259'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 00:25:50.899 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 00:25:50.912 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:25:50.913 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:25:50.916 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:37:51.420 +03:00 [INF] Now listening on: https://localhost:7185
+2025-10-07 00:37:51.436 +03:00 [INF] Now listening on: http://localhost:5259
+2025-10-07 00:37:51.452 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:37:51.453 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:37:51.453 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:37:51.988 +03:00 [INF] HTTP GET / responded 200 in 59.5105 ms
+2025-10-07 00:37:52.018 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 15.0251 ms
+2025-10-07 00:37:52.029 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 25.4071 ms
+2025-10-07 00:37:52.030 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 26.9737 ms
+2025-10-07 00:37:57.521 +03:00 [INF] HTTP GET / responded 200 in 2.9153 ms
+2025-10-07 00:37:57.537 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.1221 ms
+2025-10-07 00:37:57.539 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 1.3827 ms
+2025-10-07 00:37:57.542 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 5.1914 ms
+2025-10-07 00:37:58.023 +03:00 [INF] HTTP GET / responded 200 in 7.4700 ms
+2025-10-07 00:37:58.045 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0771 ms
+2025-10-07 00:37:58.046 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 1.3810 ms
+2025-10-07 00:37:58.048 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 5.6714 ms
+2025-10-07 00:37:58.654 +03:00 [INF] HTTP GET / responded 200 in 0.9115 ms
+2025-10-07 00:37:58.672 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0818 ms
+2025-10-07 00:37:58.685 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 13.5020 ms
+2025-10-07 00:37:58.686 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 17.6074 ms
+2025-10-07 00:39:33.093 +03:00 [INF] Now listening on: https://localhost:7185
+2025-10-07 00:39:33.105 +03:00 [INF] Now listening on: http://localhost:5259
+2025-10-07 00:39:33.120 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 00:39:33.121 +03:00 [INF] Hosting environment: Development
+2025-10-07 00:39:33.122 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Web
+2025-10-07 00:39:33.523 +03:00 [INF] HTTP GET / responded 200 in 58.9361 ms
+2025-10-07 00:39:33.553 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 17.7348 ms
+2025-10-07 00:39:33.560 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 25.0277 ms
+2025-10-07 00:39:33.562 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 26.3414 ms
+2025-10-07 00:39:39.758 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 7.1439 ms
+2025-10-07 00:39:39.758 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0830 ms
+2025-10-07 00:39:43.497 +03:00 [INF] HTTP GET / responded 200 in 2.8727 ms
+2025-10-07 00:39:43.514 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0099 ms
+2025-10-07 00:39:43.515 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.1020 ms
+2025-10-07 00:39:43.515 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 1.2254 ms
+2025-10-07 00:39:43.521 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 6.9872 ms
+2025-10-07 00:39:45.463 +03:00 [INF] HTTP GET / responded 200 in 5.8792 ms
+2025-10-07 00:39:45.482 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0181 ms
+2025-10-07 00:39:45.483 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0601 ms
+2025-10-07 00:39:45.484 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 1.0004 ms
+2025-10-07 00:39:45.486 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 3.9498 ms
+2025-10-07 00:40:08.020 +03:00 [INF] HTTP GET / responded 200 in 1.1745 ms
+2025-10-07 00:40:08.039 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0083 ms
+2025-10-07 00:40:08.066 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.8699 ms
+2025-10-07 00:40:08.117 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 83.1626 ms
+2025-10-07 00:40:08.117 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 51.7941 ms
+2025-10-07 00:40:11.551 +03:00 [INF] HTTP GET / responded 200 in 0.7622 ms
+2025-10-07 00:40:11.568 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0124 ms
+2025-10-07 00:40:11.571 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 3.5912 ms
+2025-10-07 00:40:11.572 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0753 ms
+2025-10-07 00:40:11.573 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 0.9594 ms
+2025-10-07 00:40:18.542 +03:00 [INF] HTTP GET / responded 200 in 1.4510 ms
+2025-10-07 00:40:18.562 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0066 ms
+2025-10-07 00:40:18.563 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0592 ms
+2025-10-07 00:40:18.564 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 0.8667 ms
+2025-10-07 00:40:18.565 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 3.2385 ms
+2025-10-07 00:40:24.553 +03:00 [INF] HTTP GET / responded 200 in 1.4283 ms
+2025-10-07 00:40:24.574 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0098 ms
+2025-10-07 00:40:24.575 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 4.4016 ms
+2025-10-07 00:40:24.575 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0985 ms
+2025-10-07 00:40:24.577 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 1.0679 ms
+2025-10-07 00:40:31.634 +03:00 [INF] HTTP GET / responded 200 in 1.1071 ms
+2025-10-07 00:40:31.650 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0096 ms
+2025-10-07 00:40:31.654 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 4.4564 ms
+2025-10-07 00:40:31.656 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 1.0151 ms
+2025-10-07 00:40:31.655 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0779 ms
+2025-10-07 00:41:02.682 +03:00 [INF] HTTP GET / responded 200 in 1.8768 ms
+2025-10-07 00:41:02.772 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.2416 ms
+2025-10-07 00:41:02.772 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0052 ms
+2025-10-07 00:41:02.787 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 15.2240 ms
+2025-10-07 00:41:02.789 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 91.3836 ms
+2025-10-07 00:41:42.862 +03:00 [INF] HTTP GET / responded 200 in 1.1791 ms
+2025-10-07 00:41:42.883 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.0736 ms
+2025-10-07 00:41:42.951 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0402 ms
+2025-10-07 00:41:42.954 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 70.7518 ms
+2025-10-07 00:41:42.991 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 114.2483 ms
+2025-10-07 00:41:43.468 +03:00 [INF] HTTP GET / responded 200 in 1.3269 ms
+2025-10-07 00:41:43.489 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.jk5eo7zo4m.css responded 200 in 3.7386 ms
+2025-10-07 00:41:43.491 +03:00 [INF] HTTP GET /_framework/blazor.web.js responded 304 in 0.1042 ms
+2025-10-07 00:41:43.493 +03:00 [INF] HTTP GET /_content/MudBlazor/MudBlazor.min.tjzqk7tnel.js responded 200 in 1.3873 ms
+2025-10-07 00:41:43.494 +03:00 [INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json responded 404 in 0.0105 ms

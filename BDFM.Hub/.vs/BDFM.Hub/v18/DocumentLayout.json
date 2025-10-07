@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\workflowstepsecondary\\commands\\createworkflowstepsecondary\\createworkflowstepsecondaryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\workflowstepsecondary\\commands\\createworkflowstepsecondary\\createworkflowstepsecondaryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\workflowstepsecondary\\commands\\createworkflowstepsecondary\\createworkflowstepsecondarycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\workflowstepsecondary\\commands\\createworkflowstepsecondary\\createworkflowstepsecondarycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\startupextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\startupextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -22,8 +22,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "BDFM.Api\\appsettings.json",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
+              "RelativeToolTip": "BDFM.Api\\appsettings.json",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAFoAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-06T21:36:49.24Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -35,40 +49,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CreateWorkflowStepSecondaryHandler.cs",
-              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryHandler.cs",
-              "RelativeDocumentMoniker": "BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryHandler.cs",
-              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryHandler.cs",
-              "RelativeToolTip": "BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryHandler.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAAADoAAAAWAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\Program.cs",
+              "RelativeDocumentMoniker": "BDFM.Api\\Program.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\Program.cs",
+              "RelativeToolTip": "BDFM.Api\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-05T18:54:45.665Z",
+              "WhenOpened": "2025-10-06T21:37:39.863Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CreateWorkflowStepSecondaryCommand.cs",
-              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryCommand.cs",
-              "RelativeDocumentMoniker": "BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryCommand.cs",
-              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryCommand.cs",
-              "RelativeToolTip": "BDFM.Application\\Features\\WorkflowStepSecondary\\Commands\\CreateWorkflowStepSecondary\\CreateWorkflowStepSecondaryCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "StartupExtensions.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\StartupExtensions.cs",
+              "RelativeDocumentMoniker": "BDFM.Api\\StartupExtensions.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\StartupExtensions.cs",
+              "RelativeToolTip": "BDFM.Api\\StartupExtensions.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAAE4AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-05T18:54:39.651Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "BDFM.Api\\appsettings.json",
-              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
-              "RelativeToolTip": "BDFM.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-05T17:32:05.258Z",
+              "WhenOpened": "2025-10-06T21:35:29.273Z",
               "EditorCaption": ""
             }
           ]
