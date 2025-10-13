@@ -17,7 +17,7 @@ namespace BDFM.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.15")
+                .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -896,6 +896,70 @@ namespace BDFM.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("CorrespondenceLinks");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.CorrespondenceTimeline", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CorrespondenceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("MetadataJson")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("RelatedEntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RelatedEntityType")
+                        .HasColumnType("text");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CorrespondenceId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("CorrespondenceTimeline");
                 });
 
             modelBuilder.Entity("BDFM.Domain.Entities.Core.ExternalEntity", b =>
@@ -2070,6 +2134,11 @@ namespace BDFM.Persistence.Migrations
                     b.Property<DateTime?>("DoneProcdureDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsCompleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -3213,6 +3282,17 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("SourceCorrespondence");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.CorrespondenceTimeline", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.Correspondence", "Correspondence")
+                        .WithMany("CorrespondenceTimelines")
+                        .HasForeignKey("CorrespondenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Correspondence");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Core.MailFile", b =>
                 {
                     b.HasOne("BDFM.Domain.Entities.Core.User", null)
@@ -3663,6 +3743,8 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("CorrespondenceTags");
+
+                    b.Navigation("CorrespondenceTimelines");
 
                     b.Navigation("DraftVersions");
 

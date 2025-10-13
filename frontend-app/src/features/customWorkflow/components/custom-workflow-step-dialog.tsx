@@ -1,10 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command';
+import { Check, ChevronsUpDown } from 'lucide-react';
 
+import { cn } from '@/lib/utils';
 import {
   Dialog,
   DialogContent,
@@ -47,6 +57,16 @@ import {
   CustomWorkflowStepFormValues
 } from '../utils/customWorkflow';
 import { useAuthApi } from '@/hooks/use-auth-api';
+import { IOrganizationalUnitDetails } from '@/features/organizational-unit/types/organizational';
+import { useSearchUnit } from '@/hooks/use-search-unit';
+import { useSearchUser } from '@/hooks/use-search-user';
+import { UserDetailed } from '@/features/users/types/user';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
+import { useRouter } from 'next/navigation';
 
 interface CustomWorkflowStepDialogProps {
   isOpen: boolean;
@@ -63,8 +83,37 @@ export default function CustomWorkflowStepDialog({
   initialData = null,
   onSuccess
 }: CustomWorkflowStepDialogProps) {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
+  const [userSearchValue, setUserSearchValue] = useState('');
+  const [debouncedUserSearch, setDebouncedUserSearch] = useState('');
+  const [unitSearchValue, setUnitSearchValue] = useState('');
+  const [debouncedUnitSearch, setDebouncedUnitSearch] = useState('');
+  const [userPopoverOpenBool, setUserPopoverOpenBool] = useState(false);
+  const [unitPopoverOpenBool, setUnitPopoverOpenBool] = useState(false);
+
   const { authApiCall } = useAuthApi();
+
+  // Debounce user search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUserSearch(userSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [userSearchValue]);
+
+  // Debounce unit search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUnitSearch(unitSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [unitSearchValue]);
+
+  // No array of recipient types in this dialog (single step). We'll watch the form value instead.
 
   const form = useForm<CustomWorkflowStepFormValues>({
     resolver: zodResolver(customWorkflowStepFormSchema),
@@ -82,6 +131,8 @@ export default function CustomWorkflowStepDialog({
           defaultDueDateOffsetDays: 0
         }
   });
+
+  const watchedTargetType = form.watch('targetType');
 
   const onSubmit = async (data: CustomWorkflowStepFormValues) => {
     try {
@@ -102,6 +153,7 @@ export default function CustomWorkflowStepDialog({
           toast.success('تم تحديث خطوة سير العمل بنجاح!');
           onSuccess?.();
           onClose();
+          router.refresh();
         } else {
           toast.error('فشل في تحديث خطوة سير العمل!');
         }
@@ -114,12 +166,13 @@ export default function CustomWorkflowStepDialog({
           toast.success('تم إنشاء خطوة سير العمل بنجاح!');
           onSuccess?.();
           onClose();
+          router.refresh();
         } else {
           toast.error('فشل في إنشاء خطوة سير العمل!');
         }
       }
     } catch (error) {
-      console.error({ error });
+      // Error handled by user-facing toast
       toast.error('حدث خطأ أثناء حفظ خطوة سير العمل!');
     } finally {
       setLoading(false);
@@ -130,6 +183,36 @@ export default function CustomWorkflowStepDialog({
     form.reset();
     onClose();
   };
+
+  // User Search using existing hook
+  const {
+    data: userList,
+    isLoading: isUserLoading,
+    error: userError
+  } = useSearchUser({
+    user: debouncedUserSearch
+  });
+
+  const users: UserDetailed[] = userList?.data || [];
+
+  // Unit Search using existing hook
+  const {
+    data: unitList,
+    isLoading: isUnitLoading,
+    error: unitError
+  } = useSearchUnit({
+    unit: debouncedUnitSearch
+  });
+
+  const units: IOrganizationalUnitDetails[] = unitList?.data || [];
+
+  const handleUserSearch = useCallback((searchText: string) => {
+    setUserSearchValue(searchText);
+  }, []);
+
+  const handleUnitSearch = useCallback((searchText: string) => {
+    setUnitSearchValue(searchText);
+  }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -225,15 +308,16 @@ export default function CustomWorkflowStepDialog({
               name='targetType'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>نوع الهدف</FormLabel>
+                  <FormLabel>نوع المستلم الأساسي</FormLabel>
                   <Select
-                    disabled={loading}
-                    onValueChange={(value) => field.onChange(Number(value))}
+                    onValueChange={(value) => {
+                      field.onChange(Number(value));
+                    }}
                     value={field.value?.toString()}
                   >
-                    <FormControl className='col-span-1 w-full'>
+                    <FormControl className='w-full'>
                       <SelectTrigger>
-                        <SelectValue placeholder='اختر نوع الهدف' />
+                        <SelectValue placeholder='اختر نوع المستلم' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -251,23 +335,192 @@ export default function CustomWorkflowStepDialog({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name='targetIdentifier'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>معرف الهدف</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='معرف الهدف'
-                      disabled={loading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            <div>
+              {watchedTargetType ===
+              CustomWorkflowTargetTypeEnum.SpecificUser ? (
+                <FormField
+                  control={form.control}
+                  name='targetIdentifier'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-col'>
+                      <FormLabel>اسم الموظف</FormLabel>
+                      <Popover
+                        open={userPopoverOpenBool}
+                        onOpenChange={(open) =>
+                          setUserPopoverOpenBool(Boolean(open))
+                        }
+                      >
+                        <PopoverTrigger asChild>
+                          <FormControl className='w-full'>
+                            <Button
+                              variant='outline'
+                              role='combobox'
+                              className={cn(
+                                'w-full justify-between',
+                                !field.value && 'text-muted-foreground'
+                              )}
+                            >
+                              {field.value
+                                ? users?.find(
+                                    (user: UserDetailed) =>
+                                      user.id === field.value
+                                  )?.fullName
+                                : 'اختر موظف'}
+                              <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className='w-[300px] p-0'>
+                          <Command>
+                            <CommandInput
+                              placeholder='ابحث عن موظف...'
+                              value={userSearchValue}
+                              onValueChange={handleUserSearch}
+                            />
+                            <CommandList>
+                              <CommandEmpty>
+                                {isUserLoading
+                                  ? 'جاري البحث...'
+                                  : userError
+                                    ? 'حدث خطأ في البحث'
+                                    : 'لا يوجد موظفين'}
+                              </CommandEmpty>
+                              <CommandGroup>
+                                {users?.map((user: any) => (
+                                  <CommandItem
+                                    value={user.fullName}
+                                    key={user.id}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        `targetIdentifier`,
+                                        user.id
+                                      );
+                                      setUserPopoverOpenBool(false);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        'mr-2 h-4 w-4',
+                                        user.id === field.value
+                                          ? 'opacity-100'
+                                          : 'opacity-0'
+                                      )}
+                                    />
+                                    {
+                                      <div className='flex flex-col'>
+                                        <h1 className='text-sm font-medium'>
+                                          {user.fullName}
+                                        </h1>
+                                        <p className='text-muted-foreground text-xs'>
+                                          {user.organizationalUnitName}
+                                        </p>
+                                      </div>
+                                    }
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ) : (
+                <FormField
+                  control={form.control}
+                  name='targetIdentifier'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-col'>
+                      <FormLabel>الجهة الأساسية</FormLabel>
+                      <Popover
+                        open={unitPopoverOpenBool}
+                        onOpenChange={(open) =>
+                          setUnitPopoverOpenBool(Boolean(open))
+                        }
+                      >
+                        <PopoverTrigger asChild>
+                          <FormControl className='w-full'>
+                            <Button
+                              variant='outline'
+                              role='combobox'
+                              className={cn(
+                                'w-full justify-between',
+                                !field.value && 'text-muted-foreground'
+                              )}
+                            >
+                              {field.value
+                                ? units?.find(
+                                    (unit: IOrganizationalUnitDetails) =>
+                                      unit.id === field.value
+                                  )?.unitName
+                                : 'اختر الجهة الأساسية'}
+                              <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className='w-[300px] p-0'>
+                          <Command>
+                            <CommandInput
+                              placeholder='ابحث عن جهة...'
+                              value={unitSearchValue}
+                              onValueChange={handleUnitSearch}
+                            />
+                            <CommandList>
+                              <CommandEmpty>
+                                {isUnitLoading
+                                  ? 'جاري البحث...'
+                                  : unitError
+                                    ? 'حدث خطأ في البحث'
+                                    : 'لا توجد جهات'}
+                              </CommandEmpty>
+                              <CommandGroup>
+                                {units?.map(
+                                  (unit: IOrganizationalUnitDetails) => (
+                                    <CommandItem
+                                      value={unit.unitName}
+                                      key={unit.id}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          `targetIdentifier`,
+                                          unit.id || ''
+                                        );
+                                        setUnitPopoverOpenBool(false);
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          'mr-2 h-4 w-4',
+                                          unit.id === field.value
+                                            ? 'opacity-100'
+                                            : 'opacity-0'
+                                        )}
+                                      />
+                                      {
+                                        <div className='flex flex-col'>
+                                          <h1 className='text-sm font-medium'>
+                                            {unit?.unitName}
+                                          </h1>
+                                          <p className='text-muted-foreground text-xs'>
+                                            {unit?.parentUnitName}
+                                          </p>
+                                        </div>
+                                      }
+                                    </CommandItem>
+                                  )
+                                )}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               )}
-            />
+            </div>
 
             <FormField
               control={form.control}

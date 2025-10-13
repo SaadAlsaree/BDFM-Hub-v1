@@ -1,0 +1,42 @@
+﻿
+<MudAppBar Elevation="0" Color="Color.Primary" Class="mb-4">
+    <MudIconButton Icon="@(DrawerOpen? Icons.Material.Filled.MenuOpen : Icons.Material.Filled.Menu)"
+        Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => OnDrawerToggle.InvokeAsync())" />
+
+    <MudSpacer />
+    @* RTL Switch *@
+    <MudToggleIconButton Toggled="RightToLeft" ToggledChanged="@((bool value) => OnRightToLeftChanged(value))"
+        Icon="@Icons.Material.Filled.FormatTextdirectionLToR"
+        ToggledIcon="@Icons.Material.Filled.FormatTextdirectionRToL" Color="Color.Inherit" ToggledColor="Color.Primary"
+        Class="ma-2" />
+    @* Theme Switch *@
+    <MudToggleIconButton Toggled="IsDarkMode" ToggledChanged="@((bool value) => OnIsDarkModeChanged(value))"
+        Icon="@Icons.Material.Filled.LightMode" ToggledIcon="@Icons.Material.Filled.DarkMode" Color="Color.Warning"
+        ToggledColor="Color.Inherit" Class="ma-2" />
+
+    @* User Avatar *@
+    <MudBadge Color="Color.Success" Overlap="true" Bordered="true">
+        <MudAvatar>
+            <MudImage Src="images/jonny.jpg" />
+        </MudAvatar>
+    </MudBadge>
+</MudAppBar>
+
+@code {
+    [Parameter] public bool DrawerOpen { get; set; }
+    [Parameter] public EventCallback OnDrawerToggle { get; set; }
+    [Parameter] public bool RightToLeft { get; set; }
+    [Parameter] public EventCallback<bool> RightToLeftChanged { get; set; }
+    [Parameter] public bool IsDarkMode { get; set; }
+    [Parameter] public EventCallback<bool> IsDarkModeChanged { get; set; }
+
+    private async Task OnRightToLeftChanged(bool value)
+    {
+        await RightToLeftChanged.InvokeAsync(value);
+    }
+
+    private async Task OnIsDarkModeChanged(bool value)
+    {
+        await IsDarkModeChanged.InvokeAsync(value);
+    }
+}

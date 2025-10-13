@@ -44,7 +44,8 @@ export const searchParams = {
   createdDate: parseAsString,
   mailDate: parseAsString,
   user: parseAsString,
-  unit: parseAsString
+  unit: parseAsString,
+  workflowName: parseAsString,
 
 
   // advanced filter

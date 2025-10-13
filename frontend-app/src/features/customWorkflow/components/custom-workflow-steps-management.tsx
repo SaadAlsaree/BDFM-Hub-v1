@@ -6,13 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import {
-  IconPlus,
-  IconEdit,
-  IconTrash,
-  IconArrowUp,
-  IconArrowDown
-} from '@tabler/icons-react';
+import { IconPlus, IconEdit, IconTrash } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 import {
@@ -21,10 +15,7 @@ import {
   CustomWorkflowDetails
 } from '@/features/customWorkflow/types/customWorkflow';
 import { customWorkflowService } from '@/features/customWorkflow/api/customWorkflow.service';
-import {
-  getActionTypeDisplay,
-  getTargetTypeDisplay
-} from '../utils/customWorkflow';
+import { getTargetTypeDisplay } from '../utils/customWorkflow';
 import CustomWorkflowStepDialog from './custom-workflow-step-dialog';
 import { AlertModal } from '@/components/modal/alert-modal';
 
@@ -131,7 +122,6 @@ export default function CustomWorkflowStepsManagement({
                     </CardTitle>
                   </div>
                   <div className='flex items-center gap-2'>
-                    <Badge variant='outline'>{step.statusName}</Badge>
                     <Button
                       variant='ghost'
                       size='sm'
@@ -157,12 +147,12 @@ export default function CustomWorkflowStepsManagement({
                       نوع الإجراء
                     </label>
                     <p className='text-sm'>
-                      {getActionTypeDisplay(step.actionType)}
+                      <Badge variant='outline'>{step.actionTypeName}</Badge>
                     </p>
                   </div>
                   <div>
                     <label className='text-muted-foreground text-sm font-medium'>
-                      نوع الهدف
+                      نوع الجهة المستهدفة
                     </label>
                     <p className='text-sm'>
                       {getTargetTypeDisplay(step.targetType)}
@@ -171,9 +161,11 @@ export default function CustomWorkflowStepsManagement({
                 </div>
                 <div>
                   <label className='text-muted-foreground text-sm font-medium'>
-                    معرف الهدف
+                    ألى
                   </label>
-                  <p className='text-sm'>{step.targetIdentifier}</p>
+                  <p className='text-primary text-xl font-semibold'>
+                    {step.targetIdentifierName}
+                  </p>
                 </div>
                 {step.defaultInstructionText && (
                   <div>

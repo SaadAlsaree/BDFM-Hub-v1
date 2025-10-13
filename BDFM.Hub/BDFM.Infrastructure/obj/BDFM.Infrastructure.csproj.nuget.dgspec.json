@@ -22,7 +22,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -30,8 +30,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {
               "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
                 "projectPath": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj"
@@ -52,8 +52,8 @@
         "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
@@ -81,23 +81,23 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.Extensions.Logging.Abstractions": {
               "target": "Package",
-              "version": "[9.0.4, )"
+              "version": "[9.0.9, )"
             },
             "StackExchange.Redis": {
               "target": "Package",
-              "version": "[2.8.37, )"
+              "version": "[2.9.25, )"
             },
             "Swashbuckle.AspNetCore.Annotations": {
               "target": "Package",
-              "version": "[8.1.1, )"
+              "version": "[9.0.6, )"
             }
           },
           "imports": [
@@ -138,7 +138,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -146,8 +146,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {}
           }
         },
@@ -164,8 +164,8 @@
         "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "DotNetCore.NPOI": {
               "target": "Package",
@@ -177,15 +177,15 @@
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[3.4.2, )"
+              "version": "[3.5.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[13.0.3, )"
+              "version": "[13.0.4, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[8.9.0, )"
+              "version": "[8.14.0, )"
             }
           },
           "imports": [
@@ -226,7 +226,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -234,8 +234,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {
               "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
                 "projectPath": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
@@ -259,16 +259,16 @@
         "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "CsvHelper": {
               "target": "Package",
-              "version": "[33.0.1, )"
+              "version": "[33.1.0, )"
             },
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
-              "version": "[9.0.4, )"
+              "version": "[9.0.9, )"
             },
             "SendGrid": {
               "target": "Package",
@@ -313,7 +313,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -321,8 +321,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {
               "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
                 "projectPath": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
@@ -346,20 +346,20 @@
         "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "FluentFTP": {
               "target": "Package",
-              "version": "[52.1.0, )"
+              "version": "[53.0.2, )"
             },
             "Hangfire": {
               "target": "Package",
-              "version": "[1.8.18, )"
+              "version": "[1.8.21, )"
             },
             "Hangfire.Dashboard.Basic.Authentication": {
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[8.0.0, )"
             },
             "Hangfire.PostgreSql": {
               "target": "Package",
@@ -367,67 +367,67 @@
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )"
+              "version": "[9.0.9, )"
             },
             "Microsoft.Extensions.AI": {
               "target": "Package",
-              "version": "[9.7.1, )"
+              "version": "[9.9.1, )"
             },
             "Microsoft.Extensions.AI.Abstractions": {
               "target": "Package",
-              "version": "[9.7.1, )"
+              "version": "[9.9.1, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[3.4.2, )"
+              "version": "[3.5.0, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[8.0.11, )"
+              "version": "[9.0.4, )"
             },
             "OllamaSharp": {
               "target": "Package",
-              "version": "[5.3.4, )"
+              "version": "[5.4.7, )"
             },
             "StackExchange.Redis": {
               "target": "Package",
-              "version": "[2.8.37, )"
+              "version": "[2.9.25, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[8.1.1, )"
+              "version": "[9.0.6, )"
             },
             "Swashbuckle.AspNetCore.Filters": {
               "target": "Package",
-              "version": "[8.0.3, )"
+              "version": "[9.0.0, )"
             }
           },
           "imports": [

@@ -2505,11 +2505,6 @@
         "IsRequired": false
       },
       {
-        "Name": "CorrespondenceType",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
         "Name": "OrganizationalUnitId",
         "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
@@ -4565,6 +4560,40 @@
   },
   {
     "ContainingType": "BDFM.Api.Controllers.OrganizationalUnitController",
+    "Method": "Search",
+    "RelativePath": "BDFM/v1/api/OrganizationalUnit/Search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Unit",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Collections.Generic.IEnumerable\u00601[[BDFM.Application.Features.Administration.Templates.CorrespondenceTemplateViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "OrganizationalUnits"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.OrganizationalUnitController",
     "Method": "UpdateOrganizationalUnit",
     "RelativePath": "BDFM/v1/api/OrganizationalUnit/UpdateOrganizationalUnit",
     "HttpMethod": "PUT",
@@ -6101,7 +6130,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "SearchTerm",
+        "Name": "User",
         "Type": "System.String",
         "IsRequired": false
       }

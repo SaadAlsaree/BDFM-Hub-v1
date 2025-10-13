@@ -1,5 +1,3 @@
-using BDFM.Domain.Entities.Supporting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BDFM.Persistence.Configurations.Supporting
@@ -18,7 +16,7 @@ namespace BDFM.Persistence.Configurations.Supporting
 
             // Composite index for workflow steps order
             builder.HasIndex(cws => new { cws.WorkflowId, cws.StepOrder }).IsUnique();
-
+            builder.Property(cws => cws.IsCompleted).HasDefaultValue(false);
             // Properties
             builder.Property(cws => cws.TargetIdentifier).HasMaxLength(255);
             builder.Property(cws => cws.DefaultInstructionText).HasMaxLength(1000);

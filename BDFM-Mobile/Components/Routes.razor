@@ -1,0 +1,38 @@
+﻿@using BDFM_Mobile.Components.Pages
+@using Microsoft.AspNetCore.Components.Authorization
+
+<Router AppAssembly="@typeof(MauiProgram).Assembly">
+    <Found Context="routeData">
+        @if (routeData.PageType == typeof(Login))
+        {
+            <!-- Login page without layout -->
+            <RouteView RouteData="@routeData" />
+        }
+        else
+        {
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)">
+                <NotAuthorized>
+                    @if (!context.User.Identity!.IsAuthenticated)
+                    {
+                        <RedirectLogin />
+                    }
+                    else
+                    {
+                        <p role="alert">You are not authorized to access this resource.</p>
+                    }
+                </NotAuthorized>
+                <Authorizing>
+                    <!-- Loading state while checking authentication -->
+                    <div
+                        style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div style="text-align: center; color: white;">
+                            <MudProgressCircular Size="Size.Large" Indeterminate="true" />
+                            <div style="margin-top: 20px; font-size: 1.2rem;">جاري التحقق من المصادقة...</div>
+                        </div>
+                    </div>
+                </Authorizing>
+            </AuthorizeRouteView>
+        }
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+</Router>

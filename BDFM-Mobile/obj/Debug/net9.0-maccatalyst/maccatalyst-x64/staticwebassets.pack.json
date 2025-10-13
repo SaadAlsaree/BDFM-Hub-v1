@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\scopedcss\\bundle\\BDFM-Mobile.styles.css",
+      "PackagePath": "staticwebassets\\BDFM-Mobile.styles.css"
+    },
+    {
+      "Id": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\staticwebassets\\msbuild.BDFM-Mobile.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\staticwebassets\\msbuild.BDFM-Mobile.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\staticwebassets\\msbuild.build.BDFM-Mobile.props",
+      "PackagePath": "build\\BDFM-Mobile.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\staticwebassets\\msbuild.buildMultiTargeting.BDFM-Mobile.props",
+      "PackagePath": "buildMultiTargeting\\BDFM-Mobile.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0-maccatalyst\\maccatalyst-x64\\staticwebassets\\msbuild.buildTransitive.BDFM-Mobile.props",
+      "PackagePath": "buildTransitive\\BDFM-Mobile.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

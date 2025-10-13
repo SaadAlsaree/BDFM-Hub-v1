@@ -1,0 +1,124 @@
+﻿@page "/login"
+@using BDFM_Mobile.Authentication
+@inject AuthenticationService AuthService
+@inject NavigationManager Navigation
+
+<PageTitle>تسجيل الدخول - BDFM</PageTitle>
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<div class="login-container">
+    <MudCard Class="login-card" Elevation="0">
+        <div class="login-header">
+            <MudIcon Icon="@Icons.Material.Filled.Business" Class="login-logo" />
+            <MudText Class="welcome-text">مرحباً بك</MudText>
+            <MudText Class="subtitle">سجل دخولك إلى نظام البريد المركزي</MudText>
+        </div>
+
+        <div class="login-content">
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <MudAlert Severity="Severity.Error" Class="mb-4" ShowCloseIcon="true"
+                    CloseIconClicked="() => ErrorMessage = string.Empty">
+                    @ErrorMessage
+                </MudAlert>
+            }
+
+            <MudForm @ref="form" Model="LoginModel" Validation="@(new DataAnnotationsValidator())" ValidationDelay="0">
+                <div class="form-field">
+                    <MudTextField @bind-Value="LoginModel.UserLogin" Label="اسم المستخدم" Variant="Variant.Outlined"
+                        Required="true" RequiredError="اسم المستخدم مطلوب" FullWidth="true" Immediate="true"
+                        IconSize="Size.Medium" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person"
+                        MaxLength="50" />
+                </div>
+
+                <div class="form-field">
+                    <MudTextField @bind-Value="LoginModel.Password" Label="كلمة المرور" Variant="Variant.Outlined"
+                        InputType="@PasswordInput" Required="true" RequiredError="كلمة المرور مطلوبة" FullWidth="true"
+                        Immediate="true" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                        OnAdornmentClick="TogglePasswordVisibility" MaxLength="100" />
+                </div>
+
+                <div class="login-button">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" FullWidth="true"
+                        StartIcon="@Icons.Material.Filled.Login" OnClick="HandleLogin" Disabled="IsLoading">
+                        @if (IsLoading)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">جاري تسجيل الدخول...</MudText>
+                        }
+                        else
+                        {
+                            <MudText>تسجيل الدخول</MudText>
+                        }
+                    </MudButton>
+                </div>
+            </MudForm>
+
+            <div class="forgot-password">
+                <MudLink Color="Color.Primary" Underline="Underline.Hover">
+                    هل نسيت كلمة المرور؟
+                </MudLink>
+            </div>
+
+            <div class="footer-text">
+                © 2024 BDFM. جميع الحقوق محفوظة
+            </div>
+        </div>
+    </MudCard>
+</div>
+
+@code {
+    private AuthenticationRequest LoginModel = new();
+    private string? ErrorMessage;
+    private bool IsLoading = false;
+    private MudForm? form;
+
+    // Password visibility toggle
+    private bool _passwordVisibility = false;
+    private InputType PasswordInput => _passwordVisibility ? InputType.Text : InputType.Password;
+    private string PasswordInputIcon => _passwordVisibility ? Icons.Material.Filled.Visibility :
+    Icons.Material.Filled.VisibilityOff;
+
+    private void TogglePasswordVisibility()
+    {
+        _passwordVisibility = !_passwordVisibility;
+    }
+
+    private async Task HandleLogin()
+    {
+        if (form != null)
+        {
+            await form.Validate();
+            if (!form.IsValid) return;
+        }
+
+        IsLoading = true;
+        ErrorMessage = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var result = await AuthService.LoginAsync(LoginModel);
+            if (result != null && result.Success)
+            {
+                Navigation.NavigateTo("/", true);
+            }
+            else
+            {
+                ErrorMessage = result?.Message ?? "فشل في تسجيل الدخول. يرجى التحقق من البيانات المدخلة.";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"حدث خطأ أثناء تسجيل الدخول: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+}

@@ -9,7 +9,7 @@ type CustomWorkflowListingPage = {};
 export default async function CustomWorkflowListingPage({}: CustomWorkflowListingPage) {
   // Showcasing the use of search params cache in nested RSCs
   const page = searchParamsCache.get('page');
-  const searchTerm = searchParamsCache.get('searchTerm');
+  const searchTerm = searchParamsCache.get('workflowName');
   const pageSize = searchParamsCache.get('pageSize');
   const status = searchParamsCache.get('status');
 

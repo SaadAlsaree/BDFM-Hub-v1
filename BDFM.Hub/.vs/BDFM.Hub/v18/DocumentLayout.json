@@ -3,16 +3,48 @@
   "WorkspaceRootPath": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\bdfm.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\bdfm.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\startupextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\startupextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\bdfm.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\bdfm.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{665A4DBE-74D7-4B82-8815-414DA08BB76A}|BDFM.Identity\\BDFM.Identity.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.identity\\bdfm.identity.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{665A4DBE-74D7-4B82-8815-414DA08BB76A}|BDFM.Identity\\BDFM.Identity.csproj|solutionrelative:bdfm.identity\\bdfm.identity.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08750E4D-F18B-4084-A3BE-584763B8573C}|BDFM.Domain\\BDFM.Domain.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.domain\\bdfm.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{08750E4D-F18B-4084-A3BE-584763B8573C}|BDFM.Domain\\BDFM.Domain.csproj|solutionrelative:bdfm.domain\\bdfm.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowlist\\getcustomworkflowlisthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowlist\\getcustomworkflowlisthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowlist\\getcustomworkflowlistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowlist\\getcustomworkflowlistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowlist\\getcustomworkflowlistquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowlist\\getcustomworkflowlistquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowbyid\\getcustomworkflowbyidvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowbyid\\getcustomworkflowbyidvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowbyid\\getcustomworkflowbyidhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowbyid\\getcustomworkflowbyidhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\users\\queries\\getallusers\\getallusersqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\users\\queries\\getallusers\\getallusersqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\users\\queries\\getallusers\\getallusersquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\users\\queries\\getallusers\\getallusersquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,22 +54,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "BDFM.Api\\appsettings.json",
-              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
-              "RelativeToolTip": "BDFM.Api\\appsettings.json",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAFoAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-06T21:36:49.24Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -48,29 +66,140 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\Program.cs",
-              "RelativeDocumentMoniker": "BDFM.Api\\Program.cs",
-              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\Program.cs",
-              "RelativeToolTip": "BDFM.Api\\Program.cs",
+              "DocumentIndex": 2,
+              "Title": "BDFM.Identity",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj",
+              "RelativeDocumentMoniker": "BDFM.Identity\\BDFM.Identity.csproj",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj",
+              "RelativeToolTip": "BDFM.Identity\\BDFM.Identity.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-13T07:07:05.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BDFM.Domain",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj",
+              "RelativeDocumentMoniker": "BDFM.Domain\\BDFM.Domain.csproj",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj",
+              "RelativeToolTip": "BDFM.Domain\\BDFM.Domain.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T21:37:39.863Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-13T07:06:54.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BDFM.Application",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
+              "RelativeDocumentMoniker": "BDFM.Application\\BDFM.Application.csproj",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
+              "RelativeToolTip": "BDFM.Application\\BDFM.Application.csproj",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAqwBsAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-13T07:06:20.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "StartupExtensions.cs",
-              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\StartupExtensions.cs",
-              "RelativeDocumentMoniker": "BDFM.Api\\StartupExtensions.cs",
-              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\StartupExtensions.cs",
-              "RelativeToolTip": "BDFM.Api\\StartupExtensions.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAAAE4AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T21:35:29.273Z",
+              "Title": "BDFM.Api",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj",
+              "RelativeDocumentMoniker": "BDFM.Api\\BDFM.Api.csproj",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj",
+              "RelativeToolTip": "BDFM.Api\\BDFM.Api.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-13T07:05:24.422Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GetCustomWorkflowByIdHandler.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdHandler.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdHandler.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdHandler.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdHandler.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAowD4AAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T19:10:41.378Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GetCustomWorkflowListVm.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListVm.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListVm.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListVm.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListVm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T19:10:09.762Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GetCustomWorkflowByIdVm.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdVm.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdVm.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdVm.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdVm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T19:09:59.84Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GetCustomWorkflowListHandler.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListHandler.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListHandler.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListHandler.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T17:52:37.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GetCustomWorkflowListQuery.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListQuery.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListQuery.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListQuery.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowList\\GetCustomWorkflowListQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T17:47:58.375Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GetAllUsersQueryHandler.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQueryHandler.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQueryHandler.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQueryHandler.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQueryHandler.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAAAFUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T17:47:04.717Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GetAllUsersQuery.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQuery.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQuery.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQuery.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\Users\\Queries\\GetAllUsers\\GetAllUsersQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T17:46:33.162Z"
             }
           ]
         }

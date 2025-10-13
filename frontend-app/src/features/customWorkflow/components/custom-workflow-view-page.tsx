@@ -77,12 +77,10 @@ export default function CustomWorkflowViewPage({
             </div>
             <div>
               <label className='text-muted-foreground text-sm font-medium'>
-                الحالة
+                الجهة
               </label>
               <div className='mt-1'>
-                <Badge variant={workflow.isEnabled ? 'default' : 'secondary'}>
-                  {workflow.isEnabled ? 'مفعل' : 'غير مفعل'}
-                </Badge>
+                <Badge>{workflow.triggeringUnitName}</Badge>
               </div>
             </div>
             <div>
@@ -103,25 +101,17 @@ export default function CustomWorkflowViewPage({
               <label className='text-muted-foreground text-sm font-medium'>
                 تاريخ الإنشاء
               </label>
-              <p className='text-sm'>{formatDate(workflow.createAt)}</p>
+              <p className='text-sm'>
+                {formatDate(workflow.createAt ?? undefined)}
+              </p>
             </div>
             <div>
               <label className='text-muted-foreground text-sm font-medium'>
                 آخر تحديث
               </label>
-              <p className='text-sm'>{formatDate(workflow.lastUpdateAt)}</p>
-            </div>
-            <div>
-              <label className='text-muted-foreground text-sm font-medium'>
-                أنشئ بواسطة
-              </label>
-              <p className='text-sm'>{workflow.createBy}</p>
-            </div>
-            <div>
-              <label className='text-muted-foreground text-sm font-medium'>
-                آخر تحديث بواسطة
-              </label>
-              <p className='text-sm'>{workflow.lastUpdateBy}</p>
+              <p className='text-sm'>
+                {formatDate(workflow.lastUpdateAt ?? undefined)}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -129,14 +119,22 @@ export default function CustomWorkflowViewPage({
 
       <Card>
         <CardHeader>
-          <CardTitle>خطوات سير العمل ({workflow.steps?.length || 0})</CardTitle>
+          <div className='flex items-center justify-between gap-2'>
+            <CardTitle>
+              خطوات سير العمل ({workflow.steps?.length || 0})
+            </CardTitle>
+            <Button onClick={() => setIsStepDialogOpen(true)} className='mt-4'>
+              <IconPlus className='mr-2 h-4 w-4' />
+              إضافة خطوة
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           {workflow.steps && workflow.steps.length > 0 ? (
             <div className='space-y-4'>
               {workflow.steps.map((step, index) => (
                 <div
-                  key={step.id}
+                  key={index}
                   className='flex items-center justify-between rounded-lg border p-4'
                 >
                   <div className='flex items-center gap-4'>
@@ -144,13 +142,13 @@ export default function CustomWorkflowViewPage({
                       {step.stepOrder}
                     </div>
                     <div>
-                      <p className='font-medium'>{step.workflowName}</p>
+                      <p className='font-medium'>{step.targetTypeName}</p>
                       <p className='text-muted-foreground text-sm'>
                         {step.defaultInstructionText || 'لا توجد تعليمات'}
                       </p>
                     </div>
                   </div>
-                  <Badge variant='outline'>{step.statusName}</Badge>
+                  {/* <Badge variant='outline'>{step.statusName}</Badge> */}
                 </div>
               ))}
             </div>

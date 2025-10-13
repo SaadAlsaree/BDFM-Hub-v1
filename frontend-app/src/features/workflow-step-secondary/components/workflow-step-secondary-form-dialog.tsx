@@ -377,7 +377,7 @@ export function WorkflowStepSecondaryFormDialog({
                     name='recipientId'
                     render={({ field }) => (
                       <FormItem className='flex flex-col'>
-                        <FormLabel>الوحدة التنظيمية</FormLabel>
+                        <FormLabel>الجهة</FormLabel>
                         <Popover
                           open={unitPopoverOpen}
                           onOpenChange={(open) => setUnitPopoverOpen(open)}

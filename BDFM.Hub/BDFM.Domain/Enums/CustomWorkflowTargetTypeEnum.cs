@@ -2,9 +2,9 @@
 {
     public enum CustomWorkflowTargetTypeEnum
     {
-        [Display(Name = "مستخدم معين")]
+        [Display(Name = "مستخدم")]
         SpecificUser = 1,
-        [Display(Name = "وحدة معينة")]
+        [Display(Name = "جهة")]
         SpecificUnit = 2,
         [Display(Name = "صلاحية في وحدة")]
         RoleInUnit = 3,

@@ -32,9 +32,6 @@ export const ActionTypeEnumSchema = z.nativeEnum({
 export const CustomWorkflowTargetTypeEnumSchema = z.nativeEnum({
     SpecificUser: 1,
     SpecificUnit: 2,
-    RoleInUnit: 3,
-    ManagerOfUnit: 4,
-    HeadOfDevice: 5,
 } as const);
 
 // Base validation schemas
@@ -323,11 +320,9 @@ export const getActionTypeDisplay = (type: ActionTypeEnum): string => {
 // Helper to get target type display name
 export const getTargetTypeDisplay = (type: CustomWorkflowTargetTypeEnum): string => {
     const typeNames = {
-        [CustomWorkflowTargetTypeEnum.SpecificUser]: "مستخدم معين",
-        [CustomWorkflowTargetTypeEnum.SpecificUnit]: "وحدة معينة",
-        [CustomWorkflowTargetTypeEnum.RoleInUnit]: "صلاحية في وحدة",
-        [CustomWorkflowTargetTypeEnum.ManagerOfUnit]: "مدير الوحدة",
-        [CustomWorkflowTargetTypeEnum.HeadOfDevice]: "رئيس الجهاز",
+        [CustomWorkflowTargetTypeEnum.SpecificUser]: "مستخدم",
+        [CustomWorkflowTargetTypeEnum.SpecificUnit]: "جهة",
+
     };
     return typeNames[type] || "غير محدد";
 };

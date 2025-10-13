@@ -14,6 +14,8 @@ namespace BDFM.Domain.Entities.Supporting
 
         public CustomWorkflowTargetTypeEnum TargetType { get; set; }
 
+        public bool IsCompleted { get; set; } = false;
+
         [StringLength(255)]
         public string? TargetIdentifier { get; set; } // UserID, UnitID, RoleName, etc.
         public string? DefaultInstructionText { get; set; } // Text type in DB

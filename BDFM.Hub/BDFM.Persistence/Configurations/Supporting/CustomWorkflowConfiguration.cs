@@ -1,5 +1,3 @@
-using BDFM.Domain.Entities.Supporting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BDFM.Persistence.Configurations.Supporting
@@ -19,6 +17,7 @@ namespace BDFM.Persistence.Configurations.Supporting
             // Properties
             builder.Property(cw => cw.WorkflowName).IsRequired().HasMaxLength(255);
             builder.Property(cw => cw.Description).HasMaxLength(1000);
+
 
             // Relationships
             builder.HasOne(cw => cw.TriggeringUnit)

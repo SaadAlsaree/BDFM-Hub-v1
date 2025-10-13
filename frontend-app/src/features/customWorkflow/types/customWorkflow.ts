@@ -1,14 +1,19 @@
 export interface CustomWorkflowList {
     id: string;
     workflowName: string;
-    triggeringUnitId: string;
+    triggeringUnitId: string | null;
+    triggeringUnitName?: string | null;
     triggeringCorrespondenceType: CorrespondenceTypeEnum;
+    triggeringCorrespondenceTypeName: string;
     description: string;
     isEnabled: boolean;
-    createAt: string;       // ISO datetime string e.g., "2025-06-09T17:07:02.842Z"
-    lastUpdateAt: string;   // ISO datetime string
+    createAt: string; // ISO datetime string
+    lastUpdateAt: string | null;
     createBy: string;
-    lastUpdateBy: string;
+    lastUpdateBy: string | null;
+    status: number;
+    statusName: string;
+    steps: CustomWorkflowStepList[];
 }
 
 
@@ -29,14 +34,18 @@ export enum CorrespondenceTypeEnum {
 export interface CustomWorkflowDetails {
     id: string;
     workflowName: string;
-    triggeringUnitId: string;
+    triggeringUnitId: string | null;
+    triggeringUnitName?: string | null;
     triggeringCorrespondenceType: CorrespondenceTypeEnum;
-    description: string;
+    triggeringCorrespondenceTypeName: string;
+    description: string | null;
     isEnabled: boolean;
-    createAt: string; // ISO date string
-    lastUpdateAt: string; // ISO date string
+    createAt: string; // ISO datetime string
+    lastUpdateAt: string | null;
     createBy: string;
-    lastUpdateBy: string;
+    lastUpdateBy: string | null;
+    status: number;
+    statusName: string;
     steps: CustomWorkflowStepList[];
 }
 
@@ -51,19 +60,17 @@ export interface CreateWorkflowPayload {
 
 
 export interface CustomWorkflowStepList {
-    id: string; // UUID
-    workflowId: string; // UUID
-    workflowName: string;
+    id: string;
+    workflowId: string;
     stepOrder: number;
-    actionType: ActionTypeEnum; // ActionTypeEnum
-    targetType: CustomWorkflowTargetTypeEnum; // CustomWorkflowTargetTypeEnum
-    targetIdentifier: string;
-    defaultInstructionText: string;
-    defaultDueDateOffsetDays: number;
-    createAt: string; // ISO Date string
-    lastUpdateAt: string; // ISO Date string
-    statusId: number;
-    statusName: string;
+    actionType: ActionTypeEnum;
+    actionTypeName: string;
+    targetType: CustomWorkflowTargetTypeEnum;
+    targetTypeName: string;
+    targetIdentifier: string | null;
+    targetIdentifierName: string | null;
+    defaultInstructionText: string | null;
+    defaultDueDateOffsetDays: number | null;
 }
 
 export interface CustomWorkflowStepDetails {
@@ -146,15 +153,11 @@ export const ActionTypeDisplay: Record<ActionTypeEnum, string> = {
 export enum CustomWorkflowTargetTypeEnum {
     SpecificUser = 1,
     SpecificUnit = 2,
-    RoleInUnit = 3,
-    ManagerOfUnit = 4,
-    HeadOfDevice = 5,
+
 }
 
 export const CustomWorkflowTargetTypeEnumDisplay: Record<CustomWorkflowTargetTypeEnum, string> = {
-    [CustomWorkflowTargetTypeEnum.SpecificUser]: "مستخدم معين",
-    [CustomWorkflowTargetTypeEnum.SpecificUnit]: "وحدة معينة",
-    [CustomWorkflowTargetTypeEnum.RoleInUnit]: "صلاحية في وحدة",
-    [CustomWorkflowTargetTypeEnum.ManagerOfUnit]: "مدير جهة ",
-    [CustomWorkflowTargetTypeEnum.HeadOfDevice]: "رئيس الجهاز",
+    [CustomWorkflowTargetTypeEnum.SpecificUser]: "مستخدم",
+    [CustomWorkflowTargetTypeEnum.SpecificUnit]: "جهة",
+
 };

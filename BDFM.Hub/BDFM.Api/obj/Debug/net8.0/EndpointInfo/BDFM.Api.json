@@ -3161,13 +3161,6 @@
             }
           },
           {
-            "name": "CorrespondenceType",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
-            }
-          },
-          {
             "name": "OrganizationalUnitId",
             "in": "query",
             "schema": {
@@ -5787,6 +5780,44 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Collections.Generic.List`1[[BDFM.Application.Features.OrganizationalUnits.Queries.GetOrganizationalUnitTree.OrganizationalUnitTreeViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/OrganizationalUnit/Search": {
+      "get": {
+        "tags": [
+          "OrganizationalUnits"
+        ],
+        "parameters": [
+          {
+            "name": "Unit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Collections.Generic.IEnumerable`1[[BDFM.Application.Features.Administration.Templates.CorrespondenceTemplateViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
                 }
               }
             }
@@ -8894,7 +8925,7 @@
         ],
         "parameters": [
           {
-            "name": "SearchTerm",
+            "name": "User",
             "in": "query",
             "schema": {
               "type": "string"
@@ -9930,7 +9961,11 @@
             "type": "string",
             "nullable": true
           },
-          "content": {
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyText": {
             "type": "string",
             "nullable": true
           },
@@ -9939,8 +9974,10 @@
             "format": "uuid",
             "nullable": true
           },
-          "correspondenceType": {
-            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
+          "createBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -9956,17 +9993,13 @@
             "type": "string",
             "nullable": true
           },
-          "content": {
+          "subject": {
             "type": "string",
             "nullable": true
           },
-          "organizationalUnitId": {
+          "bodyText": {
             "type": "string",
-            "format": "uuid",
             "nullable": true
-          },
-          "correspondenceType": {
-            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
           }
         },
         "additionalProperties": false
@@ -9982,19 +10015,20 @@
             "type": "string",
             "nullable": true
           },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyText": {
+            "type": "string",
+            "nullable": true
+          },
           "organizationalUnitId": {
             "type": "string",
             "format": "uuid",
             "nullable": true
           },
           "organizationalUnitName": {
-            "type": "string",
-            "nullable": true
-          },
-          "correspondenceType": {
-            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
-          },
-          "correspondenceTypeName": {
             "type": "string",
             "nullable": true
           },
@@ -10023,7 +10057,11 @@
             "type": "string",
             "nullable": true
           },
-          "content": {
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyText": {
             "type": "string",
             "nullable": true
           },
@@ -10033,13 +10071,6 @@
             "nullable": true
           },
           "organizationalUnitName": {
-            "type": "string",
-            "nullable": true
-          },
-          "correspondenceType": {
-            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
-          },
-          "correspondenceTypeName": {
             "type": "string",
             "nullable": true
           },
@@ -10086,9 +10117,6 @@
           "searchText": {
             "type": "string",
             "nullable": true
-          },
-          "correspondenceType": {
-            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
           },
           "organizationalUnitId": {
             "type": "string",
@@ -20249,6 +20277,35 @@
           },
           "data": {
             "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Domain.Common.Response`1[[System.Collections.Generic.IEnumerable`1[[BDFM.Application.Features.Administration.Templates.CorrespondenceTemplateViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.Administration.Templates.CorrespondenceTemplateViewModel"
+            },
+            "nullable": true
           },
           "message": {
             "type": "string",

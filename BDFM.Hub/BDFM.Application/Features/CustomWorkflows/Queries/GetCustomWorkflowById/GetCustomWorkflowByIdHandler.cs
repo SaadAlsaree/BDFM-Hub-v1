@@ -1,4 +1,5 @@
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetById;
+using BDFM.Domain.Entities.Core;
 using BDFM.Domain.Entities.Supporting;
 
 namespace BDFM.Application.Features.CustomWorkflows.Queries.GetCustomWorkflowById;
@@ -6,8 +7,23 @@ namespace BDFM.Application.Features.CustomWorkflows.Queries.GetCustomWorkflowByI
 internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, GetCustomWorkflowByIdVm, GetCustomWorkflowByIdQuery>,
                         IRequestHandler<GetCustomWorkflowByIdQuery, Response<GetCustomWorkflowByIdVm>>
 {
-    public GetCustomWorkflowByIdHandler(IBaseRepository<CustomWorkflow> repository) : base(repository)
+    private readonly IBaseRepository<User> _userRepository;
+    private readonly IBaseRepository<OrganizationalUnit> _unitRepository;
+
+    public GetCustomWorkflowByIdHandler(
+        IBaseRepository<CustomWorkflow> repository,
+        IBaseRepository<User> userRepository,
+        IBaseRepository<OrganizationalUnit> unitRepository) : base(repository)
     {
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        _unit_repository_check(unitRepository);
+        _unitRepository = unitRepository ?? throw new ArgumentNullException(nameof(unitRepository));
+    }
+
+    // Small helper to keep a clearer exception message when unit repository missing
+    private static void _unit_repository_check(IBaseRepository<OrganizationalUnit>? repo)
+    {
+        if (repo == null) throw new ArgumentNullException(nameof(repo));
     }
 
     public override Expression<Func<CustomWorkflow, bool>> IdPredicate(GetCustomWorkflowByIdQuery request) =>
@@ -19,7 +35,9 @@ internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, Get
             Id = e.Id,
             WorkflowName = e.WorkflowName,
             TriggeringUnitId = e.TriggeringUnitId,
+            TriggeringUnitName = e.TriggeringUnit!.UnitName,
             TriggeringCorrespondenceType = e.TriggeringCorrespondenceType,
+            TriggeringCorrespondenceTypeName = e.TriggeringCorrespondenceType.HasValue ? e.TriggeringCorrespondenceType.Value.GetDisplayName() : string.Empty,
             Description = e.Description,
             IsEnabled = e.IsEnabled,
             CreateAt = e.CreateAt,
@@ -34,8 +52,12 @@ internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, Get
                 WorkflowId = s.WorkflowId,
                 StepOrder = s.StepOrder,
                 ActionType = s.ActionType,
+                ActionTypeName = s.ActionType.GetDisplayName(),
                 TargetType = s.TargetType,
+                TargetTypeName = s.TargetType.GetDisplayName(),
                 TargetIdentifier = s.TargetIdentifier,
+                // cannot reliably navigate related User/Unit inside projection here, will resolve after projection
+                TargetIdentifierName = string.Empty,
                 DefaultInstructionText = s.DefaultInstructionText,
                 DefaultDueDateOffsetDays = s.DefaultDueDateOffsetDays
             }).ToList()
@@ -43,8 +65,114 @@ internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, Get
 
     public async Task<Response<GetCustomWorkflowByIdVm>> Handle(GetCustomWorkflowByIdQuery request, CancellationToken cancellationToken)
     {
-        return await HandleBase(request, cancellationToken);
-    }
+        // Get projected VM (this avoids tracking and brings minimal data)
+        var vm = await _repository
+            .Query(IdPredicate(request))
+            .Select(Selector)
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
+        if (vm == null)
+            return SuccessMessage.Get.ToSuccessMessage<GetCustomWorkflowByIdVm>(null!);
+
+        // Helper local function to check properties (we can't access base.HasProperty)
+        static bool HasProperty(object obj, string propertyName) => obj.GetType().GetProperty(propertyName) != null;
+
+        // Resolve TargetIdentifierName for each step based on TargetType
+        foreach (var step in vm.Steps)
+        {
+            if (string.IsNullOrWhiteSpace(step.TargetIdentifier))
+            {
+                step.TargetIdentifierName = string.Empty;
+                continue;
+            }
+
+            try
+            {
+                switch (step.TargetType)
+                {
+                    case CustomWorkflowTargetTypeEnum.SpecificUser:
+                        if (Guid.TryParse(step.TargetIdentifier, out var userId))
+                        {
+                            var user = await _userRepository.Find(u => u.Id == userId, include: null!, cancellationToken: cancellationToken);
+                            step.TargetIdentifierName = user != null
+                                ? (!string.IsNullOrWhiteSpace(user.FullName) ? user.FullName : user.Username)
+                                : step.TargetIdentifier;
+                        }
+                        else
+                        {
+                            step.TargetIdentifierName = step.TargetIdentifier;
+                        }
+                        break;
+
+                    case CustomWorkflowTargetTypeEnum.SpecificUnit:
+                        if (Guid.TryParse(step.TargetIdentifier, out var unitId))
+                        {
+                            var unit = await _unitRepository.Find(u => u.Id == unitId, include: null!, cancellationToken: cancellationToken);
+                            step.TargetIdentifierName = unit != null ? unit.UnitName : step.TargetIdentifier;
+                        }
+                        else
+                        {
+                            step.TargetIdentifierName = step.TargetIdentifier;
+                        }
+                        break;
+
+                    case CustomWorkflowTargetTypeEnum.ManagerOfUnit:
+                        // TargetIdentifier is expected to be UnitId. We don't store manager user here so provide a label
+                        if (Guid.TryParse(step.TargetIdentifier, out var unitId2))
+                        {
+                            var unit = await _unitRepository.Find(u => u.Id == unitId2, include: null!, cancellationToken: cancellationToken);
+                            step.TargetIdentifierName = unit != null ? $"مدير الوحدة - {unit.UnitName}" : step.TargetIdentifier;
+                        }
+                        else
+                        {
+                            step.TargetIdentifierName = step.TargetIdentifier;
+                        }
+                        break;
+
+                    case CustomWorkflowTargetTypeEnum.HeadOfDevice:
+                        if (Guid.TryParse(step.TargetIdentifier, out var unitId3))
+                        {
+                            var unit = await _unitRepository.Find(u => u.Id == unitId3, include: null!, cancellationToken: cancellationToken);
+                            step.TargetIdentifierName = unit != null ? $"رئيس الجهاز - {unit.UnitName}" : step.TargetIdentifier;
+                        }
+                        else
+                        {
+                            step.TargetIdentifierName = step.TargetIdentifier;
+                        }
+                        break;
+
+                    case CustomWorkflowTargetTypeEnum.RoleInUnit:
+                    default:
+                        // For roles or unknowns, show identifier as-is (usually a role name or code)
+                        step.TargetIdentifierName = step.TargetIdentifier;
+                        break;
+                }
+            }
+            catch
+            {
+                step.TargetIdentifierName = step.TargetIdentifier;
+            }
+        }
+
+        // Ensure StatusName is set (similar to base handler behavior)
+        try
+        {
+            if (HasProperty(vm, "StatusId") && HasProperty(vm, "StatusName"))
+            {
+                var statusProp = vm.GetType().GetProperty("StatusId");
+                var statusVal = statusProp?.GetValue(vm);
+                if (statusVal != null && int.TryParse(statusVal.ToString(), out var statusInt))
+                {
+                    vm.StatusName = ((Status)statusInt).GetDisplayName();
+                }
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return SuccessMessage.Get.ToSuccessMessage(vm);
+    }
 
 }

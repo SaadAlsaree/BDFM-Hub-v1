@@ -28,6 +28,7 @@ import { hasAnyPermission } from '@/utils/auth/auth-utils';
 import { UserDto } from '@/utils/auth/auth';
 import { Spinner } from '@/components/spinner';
 import { CorrespondenceTypeEnum } from '@/features/correspondence/types/register-incoming-external-mail';
+import CustomWorkflowDialog from '../custom-workflow-dialog';
 
 interface MailHeaderProps {
   data: CorrespondenceDetails;
@@ -84,6 +85,9 @@ export function MailHeader({
         </div>
 
         <div className='flex gap-2'>
+          <CustomWorkflowDialog correspondenceId={data.id}>
+            <Button variant='default'>إنشاء سير العمل مخصص</Button>
+          </CustomWorkflowDialog>
           {isLoading && (
             <div className='flex items-center justify-center'>
               <Spinner className='text-primary animate-spin' />
@@ -99,7 +103,9 @@ export function MailHeader({
                 currentStatus={
                   data.correspondenceStatus as CorrespondenceStatusEnum
                 }
-                correspondenceType={data.correspondenceType as CorrespondenceTypeEnum}
+                correspondenceType={
+                  data.correspondenceType as CorrespondenceTypeEnum
+                }
               >
                 <Button variant='outline'>تحديث الحالة</Button>
               </MailStatusDialog>
@@ -109,11 +115,7 @@ export function MailHeader({
             {(user?.id === data.createdByUserId ||
               hasAnyPermission(user as UserDto | null, [
                 'Correspondence|WorkflowStep'
-              ])) && (
-              <WorkflowStepFormDialog
-                correspondenceId={data.id}
-              />
-            )}
+              ])) && <WorkflowStepFormDialog correspondenceId={data.id} />}
           </div>
           <Button
             variant={isStarred ? 'default' : 'outline'}

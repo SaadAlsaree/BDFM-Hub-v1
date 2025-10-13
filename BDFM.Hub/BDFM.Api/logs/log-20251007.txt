@@ -1,0 +1,15 @@
+2025-10-07 22:55:53.318 +03:00 [WRN] Overriding address(es) 'http://localhost:5026'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 22:55:53.343 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 22:55:53.405 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 22:55:53.406 +03:00 [INF] Hosting environment: Development
+2025-10-07 22:55:53.407 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-10-07 23:54:12.011 +03:00 [WRN] Overriding address(es) 'http://localhost:5026'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 23:54:12.039 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 23:54:12.105 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 23:54:12.106 +03:00 [INF] Hosting environment: Development
+2025-10-07 23:54:12.107 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Api
+2025-10-07 23:56:16.550 +03:00 [WRN] Overriding address(es) 'http://localhost:5026'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-10-07 23:56:16.575 +03:00 [INF] Now listening on: http://0.0.0.0:5000
+2025-10-07 23:56:16.612 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-07 23:56:16.613 +03:00 [INF] Hosting environment: Development
+2025-10-07 23:56:16.615 +03:00 [INF] Content root path: F:\.NET\BDFM-Hub\BDFM.Hub\BDFM.Api

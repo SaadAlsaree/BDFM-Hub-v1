@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from '@/components/ui/table/data-table-column-header';
 import { Column, ColumnDef } from '@tanstack/react-table';
-import { Workflow, Building, FileText, Calendar, Settings } from 'lucide-react';
+import { Workflow, FileText, Calendar, Settings } from 'lucide-react';
 import { CellAction } from './cell-action';
 import {
   CustomWorkflowList,
@@ -113,18 +113,18 @@ export const columns: ColumnDef<CustomWorkflowList>[] = [
       icon: Calendar
     }
   },
-  {
-    id: 'createBy',
-    accessorKey: 'createBy',
-    header: ({ column }: { column: Column<CustomWorkflowList, unknown> }) => (
-      <DataTableColumnHeader column={column} title='أنشئ بواسطة' />
-    ),
-    cell: ({ cell }) => <div>{cell.getValue<string>()}</div>,
-    meta: {
-      label: 'أنشئ بواسطة',
-      icon: Building
-    }
-  },
+  // {
+  //   id: 'createBy',
+  //   accessorKey: 'createBy',
+  //   header: ({ column }: { column: Column<CustomWorkflowList, unknown> }) => (
+  //     <DataTableColumnHeader column={column} title='أنشئ بواسطة' />
+  //   ),
+  //   cell: ({ cell }) => <div>{cell.getValue<string>()}</div>,
+  //   meta: {
+  //     label: 'أنشئ بواسطة',
+  //     icon: Building
+  //   }
+  // },
   {
     id: 'actions',
     header: ({ column }: { column: Column<CustomWorkflowList, unknown> }) => (

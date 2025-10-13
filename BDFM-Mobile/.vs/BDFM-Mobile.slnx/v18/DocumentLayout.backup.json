@@ -1,0 +1,130 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|f:\\.net\\bdfm-hub\\bdfm-mobile\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|solutionrelative:components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|f:\\.net\\bdfm-hub\\bdfm-mobile\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|solutionrelative:components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|f:\\.net\\bdfm-hub\\bdfm-mobile\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|solutionrelative:components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|f:\\.net\\bdfm-hub\\bdfm-mobile\\authentication\\appauthstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|solutionrelative:authentication\\appauthstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|f:\\.net\\bdfm-hub\\bdfm-mobile\\components\\pages\\redirectlogin.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|solutionrelative:components\\pages\\redirectlogin.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|f:\\.net\\bdfm-hub\\bdfm-mobile\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A45459F5-4C0F-C6BF-30F0-3394F6A3DD54}|BDFM-Mobile.csproj|solutionrelative:mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.razor",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\App.razor",
+              "RelativeDocumentMoniker": "Components\\App.razor",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\App.razor",
+              "RelativeToolTip": "Components\\App.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-09T15:51:10.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppAuthStateProvider.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Authentication\\AppAuthStateProvider.cs",
+              "RelativeDocumentMoniker": "Authentication\\AppAuthStateProvider.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Authentication\\AppAuthStateProvider.cs",
+              "RelativeToolTip": "Authentication\\AppAuthStateProvider.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-09T07:58:54.085Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RedirectLogin.razor",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\Pages\\RedirectLogin.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\RedirectLogin.razor",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\Pages\\RedirectLogin.razor",
+              "RelativeToolTip": "Components\\Pages\\RedirectLogin.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-09T07:54:49.443Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\Layout\\MainLayout.razor",
+              "RelativeDocumentMoniker": "Components\\Layout\\MainLayout.razor",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\Layout\\MainLayout.razor",
+              "RelativeToolTip": "Components\\Layout\\MainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-09T07:17:12.681Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Routes.razor",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\Routes.razor",
+              "RelativeDocumentMoniker": "Components\\Routes.razor",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\Components\\Routes.razor",
+              "RelativeToolTip": "Components\\Routes.razor",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-09T06:55:34.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MauiProgram.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\MauiProgram.cs",
+              "RelativeDocumentMoniker": "MauiProgram.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM-Mobile\\MauiProgram.cs",
+              "RelativeToolTip": "MauiProgram.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-09T06:55:24.842Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -40,11 +40,23 @@ import {
   Calendar,
   AlertCircle
 } from 'lucide-react';
+import {
+  Stepper,
+  StepperContent,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperList,
+  StepperSeparator,
+  StepperTitle,
+  StepperTrigger
+} from '@/components/ui/stepper';
 import UpdateWorkflowStatusDialog from '@/features/workflow-step/components/updateWorkflowStatus-dialog';
 import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
 import WorkflowStepSecondaryFormDialog from '@/features/workflow-step-secondary/components/workflow-step-secondary-form-dialog';
 import { Separator } from '@/components/ui/separator';
+
 // import TodoList from './todo-list';
 
 interface WorkflowTabProps {
@@ -184,349 +196,394 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
       </div>
 
       {/* Workflow Steps */}
-      <div className='grid grid-cols-1 gap-4'>
+      <Stepper
+        defaultValue='account'
+        // orientation='vertical'
+        className='w-full'
+        dir='rtl'
+      >
+        <StepperList className='w-auto'>
+          {data.workflowSteps.map((step) => (
+            <StepperItem key={step.id} value={step.id.toString()}>
+              <StepperTrigger>
+                <StepperIndicator />
+                <div className='flex flex-col gap-1'>
+                  <StepperTitle>
+                    {StatusBadge({ status: step.status })}
+                  </StepperTitle>
+                  <StepperDescription>
+                    {step.toPrimaryRecipientName || 'مستلم غير محدد'}
+                  </StepperDescription>
+                </div>
+              </StepperTrigger>
+              <StepperSeparator />
+            </StepperItem>
+          ))}
+        </StepperList>
         {data.workflowSteps.map((step, index) => {
           const isOverdue =
             step.dueDate &&
             moment(step.dueDate).isBefore(moment()) &&
             (step.status === 1 || step.status === 2);
-
           return (
-            <Card
+            <StepperContent
               key={step.id}
-              className='@container/card bg-zinc-100 dark:bg-zinc-900'
+              value={step.id.toString()}
+              className='bg-card text-card-foreground flex w-full flex-col items-center gap-4 rounded-md border p-4'
             >
-              <CardHeader>
-                <div className='flex items-center justify-between'>
-                  <div className='space-y-2'>
-                    <div className='flex items-center gap-3'>
-                      <CardTitle className='line-clamp-1 text-lg font-semibold @[250px]/card:text-xl'>
-                        {step.actionTypeName}
-                      </CardTitle>
-                      <Badge variant='outline' className='text-xs'>
-                        التحويل {index + 1}
-                      </Badge>
+              <Card
+                key={step.id}
+                className='@container/card w-full bg-zinc-100 dark:bg-zinc-900'
+              >
+                <CardHeader>
+                  <div className='flex items-center justify-between'>
+                    <div className='space-y-2'>
+                      <div className='flex items-center gap-3'>
+                        <CardTitle className='line-clamp-1 text-lg font-semibold @[250px]/card:text-xl'>
+                          {step.actionTypeName}
+                        </CardTitle>
+                        <Badge variant='outline' className='text-xs'>
+                          التحويل {index + 1}
+                        </Badge>
+                      </div>
+                      <CardDescription>
+                        <StatusBadge status={step.status} />
+                        {isOverdue && (
+                          <Badge
+                            variant='destructive'
+                            className='animate-pulse'
+                          >
+                            متأخر
+                          </Badge>
+                        )}
+                      </CardDescription>
                     </div>
-                    <CardDescription>
+                    {/* <div className='flex items-center gap-2'>
                       <StatusBadge status={step.status} />
                       {isOverdue && (
                         <Badge variant='destructive' className='animate-pulse'>
                           متأخر
                         </Badge>
                       )}
-                    </CardDescription>
+                    </div> */}
+                    <CardAction className='flex gap-2'>
+                      {/* تحديث الحالة */}
+                      {(user?.id === step.toPrimaryRecipientId ||
+                        user?.organizationalUnitId ===
+                          step.toPrimaryRecipientId ||
+                        hasAnyPermission(user as UserDto | null, [
+                          'Correspondence|UpdateWorkflowStatus' // امكانية التحديث للحالة
+                        ])) && (
+                        <UpdateWorkflowStatusDialog
+                          id={step.id}
+                          status={step.status}
+                          trigger={
+                            <Button variant='default' size='sm'>
+                              تحديث الحالة
+                            </Button>
+                          }
+                        />
+                      )}
+                      {/* تحويل داخلي */}
+                      {(user?.id === step.toPrimaryRecipientId ||
+                        user?.organizationalUnitId ===
+                          step.toPrimaryRecipientId ||
+                        hasAnyPermission(user as UserDto | null, [
+                          'Correspondence|UpdateWorkflowStatus' // امكانية التحويل داخلي
+                        ])) && (
+                        <WorkflowStepSecondaryFormDialog
+                          stepId={step.id}
+                          trigger={
+                            <Button variant='default' size='sm'>
+                              <ArrowRight className='ml-1 h-4 w-4' />
+                              تحويل داخلي
+                            </Button>
+                          }
+                        />
+                      )}
+                      {/* تسجيل أجراء */}
+                      {(user?.id === step.toPrimaryRecipientId ||
+                        user?.organizationalUnitId ===
+                          step.toPrimaryRecipientId ||
+                        hasAnyPermission(user as UserDto | null, [
+                          'Correspondence|UpdateWorkflowStatus' // امكانية التسجيل لإجراء
+                        ])) && (
+                        <LogRecipientInternalActionFormDialog
+                          workflowStepId={step.id}
+                          onSubmit={onLogActionSubmit}
+                          trigger={
+                            <Button variant='default' size='sm'>
+                              <Plus className='ml-1 h-4 w-4' />
+                              تسجيل إجراء
+                            </Button>
+                          }
+                        />
+                      )}
+                    </CardAction>
                   </div>
-                  {/* <div className='flex items-center gap-2'>
-                    <StatusBadge status={step.status} />
-                    {isOverdue && (
-                      <Badge variant='destructive' className='animate-pulse'>
-                        متأخر
-                      </Badge>
-                    )}
-                  </div> */}
-                  <CardAction className='flex gap-2'>
-                    {/* تحديث الحالة */}
-                    {(user?.id === step.toPrimaryRecipientId ||
-                      user?.organizationalUnitId ===
-                        step.toPrimaryRecipientId ||
-                      hasAnyPermission(user as UserDto | null, [
-                        'Correspondence|UpdateWorkflowStatus' // امكانية التحديث للحالة
-                      ])) && (
-                      <UpdateWorkflowStatusDialog
-                        id={step.id}
-                        status={step.status}
-                        trigger={
-                          <Button variant='default' size='sm'>
-                            تحديث الحالة
-                          </Button>
-                        }
-                      />
-                    )}
-                    {/* تحويل داخلي */}
-                    {(user?.id === step.toPrimaryRecipientId ||
-                      user?.organizationalUnitId ===
-                        step.toPrimaryRecipientId ||
-                      hasAnyPermission(user as UserDto | null, [
-                        'Correspondence|UpdateWorkflowStatus' // امكانية التحويل داخلي
-                      ])) && (
-                      <WorkflowStepSecondaryFormDialog
-                        stepId={step.id}
-                        trigger={
-                          <Button variant='default' size='sm'>
-                            <ArrowRight className='ml-1 h-4 w-4' />
-                            تحويل داخلي
-                          </Button>
-                        }
-                      />
-                    )}
-                    {/* تسجيل أجراء */}
-                    {(user?.id === step.toPrimaryRecipientId ||
-                      user?.organizationalUnitId ===
-                        step.toPrimaryRecipientId ||
-                      hasAnyPermission(user as UserDto | null, [
-                        'Correspondence|UpdateWorkflowStatus' // امكانية التسجيل لإجراء
-                      ])) && (
-                      <LogRecipientInternalActionFormDialog
-                        workflowStepId={step.id}
-                        onSubmit={onLogActionSubmit}
-                        trigger={
-                          <Button variant='default' size='sm'>
-                            <Plus className='ml-1 h-4 w-4' />
-                            تسجيل إجراء
-                          </Button>
-                        }
-                      />
-                    )}
-                  </CardAction>
-                </div>
-              </CardHeader>
+                </CardHeader>
 
-              <CardContent className='space-y-4'>
-                {/* Actions */}
-                {step.recipientActions && step.recipientActions.length > 0 && (
-                  <Accordion
+                <CardContent className='space-y-4'>
+                  {/* Actions */}
+                  {step.recipientActions &&
+                    step.recipientActions.length > 0 && (
+                      <Accordion
+                        type='single'
+                        collapsible
+                        className='rounded-lg border bg-white p-2 shadow dark:bg-zinc-800'
+                      >
+                        <AccordionItem value='item-1'>
+                          <AccordionTrigger className='cursor-pointer text-sm font-semibold'>
+                            <div className='flex items-center gap-2'>
+                              <h1 className='text-primary text-xl font-bold'>
+                                الإجراءات المتخذة:
+                              </h1>
+                              <Badge variant='outline' className='text-xs'>
+                                {step.recipientActions.length} إجراء
+                              </Badge>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <div className='space-y-2'>
+                              {step.recipientActions.map(
+                                (action, actionIndex) => (
+                                  <Card
+                                    key={action.id}
+                                    className='border-l-primary border-l-4'
+                                  >
+                                    <CardContent className='p-4'>
+                                      <div className='space-y-2'>
+                                        <div className='flex items-center justify-between'>
+                                          <div className='flex items-center gap-2'>
+                                            <Badge
+                                              variant='secondary'
+                                              className='text-xs'
+                                            >
+                                              #{actionIndex + 1}
+                                            </Badge>
+                                            <span className='text-sm font-medium'>
+                                              {
+                                                action.internalActionTypeEnumName
+                                              }
+                                            </span>
+                                          </div>
+                                          <span className='text-muted-foreground text-xs'>
+                                            {moment(
+                                              action.actionTimestamp
+                                            ).format('YYYY-MM-DD HH:mm')}
+                                          </span>
+                                        </div>
+
+                                        <p className='text-muted-foreground text-sm'>
+                                          {action.actionDescription}
+                                        </p>
+
+                                        <div className='text-muted-foreground flex items-center gap-2 text-xs'>
+                                          <User className='h-3 w-3' />
+                                          <span>
+                                            {action.actionTakenByUserName}
+                                          </span>
+                                          <span>•</span>
+                                          <span>
+                                            {action.actionTakenByUnitName}
+                                          </span>
+                                        </div>
+
+                                        {action.notes && (
+                                          <div className='rounded-md bg-yellow-50 p-2 dark:bg-yellow-950/30'>
+                                            <p className='text-xs text-yellow-800 dark:text-yellow-200'>
+                                              <strong>ملاحظات:</strong>{' '}
+                                              {action.notes}
+                                            </p>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </CardContent>
+                                  </Card>
+                                )
+                              )}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    )}
+                  {/* Secondary Recipients */}
+                  {step.secondaryRecipients &&
+                    step.secondaryRecipients.length > 0 && (
+                      <Accordion
+                        type='single'
+                        collapsible
+                        className='rounded-lg border bg-white p-2 shadow dark:bg-zinc-800'
+                      >
+                        <AccordionItem value='item-1'>
+                          <AccordionTrigger className='cursor-pointer text-sm font-semibold'>
+                            <div className='flex items-center gap-2'>
+                              <h1 className='text-primary text-sm font-semibold'>
+                                تحويل داخلي
+                              </h1>
+                              <Badge variant='outline' className='text-xs'>
+                                {step.secondaryRecipients.length} مستلم
+                              </Badge>
+                            </div>
+                          </AccordionTrigger>
+
+                          <AccordionContent>
+                            <div>
+                              <Separator className='my-2' />
+                              <div className='grid gap-2 @[400px]/card:grid-cols-2'>
+                                {step.secondaryRecipients.map((recipient) => (
+                                  <div
+                                    key={recipient.id}
+                                    className='bg-secondary/30 border-l-primary flex items-center gap-2 rounded-md border-l-4 p-2'
+                                  >
+                                    <User className='text-muted-foreground h-3 w-3' />
+                                    <div className='min-w-0 flex-1'>
+                                      <p className='truncate text-xs font-medium'>
+                                        {recipient.recipientName}
+                                      </p>
+                                      <Badge
+                                        variant='outline'
+                                        className='mt-1 text-xs'
+                                      >
+                                        {recipient.purpose}
+                                      </Badge>
+                                      <h1 className='mt-4 text-xs'>
+                                        {recipient.instructionText}
+                                      </h1>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    )}
+
+                  {/* Instructions */}
+                  {step.instructionText && (
+                    <div className='border-primary bg-primary/5 flex justify-between rounded-lg border-l-4 p-4'>
+                      <div>
+                        <h5 className='mb-2 text-sm font-semibold text-blue-900 dark:text-blue-300'>
+                          الهامش :
+                        </h5>
+                        <p className='text-sm'>{step.instructionText}</p>
+                      </div>
+
+                      {/* Due Date */}
+                      {step.dueDate && (
+                        <div className='flex items-start gap-3 rounded-lg'>
+                          <Calendar className='text-muted-foreground h-4 w-4' />
+                          <div>
+                            <p className='text-sm font-medium'>
+                              تاريخ الاستحقاق
+                            </p>
+                            <p className='text-muted-foreground text-xs'>
+                              {moment(step.dueDate).format('YYYY-MM-DD')}
+                            </p>
+                          </div>
+                          {isOverdue && (
+                            <Badge variant='destructive' className='mr-auto'>
+                              متأخر{' '}
+                              {moment().diff(moment(step.dueDate), 'days')} يوم
+                            </Badge>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* From/To Users */}
+                  <div className='grid grid-cols-1 gap-4 @md/card:grid-cols-2 @md/card:gap-2'>
+                    {/* From User Card */}
+                    <Card className='border-l-primary border-l-4'>
+                      <CardContent className='p-2'>
+                        <div className='flex items-center gap-3'>
+                          <Avatar className='h-10 w-10'>
+                            <AvatarFallback className='bg-gradient-to-br from-blue-500 to-purple-600 text-white'>
+                              {getInitials(step.fromUser?.username || 'مجهول')}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className='flex-1 space-y-1'>
+                            <div className='flex items-center gap-2'>
+                              <h4 className='text-sm font-semibold text-blue-800 dark:text-blue-200'>
+                                المرسل
+                              </h4>
+                              <Badge variant='outline' className='text-xs'>
+                                من
+                              </Badge>
+                            </div>
+                            <p className='text-sm font-medium'>
+                              {step.fromUser?.username || 'غير محدد'}
+                            </p>
+                            <div className='text-muted-foreground flex items-center gap-1 text-xs'>
+                              <Building2 className='h-3 w-3' />
+                              {step.fromUnit?.unitName || 'وحدة غير محددة'}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* To User Card */}
+                    <Card className='border-l-primary border-l-4'>
+                      <CardContent className='p-'>
+                        <div className='flex items-center gap-3'>
+                          <div className='flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900'>
+                            <User className='h-5 w-5 text-green-600 dark:text-green-400' />
+                          </div>
+                          <div className='flex-1 space-y-1'>
+                            <div className='flex items-center gap-2'>
+                              <h4 className='text-sm font-semibold text-green-600 dark:text-green-200'>
+                                المستقبل
+                              </h4>
+                              <Badge variant='outline' className='text-xs'>
+                                إلى
+                              </Badge>
+                            </div>
+                            <p className='text-sm font-medium'>
+                              {step.toPrimaryRecipientTypeName ||
+                                'مستلم غير محدد'}
+                            </p>
+                            {step.toPrimaryRecipientName && (
+                              <p className='text-xs text-green-600 dark:text-green-400'>
+                                {step.toPrimaryRecipientName}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* To Do List */}
+                  {/* <Accordion
                     type='single'
                     collapsible
-                    className='rounded-lg border bg-white p-2 shadow dark:bg-zinc-800'
+                    className='rounded-lg border p-2 shadow'
                   >
                     <AccordionItem value='item-1'>
                       <AccordionTrigger className='cursor-pointer text-sm font-semibold'>
                         <div className='flex items-center gap-2'>
-                          <h1 className='text-primary text-xl font-bold'>
-                            الإجراءات المتخذة:
-                          </h1>
-                          <Badge variant='outline' className='text-xs'>
-                            {step.recipientActions.length} إجراء
+                          <h1 className='text-sm font-semibold'>قائمة المهام</h1>
+                          <Badge variant='blue-outline' className='text-xs'>
+                            {step.todos?.length || 0} مهمة
                           </Badge>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent>
-                        <div className='space-y-2'>
-                          {step.recipientActions.map((action, actionIndex) => (
-                            <Card
-                              key={action.id}
-                              className='border-l-primary border-l-4'
-                            >
-                              <CardContent className='p-4'>
-                                <div className='space-y-2'>
-                                  <div className='flex items-center justify-between'>
-                                    <div className='flex items-center gap-2'>
-                                      <Badge
-                                        variant='secondary'
-                                        className='text-xs'
-                                      >
-                                        #{actionIndex + 1}
-                                      </Badge>
-                                      <span className='text-sm font-medium'>
-                                        {action.internalActionTypeEnumName}
-                                      </span>
-                                    </div>
-                                    <span className='text-muted-foreground text-xs'>
-                                      {moment(action.actionTimestamp).format(
-                                        'YYYY-MM-DD HH:mm'
-                                      )}
-                                    </span>
-                                  </div>
-
-                                  <p className='text-muted-foreground text-sm'>
-                                    {action.actionDescription}
-                                  </p>
-
-                                  <div className='text-muted-foreground flex items-center gap-2 text-xs'>
-                                    <User className='h-3 w-3' />
-                                    <span>{action.actionTakenByUserName}</span>
-                                    <span>•</span>
-                                    <span>{action.actionTakenByUnitName}</span>
-                                  </div>
-
-                                  {action.notes && (
-                                    <div className='rounded-md bg-yellow-50 p-2 dark:bg-yellow-950/30'>
-                                      <p className='text-xs text-yellow-800 dark:text-yellow-200'>
-                                        <strong>ملاحظات:</strong> {action.notes}
-                                      </p>
-                                    </div>
-                                  )}
-                                </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
+                        <TodoList workflowStepId={step.id} />
                       </AccordionContent>
                     </AccordionItem>
-                  </Accordion>
-                )}
-                {/* Secondary Recipients */}
-                {step.secondaryRecipients &&
-                  step.secondaryRecipients.length > 0 && (
-                    <Accordion
-                      type='single'
-                      collapsible
-                      className='rounded-lg border bg-white p-2 shadow dark:bg-zinc-800'
-                    >
-                      <AccordionItem value='item-1'>
-                        <AccordionTrigger className='cursor-pointer text-sm font-semibold'>
-                          <div className='flex items-center gap-2'>
-                            <h1 className='text-primary text-sm font-semibold'>
-                              تحويل داخلي
-                            </h1>
-                            <Badge variant='outline' className='text-xs'>
-                              {step.secondaryRecipients.length} مستلم
-                            </Badge>
-                          </div>
-                        </AccordionTrigger>
+                  </Accordion> */}
+                </CardContent>
+              </Card>
 
-                        <AccordionContent>
-                          <div>
-                            <Separator className='my-2' />
-                            <div className='grid gap-2 @[400px]/card:grid-cols-2'>
-                              {step.secondaryRecipients.map((recipient) => (
-                                <div
-                                  key={recipient.id}
-                                  className='bg-secondary/30 border-l-primary flex items-center gap-2 rounded-md border-l-4 p-2'
-                                >
-                                  <User className='text-muted-foreground h-3 w-3' />
-                                  <div className='min-w-0 flex-1'>
-                                    <p className='truncate text-xs font-medium'>
-                                      {recipient.recipientName}
-                                    </p>
-                                    <Badge
-                                      variant='outline'
-                                      className='mt-1 text-xs'
-                                    >
-                                      {recipient.purpose}
-                                    </Badge>
-                                    <h1 className='mt-4 text-xs'>
-                                      {recipient.instructionText}
-                                    </h1>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  )}
-
-                {/* Instructions */}
-                {step.instructionText && (
-                  <div className='border-primary bg-primary/5 flex justify-between rounded-lg border-l-4 p-4'>
-                    <div>
-                      <h5 className='mb-2 text-sm font-semibold text-blue-900 dark:text-blue-300'>
-                        الهامش :
-                      </h5>
-                      <p className='text-sm'>{step.instructionText}</p>
-                    </div>
-
-                    {/* Due Date */}
-                    {step.dueDate && (
-                      <div className='flex items-start gap-3 rounded-lg'>
-                        <Calendar className='text-muted-foreground h-4 w-4' />
-                        <div>
-                          <p className='text-sm font-medium'>تاريخ الاستحقاق</p>
-                          <p className='text-muted-foreground text-xs'>
-                            {moment(step.dueDate).format('YYYY-MM-DD')}
-                          </p>
-                        </div>
-                        {isOverdue && (
-                          <Badge variant='destructive' className='mr-auto'>
-                            متأخر {moment().diff(moment(step.dueDate), 'days')}{' '}
-                            يوم
-                          </Badge>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* From/To Users */}
-                <div className='grid grid-cols-1 gap-4 @md/card:grid-cols-2 @md/card:gap-2'>
-                  {/* From User Card */}
-                  <Card className='border-l-primary border-l-4'>
-                    <CardContent className='p-2'>
-                      <div className='flex items-center gap-3'>
-                        <Avatar className='h-10 w-10'>
-                          <AvatarFallback className='bg-gradient-to-br from-blue-500 to-purple-600 text-white'>
-                            {getInitials(step.fromUser?.username || 'مجهول')}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className='flex-1 space-y-1'>
-                          <div className='flex items-center gap-2'>
-                            <h4 className='text-sm font-semibold text-blue-800 dark:text-blue-200'>
-                              المرسل
-                            </h4>
-                            <Badge variant='outline' className='text-xs'>
-                              من
-                            </Badge>
-                          </div>
-                          <p className='text-sm font-medium'>
-                            {step.fromUser?.username || 'غير محدد'}
-                          </p>
-                          <div className='text-muted-foreground flex items-center gap-1 text-xs'>
-                            <Building2 className='h-3 w-3' />
-                            {step.fromUnit?.unitName || 'وحدة غير محددة'}
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* To User Card */}
-                  <Card className='border-l-primary border-l-4'>
-                    <CardContent className='p-'>
-                      <div className='flex items-center gap-3'>
-                        <div className='flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900'>
-                          <User className='h-5 w-5 text-green-600 dark:text-green-400' />
-                        </div>
-                        <div className='flex-1 space-y-1'>
-                          <div className='flex items-center gap-2'>
-                            <h4 className='text-sm font-semibold text-green-600 dark:text-green-200'>
-                              المستقبل
-                            </h4>
-                            <Badge variant='outline' className='text-xs'>
-                              إلى
-                            </Badge>
-                          </div>
-                          <p className='text-sm font-medium'>
-                            {step.toPrimaryRecipientTypeName ||
-                              'مستلم غير محدد'}
-                          </p>
-                          {step.toPrimaryRecipientName && (
-                            <p className='text-xs text-green-600 dark:text-green-400'>
-                              {step.toPrimaryRecipientName}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* To Do List */}
-                {/* <Accordion
-                  type='single'
-                  collapsible
-                  className='rounded-lg border p-2 shadow'
-                >
-                  <AccordionItem value='item-1'>
-                    <AccordionTrigger className='cursor-pointer text-sm font-semibold'>
-                      <div className='flex items-center gap-2'>
-                        <h1 className='text-sm font-semibold'>قائمة المهام</h1>
-                        <Badge variant='blue-outline' className='text-xs'>
-                          {step.todos?.length || 0} مهمة
-                        </Badge>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <TodoList workflowStepId={step.id} />
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion> */}
-              </CardContent>
-            </Card>
+              {/* <p className="text-sm">Content for {step.title} goes here.</p> */}
+            </StepperContent>
           );
         })}
-      </div>
+      </Stepper>
 
       {/* Stats Cards Grid */}
       <div className='*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs 2xl:grid-cols-4 @xl/main:grid-cols-4'>
