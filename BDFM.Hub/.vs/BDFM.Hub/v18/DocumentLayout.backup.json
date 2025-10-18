@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowbyid\\getcustomworkflowbyidhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\customworkflows\\queries\\getcustomworkflowbyid\\getcustomworkflowbyidhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -67,6 +75,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "BDFM.Api\\appsettings.Development.json",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.Development.json",
+              "RelativeToolTip": "BDFM.Api\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-18T19:20:45.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "BDFM.Api\\appsettings.json",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
+              "RelativeToolTip": "BDFM.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAABrAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-18T19:20:30.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "GetCustomWorkflowByIdHandler.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdHandler.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflows\\Queries\\GetCustomWorkflowById\\GetCustomWorkflowByIdHandler.cs",
@@ -79,7 +113,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "GetCustomWorkflowStepListHandler.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflowSteps\\Queries\\GetCustomWorkflowStepList\\GetCustomWorkflowStepListHandler.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflowSteps\\Queries\\GetCustomWorkflowStepList\\GetCustomWorkflowStepListHandler.cs",
@@ -87,12 +121,11 @@
               "RelativeToolTip": "BDFM.Application\\Features\\CustomWorkflowSteps\\Queries\\GetCustomWorkflowStepList\\GetCustomWorkflowStepListHandler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-18T15:19:44.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-18T15:19:44.907Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "GetCustomWorkflowStepListVm.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\CustomWorkflowSteps\\Queries\\GetCustomWorkflowStepList\\GetCustomWorkflowStepListVm.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\CustomWorkflowSteps\\Queries\\GetCustomWorkflowStepList\\GetCustomWorkflowStepListVm.cs",
@@ -100,12 +133,11 @@
               "RelativeToolTip": "BDFM.Application\\Features\\CustomWorkflowSteps\\Queries\\GetCustomWorkflowStepList\\GetCustomWorkflowStepListVm.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-18T15:19:39.47Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-18T15:19:39.47Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "GetCompletedHandler.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedHandler.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedHandler.cs",
@@ -117,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "GetUserIsStarredQuery.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetStarredCorrespondences\\GetUserIsStarredQuery.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetStarredCorrespondences\\GetUserIsStarredQuery.cs",
@@ -129,7 +161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "StarredItemVm.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetStarredCorrespondences\\StarredItemVm.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetStarredCorrespondences\\StarredItemVm.cs",
@@ -141,7 +173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "GetReturnForEditingQuery.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetReturnForEditing\\GetReturnForEditingQuery.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetReturnForEditing\\GetReturnForEditingQuery.cs",
@@ -153,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "GetProcessingQuery.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetProcessing\\GetProcessingQuery.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetProcessing\\GetProcessingQuery.cs",
@@ -165,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "GetPendingQuery.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetPending\\GetPendingQuery.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetPending\\GetPendingQuery.cs",
@@ -177,7 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "GetCompletedQuery.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedQuery.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedQuery.cs",
@@ -189,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "GetUserDraftsQuery.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetUserDrafts\\GetUserDraftsQuery.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetUserDrafts\\GetUserDraftsQuery.cs",
@@ -197,8 +229,7 @@
               "RelativeToolTip": "BDFM.Application\\Features\\Correspondences\\Queries\\GetUserDrafts\\GetUserDraftsQuery.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-18T09:51:56.116Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-18T09:51:56.116Z"
             }
           ]
         }
