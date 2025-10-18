@@ -155,8 +155,8 @@ public class GetDailyPerformanceSummaryHandler : IRequestHandler<GetDailyPerform
         if (!todaysCorrespondence.Any()) return 0;
 
         var totalProcessing = todaysCorrespondence.Count(c =>
-            c.Status != CorrespondenceStatusEnum.Registered &&
-            c.Status != CorrespondenceStatusEnum.Cancelled);
+            c.Status != CorrespondenceStatusEnum.Rejected &&
+            c.Status != CorrespondenceStatusEnum.ReturnedForModification);
 
         if (totalProcessing == 0) return 0;
 

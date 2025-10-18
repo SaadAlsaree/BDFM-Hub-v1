@@ -12,4 +12,4 @@ export { useNotifications } from '@/hooks/useNotifications';
 export { useSignalR } from '@/hooks/useSignalR';
 
 // Types
-export * from '@/types/notifications'; 
+export * from '@/types/notifications';

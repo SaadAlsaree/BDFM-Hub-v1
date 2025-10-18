@@ -16,7 +16,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespo
         {
             CorrespondenceId = x.Id,
             Subject = x.Subject,
-            CorrespondenceStatus = x.Status == 0 ? CorrespondenceStatusEnum.Registered : x.Status,
+            CorrespondenceStatus = x.Status == 0 ? CorrespondenceStatusEnum.PendingReferral : x.Status,
             CorrespondenceStatusName = x.Status.GetDisplayName(),
             PriorityLevel = x.PriorityLevel == 0 ? PriorityLevelEnum.Normal : x.PriorityLevel,
             PriorityLevelName = x.PriorityLevel.GetDisplayName(),

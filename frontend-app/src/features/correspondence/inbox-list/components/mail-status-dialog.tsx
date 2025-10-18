@@ -84,7 +84,7 @@ const MailStatusDialog = ({
     // gating and prevents accidental exposure of Signed via specific case logic.
     if (!hasAnyRole(user as UserDto, ['Manager'])) {
       allStatuses = allStatuses.filter(
-        ([key]) => parseInt(key) !== CorrespondenceStatusEnum.Signed
+        ([key]) => parseInt(key) !== CorrespondenceStatusEnum.PendingReferral
       );
     }
 
@@ -109,7 +109,7 @@ const MailStatusDialog = ({
           ([key]) => parseInt(key) !== CorrespondenceStatusEnum.PendingReferral
         );
 
-      case CorrespondenceStatusEnum.PendingApproval: // قيد الموافقة (4)
+      case CorrespondenceStatusEnum.UnderProcessing: // قيد الموافقة (4)
         // لا يمكن العودة إلى (قيد الانتظار، قيد المعالجة)
         return allStatuses.filter(([key]) => {
           const statusValue = parseInt(key) as CorrespondenceStatusEnum;
@@ -119,63 +119,24 @@ const MailStatusDialog = ({
           ].includes(statusValue);
         });
 
-      case CorrespondenceStatusEnum.Approved: // موافق (5)
+      case CorrespondenceStatusEnum.Completed: // موافق (5)
         // لا يمكن العودة إلى الحالات السابقة
         return allStatuses.filter(([key]) => {
           const statusValue = parseInt(key) as CorrespondenceStatusEnum;
           return ![
             CorrespondenceStatusEnum.PendingReferral,
-            CorrespondenceStatusEnum.UnderProcessing,
-            CorrespondenceStatusEnum.PendingApproval
+            CorrespondenceStatusEnum.UnderProcessing
           ].includes(statusValue);
         });
 
-      case CorrespondenceStatusEnum.InSignatureAgenda: // قيد التوقيع (6)
-        // لا يمكن العودة إلى الحالات السابقة
-        return allStatuses.filter(([key]) => {
-          const statusValue = parseInt(key) as CorrespondenceStatusEnum;
-          return ![
-            CorrespondenceStatusEnum.PendingReferral,
-            CorrespondenceStatusEnum.UnderProcessing,
-            CorrespondenceStatusEnum.PendingApproval,
-            CorrespondenceStatusEnum.Approved
-          ].includes(statusValue);
-        });
-
-      case CorrespondenceStatusEnum.Signed: // موقع (7)
-        // ONLY Managers should be able to see/select the 'Signed' status.
-        // If the current user is not a Manager, remove the Signed option entirely
-        // from available statuses. Managers will see the Signed option but cannot
-        // return to previous workflow states listed below.
-        if (!hasAnyRole(user as UserDto, ['Manager'])) {
-          return allStatuses.filter(
-            ([key]) => parseInt(key) !== CorrespondenceStatusEnum.Signed
-          );
-        }
-
-        // For Managers, Signed is available but we prevent reverting to earlier states
-        return allStatuses.filter(([key]) => {
-          const statusValue = parseInt(key) as CorrespondenceStatusEnum;
-          return ![
-            CorrespondenceStatusEnum.PendingReferral,
-            CorrespondenceStatusEnum.UnderProcessing,
-            CorrespondenceStatusEnum.PendingApproval,
-            CorrespondenceStatusEnum.Approved,
-            CorrespondenceStatusEnum.InSignatureAgenda
-          ].includes(statusValue);
-        });
-
-      case CorrespondenceStatusEnum.Completed: // مكتمل (9)
       case CorrespondenceStatusEnum.ReturnedForModification: // إرجاع للتعديل (11)
-      case CorrespondenceStatusEnum.Cancelled: // ملغي (13)
         // للحالات النهائية، يمكن الانتقال فقط بين الحالات النهائية
         return allStatuses.filter(([key]) => {
           const statusValue = parseInt(key) as CorrespondenceStatusEnum;
           return [
             CorrespondenceStatusEnum.Completed,
             CorrespondenceStatusEnum.ReturnedForModification,
-            CorrespondenceStatusEnum.Postponed,
-            CorrespondenceStatusEnum.Cancelled
+            CorrespondenceStatusEnum.Postponed
           ].includes(statusValue);
         });
 
@@ -258,7 +219,7 @@ const MailStatusDialog = ({
       if (response?.succeeded) {
         toast({
           title: 'نجح',
-          description: 'تم تحديث حالة المراسلة بنجاح',
+          description: 'تم تحديث حالة الكتاب بنجاح',
           variant: 'default'
         });
         setIsOpen(false);
@@ -267,7 +228,7 @@ const MailStatusDialog = ({
       } else {
         toast({
           title: 'خطأ',
-          description: response?.message || 'فشل في تحديث حالة المراسلة',
+          description: response?.message || 'فشل في تحديث حالة الكتاب',
           variant: 'destructive'
         });
       }
@@ -275,7 +236,7 @@ const MailStatusDialog = ({
       // console.error('Error updating correspondence status:', error);
       toast({
         title: 'خطأ',
-        description: 'حدث خطأ أثناء تحديث حالة المراسلة',
+        description: 'حدث خطأ أثناء تحديث حالة الكتاب',
         variant: 'destructive'
       });
     } finally {

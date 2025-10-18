@@ -5,8 +5,6 @@ import DelegationViewPage from '@/features/delegations/components/delegation-vie
 import { IDelegationDetail } from '@/features/delegations/types/delegation';
 import React, { Suspense } from 'react';
 
-
-
 export const metadata = {
   title: 'بيانات التفويض',
   description: 'بيانات التفويض'
@@ -15,7 +13,6 @@ export const metadata = {
 type pageProps = {
   params: Promise<{ id: string }>;
 };
-
 
 const ViewDelegationPage = async (props: pageProps) => {
   const params = await props.params;
@@ -29,7 +26,7 @@ const ViewDelegationPage = async (props: pageProps) => {
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default ViewDelegationPage
+export default ViewDelegationPage;

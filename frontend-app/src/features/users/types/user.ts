@@ -48,7 +48,6 @@ export interface IUserList {
   statusName: string;
 }
 
-
 export interface IUserQuery {
   page: number;
   pageSize: number;
@@ -80,7 +79,6 @@ export interface UserPayloadDto {
   roleIds?: string[];
 }
 
-
 export interface ChangePasswordRequest {
   id: string;
   currentPassword: string;
@@ -88,13 +86,11 @@ export interface ChangePasswordRequest {
   confirmNewPassword: string;
 }
 
-
 export interface ResetPasswordRequest {
   userId: string;
   newPassword: string;
   confirmNewPassword?: string;
 }
-
 
 export interface AssignUserRolesDto {
   userId: string;
@@ -114,7 +110,6 @@ export interface ChangeStatus {
   teamName: string;
 }
 
-
 export interface AssignUserPermissionsDto {
   userId: string;
   permissionIds: string[];
@@ -124,7 +119,6 @@ export interface CreateUserPermissionDto {
   userId: string;
   permissionId: string;
 }
-
 
 export interface IUserPermissionResponse {
   id: string;

@@ -9,8 +9,6 @@ import { roleService } from '@/features/roles/api/role.service';
 import { IRoleList } from '@/features/roles/types/role';
 import React, { Suspense } from 'react';
 
-
-
 export const metadata = {
   title: 'تعديل التفويض',
   description: 'تعديل التفويض'
@@ -20,15 +18,17 @@ type pageProps = {
   params: Promise<{ id: string }>;
 };
 
-
 const EditDelegationPage = async (props: pageProps) => {
   const params = await props.params;
   const delegation = await delegationService.getDelegationDetail(params.id);
 
-    const roles = await roleService.getRoles({page: 1, pageSize: 100});
-    const roleList = roles?.data?.items as IRoleList[];
-    const permissions = await permissionService.getPermissions({page: 1, pageSize: 100});
-    const permissionList = permissions?.data?.items as IPermissionList[];
+  const roles = await roleService.getRoles({ page: 1, pageSize: 100 });
+  const roleList = roles?.data?.items as IRoleList[];
+  const permissions = await permissionService.getPermissions({
+    page: 1,
+    pageSize: 100
+  });
+  const permissionList = permissions?.data?.items as IPermissionList[];
 
   return (
     <PageContainer scrollable>
@@ -43,7 +43,7 @@ const EditDelegationPage = async (props: pageProps) => {
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default EditDelegationPage
+export default EditDelegationPage;

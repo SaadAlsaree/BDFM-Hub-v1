@@ -1,5 +1,9 @@
-import { z } from "zod";
-import { IPermissionDetail, IPermissionList, IPermissionPayload } from "../types/permission";
+import { z } from 'zod';
+import {
+  IPermissionDetail,
+  IPermissionList,
+  IPermissionPayload
+} from '../types/permission';
 
 // Define the Permission Status enum
 export enum PermissionStatus {
@@ -9,27 +13,38 @@ export enum PermissionStatus {
 }
 
 // Status label configuration for UI display with proper variant types
-export const statusLabels: Record<PermissionStatus, { label: string; variant: "default" | "destructive" | "outline" | "secondary" }> = {
-  [PermissionStatus.Active]: { label: "نشط", variant: "default" },
-  [PermissionStatus.Inactive]: { label: "غير نشط", variant: "outline" },
-  [PermissionStatus.Deleted]: { label: "محذوف", variant: "destructive" }
+export const statusLabels: Record<
+  PermissionStatus,
+  {
+    label: string;
+    variant: 'default' | 'destructive' | 'outline' | 'secondary';
+  }
+> = {
+  [PermissionStatus.Active]: { label: 'نشط', variant: 'default' },
+  [PermissionStatus.Inactive]: { label: 'غير نشط', variant: 'outline' },
+  [PermissionStatus.Deleted]: { label: 'محذوف', variant: 'destructive' }
 };
 
 // Permission form validation schema
 export const permissionFormSchema = (initialData: IPermissionDetail | null) => {
   return z.object({
-    name: z.string().min(1, "اسم الصلاحية مطلوب"),
-    value: z.string().min(1, "قيمة الصلاحية مطلوبة"),
+    name: z.string().min(1, 'اسم الصلاحية مطلوب'),
+    value: z.string().min(1, 'قيمة الصلاحية مطلوبة'),
     description: z.string().optional(),
-    statusId: z.number().int().min(1, "حالة الصلاحية مطلوبة")
+    statusId: z.number().int().min(1, 'حالة الصلاحية مطلوبة')
   });
 };
 
 // Define the form values type based on the schema
-export type PermissionFormValues = z.infer<ReturnType<typeof permissionFormSchema>>;
+export type PermissionFormValues = z.infer<
+  ReturnType<typeof permissionFormSchema>
+>;
 
 // Utility function to format permission data for API calls
-export const formatPermissionPayload = (formData: PermissionFormValues, id?: string): IPermissionPayload => {
+export const formatPermissionPayload = (
+  formData: PermissionFormValues,
+  id?: string
+): IPermissionPayload => {
   const payload: IPermissionPayload = {
     name: formData.name,
     value: formData.value,
@@ -51,19 +66,23 @@ export const isPermissionActive = (status: number): boolean => {
 
 // Helper to get status text for display
 export const getPermissionStatusText = (status: number): string => {
-  return statusLabels[status as PermissionStatus]?.label || "غير معروف";
+  return statusLabels[status as PermissionStatus]?.label || 'غير معروف';
 };
 
 // Helper to get status variant for UI components
-export const getPermissionStatusVariant = (status: number): "default" | "destructive" | "outline" | "secondary" => {
-  return statusLabels[status as PermissionStatus]?.variant || "outline";
+export const getPermissionStatusVariant = (
+  status: number
+): 'default' | 'destructive' | 'outline' | 'secondary' => {
+  return statusLabels[status as PermissionStatus]?.variant || 'outline';
 };
 
 // Helper to sort permissions by name
-export const sortPermissionsByName = (permissions: IPermissionList[]): IPermissionList[] => {
+export const sortPermissionsByName = (
+  permissions: IPermissionList[]
+): IPermissionList[] => {
   return [...permissions].sort((a, b) => {
-    const nameA = a.name?.toLowerCase() || "";
-    const nameB = b.name?.toLowerCase() || "";
+    const nameA = a.name?.toLowerCase() || '';
+    const nameB = b.name?.toLowerCase() || '';
     return nameA.localeCompare(nameB);
   });
 };
@@ -76,11 +95,9 @@ export const isValidPermissionFormat = (value: string): boolean => {
 };
 
 // Permission value validation schema
-export const permissionValueSchema = z.string()
-  .min(3, "قيمة الصلاحية يجب أن تكون على الأقل 3 أحرف")
-  .refine(
-    (value) => isValidPermissionFormat(value),
-    {
-      message: "قيمة الصلاحية يجب أن تكون بتنسيق 'feature:action'"
-    }
-  );
+export const permissionValueSchema = z
+  .string()
+  .min(3, 'قيمة الصلاحية يجب أن تكون على الأقل 3 أحرف')
+  .refine((value) => isValidPermissionFormat(value), {
+    message: "قيمة الصلاحية يجب أن تكون بتنسيق 'feature:action'"
+  });

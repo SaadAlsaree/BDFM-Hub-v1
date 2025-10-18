@@ -74,11 +74,11 @@ public class GetDashboardOverviewHandler : IRequestHandler<GetDashboardOverviewQ
 
             // 2. Total active correspondence (not completed/cancelled)
             var activeStatuses = new[] {
-                CorrespondenceStatusEnum.Registered,
+                CorrespondenceStatusEnum.Rejected,
                 CorrespondenceStatusEnum.PendingReferral,
                 CorrespondenceStatusEnum.UnderProcessing,
-                CorrespondenceStatusEnum.PendingApproval,
-                CorrespondenceStatusEnum.InSignatureAgenda
+                CorrespondenceStatusEnum.Completed,
+                CorrespondenceStatusEnum.ReturnedForModification
             };
             dashboard.TotalActiveCorrespondence = correspondenceList.Count(c => activeStatuses.Contains(c.Status));
 

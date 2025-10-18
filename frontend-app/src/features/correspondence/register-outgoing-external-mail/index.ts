@@ -9,4 +9,4 @@ export type { WizardFormData, WizardStep } from './types/wizard-types';
 
 // Schemas and utilities that might be needed externally
 export * from './utils/wizard-schemas';
-export { CorrespondenceSaver } from './utils/correspondence-saver'; 
+export { CorrespondenceSaver } from './utils/correspondence-saver';

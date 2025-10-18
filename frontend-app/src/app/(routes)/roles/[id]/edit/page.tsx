@@ -18,8 +18,6 @@ const EditRolePage = async (props: pageProps) => {
   const params = await props.params;
   const role = await roleService.getRoleById(params.id);
 
-
-
   return (
     <PageContainer scrollable>
       <div className='flex-1 space-y-4'>

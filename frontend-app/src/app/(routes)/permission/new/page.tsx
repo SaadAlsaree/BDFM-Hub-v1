@@ -11,14 +11,13 @@ export const metadata = {
 const NewPermissionPage = () => {
   return (
     <PageContainer>
-       <div className='flex-1 space-y-4'>
-              <Suspense fallback={<FormCardSkeleton />}>
-                <PermissionForm initialData={null} pageTitle='إضافة أذونات جديدة' />
-              </Suspense>
-            </div>
+      <div className='flex-1 space-y-4'>
+        <Suspense fallback={<FormCardSkeleton />}>
+          <PermissionForm initialData={null} pageTitle='إضافة أذونات جديدة' />
+        </Suspense>
+      </div>
     </PageContainer>
-  )
-}
+  );
+};
 
 export default NewPermissionPage;
-

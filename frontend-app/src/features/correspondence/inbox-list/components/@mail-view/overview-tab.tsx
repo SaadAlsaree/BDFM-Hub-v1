@@ -9,7 +9,10 @@ import {
   CardAction
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CorrespondenceDetails } from '../../types/correspondence-details';
+import {
+  CorrespondenceDetails,
+  CorrespondenceStatusEnum
+} from '../../types/correspondence-details';
 import moment from 'moment';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
@@ -58,10 +61,11 @@ export function OverviewTab({ data }: OverviewTabProps) {
 
   // Status indicator component
   const StatusBadge = ({
-    type
+    status
   }: {
-    type: 'postponed' | 'deleted' | 'finalized' | 'pending';
+    status?: CorrespondenceStatusEnum | number | null;
   }) => {
+    // Derive variant from enum value
     const variants = {
       postponed: {
         icon: Clock,
@@ -79,17 +83,66 @@ export function OverviewTab({ data }: OverviewTabProps) {
         icon: CheckCircle2,
         className:
           'bg-green-50 text-green-700 border-green-200 dark:bg-green-950 dark:text-green-300 dark:border-green-800',
-        label: 'معتمد'
+        label: 'مكتمل'
       },
       pending: {
         icon: AlertCircle,
         className:
           'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-950 dark:text-yellow-300 dark:border-yellow-800',
-        label: 'قيد المراجعة'
+        label: 'قيد الانتظار'
+      },
+      processing: {
+        icon: Clock,
+        className:
+          'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800',
+        label: 'قيد المعالجة'
+      },
+      rejected: {
+        icon: AlertCircle,
+        className:
+          'bg-red-50 text-red-700 border-red-200 dark:bg-red-950 dark:text-red-300 dark:border-red-800',
+        label: 'مرفوض'
+      },
+      returned: {
+        icon: AlertCircle,
+        className:
+          'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950 dark:text-orange-300 dark:border-orange-800',
+        label: 'إرجاع للتعديل'
       }
-    };
+    } as const;
 
-    const variant = variants[type];
+    // Choose variant based on enum
+    let chosen: keyof typeof variants = 'pending';
+
+    if (!status && isDeleted) chosen = 'deleted';
+    else if (!status && isPostponed) chosen = 'postponed';
+    else if (!status && isFinalized) chosen = 'finalized';
+    else if (status !== undefined && status !== null) {
+      switch (status as number) {
+        case CorrespondenceStatusEnum.Postponed:
+          chosen = 'postponed';
+          break;
+        case CorrespondenceStatusEnum.Completed:
+          chosen = 'finalized';
+          break;
+        case CorrespondenceStatusEnum.PendingReferral:
+          chosen = 'pending';
+          break;
+        case CorrespondenceStatusEnum.UnderProcessing:
+          chosen = 'processing';
+          break;
+        case CorrespondenceStatusEnum.Rejected:
+          chosen = 'rejected';
+          break;
+        case CorrespondenceStatusEnum.ReturnedForModification:
+          chosen = 'returned';
+          break;
+        default:
+          chosen = 'pending';
+      }
+    }
+
+    const variant = variants[chosen];
     const Icon = variant.icon;
 
     return (
@@ -106,13 +159,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
     );
   };
 
-  // Get overall status
-  const getOverallStatus = () => {
-    if (isDeleted) return 'deleted';
-    if (isPostponed) return 'postponed';
-    if (isFinalized) return 'finalized';
-    return 'pending';
-  };
+  // Note: status is derived directly where needed (StatusBadge uses flags and enum)
 
   const { user } = useCurrentUser();
 
@@ -128,7 +175,13 @@ export function OverviewTab({ data }: OverviewTabProps) {
             {data.correspondenceTypeName || 'نوع المراسلة غير محدد'}
           </p>
         </div>
-        <StatusBadge type={getOverallStatus()} />
+        <div>
+          <StatusBadge
+            status={
+              data.correspondenceStatus as CorrespondenceStatusEnum | number
+            }
+          />
+        </div>
       </div>
 
       {/* Stats Cards Grid */}
@@ -215,9 +268,16 @@ export function OverviewTab({ data }: OverviewTabProps) {
               </CardAction>
             </CardHeader>
             <CardFooter className='flex-col items-start gap-1.5 text-sm'>
-              <div className='line-clamp-1 flex gap-2 font-medium'>
+              <div className='line-clamp-1 flex gap-4 font-medium'>
                 <User className='size-4' />
                 {data.createdByUserName || 'مستخدم غير معروف'}
+                <p className='text-muted-foreground'>
+                  {data.createdByUnitName || 'وحدة غير معروفة'}
+                </p>
+                <p className='text-muted-foreground'>
+                  {' '}
+                  {data.createdByUnitCode || 'رمز الوحدة غير معروف'}
+                </p>
               </div>
               <div className='text-muted-foreground'>منشئ الكتاب</div>
             </CardFooter>

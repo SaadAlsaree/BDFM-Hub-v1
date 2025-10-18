@@ -38,11 +38,7 @@ type Props = {
   trigger?: React.ReactNode;
 };
 
-const UpdateWorkflowStatusDialog = ({
-  id,
-  status,
-  trigger,
-}: Props) => {
+const UpdateWorkflowStatusDialog = ({ id, status, trigger }: Props) => {
   const router = useRouter();
   const { authApiCall } = useAuthApi();
 
@@ -77,21 +73,27 @@ const UpdateWorkflowStatusDialog = ({
 
       // إذا كانت الحالة "مكتمل"، يمكن الانتقال إلى "مرفوض" أو "تعيين" فقط
       if (status === WorkflowStepStatus.Completed) {
-        return statusValue === WorkflowStepStatus.Rejected || 
-               statusValue === WorkflowStepStatus.Delegated;
+        return (
+          statusValue === WorkflowStepStatus.Rejected ||
+          statusValue === WorkflowStepStatus.Delegated
+        );
       }
 
       // إذا كانت الحالة "مرفوض"، يمكن الانتقال إلى "قيد التنفيذ" أو "تعيين"
       if (status === WorkflowStepStatus.Rejected) {
-        return statusValue === WorkflowStepStatus.InProgress || 
-               statusValue === WorkflowStepStatus.Delegated;
+        return (
+          statusValue === WorkflowStepStatus.InProgress ||
+          statusValue === WorkflowStepStatus.Delegated
+        );
       }
 
       // إذا كانت الحالة "تعيين"، يمكن الانتقال إلى "قيد التنفيذ" أو "مكتمل" أو "مرفوض"
       if (status === WorkflowStepStatus.Delegated) {
-        return statusValue === WorkflowStepStatus.InProgress || 
-               statusValue === WorkflowStepStatus.Completed ||
-               statusValue === WorkflowStepStatus.Rejected;
+        return (
+          statusValue === WorkflowStepStatus.InProgress ||
+          statusValue === WorkflowStepStatus.Completed ||
+          statusValue === WorkflowStepStatus.Rejected
+        );
       }
 
       // افتراضي: السماح بجميع الحالات
@@ -117,7 +119,6 @@ const UpdateWorkflowStatusDialog = ({
       workflowStepService.updateStatus(payload)
     );
 
-    
     setLoading(false);
 
     if (result?.succeeded) {
@@ -201,7 +202,7 @@ const UpdateWorkflowStatusDialog = ({
               </SelectContent>
             </Select>
             {getAvailableStatuses.length === 0 && (
-              <p className='text-sm text-muted-foreground text-right'>
+              <p className='text-muted-foreground text-right text-sm'>
                 لا توجد حالات متاحة للتغيير
               </p>
             )}
@@ -209,7 +210,7 @@ const UpdateWorkflowStatusDialog = ({
 
           <div className='space-y-2'>
             <Label htmlFor='notes' className='text-right'>
-              ملاحظات 
+              ملاحظات
             </Label>
             <Textarea
               id='notes'

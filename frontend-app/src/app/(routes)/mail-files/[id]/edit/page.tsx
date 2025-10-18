@@ -14,7 +14,6 @@ type pageProps = {
   params: Promise<{ id: string }>;
 };
 
-
 const page = async (props: pageProps) => {
   const params = await props.params;
   const mailFile = await mailFilesService.getMailFileById(params.id);
@@ -30,7 +29,7 @@ const page = async (props: pageProps) => {
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default page
+export default page;

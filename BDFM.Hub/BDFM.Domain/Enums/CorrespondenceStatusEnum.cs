@@ -3,31 +3,19 @@
     public enum CorrespondenceStatusEnum
     {
 
-        [Display(Name = "مسجل")]
-        Registered = 1,
+
         [Display(Name = "قيد الانتظار")]
-        PendingReferral = 2,
+        PendingReferral = 1,
         [Display(Name = "قيد المعالجة")]
-        UnderProcessing = 3,
-        [Display(Name = "قيد الموافقة")]
-        PendingApproval = 4,
-        [Display(Name = "موافق")]
-        Approved = 5,
-        [Display(Name = "قيد التوقيع")]
-        InSignatureAgenda = 6,
-        [Display(Name = "موقع")]
-        Signed = 7,
-        [Display(Name = "إرسال أو صادر")]
-        SentOrOutgoing = 8,
+        UnderProcessing = 2,
+
         [Display(Name = "مكتمل")]
-        Completed = 9,
+        Completed = 3,
         [Display(Name = "مرفوض")]
-        Rejected = 10,
+        Rejected = 4,
         [Display(Name = "إرجاع للتعديل")]
-        ReturnedForModification = 11,
+        ReturnedForModification = 5,
         [Display(Name = "مؤجل")]
-        Postponed = 12,
-        [Display(Name = "ملغي")]
-        Cancelled = 13
+        Postponed = 6,
     }
 }

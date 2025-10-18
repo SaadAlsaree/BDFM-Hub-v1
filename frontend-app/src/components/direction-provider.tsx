@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 
-type Direction = "ltr" | "rtl";
+type Direction = 'ltr' | 'rtl';
 
 const DirectionContext = React.createContext<Direction | undefined>(undefined);
 
 function useDirection(dir?: Direction): Direction {
   const contextDir = React.useContext(DirectionContext);
   if (!contextDir) {
-    throw new Error("useDirection must be used within a DirectionProvider");
+    throw new Error('useDirection must be used within a DirectionProvider');
   }
-  return dir ?? contextDir ?? "ltr";
+  return dir ?? contextDir ?? 'ltr';
 }
 
 interface DirectionProviderProps {

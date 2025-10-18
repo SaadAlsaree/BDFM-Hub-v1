@@ -5,15 +5,15 @@
  * @returns Formatted file size string
  */
 export function formatFileSize(bytes: number, decimals = 2): string {
-    if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) return '0 Bytes';
 
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
 /**
@@ -22,8 +22,8 @@ export function formatFileSize(bytes: number, decimals = 2): string {
  * @returns File extension with dot (e.g., '.pdf')
  */
 export function getFileExtension(filename: string): string {
-    const lastDot = filename.lastIndexOf('.');
-    return lastDot === -1 ? '' : filename.substring(lastDot);
+  const lastDot = filename.lastIndexOf('.');
+  return lastDot === -1 ? '' : filename.substring(lastDot);
 }
 
 /**
@@ -32,8 +32,8 @@ export function getFileExtension(filename: string): string {
  * @returns Filename without extension
  */
 export function getFileNameWithoutExtension(filename: string): string {
-    const lastDot = filename.lastIndexOf('.');
-    return lastDot === -1 ? filename : filename.substring(0, lastDot);
+  const lastDot = filename.lastIndexOf('.');
+  return lastDot === -1 ? filename : filename.substring(0, lastDot);
 }
 
 /**
@@ -42,8 +42,16 @@ export function getFileNameWithoutExtension(filename: string): string {
  * @returns Boolean indicating if file is an image
  */
 export function isImageFile(extension: string): boolean {
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'];
-    return imageExtensions.includes(extension.toLowerCase());
+  const imageExtensions = [
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.gif',
+    '.bmp',
+    '.svg',
+    '.webp'
+  ];
+  return imageExtensions.includes(extension.toLowerCase());
 }
 
 /**
@@ -52,8 +60,16 @@ export function isImageFile(extension: string): boolean {
  * @returns Boolean indicating if file is a video
  */
 export function isVideoFile(extension: string): boolean {
-    const videoExtensions = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', '.mkv'];
-    return videoExtensions.includes(extension.toLowerCase());
+  const videoExtensions = [
+    '.mp4',
+    '.avi',
+    '.mov',
+    '.wmv',
+    '.flv',
+    '.webm',
+    '.mkv'
+  ];
+  return videoExtensions.includes(extension.toLowerCase());
 }
 
 /**
@@ -62,8 +78,8 @@ export function isVideoFile(extension: string): boolean {
  * @returns Boolean indicating if file is an audio file
  */
 export function isAudioFile(extension: string): boolean {
-    const audioExtensions = ['.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a'];
-    return audioExtensions.includes(extension.toLowerCase());
+  const audioExtensions = ['.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a'];
+  return audioExtensions.includes(extension.toLowerCase());
 }
 
 /**
@@ -72,8 +88,18 @@ export function isAudioFile(extension: string): boolean {
  * @returns Boolean indicating if file is a document
  */
 export function isDocumentFile(extension: string): boolean {
-    const documentExtensions = ['.pdf', '.doc', '.docx', '.txt', '.rtf', '.xls', '.xlsx', '.ppt', '.pptx'];
-    return documentExtensions.includes(extension.toLowerCase());
+  const documentExtensions = [
+    '.pdf',
+    '.doc',
+    '.docx',
+    '.txt',
+    '.rtf',
+    '.xls',
+    '.xlsx',
+    '.ppt',
+    '.pptx'
+  ];
+  return documentExtensions.includes(extension.toLowerCase());
 }
 
 /**
@@ -83,9 +109,11 @@ export function isDocumentFile(extension: string): boolean {
  * @returns Base64 data URL
  */
 export function bytesToDataURL(bytes: Uint8Array, mimeType: string): string {
-    const binary = Array.from(bytes, byte => String.fromCharCode(byte)).join('');
-    const base64 = btoa(binary);
-    return `data:${mimeType};base64,${base64}`;
+  const binary = Array.from(bytes, (byte) => String.fromCharCode(byte)).join(
+    ''
+  );
+  const base64 = btoa(binary);
+  return `data:${mimeType};base64,${base64}`;
 }
 
 /**
@@ -94,13 +122,17 @@ export function bytesToDataURL(bytes: Uint8Array, mimeType: string): string {
  * @param filename - Desired filename
  * @param mimeType - MIME type of the file
  */
-export function downloadFileFromBase64(base64: string, filename: string, mimeType: string): void {
-    const link = document.createElement('a');
-    link.href = `data:${mimeType};base64,${base64}`;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+export function downloadFileFromBase64(
+  base64: string,
+  filename: string,
+  mimeType: string
+): void {
+  const link = document.createElement('a');
+  link.href = `data:${mimeType};base64,${base64}`;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 /**
@@ -109,5 +141,5 @@ export function downloadFileFromBase64(base64: string, filename: string, mimeTyp
  * @returns Safe filename
  */
 export function sanitizeFilename(filename: string): string {
-    return filename.replace(/[^a-z0-9.-]/gi, '_');
-} 
+  return filename.replace(/[^a-z0-9.-]/gi, '_');
+}

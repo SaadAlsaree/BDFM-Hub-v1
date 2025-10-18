@@ -13,7 +13,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetSigningList
     {
         public static IQueryable<Correspondence> ApplyFilter(this IQueryable<Correspondence> query, GetSigningListQuery request)
         {
-            return query.Where(x => x.Status == CorrespondenceStatusEnum.InSignatureAgenda);
+            return query.Where(x => x.Status == CorrespondenceStatusEnum.UnderProcessing);
         }
     }
 }

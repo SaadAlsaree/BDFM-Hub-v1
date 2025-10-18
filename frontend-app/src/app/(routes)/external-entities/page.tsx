@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
 
-
 export const metadata = {
   title: 'قائمة الجهات الخارجية'
 };
@@ -29,7 +28,10 @@ const ExternalEntitiesPage = async (props: pageProps) => {
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>
         <div className='flex items-start justify-between'>
-          <Heading title='الجهات الخارجية' description='إدارة الجهات الخارجية' />
+          <Heading
+            title='الجهات الخارجية'
+            description='إدارة الجهات الخارجية'
+          />
           <Link
             href='/external-entities/new'
             className={cn(buttonVariants(), 'text-xs md:text-sm')}

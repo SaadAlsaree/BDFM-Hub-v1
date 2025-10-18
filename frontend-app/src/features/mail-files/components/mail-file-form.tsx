@@ -45,15 +45,14 @@ export default function MailFileForm({
 }: MailFileFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { } = useAuthApi(); // Auth API hook for future use if needed
+  const {} = useAuthApi(); // Auth API hook for future use if needed
 
   // initial values
   const defaultValues = initialData
     ? {
-        
         name: initialData.name || '',
         subject: initialData.subject || '',
-        status: initialData.status || MailFileStatus.Active 
+        status: initialData.status || MailFileStatus.Active
       }
     : {};
 
@@ -80,7 +79,7 @@ export default function MailFileForm({
           toast.success('تم تعديل الأضبارة بنجاح!');
           router.push('/mail-files');
           router.refresh();
-        } else { 
+        } else {
           toast.error('لم يتم تعديل الأضبارة!');
         }
       } else {
@@ -147,24 +146,16 @@ export default function MailFileForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem
-                          value={MailFileStatus.Active.toString()}
-                        >
+                        <SelectItem value={MailFileStatus.Active.toString()}>
                           مفعل
                         </SelectItem>
-                        <SelectItem
-                          value={MailFileStatus.Inactive.toString()}
-                        >
+                        <SelectItem value={MailFileStatus.Inactive.toString()}>
                           غير مفعل
                         </SelectItem>
-                        <SelectItem
-                          value={MailFileStatus.Completed.toString()}
-                        >
+                        <SelectItem value={MailFileStatus.Completed.toString()}>
                           مكتمل
                         </SelectItem>
-                        <SelectItem
-                          value={MailFileStatus.Archived.toString()}
-                        >
+                        <SelectItem value={MailFileStatus.Archived.toString()}>
                           مؤرشف
                         </SelectItem>
                       </SelectContent>

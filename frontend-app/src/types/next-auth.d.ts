@@ -29,7 +29,6 @@ export interface Role {
   value: string;
 }
 
-
 declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
@@ -37,4 +36,4 @@ declare module 'next-auth/jwt' {
     error?: string;
     accessTokenExpires?: number;
   }
-} 
+}

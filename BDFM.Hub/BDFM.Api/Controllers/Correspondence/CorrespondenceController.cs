@@ -30,6 +30,11 @@ using BDFM.Application.Features.Correspondences.Queries.GetUrgentBooks;
 using BDFM.Application.Features.Correspondences.Queries.GetUserDrafts;
 using BDFM.Application.Features.Correspondences.Queries.GetUserInbox;
 using BDFM.Application.Features.Correspondences.Queries.SearchCorrespondences;
+using BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary;
+using BDFM.Application.Features.Correspondences.Queries.GetPending;
+using BDFM.Application.Features.Correspondences.Queries.GetProcessing;
+using BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing;
+using BDFM.Application.Features.Correspondences.Queries.GetCompleted;
 
 namespace BDFM.API.Controllers.Correspondence
 {
@@ -402,6 +407,67 @@ namespace BDFM.API.Controllers.Correspondence
         [ProducesResponseType(typeof(Response<PagedResult<GetPublicCorrespondencesVm>>), StatusCodes.Status400BadRequest)]
         [Permission("Correspondence|View")]
         public async Task<ObjectResult> GetPublicMails([FromQuery] GetPublicCorrespondencesQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        // Get Correspondences Summary / Dashboard metrics
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<GetCorrespondencesSummaryVm>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<GetCorrespondencesSummaryVm>), StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|GetSummary")]
+        public async Task<ObjectResult> GetCorrespondencesSummary([FromQuery] GetCorrespondencesSummaryCommand query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<PendingItemVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|View")]
+        public async Task<IActionResult> GetPending([FromQuery] GetPendingQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets correspondences under processing
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<ProcessingItemVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|View")]
+        public async Task<IActionResult> GetProcessing([FromQuery] GetProcessingQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets correspondences returned for editing
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<ReturnForEditingItemVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|View")]
+        public async Task<IActionResult> GetReturnForEditing([FromQuery] GetReturnForEditingQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets completed correspondences
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<CompletedItemVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|View")]
+        public async Task<IActionResult> GetCompleted([FromQuery] GetCompletedQuery query)
         {
             return await Okey(() => _mediator.Send(query));
         }

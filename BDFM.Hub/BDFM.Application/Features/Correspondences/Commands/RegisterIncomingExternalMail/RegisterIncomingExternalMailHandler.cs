@@ -3,7 +3,6 @@ using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Contracts.SignalR;
 using BDFM.Application.Helper;
 using BDFM.Application.Exceptions;
-using BDFM.Application.Helper;
 using BDFM.Application.Services;
 using BDFM.Domain.Entities.Core;
 using BDFM.Domain.Entities.Workflow;
@@ -103,7 +102,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.RegisterIncomingExt
                     MailNum = _mailNumberGenerator.GetUniqueMailNumber(),
                     MailDate = request.MailDate,
                     ExternalEntityId = request.ExternalEntityId,
-                    Status = CorrespondenceStatusEnum.Registered,
+                    Status = CorrespondenceStatusEnum.PendingReferral,
                     CreateBy = currentUser.Id,
                     CreateAt = DateTime.UtcNow,
                     StatusId = Status.Unverified,

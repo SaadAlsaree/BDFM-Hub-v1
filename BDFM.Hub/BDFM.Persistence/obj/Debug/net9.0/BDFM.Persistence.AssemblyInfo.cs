@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BDFM.Persistence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da5ad4aa4dfd4a462f47bb043e78dfc79e184c80")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+374dc56e0559d1fe52075ce21da8479907021254")]
 [assembly: System.Reflection.AssemblyProductAttribute("BDFM.Persistence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BDFM.Persistence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

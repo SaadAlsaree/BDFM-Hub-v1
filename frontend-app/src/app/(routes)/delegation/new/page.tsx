@@ -16,22 +16,28 @@ export const metadata = {
 // Force dynamic rendering since we use getServerSession which requires headers
 export const dynamic = 'force-dynamic';
 
-
 const NewDelegationPage = async () => {
-
-  const roles = await roleService.getRoles({page: 1, pageSize: 100});
+  const roles = await roleService.getRoles({ page: 1, pageSize: 100 });
   const roleList = roles?.data?.items as IRoleList[];
-  const permissions = await permissionService.getPermissions({page: 1, pageSize: 100});
+  const permissions = await permissionService.getPermissions({
+    page: 1,
+    pageSize: 100
+  });
   const permissionList = permissions?.data?.items as IPermissionList[];
   return (
     <PageContainer scrollable>
       <div className='flex-1 space-y-4'>
         <Suspense fallback={<FormCardSkeleton />}>
-          <DelegationForm initialData={null} pageTitle='إضافة تفويض جديد' roles={roleList} permissions={permissionList} />
+          <DelegationForm
+            initialData={null}
+            pageTitle='إضافة تفويض جديد'
+            roles={roleList}
+            permissions={permissionList}
+          />
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default NewDelegationPage
+export default NewDelegationPage;

@@ -75,30 +75,30 @@ export function CellAction({ data }: CellActionProps) {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">فتح القائمة</span>
-            <MoreHorizontal className="h-4 w-4" />
+          <Button variant='ghost' className='h-8 w-8 p-0'>
+            <span className='sr-only'>فتح القائمة</span>
+            <MoreHorizontal className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align='end'>
           <DropdownMenuLabel>العمليات</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() => router.push(`/mail-files/${data.id}`)}
           >
-            <Eye className="ml-2 h-4 w-4" /> عرض
+            <Eye className='ml-2 h-4 w-4' /> عرض
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/mail-files/${data.id}/edit`)}
           >
-            <FileEdit className="ml-2 h-4 w-4" /> تعديل
+            <FileEdit className='ml-2 h-4 w-4' /> تعديل
           </DropdownMenuItem>
           {data.status !== MailFileStatus.Deleted && (
             <DropdownMenuItem
               onClick={() => setOpenAlert(true)}
               disabled={loading}
             >
-              <Trash className="ml-2 h-4 w-4" /> حذف
-              {loading && <Spinner className="ml-2 h-4 w-4" />}
+              <Trash className='ml-2 h-4 w-4' /> حذف
+              {loading && <Spinner className='ml-2 h-4 w-4' />}
             </DropdownMenuItem>
           )}
           {data.status === MailFileStatus.Inactive && (
@@ -106,8 +106,8 @@ export function CellAction({ data }: CellActionProps) {
               onClick={() => onUpdateStatus(data.id, MailFileStatus.Active)}
               disabled={loading}
             >
-              <Check className="ml-2 h-4 w-4" /> تفعيل
-              {loading && <Spinner className="ml-2 h-4 w-4" />}
+              <Check className='ml-2 h-4 w-4' /> تفعيل
+              {loading && <Spinner className='ml-2 h-4 w-4' />}
             </DropdownMenuItem>
           )}
           {isMailFileActive(data.status || MailFileStatus.Active) && (
@@ -115,8 +115,8 @@ export function CellAction({ data }: CellActionProps) {
               onClick={() => onUpdateStatus(data.id, MailFileStatus.Inactive)}
               disabled={loading}
             >
-              <Trash className="ml-2 h-4 w-4" /> تعطيل
-              {loading && <Spinner className="ml-2 h-4 w-4" />}
+              <Trash className='ml-2 h-4 w-4' /> تعطيل
+              {loading && <Spinner className='ml-2 h-4 w-4' />}
             </DropdownMenuItem>
           )}
           {data.status !== MailFileStatus.Archived && (
@@ -124,8 +124,8 @@ export function CellAction({ data }: CellActionProps) {
               onClick={() => onUpdateStatus(data.id, MailFileStatus.Archived)}
               disabled={loading}
             >
-              <Check className="ml-2 h-4 w-4" /> أرشفة
-              {loading && <Spinner className="ml-2 h-4 w-4" />}
+              <Check className='ml-2 h-4 w-4' /> أرشفة
+              {loading && <Spinner className='ml-2 h-4 w-4' />}
             </DropdownMenuItem>
           )}
           {data.status !== MailFileStatus.Completed && (
@@ -133,8 +133,8 @@ export function CellAction({ data }: CellActionProps) {
               onClick={() => onUpdateStatus(data.id, MailFileStatus.Completed)}
               disabled={loading}
             >
-              <Check className="ml-2 h-4 w-4" /> إنهاء
-              {loading && <Spinner className="ml-2 h-4 w-4" />}
+              <Check className='ml-2 h-4 w-4' /> إنهاء
+              {loading && <Spinner className='ml-2 h-4 w-4' />}
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

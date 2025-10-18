@@ -75,7 +75,7 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
       .slice(0, 2);
   };
 
-  const { user, isLoading } = useCurrentUser();
+  const { user } = useCurrentUser();
 
   // Workflow statistics
   const workflowStats = useMemo(() => {
@@ -285,11 +285,11 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
                         />
                       )}
                       {/* تحويل داخلي */}
-                      {(user?.id === step.toPrimaryRecipientId ||
+                      {/* {(user?.id === step.toPrimaryRecipientId ||
                         user?.organizationalUnitId ===
                           step.toPrimaryRecipientId ||
                         hasAnyPermission(user as UserDto | null, [
-                          'Correspondence|UpdateWorkflowStatus' // امكانية التحويل داخلي
+                          'Correspondence|InternalTransfer' // امكانية التحويل داخلي
                         ])) && (
                         <WorkflowStepSecondaryFormDialog
                           stepId={step.id}
@@ -300,7 +300,7 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
                             </Button>
                           }
                         />
-                      )}
+                      )} */}
                       {/* تسجيل أجراء */}
                       {(user?.id === step.toPrimaryRecipientId ||
                         user?.organizationalUnitId ===

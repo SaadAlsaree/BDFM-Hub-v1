@@ -26,9 +26,7 @@ import { FileText, MessageCircle, Link, Workflow } from 'lucide-react';
 import { toast } from 'sonner';
 import { correspondenceService } from '../../api/correspondence.service';
 import { useAuthApi } from '@/hooks/use-auth-api';
-import {
-  LogRecipientInternalActionInputFormData,
-} from '@/features/workflow-step/utils/workflow-step';
+import { LogRecipientInternalActionInputFormData } from '@/features/workflow-step/utils/workflow-step';
 import { workflowStepService } from '@/features/workflow-step/api/workflow-step.service';
 import {
   OverviewTab,
@@ -224,7 +222,6 @@ export default function MailViewPage({ data }: Props) {
       setLoading(false);
     }
   };
-
 
   async function onLogActionSubmit(
     data: LogRecipientInternalActionInputFormData

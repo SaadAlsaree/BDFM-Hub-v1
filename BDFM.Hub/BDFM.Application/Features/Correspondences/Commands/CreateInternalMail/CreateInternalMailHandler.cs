@@ -65,7 +65,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateInternalMail
                     SecrecyLevel = request.SecrecyLevel,
                     PriorityLevel = request.PriorityLevel,
                     PersonalityLevel = request.PersonalityLevel,
-                    Status = request.IsDraft ? CorrespondenceStatusEnum.Registered : CorrespondenceStatusEnum.PendingReferral,
+                    Status = request.IsDraft ? CorrespondenceStatusEnum.PendingReferral : CorrespondenceStatusEnum.PendingReferral,
                     IsDraft = request.IsDraft,
                     StatusId = Status.Unverified,
                     CreateAt = DateTime.UtcNow,

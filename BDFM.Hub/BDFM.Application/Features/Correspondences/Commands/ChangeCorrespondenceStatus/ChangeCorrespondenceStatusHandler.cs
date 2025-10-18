@@ -62,7 +62,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.ChangeCorrespondenc
                 correspondence.LastUpdateBy = _currentUserService.UserId;
 
                 // If cancelling, set IsDraft to false and clear any postponement
-                if (request.NewStatus == CorrespondenceStatusEnum.Cancelled)
+                if (request.NewStatus == CorrespondenceStatusEnum.Rejected)
                 {
                     correspondence.IsDraft = false;
                 }

@@ -2,7 +2,6 @@ import { ComponentType } from 'react';
 import TemplateOne from './templateOne';
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 
-
 export type ResumeTemplateProps = {
   formData: CorrespondenceDetails;
   attachments?: number;
@@ -23,7 +22,7 @@ const templateRegistry: Record<string, TemplateConfig> = {
     thumbnail: '/templates/183640.png',
     description: 'كتاب صادر خارجي من مكتب رئيس الجهاز',
     component: TemplateOne
-  },
+  }
   // 'template-two': {
   //   id: 'template-two',
   //   name: 'Modern Clean',

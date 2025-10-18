@@ -2,7 +2,6 @@ using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetById;
 using BDFM.Domain.Entities.Core;
-using BDFM.Domain.Common;
 using BDFM.Application.Services;
 
 namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceById
@@ -41,7 +40,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
             BodyText = x.BodyText,
             CorrespondenceType = x.CorrespondenceType,
             CorrespondenceTypeName = x.CorrespondenceType.GetDisplayName(),
-            CorrespondenceStatus = x.Status == 0 ? CorrespondenceStatusEnum.Registered : x.Status,
+            CorrespondenceStatus = x.Status == 0 ? CorrespondenceStatusEnum.PendingReferral : x.Status,
             CorrespondenceStatusName = x.Status.GetDisplayName(),
             IsDraft = x.IsDraft,
             StatusName = x.Status.GetDisplayName(),
@@ -58,6 +57,8 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
             PersonalityLevelName = x.PersonalityLevel.GetDisplayName(),
             CreatedByUserId = x.CreateByUserId ?? Guid.Empty,
             CreatedByUserName = x.CreateByUser != null ? x.CreateByUser.Username : string.Empty,
+            CreatedByUnitName = x.CreateByUser != null && x.CreateByUser.OrganizationalUnit != null ? x.CreateByUser.OrganizationalUnit.UnitName : string.Empty,
+            CreatedByUnitCode = x.CreateByUser != null && x.CreateByUser.OrganizationalUnit != null ? x.CreateByUser.OrganizationalUnit.UnitCode : string.Empty,
             CreatedAt = x.CreateAt,
             SignatoryUserId = x.SignatoryUserId,
             FinalizedAt = x.FinalizedAt,

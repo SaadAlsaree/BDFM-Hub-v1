@@ -2907,6 +2907,263 @@
         }
       }
     },
+    "/BDFM/v1/api/Correspondence/GetCorrespondencesSummary": {
+      "get": {
+        "tags": [
+          "Correspondence"
+        ],
+        "parameters": [
+          {
+            "name": "UnitId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "StartDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "EndDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "IncludeSubUnits",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "CorrespondenceType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary.GetCorrespondencesSummaryVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary.GetCorrespondencesSummaryVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/Correspondence/GetPending": {
+      "get": {
+        "tags": [
+          "Correspondence"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPending.PendingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/Correspondence/GetProcessing": {
+      "get": {
+        "tags": [
+          "Correspondence"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetProcessing.ProcessingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/Correspondence/GetReturnForEditing": {
+      "get": {
+        "tags": [
+          "Correspondence"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.ReturnForEditingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/Correspondence/GetCompleted": {
+      "get": {
+        "tags": [
+          "Correspondence"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetCompleted.CompletedItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/BDFM/v1/api/CorrespondenceTemplate/CreateCorrespondenceTemplate": {
       "post": {
         "tags": [
@@ -11200,6 +11457,143 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.Correspondences.Queries.GetCompleted.CompletedItemVm": {
+        "type": "object",
+        "properties": {
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workflowStepId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
+          },
+          "correspondenceStatus": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceStatusEnum"
+          },
+          "correspondenceStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mailNum": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "priorityLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.PriorityLevelEnum"
+          },
+          "priorityLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "secrecyLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.SecrecyLevelEnum"
+          },
+          "secrecyLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receivedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.WorkflowStepStatus"
+          },
+          "workflowStepStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "fileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDraft": {
+            "type": "boolean"
+          },
+          "userCorrespondenceInteraction": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetCompleted.UserCorrespondenceInteractionDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.Correspondences.Queries.GetCompleted.UserCorrespondenceInteractionDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isStarred": {
+            "type": "boolean"
+          },
+          "postponedUntil": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isPostponed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "lastReadAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isInTrash": {
+            "type": "boolean"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "receiveNotifications": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceById.CorrespondenceDetailVm": {
         "type": "object",
         "properties": {
@@ -11283,6 +11677,14 @@
             "format": "uuid"
           },
           "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdByUnitName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdByUnitCode": {
             "type": "string",
             "nullable": true
           },
@@ -12039,6 +12441,72 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary.GetCorrespondencesSummaryVm": {
+        "type": "object",
+        "properties": {
+          "totalCorrespondencesPending": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCorrespondencesUnderProcessing": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCorrespondencesCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCorrespondencesRejected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCorrespondencesReturnedForModification": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCorrespondencesPostponed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCorrespondences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalIncomingExternal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalOutgoingExternal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalIncomingInternal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalOutgoingInternal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalMemorandum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalReplies": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPublics": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalDrafts": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.Correspondences.Queries.GetIncomingInternal.IncomingInternalVm": {
         "type": "object",
         "properties": {
@@ -12561,6 +13029,143 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.Correspondences.Queries.GetPending.PendingItemVm": {
+        "type": "object",
+        "properties": {
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workflowStepId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
+          },
+          "correspondenceStatus": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceStatusEnum"
+          },
+          "correspondenceStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mailNum": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "priorityLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.PriorityLevelEnum"
+          },
+          "priorityLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "secrecyLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.SecrecyLevelEnum"
+          },
+          "secrecyLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receivedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.WorkflowStepStatus"
+          },
+          "workflowStepStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "fileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDraft": {
+            "type": "boolean"
+          },
+          "userCorrespondenceInteraction": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetPending.UserCorrespondenceInteractionDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.Correspondences.Queries.GetPending.UserCorrespondenceInteractionDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isStarred": {
+            "type": "boolean"
+          },
+          "postponedUntil": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isPostponed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "lastReadAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isInTrash": {
+            "type": "boolean"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "receiveNotifications": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespondences.GetPostponedCorrespondencesVm": {
         "type": "object",
         "properties": {
@@ -12707,6 +13312,143 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.Correspondences.Queries.GetProcessing.ProcessingItemVm": {
+        "type": "object",
+        "properties": {
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workflowStepId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
+          },
+          "correspondenceStatus": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceStatusEnum"
+          },
+          "correspondenceStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mailNum": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "priorityLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.PriorityLevelEnum"
+          },
+          "priorityLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "secrecyLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.SecrecyLevelEnum"
+          },
+          "secrecyLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receivedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.WorkflowStepStatus"
+          },
+          "workflowStepStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "fileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDraft": {
+            "type": "boolean"
+          },
+          "userCorrespondenceInteraction": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetProcessing.UserCorrespondenceInteractionDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.Correspondences.Queries.GetProcessing.UserCorrespondenceInteractionDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isStarred": {
+            "type": "boolean"
+          },
+          "postponedUntil": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isPostponed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "lastReadAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isInTrash": {
+            "type": "boolean"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "receiveNotifications": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences.GetPublicCorrespondencesVm": {
         "type": "object",
         "properties": {
@@ -12811,6 +13553,143 @@
         "additionalProperties": false
       },
       "BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences.UserCorrespondenceInteractionDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isStarred": {
+            "type": "boolean"
+          },
+          "postponedUntil": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isPostponed": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "lastReadAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isInTrash": {
+            "type": "boolean"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "receiveNotifications": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.ReturnForEditingItemVm": {
+        "type": "object",
+        "properties": {
+          "correspondenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workflowStepId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceTypeEnum"
+          },
+          "correspondenceStatus": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.CorrespondenceStatusEnum"
+          },
+          "correspondenceStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "correspondenceTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalReferenceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mailNum": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "priorityLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.PriorityLevelEnum"
+          },
+          "priorityLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "secrecyLevel": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.SecrecyLevelEnum"
+          },
+          "secrecyLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "receivedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.WorkflowStepStatus"
+          },
+          "workflowStepStatusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "fileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDraft": {
+            "type": "boolean"
+          },
+          "userCorrespondenceInteraction": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.UserCorrespondenceInteractionDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.UserCorrespondenceInteractionDto": {
         "type": "object",
         "properties": {
           "userId": {
@@ -14064,7 +14943,7 @@
             "format": "date-time",
             "nullable": true
           },
-          "statusId": {
+          "status": {
             "type": "integer",
             "format": "int32"
           },
@@ -17828,6 +18707,23 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetCompleted.CompletedItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetCompleted.CompletedItemVm"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceIncoming.GetCorrespondenceIncomingVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -17913,6 +18809,23 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPending.PendingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetPending.PendingItemVm"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespondences.GetPostponedCorrespondencesVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -17930,6 +18843,23 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetProcessing.ProcessingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetProcessing.ProcessingItemVm"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences.GetPublicCorrespondencesVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -17937,6 +18867,23 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences.GetPublicCorrespondencesVm"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.ReturnForEditingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.ReturnForEditingItemVm"
             },
             "nullable": true
           },
@@ -19035,6 +19982,31 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary.GetCorrespondencesSummaryVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary.GetCorrespondencesSummaryVm"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.CustomWorkflowSteps.Queries.GetCustomWorkflowStepById.GetCustomWorkflowStepByIdVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -19610,6 +20582,31 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetCompleted.CompletedItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetCompleted.CompletedItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceIncoming.GetCorrespondenceIncomingVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -19735,6 +20732,31 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPending.PendingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPending.PendingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespondences.GetPostponedCorrespondencesVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -19760,6 +20782,31 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetProcessing.ProcessingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetProcessing.ProcessingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences.GetPublicCorrespondencesVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -19768,6 +20815,31 @@
           },
           "data": {
             "$ref": "#/components/schemas/BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences.GetPublicCorrespondencesVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.ReturnForEditingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.ReturnForEditingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
           },
           "message": {
             "type": "string",
@@ -20888,14 +21960,7 @@
           3,
           4,
           5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13
+          6
         ],
         "type": "integer",
         "format": "int32"

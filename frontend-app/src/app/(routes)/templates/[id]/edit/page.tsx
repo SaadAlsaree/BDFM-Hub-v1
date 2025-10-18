@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const EditTemplate = () => {
-  return (
-    <div>EditTemplate</div>
-  )
-}
+  return <div>EditTemplate</div>;
+};
 
-export default EditTemplate
+export default EditTemplate;

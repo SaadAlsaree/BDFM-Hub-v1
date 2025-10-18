@@ -12,12 +12,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { CorrespondenceDetails } from '../../types/correspondence-details';
 import { useRouter } from 'next/navigation';
-import {
-  ExternalLink,
-  Link,
-  FileText,
-
-} from 'lucide-react';
+import { ExternalLink, Link, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ReferencesTabProps {
@@ -25,12 +20,8 @@ interface ReferencesTabProps {
 }
 
 export function ReferencesTab({ data }: ReferencesTabProps) {
-
-
   const referencesToCount = data.referencesToCorrespondences?.length || 0;
   const referencedByCount = data.referencedByCorrespondences?.length || 0;
-
-
 
   return (
     <div className='flex flex-1 flex-col space-y-6'>

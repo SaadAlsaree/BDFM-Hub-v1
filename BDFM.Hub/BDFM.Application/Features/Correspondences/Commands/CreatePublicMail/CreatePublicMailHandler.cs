@@ -42,7 +42,7 @@ public class CreatePublicMailHandler : IRequestHandler<CreatePublicMailCommand, 
                 IsDraft = false,
                 FileId = request.FileId,
                 CreateAt = DateTime.UtcNow,
-                Status = CorrespondenceStatusEnum.Registered,
+                Status = CorrespondenceStatusEnum.PendingReferral,
                 CorrespondenceType = CorrespondenceTypeEnum.Public,
                 ExternalReferenceNumber = request.ExternalReferenceNumber,
                 ExternalReferenceDate = request.ExternalReferenceDate.HasValue ?

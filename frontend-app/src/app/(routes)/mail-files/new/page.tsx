@@ -13,14 +13,11 @@ const NewMailFilePage = () => {
     <PageContainer scrollable>
       <div className='flex-1 space-y-4'>
         <Suspense fallback={<FormCardSkeleton />}>
-          <MailFileForm
-            initialData={null}
-            pageTitle='إضافة أضبارة جديدة'
-          />
+          <MailFileForm initialData={null} pageTitle='إضافة أضبارة جديدة' />
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default NewMailFilePage
+export default NewMailFilePage;

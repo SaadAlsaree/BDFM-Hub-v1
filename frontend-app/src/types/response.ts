@@ -1,5 +1,3 @@
-
-
 export interface IResponseList<T> {
   succeeded?: boolean;
   data?: Items<T>;
@@ -8,7 +6,6 @@ export interface IResponseList<T> {
   code?: string;
 }
 
-
 export interface IResponse<T> {
   succeeded?: boolean;
   data?: T;
@@ -16,7 +13,6 @@ export interface IResponse<T> {
   errors?: string[];
   code?: string;
 }
-
 
 interface Items<T> {
   items?: T[];

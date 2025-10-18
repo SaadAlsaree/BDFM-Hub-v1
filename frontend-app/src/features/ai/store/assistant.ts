@@ -43,7 +43,7 @@ export const assistantStore = {
   /**
    * Get current thinking visibility state
    */
-  isThinkingVisible: () => showThinking.state,
+  isThinkingVisible: () => showThinking.state
 };
 
 // Export default store for convenience

@@ -30,7 +30,7 @@ namespace BDFM.Domain.Entities.Core
         public bool HasAttachments { get; set; } = false;
         public int AttachmentCount { get; set; } = 0;
 
-        public CorrespondenceStatusEnum Status { get; set; } = CorrespondenceStatusEnum.Registered;
+        public CorrespondenceStatusEnum Status { get; set; } = CorrespondenceStatusEnum.PendingReferral;
 
         public Guid? SignatoryUserId { get; set; }
 

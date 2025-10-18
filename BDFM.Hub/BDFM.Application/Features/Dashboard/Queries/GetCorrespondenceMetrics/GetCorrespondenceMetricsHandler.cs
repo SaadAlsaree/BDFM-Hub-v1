@@ -68,7 +68,7 @@ public class GetCorrespondenceMetricsHandler : IRequestHandler<GetCorrespondence
                 ActiveCount = correspondenceList.Count(c => IsActiveStatus(c.Status)),
                 CompletedCount = correspondenceList.Count(c => c.Status == CorrespondenceStatusEnum.Completed),
                 PendingCount = correspondenceList.Count(c => c.Status == CorrespondenceStatusEnum.PendingReferral ||
-                                                            c.Status == CorrespondenceStatusEnum.PendingApproval),
+                                                            c.Status == CorrespondenceStatusEnum.PendingReferral),
                 OverdueCount = await GetOverdueCount(request.UnitId, cancellationToken),
                 AverageProcessingTimeInDays = CalculateAverageProcessingTime(correspondenceList),
                 MonthlyVolume = GetMonthlyVolumeData(correspondenceList, startDate, endDate),
@@ -92,11 +92,11 @@ public class GetCorrespondenceMetricsHandler : IRequestHandler<GetCorrespondence
     {
         return status switch
         {
-            CorrespondenceStatusEnum.Registered or
+            CorrespondenceStatusEnum.Rejected or
             CorrespondenceStatusEnum.PendingReferral or
             CorrespondenceStatusEnum.UnderProcessing or
-            CorrespondenceStatusEnum.PendingApproval or
-            CorrespondenceStatusEnum.InSignatureAgenda => true,
+            CorrespondenceStatusEnum.Completed or
+            CorrespondenceStatusEnum.ReturnedForModification => true,
             _ => false
         };
     }

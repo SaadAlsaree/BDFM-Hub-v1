@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 interface RoleViewProps {
   data: IRoleDetails;
-  permissions: IPermissionList[]
+  permissions: IPermissionList[];
   // rolePermissions: IPermissionList[
 }
 
@@ -31,16 +31,13 @@ export default function RoleViewPage({ data, permissions }: RoleViewProps) {
           title={data.name.toUpperCase() || 'الدور'}
           description={`عرض تفاصيل الدور ${data.value || ''}`}
         />
-      <div className='flex gap-2'>
-     
-        <Button onClick={() => setIsOpen(true)}>
-          تعيين صلاحيات
-        </Button>
+        <div className='flex gap-2'>
+          <Button onClick={() => setIsOpen(true)}>تعيين صلاحيات</Button>
 
-        <Button onClick={() => router.push(`/roles/${params.id}/edit`)}>
-          تعديل
-        </Button>
-      </div>
+          <Button onClick={() => router.push(`/roles/${params.id}/edit`)}>
+            تعديل
+          </Button>
+        </div>
       </div>
       <Separator />
 
@@ -176,12 +173,12 @@ export default function RoleViewPage({ data, permissions }: RoleViewProps) {
       </div>
 
       <RolePermissionDialog
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      roleId={data.id || ''}
-      permissions={permissions}
-      rolePermissions={data.rolePermissions}
-    />
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        roleId={data.id || ''}
+        permissions={permissions}
+        rolePermissions={data.rolePermissions}
+      />
     </div>
   );
 }

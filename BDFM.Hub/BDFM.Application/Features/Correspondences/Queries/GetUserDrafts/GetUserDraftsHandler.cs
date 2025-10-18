@@ -22,7 +22,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserDrafts
             SecrecyLevelName = x.SecrecyLevel.GetDisplayName(),
             CorrespondenceType = x.CorrespondenceType == 0 ? CorrespondenceTypeEnum.Draft : x.CorrespondenceType,
             CorrespondenceTypeName = x.CorrespondenceType.GetDisplayName(),
-            CorrespondenceStatus = x.Status == 0 ? CorrespondenceStatusEnum.Registered : x.Status,
+            CorrespondenceStatus = x.Status == 0 ? CorrespondenceStatusEnum.PendingReferral : x.Status,
             CorrespondenceStatusName = x.Status.GetDisplayName(),
             WorkflowStepId = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.Id).FirstOrDefault(),
             MailNum = x.MailNum,

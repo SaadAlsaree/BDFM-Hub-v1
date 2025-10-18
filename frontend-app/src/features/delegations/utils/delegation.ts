@@ -4,7 +4,13 @@ export enum DelegationStatus {
   Deleted = 3
 }
 
-export const statusLabels: Record<DelegationStatus, { label: string; variant: 'default' | 'outline' | 'secondary' | 'destructive' }> = {
+export const statusLabels: Record<
+  DelegationStatus,
+  {
+    label: string;
+    variant: 'default' | 'outline' | 'secondary' | 'destructive';
+  }
+> = {
   [DelegationStatus.Active]: {
     label: 'نشط',
     variant: 'default'

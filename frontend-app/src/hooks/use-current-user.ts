@@ -12,19 +12,22 @@ export function useCurrentUser() {
   const { data, error, isLoading } = useQuery({
     queryKey: ['currentUser'],
     queryFn: async () => {
-      const response = await authApiCall(async () => await currentUserService.getCurrentUserClient());
+      const response = await authApiCall(
+        async () => await currentUserService.getCurrentUserClient()
+      );
       return response;
     },
     staleTime: 1 * 60 * 1000, // 1 minutes
     refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
+    refetchOnReconnect: true
   });
 
   const refreshUser = useMutation({
-    mutationFn: () => authApiCall(async () => await currentUserService.getCurrentUserClient()),
+    mutationFn: () =>
+      authApiCall(async () => await currentUserService.getCurrentUserClient()),
     onSuccess: (newData) => {
       queryClient.setQueryData(['currentUser'], newData);
-    },
+    }
   });
 
   const clearUserCache = () => {
@@ -37,6 +40,6 @@ export function useCurrentUser() {
     isLoading,
     error,
     refreshUser: refreshUser.mutate,
-    clearUserCache,
+    clearUserCache
   };
 }

@@ -78,16 +78,25 @@ export function MailHeader({
               <>
                 <Separator orientation='vertical' className='h-4' />
                 <User className='h-4 w-4' />
-                <span>منشئ بواسطة: {data.createdByUserName}</span>
+                <span className='space-y-4'>
+                  منشئ بواسطة: {data.createdByUserName}
+                </span>
+                <span className=''>
+                  {data.createdByUnitName || 'وحدة غير معروفة'} -
+                  {data.createdByUnitCode || 'رمز الوحدة غير معروف'}
+                </span>
               </>
             )}
           </div>
         </div>
 
         <div className='flex gap-2'>
-          <CustomWorkflowDialog correspondenceId={data.id}>
-            <Button variant='default'>إنشاء سير العمل مخصص</Button>
-          </CustomWorkflowDialog>
+          {data.workflowSteps?.length === 0 &&
+            data.correspondenceType !== 0 && (
+              <CustomWorkflowDialog correspondenceId={data.id}>
+                <Button variant='default'>إنشاء سير العمل مخصص</Button>
+              </CustomWorkflowDialog>
+            )}
           {isLoading && (
             <div className='flex items-center justify-center'>
               <Spinner className='text-primary animate-spin' />
@@ -115,7 +124,10 @@ export function MailHeader({
             {(user?.id === data.createdByUserId ||
               hasAnyPermission(user as UserDto | null, [
                 'Correspondence|WorkflowStep'
-              ])) && <WorkflowStepFormDialog correspondenceId={data.id} />}
+              ])) &&
+              data.correspondenceType !== 0 && (
+                <WorkflowStepFormDialog correspondenceId={data.id} />
+              )}
           </div>
           <Button
             variant={isStarred ? 'default' : 'outline'}

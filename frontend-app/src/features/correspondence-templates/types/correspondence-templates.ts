@@ -1,5 +1,3 @@
-
-
 export interface CorrespondenceTemplatesDetail {
   id?: string;
   templateName?: string;
@@ -47,4 +45,3 @@ export interface CorrespondenceTemplatesResponse {
   items: CorrespondenceTemplatesList[];
   totalCount: number;
 }
-

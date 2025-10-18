@@ -5,7 +5,10 @@ import { DataTableColumnHeader } from '@/components/ui/table/data-table-column-h
 import { Column, ColumnDef } from '@tanstack/react-table';
 import { UserCircle, Hash, FileText } from 'lucide-react';
 import { IPermissionList } from '@/features/permissions/types/permission';
-import { PermissionStatus, statusLabels } from '@/features/permissions/utils/permission';
+import {
+  PermissionStatus,
+  statusLabels
+} from '@/features/permissions/utils/permission';
 import { CellAction } from './cell-action';
 
 export const columns: ColumnDef<IPermissionList>[] = [

@@ -5,7 +5,10 @@ import { DataTableColumnHeader } from '@/components/ui/table/data-table-column-h
 import { Column, ColumnDef } from '@tanstack/react-table';
 import { UserCircle, Calendar, Users, FileText } from 'lucide-react';
 import { IDelegationList } from '@/features/delegations/types/delegation';
-import { DelegationStatus, statusLabels } from '@/features/delegations/utils/delegation';
+import {
+  DelegationStatus,
+  statusLabels
+} from '@/features/delegations/utils/delegation';
 import moment from 'moment';
 import { CellAction } from './cell-action';
 

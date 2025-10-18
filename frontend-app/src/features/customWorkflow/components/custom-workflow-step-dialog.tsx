@@ -132,6 +132,26 @@ export default function CustomWorkflowStepDialog({
         }
   });
 
+  // Keep form in sync when editing: reset form values when initialData or dialog open state changes
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
+        stepOrder: initialData.stepOrder,
+        actionType: initialData.actionType as ActionTypeEnum,
+        targetType: initialData.targetType as CustomWorkflowTargetTypeEnum,
+        targetIdentifier: initialData.targetIdentifier,
+        defaultInstructionText: initialData.defaultInstructionText || '',
+        defaultDueDateOffsetDays: initialData.defaultDueDateOffsetDays
+      });
+    } else {
+      // New step - reset to defaults when dialog opens
+      form.reset({
+        stepOrder: 1,
+        defaultDueDateOffsetDays: 0
+      });
+    }
+  }, [initialData, isOpen, form]);
+
   const watchedTargetType = form.watch('targetType');
 
   const onSubmit = async (data: CustomWorkflowStepFormValues) => {

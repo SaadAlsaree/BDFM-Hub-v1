@@ -18,7 +18,6 @@ export interface SearchCorrespondenceList {
   mailFileNumber?: string;
 }
 
-
 export interface InboxList {
   correspondenceId: string;
   workflowStepId: string;
@@ -61,9 +60,6 @@ export interface UserCorrespondenceInteraction {
   receiveNotifications?: boolean;
 }
 
-
-
-
 export interface ExternalCorrespondencePayload {
   id?: string;
   externalReferenceNumber?: string;
@@ -91,80 +87,80 @@ export interface CorrespondenceLinkPayload {
 
 export enum CorrespondenceTypeEnum {
   Draft = 0,
-  IncomingExternal = 1,     // وارد خارجي
-  OutgoingExternal = 2,     // صادر خارجي
-  IncomingInternal = 3,     // وارد داخلي
-  OutgoingInternal = 4,     // صادر داخلي
-  Memorandum = 5,           // المطالعة
-  Reply = 6,                 // رد
-  Public = 7              // عام
+  IncomingExternal = 1, // وارد خارجي
+  OutgoingExternal = 2, // صادر خارجي
+  IncomingInternal = 3, // وارد داخلي
+  OutgoingInternal = 4, // صادر داخلي
+  Memorandum = 5, // المطالعة
+  Reply = 6, // رد
+  Public = 7 // عام
 }
 
-export const CorrespondenceTypeEnumDisplay: Record<CorrespondenceTypeEnum, string> = {
-  [CorrespondenceTypeEnum.Draft]: "مسودة",
-  [CorrespondenceTypeEnum.IncomingExternal]: "وارد خارجي",
-  [CorrespondenceTypeEnum.OutgoingExternal]: "صادر خارجي",
-  [CorrespondenceTypeEnum.IncomingInternal]: "وارد داخلي",
-  [CorrespondenceTypeEnum.OutgoingInternal]: "صادر داخلي",
-  [CorrespondenceTypeEnum.Memorandum]: "المطالعة",
-  [CorrespondenceTypeEnum.Reply]: "رد",
-  [CorrespondenceTypeEnum.Public]: "أعمام"
+export const CorrespondenceTypeEnumDisplay: Record<
+  CorrespondenceTypeEnum,
+  string
+> = {
+  [CorrespondenceTypeEnum.Draft]: 'مسودة',
+  [CorrespondenceTypeEnum.IncomingExternal]: 'وارد خارجي',
+  [CorrespondenceTypeEnum.OutgoingExternal]: 'صادر خارجي',
+  [CorrespondenceTypeEnum.IncomingInternal]: 'وارد داخلي',
+  [CorrespondenceTypeEnum.OutgoingInternal]: 'صادر داخلي',
+  [CorrespondenceTypeEnum.Memorandum]: 'المطالعة',
+  [CorrespondenceTypeEnum.Reply]: 'رد',
+  [CorrespondenceTypeEnum.Public]: 'أعمام'
 };
 
-
-
 export enum CorrespondenceLinkType {
-  RefersTo = 1,        // المراسلة الحالية تشير إلى المراسلة المرتبطة
-  ReplyTo = 2,         // المراسلة الحالية هي رد على المراسلة المرتبطة
-  FollowUpTo = 3,      // المراسلة الحالية هي متابعة للمراسلة المرتبطة
-  RelatedTo = 4,       // مجرد ارتباط عام بالموضوع
-  Supersedes = 5,      // المراسلة الحالية تلغي/تستبدل المراسلة المرتبطة
-  ContinuationOf = 6   // المراسلة الحالية هي استكمال للمراسلة المرتبطة
+  RefersTo = 1, // المراسلة الحالية تشير إلى المراسلة المرتبطة
+  ReplyTo = 2, // المراسلة الحالية هي رد على المراسلة المرتبطة
+  FollowUpTo = 3, // المراسلة الحالية هي متابعة للمراسلة المرتبطة
+  RelatedTo = 4, // مجرد ارتباط عام بالموضوع
+  Supersedes = 5, // المراسلة الحالية تلغي/تستبدل المراسلة المرتبطة
+  ContinuationOf = 6 // المراسلة الحالية هي استكمال للمراسلة المرتبطة
 }
 
-
 export enum SecrecyLevelEnum {
-  None = 0,        // عام
-  Limited = 1,     // محدود
-  Secret = 2,      // سري
-  TopSecret = 3    // سري للغاية
+  None = 0, // عام
+  Limited = 1, // محدود
+  Secret = 2, // سري
+  TopSecret = 3 // سري للغاية
 }
 
 export const SecrecyLevelEnumDisplay: Record<SecrecyLevelEnum, string> = {
-  [SecrecyLevelEnum.None]: "عام",
-  [SecrecyLevelEnum.Limited]: "محدود",
-  [SecrecyLevelEnum.Secret]: "سري",
-  [SecrecyLevelEnum.TopSecret]: "سري للغاية"
+  [SecrecyLevelEnum.None]: 'عام',
+  [SecrecyLevelEnum.Limited]: 'محدود',
+  [SecrecyLevelEnum.Secret]: 'سري',
+  [SecrecyLevelEnum.TopSecret]: 'سري للغاية'
 };
 
 export enum PriorityLevelEnum {
-  None = 0,        // غير مرتبة
-  Normal = 1,      // عادي
-  Urgent = 2,      // مستعجل
-  VeryUrgent = 3,  // مستعجل جدا
-  Immediate = 4    // فوري
+  None = 0, // غير مرتبة
+  Normal = 1, // عادي
+  Urgent = 2, // مستعجل
+  VeryUrgent = 3, // مستعجل جدا
+  Immediate = 4 // فوري
 }
 
 export const PriorityLevelEnumDisplay: Record<PriorityLevelEnum, string> = {
-  [PriorityLevelEnum.None]: "غير مرتبة",
-  [PriorityLevelEnum.Normal]: "عادي",
-  [PriorityLevelEnum.Urgent]: "مستعجل",
-  [PriorityLevelEnum.VeryUrgent]: "مستعجل جدا",
-  [PriorityLevelEnum.Immediate]: "فوري"
+  [PriorityLevelEnum.None]: 'غير مرتبة',
+  [PriorityLevelEnum.Normal]: 'عادي',
+  [PriorityLevelEnum.Urgent]: 'مستعجل',
+  [PriorityLevelEnum.VeryUrgent]: 'مستعجل جدا',
+  [PriorityLevelEnum.Immediate]: 'فوري'
 };
 
-
 export enum PersonalityLevelEnum {
-  General = 0,                  // عام
-  Personal = 1,                 // شخصي
+  General = 0, // عام
+  Personal = 1, // شخصي
   ToBeOpenedByAddresseeOnly = 2 // يفتح بالذات
 }
 
-export const PersonalityLevelEnumDisplay: Record<PersonalityLevelEnum, string> = {
-  [PersonalityLevelEnum.General]: "عام",
-  [PersonalityLevelEnum.Personal]: "شخصي",
-  [PersonalityLevelEnum.ToBeOpenedByAddresseeOnly]: "يفتح بالذات"
-};
+export const PersonalityLevelEnumDisplay: Record<PersonalityLevelEnum, string> =
+  {
+    [PersonalityLevelEnum.General]: 'عام',
+    [PersonalityLevelEnum.Personal]: 'شخصي',
+    [PersonalityLevelEnum.ToBeOpenedByAddresseeOnly]: 'يفتح بالذات'
+  };
 
 export interface UpdateCorrespondenceStatusPayload {
   correspondenceId: string; // UUID
@@ -173,42 +169,26 @@ export interface UpdateCorrespondenceStatusPayload {
   reason: string;
 }
 
-
 export enum CorrespondenceStatusEnum {
-
-  // Registered = 1,
-  PendingReferral = 2,
-  UnderProcessing = 3,
-  PendingApproval = 4,
-  Approved = 5,
-  InSignatureAgenda = 6,
-  Signed = 7,
-  // SentOrOutgoing = 8,
-  Completed = 9,
-  // Rejected = 10,
-  ReturnedForModification = 11,
-  Postponed = 12,
-  Cancelled = 13
+  PendingReferral = 1,
+  UnderProcessing = 2,
+  Completed = 3,
+  Rejected = 4,
+  ReturnedForModification = 5,
+  Postponed = 6
 }
 
-
-export const CorrespondenceStatusEnumArabicMap: Record<CorrespondenceStatusEnum, string> = {
-
-  // [CorrespondenceStatusEnum.Registered]: "مسجل",
-  [CorrespondenceStatusEnum.PendingReferral]: "قيد الانتظار",
-  [CorrespondenceStatusEnum.UnderProcessing]: "قيد المعالجة",
-  [CorrespondenceStatusEnum.PendingApproval]: "قيد الموافقة",
-  [CorrespondenceStatusEnum.Approved]: "موافق",
-  [CorrespondenceStatusEnum.InSignatureAgenda]: "قيد التوقيع",
-  [CorrespondenceStatusEnum.Signed]: "موقع",
-  // [CorrespondenceStatusEnum.SentOrOutgoing]: "إرسال أو صادر",
-  [CorrespondenceStatusEnum.Completed]: "مكتمل",
-  // [CorrespondenceStatusEnum.Rejected]: "مرفوض",
-  [CorrespondenceStatusEnum.ReturnedForModification]: "إرجاع للتعديل",
-  [CorrespondenceStatusEnum.Postponed]: "مؤجل",
-  [CorrespondenceStatusEnum.Cancelled]: "ملغي"
+export const CorrespondenceStatusEnumArabicMap: Record<
+  CorrespondenceStatusEnum,
+  string
+> = {
+  [CorrespondenceStatusEnum.PendingReferral]: 'قيد الانتظار',
+  [CorrespondenceStatusEnum.UnderProcessing]: 'قيد المعالجة',
+  [CorrespondenceStatusEnum.Completed]: 'مكتمل',
+  [CorrespondenceStatusEnum.Rejected]: 'مرفوض',
+  [CorrespondenceStatusEnum.ReturnedForModification]: 'إرجاع للتعديل',
+  [CorrespondenceStatusEnum.Postponed]: 'مؤجل'
 };
-
 
 export interface CorrespondenceFilter {
   page?: number; // default: 1
@@ -228,7 +208,6 @@ export interface CorrespondenceFilter {
   priorityLevel?: PriorityLevelEnum;
   personalityLevel?: PersonalityLevelEnum;
 }
-
 
 export interface OutgoingInternalMailPayload {
   id?: string;

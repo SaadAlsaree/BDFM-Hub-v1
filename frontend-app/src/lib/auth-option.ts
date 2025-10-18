@@ -9,12 +9,12 @@ const authOption: NextAuthOptions = {
 
   session: {
     strategy: 'jwt',
-    maxAge: 8 * 60 * 60, // 8 hours
+    maxAge: 8 * 60 * 60 // 8 hours
   },
   pages: {
     signIn: '/login',
     error: '/error',
-    signOut: '/signout',
+    signOut: '/signout'
   },
 
   providers: [
@@ -22,7 +22,7 @@ const authOption: NextAuthOptions = {
       name: 'Credentials',
       credentials: {
         userLogin: { label: 'User Login', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
         if (!credentials?.userLogin || !credentials?.password) {
@@ -30,13 +30,10 @@ const authOption: NextAuthOptions = {
         }
 
         try {
-          const response = await fetchAuth.post(
-            `/api/Auth/login`,
-            {
-              userLogin: credentials.userLogin,
-              password: credentials.password,
-            }
-          );
+          const response = await fetchAuth.post(`/api/Auth/login`, {
+            userLogin: credentials.userLogin,
+            password: credentials.password
+          });
 
           if (response && response.token) {
             return {
@@ -45,7 +42,7 @@ const authOption: NextAuthOptions = {
               fullName: response.fullName,
               email: response.email,
               accessToken: response.token,
-              roles: response.roles || [],
+              roles: response.roles || []
             } as User;
           }
           return null;
@@ -53,8 +50,8 @@ const authOption: NextAuthOptions = {
           console.error('Authentication error:', error);
           return null;
         }
-      },
-    }),
+      }
+    })
   ],
   callbacks: {
     async jwt({ token, user, trigger }) {
@@ -63,7 +60,7 @@ const authOption: NextAuthOptions = {
           ...token,
           accessToken: user.accessToken,
           roles: user.roles,
-          accessTokenExpires: Date.now() + 8 * 60 * 60 * 1000, // 8 hours from now
+          accessTokenExpires: Date.now() + 8 * 60 * 60 * 1000 // 8 hours from now
         };
       }
 
@@ -76,7 +73,7 @@ const authOption: NextAuthOptions = {
       // Access token has expired, set error flag
       return {
         ...token,
-        error: "RefreshAccessTokenError",
+        error: 'RefreshAccessTokenError'
       };
     },
     async session({ session, token }) {
@@ -88,12 +85,12 @@ const authOption: NextAuthOptions = {
           id: token.sub || '',
           fullName: token.fullName as string | null,
           name: token.name as string | null,
-          email: token.email as string | null,
+          email: token.email as string | null
         };
       }
       return session;
-    },
-  },
+    }
+  }
 };
 
 export default authOption;

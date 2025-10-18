@@ -24,7 +24,7 @@ internal class GetCustomWorkflowStepListHandler : GetAllWithCountHandler<CustomW
             DefaultDueDateOffsetDays = e.DefaultDueDateOffsetDays,
             CreateAt = e.CreateAt,
             LastUpdateAt = e.LastUpdateAt,
-            StatusId = (int)e.StatusId,
+            Status = (int)e.StatusId,
             StatusName = e.StatusId.GetDisplayName() // Will be populated by base handler
         };
 

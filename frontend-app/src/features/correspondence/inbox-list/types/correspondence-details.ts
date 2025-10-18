@@ -1,4 +1,4 @@
-import { UserCorrespondenceInteraction } from "../../types/register-incoming-external-mail";
+import { UserCorrespondenceInteraction } from '../../types/register-incoming-external-mail';
 
 export interface CorrespondenceDetails {
   id: string;
@@ -24,6 +24,8 @@ export interface CorrespondenceDetails {
   personalityLevelName: string;
   createdByUserId: string;
   createdByUserName: string;
+  createdByUnitName: string;
+  createdByUnitCode: string;
   createdAt: string;
   signatoryUserId: string;
   signatoryUserName: string;
@@ -44,42 +46,26 @@ export interface CorrespondenceDetails {
 
 // TypeScript enum equivalent of CorrespondenceStatusEnum
 
-
 export enum CorrespondenceStatusEnum {
-
-  // Registered = 1,
-  PendingReferral = 2,
-  UnderProcessing = 3,
-  PendingApproval = 4,
-  Approved = 5,
-  InSignatureAgenda = 6,
-  Signed = 7,
-  // SentOrOutgoing = 8,
-  Completed = 9,
-  // Rejected = 10,
-  ReturnedForModification = 11,
-  Postponed = 12,
-  Cancelled = 13
+  PendingReferral = 1,
+  UnderProcessing = 2,
+  Completed = 3,
+  Rejected = 4,
+  ReturnedForModification = 5,
+  Postponed = 6
 }
 
-
-export const CorrespondenceStatusEnumArabicMap: Record<CorrespondenceStatusEnum, string> = {
-
-  // [CorrespondenceStatusEnum.Registered]: "مسجل",
-  [CorrespondenceStatusEnum.PendingReferral]: "قيد الانتظار",
-  [CorrespondenceStatusEnum.UnderProcessing]: "قيد المعالجة",
-  [CorrespondenceStatusEnum.PendingApproval]: "قيد الموافقة",
-  [CorrespondenceStatusEnum.Approved]: "موافق",
-  [CorrespondenceStatusEnum.InSignatureAgenda]: "قيد التوقيع",
-  [CorrespondenceStatusEnum.Signed]: "موقع",
-  // [CorrespondenceStatusEnum.SentOrOutgoing]: "إرسال أو صادر",
-  [CorrespondenceStatusEnum.Completed]: "مكتمل",
-  // [CorrespondenceStatusEnum.Rejected]: "مرفوض",
-  [CorrespondenceStatusEnum.ReturnedForModification]: "إرجاع للتعديل",
-  [CorrespondenceStatusEnum.Postponed]: "مؤجل",
-  [CorrespondenceStatusEnum.Cancelled]: "ملغي"
+export const CorrespondenceStatusEnumArabicMap: Record<
+  CorrespondenceStatusEnum,
+  string
+> = {
+  [CorrespondenceStatusEnum.PendingReferral]: 'قيد الانتظار',
+  [CorrespondenceStatusEnum.UnderProcessing]: 'قيد المعالجة',
+  [CorrespondenceStatusEnum.Completed]: 'مكتمل',
+  [CorrespondenceStatusEnum.Rejected]: 'مرفوض',
+  [CorrespondenceStatusEnum.ReturnedForModification]: 'إرجاع للتعديل',
+  [CorrespondenceStatusEnum.Postponed]: 'مؤجل'
 };
-
 
 export interface WorkflowStep {
   id: string;
@@ -192,11 +178,7 @@ export interface WorkflowStepTodoPayload {
   notes?: string;
 }
 
-
 export interface WorkflowStepTodoStatusPayload {
-
   workflowStepTodoId?: string;
   isCompleted?: boolean;
 }
-
-

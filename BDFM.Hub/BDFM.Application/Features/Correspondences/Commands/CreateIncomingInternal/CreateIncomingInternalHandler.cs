@@ -49,7 +49,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateIncomingInter
                     FileId = request.FileId,
                     CreateByUserId = _currentUserService.UserId,
                     CreateAt = DateTime.UtcNow,
-                    Status = CorrespondenceStatusEnum.Registered,
+                    Status = CorrespondenceStatusEnum.PendingReferral,
                     CorrespondenceType = CorrespondenceTypeEnum.IncomingInternal,
                 };
                 var incomingInternal = await _correspondencRepository.Create(correspondenc, cancellationToken);

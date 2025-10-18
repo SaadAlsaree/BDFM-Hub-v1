@@ -25,12 +25,15 @@ export function formatBytes(
   }`;
 }
 
-export function formatDate(dateString: string, options: Intl.DateTimeFormatOptions = {}) {
+export function formatDate(
+  dateString: string,
+  options: Intl.DateTimeFormatOptions = {}
+) {
   if (!dateString) return '';
-  
+
   try {
     const date = new Date(dateString);
-    
+
     // Default options if none provided
     const defaultOptions: Intl.DateTimeFormatOptions = {
       year: 'numeric',
@@ -41,7 +44,7 @@ export function formatDate(dateString: string, options: Intl.DateTimeFormatOptio
       second: '2-digit',
       ...options
     };
-    
+
     return new Intl.DateTimeFormat('en-US', defaultOptions).format(date);
   } catch (error) {
     // Silent fail and return the original string

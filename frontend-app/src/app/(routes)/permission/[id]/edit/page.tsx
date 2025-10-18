@@ -14,10 +14,9 @@ type pageProps = {
   params: Promise<{ id: string }>;
 };
 
-
-const EditPermissionPage = async(props: pageProps) => {
-    const params = await props.params;
-    const permission = await permissionService.getPermissionDetail(params.id);
+const EditPermissionPage = async (props: pageProps) => {
+  const params = await props.params;
+  const permission = await permissionService.getPermissionDetail(params.id);
 
   return (
     <PageContainer scrollable>
@@ -30,8 +29,7 @@ const EditPermissionPage = async(props: pageProps) => {
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default EditPermissionPage
-
+export default EditPermissionPage;

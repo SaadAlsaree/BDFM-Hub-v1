@@ -57,7 +57,6 @@ interface RolePermissionDialogProps {
   rolePermissions?: RolePermissionDto[];
 }
 
-
 const RolePermissionDialog = ({
   isOpen,
   onClose,
@@ -68,7 +67,6 @@ const RolePermissionDialog = ({
   const { authApiCall } = useAuthApi();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
 
   const permissionOptions: Option[] = permissions?.map((permission) => ({
     label: permission.name,
@@ -90,7 +88,9 @@ const RolePermissionDialog = ({
       setIsLoading(true);
 
       // Collect all permission IDs that need to be assigned
-      const newPermissionIds = values.permissions.map((permission) => permission.value);
+      const newPermissionIds = values.permissions.map(
+        (permission) => permission.value
+      );
 
       // Create a payload for the API call with all permission IDs
       const payload: AssignRolePermissionsDto = {

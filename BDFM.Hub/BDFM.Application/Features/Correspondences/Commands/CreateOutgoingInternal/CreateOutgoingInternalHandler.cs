@@ -53,7 +53,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateOutgoingInter
                     IsDraft = false,
                     CreateByUserId = _currentUserService.UserId,
                     CreateAt = DateTime.UtcNow,
-                    Status = CorrespondenceStatusEnum.Registered,
+                    Status = CorrespondenceStatusEnum.PendingReferral,
                     CorrespondenceType = CorrespondenceTypeEnum.OutgoingInternal,
                 };
                 var outgoingInternal = await _correspondencRepository.Create(correspondenc, cancellationToken);

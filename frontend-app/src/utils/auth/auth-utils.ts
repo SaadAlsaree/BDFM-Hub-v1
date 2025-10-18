@@ -27,7 +27,7 @@ export function hasAnyRole(user: UserDto | null, roleNames: string[]): boolean {
     return false;
   }
 
-  return roleNames.some(role => hasRole(user, role));
+  return roleNames.some((role) => hasRole(user, role));
 }
 
 /**
@@ -36,12 +36,15 @@ export function hasAnyRole(user: UserDto | null, roleNames: string[]): boolean {
  * @param roleNames - Array of role names or values
  * @returns boolean indicating if the user has all the roles
  */
-export function hasAllRoles(user: UserDto | null, roleNames: string[]): boolean {
+export function hasAllRoles(
+  user: UserDto | null,
+  roleNames: string[]
+): boolean {
   if (!user || !user.userRoles?.length || !roleNames.length) {
     return false;
   }
 
-  return roleNames.every(role => hasRole(user, role));
+  return roleNames.every((role) => hasRole(user, role));
 }
 
 /**
@@ -50,14 +53,18 @@ export function hasAllRoles(user: UserDto | null, roleNames: string[]): boolean 
  * @param permissionValue - The permission value to check
  * @returns boolean indicating if the user has the permission
  */
-export function hasPermission(user: UserDto | null, permissionValue: string): boolean {
+export function hasPermission(
+  user: UserDto | null,
+  permissionValue: string
+): boolean {
   if (!user || !user.userPermissions?.length) {
     return false;
   }
 
   return user.userPermissions.some(
     (permission) =>
-      permission.value === permissionValue || permission.name === permissionValue
+      permission.value === permissionValue ||
+      permission.name === permissionValue
   );
 }
 
@@ -67,12 +74,15 @@ export function hasPermission(user: UserDto | null, permissionValue: string): bo
  * @param permissionValues - Array of permission values
  * @returns boolean indicating if the user has any of the permissions
  */
-export function hasAnyPermission(user: UserDto | null, permissionValues: string[]): boolean {
+export function hasAnyPermission(
+  user: UserDto | null,
+  permissionValues: string[]
+): boolean {
   if (!user || !user.userPermissions?.length || !permissionValues.length) {
     return false;
   }
 
-  return permissionValues.some(permission => hasPermission(user, permission));
+  return permissionValues.some((permission) => hasPermission(user, permission));
 }
 
 /**
@@ -81,12 +91,17 @@ export function hasAnyPermission(user: UserDto | null, permissionValues: string[
  * @param permissionValues - Array of permission values
  * @returns boolean indicating if the user has all the permissions
  */
-export function hasAllPermissions(user: UserDto | null, permissionValues: string[]): boolean {
+export function hasAllPermissions(
+  user: UserDto | null,
+  permissionValues: string[]
+): boolean {
   if (!user || !user.userPermissions?.length || !permissionValues.length) {
     return false;
   }
 
-  return permissionValues.every(permission => hasPermission(user, permission));
+  return permissionValues.every((permission) =>
+    hasPermission(user, permission)
+  );
 }
 
 /**
@@ -99,7 +114,7 @@ export function getUserRoles(user: UserDto | null): string[] {
     return [];
   }
 
-  return user.userRoles.map(role => role.value);
+  return user.userRoles.map((role) => role.value);
 }
 
 /**
@@ -114,7 +129,7 @@ export function getUserPermissions(user: UserDto | null): string[] {
 
   const permissions = new Set<string>();
 
-  user.userPermissions.forEach(permission => {
+  user.userPermissions.forEach((permission) => {
     permissions.add(permission.value);
   });
 
@@ -136,7 +151,10 @@ export function isAuthenticated(user: UserDto | null): boolean {
  * @param organizationalUnitId - The organizational unit ID
  * @returns boolean indicating if the user belongs to the organizational unit
  */
-export function isInOrganizationalUnit(user: UserDto | null, organizationalUnitId: string): boolean {
+export function isInOrganizationalUnit(
+  user: UserDto | null,
+  organizationalUnitId: string
+): boolean {
   if (!user) {
     return false;
   }

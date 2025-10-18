@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const viewTemplatePage = () => {
-  return (
-    <div>viewTemplatePage</div>
-  )
-}
+  return <div>viewTemplatePage</div>;
+};
 
-export default viewTemplatePage
+export default viewTemplatePage;

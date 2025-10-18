@@ -119,7 +119,6 @@ const CreatePublicMailForm = ({
           createdByUserId: session?.user?.id
         };
 
-      
         const result = await authApiCall(() =>
           correspondenceService.createPublicCorrespondence(payload)
         );
@@ -146,12 +145,9 @@ const CreatePublicMailForm = ({
           updatedByUserId: session?.user?.id
         };
 
-        
         const result = await authApiCall(() =>
           correspondenceService.updateCorrespondenceContent(payload)
         );
-
-      
 
         if (result?.data) {
           toast.success('تم تعديل الكتاب العام بنجاح');

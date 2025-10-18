@@ -5,4 +5,4 @@ export { default as CustomWorkflowStepDialog } from './custom-workflow-step-dial
 export { default as CustomWorkflowStepsManagement } from './custom-workflow-steps-management';
 export { default as CustomWorkflowTable } from './custom-workflow-tables';
 export { columns as customWorkflowColumns } from './custom-workflow-tables/columns';
-export { CellAction as CustomWorkflowCellAction } from './custom-workflow-tables/cell-action'; 
+export { CellAction as CustomWorkflowCellAction } from './custom-workflow-tables/cell-action';

@@ -7,7 +7,7 @@ import { type HTMLMotionProps, type Transition, motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import {
   MotionHighlight,
-  MotionHighlightItem,
+  MotionHighlightItem
 } from '@/components/animate-ui/effects/motion-highlight';
 
 type TabsProps = React.ComponentProps<typeof TabsPrimitive.Root>;
@@ -15,7 +15,7 @@ type TabsProps = React.ComponentProps<typeof TabsPrimitive.Root>;
 function Tabs({ className, ...props }: TabsProps) {
   return (
     <TabsPrimitive.Root
-      data-slot="tabs"
+      data-slot='tabs'
       className={cn('flex flex-col gap-2', className)}
       {...props}
     />
@@ -35,7 +35,7 @@ function TabsList({
   transition = {
     type: 'spring',
     stiffness: 200,
-    damping: 25,
+    damping: 25
   },
   ...props
 }: TabsListProps) {
@@ -43,13 +43,13 @@ function TabsList({
   React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
 
   const [activeValue, setActiveValue] = React.useState<string | undefined>(
-    undefined,
+    undefined
   );
 
   const getActiveValue = React.useCallback(() => {
     if (!localRef.current) return;
     const activeTab = localRef.current.querySelector<HTMLElement>(
-      '[data-state="active"]',
+      '[data-state="active"]'
     );
     if (!activeTab) return;
     setActiveValue(activeTab.getAttribute('data-value') ?? undefined);
@@ -64,7 +64,7 @@ function TabsList({
       observer.observe(localRef.current, {
         attributes: true,
         childList: true,
-        subtree: true,
+        subtree: true
       });
     }
 
@@ -76,16 +76,16 @@ function TabsList({
   return (
     <MotionHighlight
       controlledItems
-      className={cn('rounded-sm bg-background shadow-sm', activeClassName)}
+      className={cn('bg-background rounded-sm shadow-sm', activeClassName)}
       value={activeValue}
       transition={transition}
     >
       <TabsPrimitive.List
         ref={localRef}
-        data-slot="tabs-list"
+        data-slot='tabs-list'
         className={cn(
           'bg-muted text-muted-foreground inline-flex h-10 w-fit items-center justify-center rounded-lg p-[4px]',
-          className,
+          className
         )}
         {...props}
       >
@@ -99,12 +99,12 @@ type TabsTriggerProps = React.ComponentProps<typeof TabsPrimitive.Trigger>;
 
 function TabsTrigger({ className, value, ...props }: TabsTriggerProps) {
   return (
-    <MotionHighlightItem value={value} className="size-full">
+    <MotionHighlightItem value={value} className='size-full'>
       <TabsPrimitive.Trigger
-        data-slot="tabs-trigger"
+        data-slot='tabs-trigger'
         className={cn(
-          'inline-flex cursor-pointer items-center size-full justify-center whitespace-nowrap rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground z-[1]',
-          className,
+          'ring-offset-background focus-visible:ring-ring data-[state=active]:text-foreground z-[1] inline-flex size-full cursor-pointer items-center justify-center rounded-sm px-2 py-1 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
+          className
         )}
         value={value}
         {...props}
@@ -123,14 +123,14 @@ function TabsContent({
   children,
   transition = {
     duration: 0.5,
-    ease: 'easeInOut',
+    ease: 'easeInOut'
   },
   ...props
 }: TabsContentProps) {
   return (
     <TabsPrimitive.Content asChild {...props}>
       <motion.div
-        data-slot="tabs-content"
+        data-slot='tabs-content'
         className={cn('flex-1 outline-none', className)}
         layout
         initial={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
@@ -188,7 +188,7 @@ function TabsContents({
 
   return (
     <motion.div
-      data-slot="tabs-contents"
+      data-slot='tabs-contents'
       layout
       animate={{ height: height }}
       transition={transition}
@@ -210,5 +210,5 @@ export {
   type TabsListProps,
   type TabsTriggerProps,
   type TabsContentProps,
-  type TabsContentsProps,
+  type TabsContentsProps
 };

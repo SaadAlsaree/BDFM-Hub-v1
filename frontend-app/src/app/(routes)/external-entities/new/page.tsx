@@ -8,7 +8,6 @@ export const metadata = {
   description: 'إضافة جهة خارجية جديدة'
 };
 
-
 const NewExternalEntityPage = async () => {
   return (
     <PageContainer scrollable>

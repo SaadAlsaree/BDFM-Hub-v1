@@ -192,18 +192,16 @@ const CreateInternalMailForm = ({
           {/* Internal Number and Date */}
           <div className='grid gap-6 md:grid-cols-2'>
             {/* Internal Number */}
-           
-                <FormItem>
-                  <FormLabel className='block text-right'>
-                    رقم الكتاب الداخلي
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder='سيتم توليده تلقائياً' disabled />
-                     
-                  </FormControl>
-                  <FormMessage className='text-right' />
-                </FormItem>
-           
+
+            <FormItem>
+              <FormLabel className='block text-right'>
+                رقم الكتاب الداخلي
+              </FormLabel>
+              <FormControl>
+                <Input placeholder='سيتم توليده تلقائياً' disabled />
+              </FormControl>
+              <FormMessage className='text-right' />
+            </FormItem>
 
             {/* Internal Date */}
             <FormField

@@ -1343,6 +1343,45 @@
   },
   {
     "ContainingType": "BDFM.API.Controllers.Correspondence.CorrespondenceController",
+    "Method": "GetCompleted",
+    "RelativePath": "BDFM/v1/api/Correspondence/GetCompleted",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.Correspondences.Queries.GetCompleted.CompletedItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "Correspondence"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.API.Controllers.Correspondence.CorrespondenceController",
     "Method": "GetCorrespondenceIncming",
     "RelativePath": "BDFM/v1/api/Correspondence/GetCorrespondenceIncming",
     "HttpMethod": "GET",
@@ -1409,6 +1448,60 @@
       },
       {
         "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceOutgoing.GetCorrespondenceOutgoingVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "Correspondence"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.API.Controllers.Correspondence.CorrespondenceController",
+    "Method": "GetCorrespondencesSummary",
+    "RelativePath": "BDFM/v1/api/Correspondence/GetCorrespondencesSummary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UnitId",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.Nullable\u00601[[System.DateOnly, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.Nullable\u00601[[System.DateOnly, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "IncludeSubUnits",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "CorrespondenceType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary.GetCorrespondencesSummaryVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary.GetCorrespondencesSummaryVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1572,6 +1665,45 @@
   },
   {
     "ContainingType": "BDFM.API.Controllers.Correspondence.CorrespondenceController",
+    "Method": "GetPending",
+    "RelativePath": "BDFM/v1/api/Correspondence/GetPending",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.Correspondences.Queries.GetPending.PendingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "Correspondence"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.API.Controllers.Correspondence.CorrespondenceController",
     "Method": "GetPostponedCorrespondences",
     "RelativePath": "BDFM/v1/api/Correspondence/GetPostponedCorrespondences",
     "HttpMethod": "GET",
@@ -1599,6 +1731,45 @@
       },
       {
         "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespondences.GetPostponedCorrespondencesVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "Correspondence"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.API.Controllers.Correspondence.CorrespondenceController",
+    "Method": "GetProcessing",
+    "RelativePath": "BDFM/v1/api/Correspondence/GetProcessing",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.Correspondences.Queries.GetProcessing.ProcessingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
         "MediaTypes": [
           "application/json"
         ],
@@ -1648,6 +1819,45 @@
       },
       {
         "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences.GetPublicCorrespondencesVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "Correspondence"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.API.Controllers.Correspondence.CorrespondenceController",
+    "Method": "GetReturnForEditing",
+    "RelativePath": "BDFM/v1/api/Correspondence/GetReturnForEditing",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing.ReturnForEditingItemVm, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
         "MediaTypes": [
           "application/json"
         ],

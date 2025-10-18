@@ -64,7 +64,6 @@
     <Folder Include="Features\Correspondences\Queries\GetPostponedCorrespondences\" />
     <Folder Include="Features\Correspondences\Queries\GetTrashContents\" />
     <Folder Include="Features\Correspondences\Queries\GetCorrespondenceFullHistory\" />
-    <Folder Include="Features\Correspondences\Queries\GetUserIsStarred\" />
     <Folder Include="Features\Correspondences\Queries\GetOutgoingInternal\" />
     <Folder Include="Features\Correspondences\Queries\SearchCorrespondences\" />
     <Folder Include="Features\MailFiles\Commands\CreateMailFile\" />

@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { CustomWorkflowDetails } from '@/features/customWorkflow/types/customWorkflow';
+import {
+  CustomWorkflowDetails,
+  CustomWorkflowStepDetails
+} from '@/features/customWorkflow/types/customWorkflow';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -11,9 +14,22 @@ import {
   getCorrespondenceTypeDisplay
 } from '../utils/customWorkflow';
 import { Button } from '@/components/ui/button';
-import { IconEdit, IconPlus } from '@tabler/icons-react';
+import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react';
 import Link from 'next/link';
 import CustomWorkflowStepDialog from './custom-workflow-step-dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { customWorkflowService } from '@/features/customWorkflow/api/customWorkflow.service';
+import { useAuthApi } from '@/hooks/use-auth-api';
+import { toast } from 'sonner';
 
 type CustomWorkflowViewPageProps = {
   workflow: CustomWorkflowDetails;
@@ -23,10 +39,59 @@ export default function CustomWorkflowViewPage({
   workflow
 }: CustomWorkflowViewPageProps) {
   const [isStepDialogOpen, setIsStepDialogOpen] = useState(false);
+  const [stepToEdit, setStepToEdit] =
+    useState<CustomWorkflowStepDetails | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [pendingStepId, setPendingStepId] = useState<string | null>(null);
+  const { authApiCall } = useAuthApi();
 
   const handleStepDialogSuccess = () => {
     // Refresh the page or refetch data
     window.location.reload();
+  };
+
+  const handleEditStep = (stepId: string) => {
+    const step = workflow.steps?.find((step) => step.id === stepId);
+    if (step) {
+      // Map list item to details shape expected by the dialog
+      const details: CustomWorkflowStepDetails = {
+        id: step.id,
+        workflowId: step.workflowId,
+        stepOrder: step.stepOrder,
+        actionType: step.actionType as number,
+        targetType: step.targetType as number,
+        targetIdentifier: step.targetIdentifier || '',
+        defaultInstructionText: step.defaultInstructionText || '',
+        defaultDueDateOffsetDays: step.defaultDueDateOffsetDays ?? 0,
+        // Fill system fields with reasonable defaults (dialog only uses a subset)
+        createAt: new Date().toISOString(),
+        lastUpdateAt: new Date().toISOString(),
+        createBy: '',
+        lastUpdateBy: '',
+        statusId: 0,
+        statusName: ''
+      };
+
+      setStepToEdit(details);
+      setIsStepDialogOpen(true);
+    }
+  };
+
+  const handleDeleteStep = async (stepId: string) => {
+    try {
+      const response = await authApiCall(async () =>
+        customWorkflowService.deleteCustomWorkflowStep(stepId)
+      );
+
+      if (response?.succeeded) {
+        toast.success('تم حذف خطوة سير العمل بنجاح!');
+        window.location.reload();
+      } else {
+        toast.error('فشل في حذف خطوة سير العمل!');
+      }
+    } catch (error) {
+      toast.error('حدث خطأ أثناء حذف خطوة سير العمل!');
+    }
   };
 
   return (
@@ -132,9 +197,9 @@ export default function CustomWorkflowViewPage({
         <CardContent>
           {workflow.steps && workflow.steps.length > 0 ? (
             <div className='space-y-4'>
-              {workflow.steps.map((step, index) => (
+              {workflow.steps.map((step) => (
                 <div
-                  key={index}
+                  key={step.id}
                   className='flex items-center justify-between rounded-lg border p-4'
                 >
                   <div className='flex items-center gap-4'>
@@ -148,7 +213,27 @@ export default function CustomWorkflowViewPage({
                       </p>
                     </div>
                   </div>
-                  {/* <Badge variant='outline'>{step.statusName}</Badge> */}
+                  {/* قم بإضافة زر التعديل الخاص بالخطوة هنا */}
+                  <div className='flex items-center gap-2'>
+                    <Button
+                      type='button'
+                      variant='outline'
+                      onClick={() => handleEditStep(step.id)}
+                    >
+                      تعديل
+                    </Button>
+                    <Button
+                      type='button'
+                      variant='outline'
+                      onClick={() => {
+                        setPendingStepId(step.id);
+                        setShowDeleteDialog(true);
+                      }}
+                    >
+                      <IconTrash className='ml-2 h-4 w-4' />
+                      حذف
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -172,9 +257,43 @@ export default function CustomWorkflowViewPage({
       <CustomWorkflowStepDialog
         isOpen={isStepDialogOpen}
         workflowId={workflow.id}
-        onClose={() => setIsStepDialogOpen(false)}
+        initialData={stepToEdit}
+        onClose={() => {
+          setIsStepDialogOpen(false);
+          setStepToEdit(null);
+        }}
         onSuccess={handleStepDialogSuccess}
       />
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog
+        open={showDeleteDialog}
+        onOpenChange={(open) => {
+          setShowDeleteDialog(open);
+          if (!open) setPendingStepId(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>حذف خطوة سير العمل</AlertDialogTitle>
+            <AlertDialogDescription>
+              هل أنت متأكد أنك تريد حذف هذه الخطوة؟ لا يمكن التراجع عن هذا
+              الإجراء.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (pendingStepId) await handleDeleteStep(pendingStepId);
+              }}
+              className='bg-red-600 hover:bg-red-700'
+            >
+              حذف
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

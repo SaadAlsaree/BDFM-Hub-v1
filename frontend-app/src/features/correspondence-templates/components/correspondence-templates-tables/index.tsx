@@ -6,13 +6,16 @@ import { ColumnDef } from '@tanstack/react-table';
 import { parseAsInteger, useQueryState } from 'nuqs';
 
 interface CorrespondenceTemplatesTableProps<TData, TValue> {
-   data: TData[];
-    columns: ColumnDef<TData, TValue>[];
-    totalItems: number;
+  data: TData[];
+  columns: ColumnDef<TData, TValue>[];
+  totalItems: number;
 }
 
-const CorrespondenceTemplatesTable = <TData, TValue>({ data, columns, totalItems }: CorrespondenceTemplatesTableProps<TData, TValue>) => {
- 
+const CorrespondenceTemplatesTable = <TData, TValue>({
+  data,
+  columns,
+  totalItems
+}: CorrespondenceTemplatesTableProps<TData, TValue>) => {
   const [pageSize] = useQueryState('pageSize', parseAsInteger.withDefault(10));
 
   const pageCount = Math.ceil(totalItems / pageSize);
@@ -25,13 +28,11 @@ const CorrespondenceTemplatesTable = <TData, TValue>({ data, columns, totalItems
     debounceMs: 500
   });
 
-
   return (
     <DataTable table={table}>
-    <DataTableToolbar table={table} />
-  </DataTable>
+      <DataTableToolbar table={table} />
+    </DataTable>
   );
-}
+};
 
-
-export default CorrespondenceTemplatesTable
+export default CorrespondenceTemplatesTable;

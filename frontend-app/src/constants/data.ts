@@ -1,9 +1,15 @@
 import { NavItem } from '@/types';
 
-
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
 export const navItems: NavItem[] = [
-
+  // {
+  //   title: 'الاعمامات',
+  //   url: '/public-books',
+  //   icon: 'inbox',
+  //   shortcut: ['p', 'p'],
+  //   isActive: false,
+  //   requiredRoles: ['Correspondence', 'SuAdmin'],
+  // },
   {
     title: 'الكتب',
     url: '/home',
@@ -18,7 +24,38 @@ export const navItems: NavItem[] = [
         icon: 'inbox',
         shortcut: ['p', 'p'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'كتب قيد الانتظار',
+        url: '/correspondence/pending-books',
+        icon: 'star',
+        shortcut: ['f', 'f'],
+        isActive: false,
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'كتب قيد المعالجة',
+        url: '/correspondence/processing-books',
+        icon: 'star',
+        shortcut: ['f', 'f'],
+        isActive: false,
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'ارجاع للتعديل',
+        url: '/correspondence/return-for-editing',
+        icon: 'note',
+        shortcut: ['d', 'd'],
+        isActive: false,
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'الكتب المكتملة',
+        url: '/correspondence/completed-books',
+        icon: 'trash',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
 
       {
@@ -27,7 +64,7 @@ export const navItems: NavItem[] = [
         icon: 'send',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
       {
         title: 'صادر داخلي',
@@ -35,7 +72,7 @@ export const navItems: NavItem[] = [
         icon: 'send',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
       {
         title: 'وارد خارجي',
@@ -43,7 +80,7 @@ export const navItems: NavItem[] = [
         icon: 'send',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
       {
         title: 'صادر خارجي',
@@ -51,7 +88,7 @@ export const navItems: NavItem[] = [
         icon: 'send',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
       {
         title: 'الأعمامات',
@@ -59,7 +96,7 @@ export const navItems: NavItem[] = [
         icon: 'send',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
       {
         title: 'الكتب المتأخرة',
@@ -67,7 +104,7 @@ export const navItems: NavItem[] = [
         icon: 'send',
         shortcut: ['l', 'l'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
       {
         title: 'الكتب المستعجلة',
@@ -75,7 +112,7 @@ export const navItems: NavItem[] = [
         icon: 'send',
         shortcut: ['u', 'u'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
       {
         title: 'الكتب غير المقروئة',
@@ -83,32 +120,10 @@ export const navItems: NavItem[] = [
         icon: 'note',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
 
-      {
-        title: 'البريد المميز',
-        url: '/correspondence/favorite',
-        icon: 'star',
-        shortcut: ['f', 'f'],
-        isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
-      },
-      {
-        title: 'المسودات',
-        url: '/correspondence/drafts',
-        icon: 'note',
-        shortcut: ['d', 'd'],
-        isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
-      },
-      {
-        title: 'المهملات',
-        url: '/correspondence/trash',
-        icon: 'trash',
-        shortcut: ['t', 't'],
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All'],
-      }
+
     ] // No child items
   },
 
@@ -126,7 +141,7 @@ export const navItems: NavItem[] = [
         icon: 'inbox',
         shortcut: ['p', 'p'],
         isActive: false,
-        requiredPermissions: ['Correspondence|Manager', 'Access|All'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
       },
       {
         title: 'الكتب غير المقروئة',
@@ -134,7 +149,7 @@ export const navItems: NavItem[] = [
         icon: 'note',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|Manager', 'Access|All'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
       },
       {
         title: 'الكتب المستعجلة | الحرجة',
@@ -142,7 +157,7 @@ export const navItems: NavItem[] = [
         icon: 'note',
         shortcut: ['o', 'o'],
         isActive: false,
-        requiredPermissions: ['Correspondence|Manager', 'Access|All'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
       },
       {
         title: 'قيد التوقيع/المصادقة',
@@ -150,7 +165,7 @@ export const navItems: NavItem[] = [
         icon: 'check',
         shortcut: ['s', 's'],
         isActive: false,
-        requiredPermissions: ['Correspondence|Manager', 'Access|All'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
       },
       {
         title: 'البريد المميز',
@@ -158,7 +173,7 @@ export const navItems: NavItem[] = [
         icon: 'star',
         shortcut: ['f', 'f'],
         isActive: false,
-        requiredPermissions: ['Correspondence|Manager', 'Access|All'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
       },
 
       {
@@ -166,9 +181,8 @@ export const navItems: NavItem[] = [
         url: '/manager/deferred',
         icon: 'clock',
         shortcut: ['d', 'd'],
-        requiredPermissions: ['Correspondence|Manager', 'Access|All'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
       }
-
     ]
   },
 
@@ -185,16 +199,15 @@ export const navItems: NavItem[] = [
         url: '/advanced-search',
         icon: 'ellipsis',
         shortcut: ['s', 's'],
-        requiredPermissions: ['Tracking|Search', 'Access|All'],
+        requiredPermissions: ['Tracking|Search', 'Access|All']
       },
       {
         title: 'الكتب المتأخرة',
         url: '/late-books',
         icon: 'ellipsis',
         shortcut: ['t', 't'],
-        requiredPermissions: ['Tracking|GetLateBooks', 'Access|All'],
-      },
-
+        requiredPermissions: ['Tracking|GetLateBooks', 'Access|All']
+      }
     ] // No child items
   },
 
@@ -211,14 +224,14 @@ export const navItems: NavItem[] = [
         url: '/mail-files',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['FileManagement|GetFiles', 'Access|All'],
+        requiredPermissions: ['FileManagement|GetFiles', 'Access|All']
       },
       {
         title: 'إنشاء أضبارة جديدة',
         url: '/mail-files/new',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['FileManagement|CreateFile', 'Access|All'],
+        requiredPermissions: ['FileManagement|CreateFile', 'Access|All']
       }
     ] // No child items
   },
@@ -236,22 +249,22 @@ export const navItems: NavItem[] = [
         url: '/dashboard',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Reports|GetReports', 'Access|All'],
+        requiredPermissions: ['Reports|GetReports', 'Access|All']
       },
       {
         title: 'مقاييس الكتب',
         url: '/correspondence-metrics',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Reports|GetReports', 'Access|All'],
+        requiredPermissions: ['Reports|GetReports', 'Access|All']
       },
       {
         title: 'ملخص الأداء اليومي',
         url: '/daily-performance',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Reports|GetReports', 'Access|All'],
-      },
+        requiredPermissions: ['Reports|GetReports', 'Access|All']
+      }
 
       // {
       //   title: 'تقارير استراتيجية',
@@ -276,52 +289,51 @@ export const navItems: NavItem[] = [
         url: '/structure',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Settings|GetStructure', 'Access|All'],
+        requiredPermissions: ['Settings|GetStructure', 'Access|All']
       },
       {
         title: 'إدارة الجهات',
         url: '/organizational-unit',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Settings|GetOrganizationalUnits', 'Access|All'],
+        requiredPermissions: ['Settings|GetOrganizationalUnits', 'Access|All']
       },
       {
         title: 'إدارة المستخدمين',
         url: '/users',
         icon: 'ellipsis',
         shortcut: ['u', 'u'],
-        requiredPermissions: ['Settings|GetUsers', 'Access|All'],
+        requiredPermissions: ['Settings|GetUsers', 'Access|All']
       },
-
 
       {
         title: 'إدارة الجهات الخارجية',
         url: '/external-entities',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Settings|GetExternalEntities', 'Access|All'],
+        requiredPermissions: ['Settings|GetExternalEntities', 'Access|All']
       },
       {
         title: 'إدارة نماذج الكتب',
         url: '/templates',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Settings|GetTemplates', 'Access|All'],
+        requiredPermissions: ['Settings|GetTemplates', 'Access|All']
       },
       {
         title: 'إدارة قوالب الكتب',
         url: '/correspondence-template',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Settings|GetBookTemplates', 'Access|All'],
+        requiredPermissions: ['Settings|GetBookTemplates', 'Access|All']
       },
       {
         title: 'إدارة مسارات العمل المخصصة',
         url: '/custom-workflow',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Settings|GetCustomWorkflows', 'Access|All'],
-      },
+        requiredPermissions: ['Settings|GetCustomWorkflows', 'Access|All']
+      }
       // {
       //   title: 'إدارة أذونات الكتب الخارجية',
       //   url: '/roles',
@@ -359,21 +371,21 @@ export const navItems: NavItem[] = [
         url: '/roles',
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
-        requiredPermissions: ['Security|GetRoles', 'Access|All'],
+        requiredPermissions: ['Security|GetRoles', 'Access|All']
       },
       {
         title: 'إدارة الصلاحيات',
         url: '/permission',
         icon: 'ellipsis',
         shortcut: ['p', 'p'],
-        requiredPermissions: ['Security|GetPermissions', 'Access|All'],
+        requiredPermissions: ['Security|GetPermissions', 'Access|All']
       },
       {
         title: 'إدارة التفويضات',
         url: '/delegation',
         icon: 'ellipsis',
         shortcut: ['d', 'd'],
-        requiredPermissions: ['Security|GetDelegations', 'Access|All'],
+        requiredPermissions: ['Security|GetDelegations', 'Access|All']
       }
     ]
   },
@@ -391,25 +403,24 @@ export const navItems: NavItem[] = [
         url: '/support',
         icon: 'ellipsis',
         shortcut: ['t', 't'],
-        requiredPermissions: ['Access|All', 'User'],
+        requiredPermissions: ['Access|All', 'User']
       },
       {
         title: 'عن النظام',
         url: '/support',
         icon: 'ellipsis',
         shortcut: ['t', 't'],
-        requiredPermissions: ['Access|All', 'User'],
+        requiredPermissions: ['Access|All', 'User']
       },
       {
         title: 'اتصل بالدعم',
         url: '/support',
         icon: 'ellipsis',
         shortcut: ['t', 't'],
-        requiredPermissions: ['Access|All', 'User'],
+        requiredPermissions: ['Access|All', 'User']
       }
     ] // No child items
-  },
-
+  }
 
   // {
   //   title: 'المزيد',
@@ -432,8 +443,4 @@ export const navItems: NavItem[] = [
   //     }
   //   ]
   // },
-
 ];
-
-
-

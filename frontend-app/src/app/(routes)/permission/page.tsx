@@ -19,12 +19,10 @@ type pageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-
-const PermissionPage = async(props: pageProps) => {
+const PermissionPage = async (props: pageProps) => {
   const searchParams = await props.searchParams;
 
   searchParamsCache.parse(searchParams);
-
 
   return (
     <PageContainer scrollable={false}>
@@ -49,7 +47,7 @@ const PermissionPage = async(props: pageProps) => {
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default PermissionPage
+export default PermissionPage;

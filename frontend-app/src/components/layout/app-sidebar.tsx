@@ -51,6 +51,8 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import AppSidebarLoading from './app-sidebar-loading';
 import { hasAnyRole, hasAnyPermission } from '@/utils/auth/auth-utils';
 import { UserDto } from '@/utils/auth/auth';
+import { useCorrespondencesSummary } from '@/hooks/use-correspondences-summary';
+import CorrespondenceCountBadge from './correspondence-count-badge';
 
 export const company = {
   name: 'نضام الصلاحيات',
@@ -62,13 +64,16 @@ const tenants = [{ id: '1', name: 'منصة الادارة المركزية' }];
 
 export default function AppSidebar() {
   const pathname = usePathname();
+
   const { isOpen } = useMediaQuery();
   const router = useRouter();
-  const handleSwitchTenant = (_tenantId: string) => {
+  const handleSwitchTenant = (/* tenantId: string */) => {
     // Tenant switching functionality would be implemented here
   };
 
   const { error, isLoading, user } = useCurrentUser();
+  const { data: correspondencesSummary, isLoading: isLoadingSummary } =
+    useCorrespondencesSummary({});
 
   const activeTenant = tenants[0];
 
@@ -115,80 +120,80 @@ export default function AppSidebar() {
                       'Access|All',
                       'Correspondence|Create|Draft'
                     ]) && (
-                      <DropdownMenuItem
-                        onClick={() => router.push('/correspondence/mail-form')}
-                      >
-                        كتاب مسودة
-                      </DropdownMenuItem>
-                    )}
+                        <DropdownMenuItem
+                          onClick={() => router.push('/correspondence/mail-form')}
+                        >
+                          كتاب مسودة
+                        </DropdownMenuItem>
+                      )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|External',
                       'Access|All'
                     ]) && (
-                      <DropdownMenuItem
-                        onClick={() =>
-                          router.push(
-                            '/correspondence/register-incoming-external-mail'
-                          )
-                        }
-                      >
-                        وارد خارجي
-                      </DropdownMenuItem>
-                    )}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(
+                              '/correspondence/register-incoming-external-mail'
+                            )
+                          }
+                        >
+                          وارد خارجي
+                        </DropdownMenuItem>
+                      )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|External',
                       'Access|All'
                     ]) && (
-                      <DropdownMenuItem
-                        onClick={() =>
-                          router.push(
-                            '/correspondence/create-outgoing-external-mail'
-                          )
-                        }
-                      >
-                        صادر خارجي
-                      </DropdownMenuItem>
-                    )}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(
+                              '/correspondence/create-outgoing-external-mail'
+                            )
+                          }
+                        >
+                          صادر خارجي
+                        </DropdownMenuItem>
+                      )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|Internal',
                       'Access|All'
                     ]) && (
-                      <DropdownMenuItem
-                        onClick={() =>
-                          router.push(
-                            '/correspondence/create-incoming-internal-book'
-                          )
-                        }
-                      >
-                        وارد داخلي
-                      </DropdownMenuItem>
-                    )}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(
+                              '/correspondence/create-incoming-internal-book'
+                            )
+                          }
+                        >
+                          وارد داخلي
+                        </DropdownMenuItem>
+                      )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|Internal',
                       'Access|All'
                     ]) && (
-                      <DropdownMenuItem
-                        onClick={() =>
-                          router.push(
-                            '/correspondence/create-outgoing-internal-book'
-                          )
-                        }
-                      >
-                        صادر داخلي
-                      </DropdownMenuItem>
-                    )}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push(
+                              '/correspondence/create-outgoing-internal-book'
+                            )
+                          }
+                        >
+                          صادر داخلي
+                        </DropdownMenuItem>
+                      )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|Memorandum',
                       'Access|All'
                     ]) && (
-                      <DropdownMenuItem
-                        onClick={() =>
-                          router.push('/correspondence/create-memorandum')
-                        }
-                      >
-                        مطالعة\مذكرة
-                      </DropdownMenuItem>
-                    )}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router.push('/correspondence/create-memorandum')
+                          }
+                        >
+                          مطالعة\مذكرة
+                        </DropdownMenuItem>
+                      )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
@@ -267,7 +272,54 @@ export default function AppSidebar() {
                                 isActive={pathname === subItem.url}
                               >
                                 <Link href={subItem.url}>
-                                  <span>{subItem.title}</span>
+                                  <div className='flex items-center gap-2'>
+                                    <span>{subItem.title}</span>
+                                    {/* Show count badge for 'All correspondences' */}
+                                    {subItem.url === '/correspondence' && (
+                                      <CorrespondenceCountBadge
+                                        isLoading={isLoadingSummary}
+                                        count={
+                                          correspondencesSummary?.totalCorrespondences
+                                        }
+                                      />
+                                    )}
+                                    {subItem.url ===
+                                      '/correspondence/pending-books' && (
+                                        <CorrespondenceCountBadge
+                                          isLoading={isLoadingSummary}
+                                          count={
+                                            correspondencesSummary?.totalCorrespondencesPending
+                                          }
+                                        />
+                                      )}
+                                    {subItem.url ===
+                                      '/correspondence/processing-books' && (
+                                        <CorrespondenceCountBadge
+                                          isLoading={isLoadingSummary}
+                                          count={
+                                            correspondencesSummary?.totalCorrespondencesUnderProcessing
+                                          }
+                                        />
+                                      )}
+                                    {subItem.url ===
+                                      '/correspondence/return-for-editing' && (
+                                        <CorrespondenceCountBadge
+                                          isLoading={isLoadingSummary}
+                                          count={
+                                            correspondencesSummary?.totalCorrespondencesReturnedForModification
+                                          }
+                                        />
+                                      )}
+                                    {subItem.url ===
+                                      '/correspondence/completed-books' && (
+                                        <CorrespondenceCountBadge
+                                          isLoading={isLoadingSummary}
+                                          count={
+                                            correspondencesSummary?.totalCorrespondencesCompleted
+                                          }
+                                        />
+                                      )}
+                                  </div>
                                 </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>

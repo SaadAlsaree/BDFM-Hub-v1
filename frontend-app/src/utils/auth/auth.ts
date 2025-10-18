@@ -5,7 +5,7 @@ export interface DelegationDto {
   permissionId: string;
   roleId: string;
   startDate: string; // ISO string
-  endDate: string;   // ISO string
+  endDate: string; // ISO string
   isActive: boolean;
 }
 

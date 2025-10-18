@@ -9,8 +9,8 @@ export { advancedSearchService } from './api/advanced-search.service';
 export type { CorrespondenceFilter } from './types/advanced-search';
 
 export {
-    secrecyLevelOptions,
-    priorityLevelOptions,
-    personalityLevelOptions,
-    formatSearchFilters
-} from './utils/advanced-search'; 
+  secrecyLevelOptions,
+  priorityLevelOptions,
+  personalityLevelOptions,
+  formatSearchFilters
+} from './utils/advanced-search';

@@ -33,6 +33,8 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
         // Creation and modification info
         public Guid CreatedByUserId { get; set; }
         public string CreatedByUserName { get; set; } = string.Empty;
+        public string CreatedByUnitName { get; set; } = string.Empty;
+        public string CreatedByUnitCode { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public Guid? SignatoryUserId { get; set; }
         public string? SignatoryUserName { get; set; }

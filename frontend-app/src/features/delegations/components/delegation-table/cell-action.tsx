@@ -39,7 +39,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setLoading(true);
 
       const response = await authApiCall(() =>
-        delegationService.updateDelegationStatus(data.id, DelegationStatus.Deleted)
+        delegationService.updateDelegationStatus(
+          data.id,
+          DelegationStatus.Deleted
+        )
       );
 
       if (response?.succeeded) {
@@ -61,7 +64,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setLoading(true);
 
       const response = await authApiCall(() =>
-        delegationService.updateDelegationStatus(data.id, DelegationStatus.Active)
+        delegationService.updateDelegationStatus(
+          data.id,
+          DelegationStatus.Active
+        )
       );
 
       if (response?.succeeded) {
@@ -98,7 +104,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className='mr-2 h-4 w-4' />
             نسخ المعرف
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push(`/delegation/${data.id}`)}>
+          <DropdownMenuItem
+            onClick={() => router.push(`/delegation/${data.id}`)}
+          >
             <Eye className='mr-2 h-4 w-4' />
             عرض التفاصيل
           </DropdownMenuItem>

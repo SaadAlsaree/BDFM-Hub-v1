@@ -1,4 +1,8 @@
-import { PersonalityLevelEnum, PriorityLevelEnum, SecrecyLevelEnum } from "@/features/correspondence/types/register-incoming-external-mail";
+import {
+  PersonalityLevelEnum,
+  PriorityLevelEnum,
+  SecrecyLevelEnum
+} from '@/features/correspondence/types/register-incoming-external-mail';
 
 export interface CorrespondenceFilter {
   page?: number; // default: 1
@@ -18,4 +22,3 @@ export interface CorrespondenceFilter {
   priorityLevel?: PriorityLevelEnum;
   personalityLevel?: PersonalityLevelEnum;
 }
-

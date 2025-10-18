@@ -69,7 +69,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.RegisterOutgoingExt
                     MailNum = _mailNumberGenerator.GetUniqueMailNumber(),
                     MailDate = request.MailDate,
                     ExternalEntityId = request.ExternalEntityId,
-                    Status = CorrespondenceStatusEnum.InSignatureAgenda,
+                    Status = CorrespondenceStatusEnum.PendingReferral,
                     CreateBy = currentUser.Id,
                     CreateAt = DateTime.UtcNow,
                     StatusId = Status.Unverified,

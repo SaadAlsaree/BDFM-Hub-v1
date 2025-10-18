@@ -39,7 +39,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setLoading(true);
 
       const response = await authApiCall(() =>
-        permissionService.updatePermissionStatus(data.id!, PermissionStatus.Deleted)
+        permissionService.updatePermissionStatus(
+          data.id!,
+          PermissionStatus.Deleted
+        )
       );
 
       if (response?.succeeded) {
@@ -61,7 +64,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setLoading(true);
 
       const response = await authApiCall(() =>
-        permissionService.updatePermissionStatus(data.id!, PermissionStatus.Active)
+        permissionService.updatePermissionStatus(
+          data.id!,
+          PermissionStatus.Active
+        )
       );
 
       if (response?.succeeded) {
@@ -98,7 +104,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className='mr-2 h-4 w-4' />
             نسخ المعرف
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push(`/permission/${data.id}`)}>
+          <DropdownMenuItem
+            onClick={() => router.push(`/permission/${data.id}`)}
+          >
             <Eye className='mr-2 h-4 w-4' />
             عرض التفاصيل
           </DropdownMenuItem>

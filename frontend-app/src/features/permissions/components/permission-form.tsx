@@ -28,7 +28,11 @@ import { toast } from 'sonner';
 import { IPermissionDetail } from '@/features/permissions/types/permission';
 import { permissionService } from '@/features/permissions/api/permission.service';
 import { useAuthApi } from '@/hooks/use-auth-api';
-import { PermissionStatus, permissionFormSchema, PermissionFormValues } from '../utils/permission';
+import {
+  PermissionStatus,
+  permissionFormSchema,
+  PermissionFormValues
+} from '../utils/permission';
 import { Spinner } from '@/components/spinner';
 
 interface PermissionFormProps {
@@ -36,7 +40,10 @@ interface PermissionFormProps {
   pageTitle: string;
 }
 
-export default function PermissionForm({ initialData, pageTitle }: PermissionFormProps) {
+export default function PermissionForm({
+  initialData,
+  pageTitle
+}: PermissionFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { authApiCall } = useAuthApi();
@@ -68,7 +75,7 @@ export default function PermissionForm({ initialData, pageTitle }: PermissionFor
           ...data
         };
 
-        const response = await authApiCall(() => 
+        const response = await authApiCall(() =>
           permissionService.updatePermission(permissionToUpdate)
         );
 
@@ -80,7 +87,7 @@ export default function PermissionForm({ initialData, pageTitle }: PermissionFor
           toast.error('لم يتم تعديل الصلاحية!');
         }
       } else {
-        const response = await authApiCall(() => 
+        const response = await authApiCall(() =>
           permissionService.createPermission(data)
         );
 
@@ -134,7 +141,10 @@ export default function PermissionForm({ initialData, pageTitle }: PermissionFor
                   <FormItem>
                     <FormLabel>القيمة</FormLabel>
                     <FormControl>
-                      <Input placeholder='أدخل قيمة الصلاحية (مثال: feature:action)' {...field} />
+                      <Input
+                        placeholder='أدخل قيمة الصلاحية (مثال: feature:action)'
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,7 +172,9 @@ export default function PermissionForm({ initialData, pageTitle }: PermissionFor
                         <SelectItem value={PermissionStatus.Active.toString()}>
                           مفعل
                         </SelectItem>
-                        <SelectItem value={PermissionStatus.Inactive.toString()}>
+                        <SelectItem
+                          value={PermissionStatus.Inactive.toString()}
+                        >
                           غير مفعل
                         </SelectItem>
                       </SelectContent>
@@ -181,7 +193,11 @@ export default function PermissionForm({ initialData, pageTitle }: PermissionFor
                   <FormItem className='col-span-2'>
                     <FormLabel>الوصف</FormLabel>
                     <FormControl>
-                      <Textarea placeholder='أدخل وصف الصلاحية' {...field} rows={3} />
+                      <Textarea
+                        placeholder='أدخل وصف الصلاحية'
+                        {...field}
+                        rows={3}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

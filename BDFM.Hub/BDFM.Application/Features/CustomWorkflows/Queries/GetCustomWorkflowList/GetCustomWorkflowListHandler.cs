@@ -1,5 +1,6 @@
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Domain.Entities.Supporting;
+using BDFM.Domain.Entities.Core;
 
 namespace BDFM.Application.Features.CustomWorkflows.Queries.GetCustomWorkflowList;
 
@@ -7,8 +8,22 @@ internal class GetCustomWorkflowListHandler : GetAllWithCountHandler<CustomWorkf
                         IRequestHandler<GetCustomWorkflowListQuery, Response<PagedResult<GetCustomWorkflowListVm>>>
 
 {
-    public GetCustomWorkflowListHandler(IBaseRepository<CustomWorkflow> repository) : base(repository)
+    private readonly IBaseRepository<User> _userRepository;
+    private readonly IBaseRepository<OrganizationalUnit> _unitRepository;
+
+    public GetCustomWorkflowListHandler(IBaseRepository<CustomWorkflow> repository,
+        IBaseRepository<User> userRepository,
+        IBaseRepository<OrganizationalUnit> unitRepository) : base(repository)
     {
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        _unit_repository_check(unitRepository);
+        _unitRepository = unitRepository ?? throw new ArgumentNullException(nameof(unitRepository));
+    }
+
+    // Small helper to keep a clearer exception message when unit repository missing
+    private static void _unit_repository_check(IBaseRepository<OrganizationalUnit>? repo)
+    {
+        if (repo == null) throw new ArgumentNullException(nameof(repo));
     }
 
     public override Expression<Func<CustomWorkflow, GetCustomWorkflowListVm>> Selector =>
@@ -79,6 +94,98 @@ internal class GetCustomWorkflowListHandler : GetAllWithCountHandler<CustomWorkf
             Items = result,
             TotalCount = count
         };
+        // Resolve TargetIdentifierName for each step similarly to GetCustomWorkflowByIdHandler
+        foreach (var vmItem in pagedResult.Items)
+        {
+            foreach (var step in vmItem.Steps)
+            {
+                if (string.IsNullOrWhiteSpace(step.TargetIdentifier))
+                {
+                    step.TargetIdentifierName = string.Empty;
+                    continue;
+                }
+
+                try
+                {
+                    switch (step.TargetType)
+                    {
+                        case CustomWorkflowTargetTypeEnum.SpecificUser:
+                            if (Guid.TryParse(step.TargetIdentifier, out var userId))
+                            {
+                                var user = await _userRepository.Find(u => u.Id == userId, include: null!, cancellationToken: cancellationToken);
+                                step.TargetIdentifierName = user != null
+                                    ? (!string.IsNullOrWhiteSpace(user.FullName) ? user.FullName : user.Username)
+                                    : step.TargetIdentifier;
+                            }
+                            else
+                            {
+                                step.TargetIdentifierName = step.TargetIdentifier;
+                            }
+                            break;
+
+                        case CustomWorkflowTargetTypeEnum.SpecificUnit:
+                            if (Guid.TryParse(step.TargetIdentifier, out var unitId))
+                            {
+                                var unit = await _unitRepository.Find(u => u.Id == unitId, include: null!, cancellationToken: cancellationToken);
+                                step.TargetIdentifierName = unit != null ? unit.UnitName : step.TargetIdentifier;
+                            }
+                            else
+                            {
+                                step.TargetIdentifierName = step.TargetIdentifier;
+                            }
+                            break;
+
+                        case CustomWorkflowTargetTypeEnum.ManagerOfUnit:
+                            if (Guid.TryParse(step.TargetIdentifier, out var unitId2))
+                            {
+                                var unit = await _unit_repository_check_and_find(_unitRepository, unitId2, cancellationToken);
+                                step.TargetIdentifierName = unit != null ? $"مدير الوحدة - {unit.UnitName}" : step.TargetIdentifier;
+                            }
+                            else
+                            {
+                                step.TargetIdentifierName = step.TargetIdentifier;
+                            }
+                            break;
+
+                        case CustomWorkflowTargetTypeEnum.HeadOfDevice:
+                            if (Guid.TryParse(step.TargetIdentifier, out var unitId3))
+                            {
+                                var unit = await _unit_repository_check_and_find(_unitRepository, unitId3, cancellationToken);
+                                step.TargetIdentifierName = unit != null ? $"رئيس الجهاز - {unit.UnitName}" : step.TargetIdentifier;
+                            }
+                            else
+                            {
+                                step.TargetIdentifierName = step.TargetIdentifier;
+                            }
+                            break;
+
+                        case CustomWorkflowTargetTypeEnum.RoleInUnit:
+                        default:
+                            step.TargetIdentifierName = step.TargetIdentifier;
+                            break;
+                    }
+                }
+                catch
+                {
+                    step.TargetIdentifierName = step.TargetIdentifier;
+                }
+            }
+        }
+
         return SuccessMessage.Get.ToSuccessMessage(pagedResult);
+    }
+
+    // small helper used above to avoid duplicating try/catch logic for unit find
+    private static async Task<OrganizationalUnit?> _unit_repository_check_and_find(IBaseRepository<OrganizationalUnit> repo, Guid id, CancellationToken cancellationToken)
+    {
+        if (repo == null) return null;
+        try
+        {
+            return await repo.Find(u => u.Id == id, include: null!, cancellationToken: cancellationToken);
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

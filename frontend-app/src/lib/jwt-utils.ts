@@ -6,24 +6,24 @@ import { decodeJwt } from 'jose';
  * @returns The decoded token payload or null if invalid
  */
 export function verifyToken(token?: string): any | null {
-    if (!token) return null;
+  if (!token) return null;
 
-    try {
-        // Decode token without verification (client-side only)
-        const decoded = decodeJwt(token);
+  try {
+    // Decode token without verification (client-side only)
+    const decoded = decodeJwt(token);
 
-        // Check if token is expired
-        const currentTime = Math.floor(Date.now() / 1000);
-        if (decoded.exp && decoded.exp < currentTime) {
-            console.error('Token has expired');
-            return null;
-        }
-
-        return decoded;
-    } catch (error) {
-        console.error('Error verifying token:', error);
-        return null;
+    // Check if token is expired
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (decoded.exp && decoded.exp < currentTime) {
+      console.error('Token has expired');
+      return null;
     }
+
+    return decoded;
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    return null;
+  }
 }
 
 /**
@@ -32,15 +32,15 @@ export function verifyToken(token?: string): any | null {
  * @returns Array of user roles or empty array if none found
  */
 export function getRolesFromToken(token?: string): string[] {
-    const decoded = verifyToken(token);
+  const decoded = verifyToken(token);
 
-    if (!decoded) return [];
+  if (!decoded) return [];
 
-    // Extract roles from the token - adjust these based on your actual JWT structure
-    // Common claims for roles include 'roles', 'role', or custom claims
-    const roles = decoded.roles || decoded.role || [];
+  // Extract roles from the token - adjust these based on your actual JWT structure
+  // Common claims for roles include 'roles', 'role', or custom claims
+  const roles = decoded.roles || decoded.role || [];
 
-    return Array.isArray(roles) ? roles : [roles].filter(Boolean);
+  return Array.isArray(roles) ? roles : [roles].filter(Boolean);
 }
 
 /**
@@ -50,10 +50,10 @@ export function getRolesFromToken(token?: string): string[] {
  * @returns True if the user has the role, false otherwise
  */
 export function hasRole(token?: string, roleName?: string): boolean {
-    if (!roleName) return false;
+  if (!roleName) return false;
 
-    const roles = getRolesFromToken(token);
-    return roles.includes(roleName);
+  const roles = getRolesFromToken(token);
+  return roles.includes(roleName);
 }
 
 /**
@@ -63,8 +63,8 @@ export function hasRole(token?: string, roleName?: string): boolean {
  * @returns True if the user has any of the roles, false otherwise
  */
 export function hasAnyRole(token?: string, roleNames: string[] = []): boolean {
-    if (!roleNames.length) return false;
+  if (!roleNames.length) return false;
 
-    const roles = getRolesFromToken(token);
-    return roleNames.some(role => roles.includes(role));
-} 
+  const roles = getRolesFromToken(token);
+  return roleNames.some((role) => roles.includes(role));
+}

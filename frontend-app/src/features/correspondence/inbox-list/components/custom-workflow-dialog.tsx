@@ -8,6 +8,7 @@ import {
   CommandList
 } from '@/components/ui/command';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 import {
   Popover,
@@ -231,20 +232,123 @@ const CustomWorkflowDialog = ({
           <Separator />
 
           {selectedWorkflowStep && (
-            <div>
-              <div className='mt-4 flex w-full flex-col justify-start space-x-2'>
-                <h1>{selectedWorkflowStep?.workflowName}</h1>
-                <h2 className='text-muted-foreground text-sm'>
-                  {selectedWorkflowStep?.description}
-                </h2>
+            <div className='space-y-6'>
+              {/* Workflow Information Card */}
+              <div className='bg-card rounded-lg border p-4 shadow-sm'>
+                <div className='space-y-3'>
+                  <div className='flex items-start justify-between'>
+                    <div className='space-y-1'>
+                      <h3 className='text-lg leading-none font-semibold tracking-tight'>
+                        {selectedWorkflowStep.workflowName}
+                      </h3>
+                      <p className='text-muted-foreground text-sm'>
+                        {selectedWorkflowStep.description}
+                      </p>
+                    </div>
+                    <div className='bg-primary/10 rounded-full px-2 py-1'>
+                      <span className='text-primary text-xs font-medium'>
+                        نشط
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className='flex items-center gap-4 pt-2'>
+                    <div className='flex items-center gap-2 text-sm'>
+                      <div className='h-2 w-2 rounded-full bg-blue-500'></div>
+                      <span className='text-muted-foreground'>الجهة :</span>
+                      <span className='font-medium'>
+                        {selectedWorkflowStep.triggeringUnitName}
+                      </span>
+                    </div>
+                    <div className='flex items-center gap-2 text-sm'>
+                      <div className='h-2 w-2 rounded-full bg-green-500'></div>
+                      <span className='text-muted-foreground'>النوع :</span>
+                      <span className='font-medium'>
+                        {selectedWorkflowStep.triggeringCorrespondenceTypeName}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className='mt-4 flex w-full flex-col justify-start space-x-2'>
-                <h1>{selectedWorkflowStep?.triggeringUnitName}</h1>
-                <h2 className='text-muted-foreground text-sm'>
-                  {selectedWorkflowStep?.triggeringCorrespondenceTypeName}
-                </h2>
-              </div>
+              {/* Workflow Steps Section */}
+              <ScrollArea className='h-72 w-full'>
+                <div className='space-y-3 px-4'>
+                  <div className='flex items-center gap-2'>
+                    <h4 className='text-sm font-semibold'>خطوات سير العمل</h4>
+                    <div className='bg-border h-px flex-1'></div>
+                    <span className='text-muted-foreground text-xs'>
+                      {selectedWorkflowStep.steps?.length || 0} خطوات
+                    </span>
+                  </div>
+
+                  <div className='space-y-3'>
+                    {selectedWorkflowStep.steps?.map((step, index) => (
+                      <div
+                        key={step.id || index}
+                        className='bg-card/50 hover:bg-card relative rounded-lg border p-4 transition-colors'
+                      >
+                        {/* Step Number */}
+                        <div className='bg-primary text-primary-foreground absolute -top-2 -left-2 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold'>
+                          {index + 1}
+                        </div>
+
+                        <div className='space-y-2 pl-6'>
+                          <div className='flex items-center justify-between'>
+                            <h5 className='leading-tight font-medium'>
+                              {step.actionType}
+                            </h5>
+                            <div className='flex items-center gap-2'>
+                              {step.targetType ===
+                              CustomWorkflowTargetTypeEnum.SpecificUser ? (
+                                <div className='flex items-center gap-1 rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'>
+                                  <div className='h-1.5 w-1.5 rounded-full bg-blue-500'></div>
+                                  مستخدم
+                                </div>
+                              ) : (
+                                <div className='flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs text-green-700 dark:bg-green-900/20 dark:text-green-300'>
+                                  <div className='h-1.5 w-1.5 rounded-full bg-green-500'></div>
+                                  وحدة
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {step.defaultInstructionText && (
+                            <p className='text-muted-foreground text-sm'>
+                              {step.defaultInstructionText}
+                            </p>
+                          )}
+
+                          <div className='text-muted-foreground flex items-center gap-4 text-xs'>
+                            <span>
+                              ألى : {step.targetIdentifierName || 'غير محدد'}
+                            </span>
+                            {step.defaultDueDateOffsetDays && (
+                              <span className='flex items-center gap-1'>
+                                <div className='h-1 w-1 rounded-full bg-orange-400'></div>
+                                موعد نهائي: {step.defaultDueDateOffsetDays} أيام
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Connection Line */}
+                        {index <
+                          (selectedWorkflowStep.steps?.length || 0) - 1 && (
+                          <div className='bg-border absolute -bottom-3 left-1 h-6 w-px'></div>
+                        )}
+                      </div>
+                    )) || (
+                      <div className='rounded-lg border border-dashed p-8 text-center'>
+                        <p className='text-muted-foreground text-sm'>
+                          لا توجد خطوات محددة لهذا سير العمل
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </ScrollArea>
             </div>
           )}
 

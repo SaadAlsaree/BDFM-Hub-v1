@@ -17,7 +17,7 @@ export async function fetchClient(url: string, options: RequestInit = {}) {
       const session = await getSession();
       if (session?.accessToken) {
         authHeader = {
-          'Authorization': `Bearer ${session.accessToken}`
+          Authorization: `Bearer ${session.accessToken}`
         };
       }
     } catch (error) {
@@ -29,7 +29,7 @@ export async function fetchClient(url: string, options: RequestInit = {}) {
   const headers = {
     'Content-Type': 'application/json',
     ...authHeader,
-    ...options.headers,
+    ...options.headers
   };
 
   // Prepare full URL (handle relative vs absolute URLs)
@@ -39,7 +39,7 @@ export async function fetchClient(url: string, options: RequestInit = {}) {
   const response = await fetch(fullUrl, {
     ...options,
     headers,
-    credentials: 'include', // Include cookies in requests
+    credentials: 'include' // Include cookies in requests
   });
 
   // Handle response
@@ -64,11 +64,15 @@ export const fetchAuth = {
     return fetchClient(url, { ...options, method: 'GET' });
   },
 
-  post: async <T = Record<string, unknown>>(url: string, data: T, options: RequestInit = {}) => {
+  post: async <T = Record<string, unknown>>(
+    url: string,
+    data: T,
+    options: RequestInit = {}
+  ) => {
     return fetchClient(url, {
       ...options,
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     });
   }
 };

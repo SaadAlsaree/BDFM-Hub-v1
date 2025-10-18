@@ -110,19 +110,13 @@ public static class DashboardExtensions
     {
         return status switch
         {
-            CorrespondenceStatusEnum.Registered => "#0ea5e9", // Blue
             CorrespondenceStatusEnum.PendingReferral => "#f59e0b", // Amber
             CorrespondenceStatusEnum.UnderProcessing => "#8b5cf6", // Purple
-            CorrespondenceStatusEnum.PendingApproval => "#f59e0b", // Amber
-            CorrespondenceStatusEnum.Approved => "#10b981", // Green
-            CorrespondenceStatusEnum.InSignatureAgenda => "#f59e0b", // Amber
-            CorrespondenceStatusEnum.Signed => "#10b981", // Green
-            CorrespondenceStatusEnum.SentOrOutgoing => "#059669", // Emerald
+
             CorrespondenceStatusEnum.Completed => "#059669", // Emerald
             CorrespondenceStatusEnum.Rejected => "#dc2626", // Red
             CorrespondenceStatusEnum.ReturnedForModification => "#f59e0b", // Amber
             CorrespondenceStatusEnum.Postponed => "#6b7280", // Gray
-            CorrespondenceStatusEnum.Cancelled => "#dc2626", // Red
             _ => "#6b7280" // Gray
         };
     }
@@ -134,11 +128,8 @@ public static class DashboardExtensions
     {
         return status switch
         {
-            CorrespondenceStatusEnum.Registered or
             CorrespondenceStatusEnum.PendingReferral or
             CorrespondenceStatusEnum.UnderProcessing or
-            CorrespondenceStatusEnum.PendingApproval or
-            CorrespondenceStatusEnum.InSignatureAgenda => true,
             _ => false
         };
     }

@@ -45,7 +45,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateMailDraft
                     IsDraft = false,
                     FileId = request.FileId,
                     CreateAt = DateTime.UtcNow,
-                    Status = CorrespondenceStatusEnum.Registered,
+                    Status = CorrespondenceStatusEnum.PendingReferral,
                     CorrespondenceType = CorrespondenceTypeEnum.Draft,
                 };
 

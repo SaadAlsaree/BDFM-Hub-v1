@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
 
-
 export const metadata = {
   title: 'قائمة التفويضات'
 };
@@ -19,7 +18,6 @@ export const metadata = {
 type pageProps = {
   searchParams: Promise<SearchParams>;
 };
-
 
 const DelegationPage = async (props: pageProps) => {
   const searchParams = await props.searchParams;
@@ -48,7 +46,7 @@ const DelegationPage = async (props: pageProps) => {
         </Suspense>
       </div>
     </PageContainer>
-  )
-}
+  );
+};
 
-export default DelegationPage
+export default DelegationPage;

@@ -13,6 +13,6 @@ public class GetCustomWorkflowStepListVm
     public int? DefaultDueDateOffsetDays { get; set; }
     public DateTime CreateAt { get; set; }
     public DateTime? LastUpdateAt { get; set; }
-    public int StatusId { get; set; }
-    public string? StatusName { get; set; }
+    public int Status { get; set; }
+    public string StatusName { get; set; } = string.Empty;
 }

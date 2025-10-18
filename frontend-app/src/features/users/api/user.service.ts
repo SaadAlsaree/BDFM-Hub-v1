@@ -1,6 +1,13 @@
 import { axiosInstance, axiosClient } from '@/lib/axios';
 import { IResponseList, IResponse } from '@/types/response';
-import { IUserResponse, UserDetailed, UserPayloadDto, ChangePasswordRequest, ResetPasswordRequest, ChangeStatus } from '@/features/users/types/user';
+import {
+  IUserResponse,
+  UserDetailed,
+  UserPayloadDto,
+  ChangePasswordRequest,
+  ResetPasswordRequest,
+  ChangeStatus
+} from '@/features/users/types/user';
 
 const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
@@ -10,11 +17,15 @@ export const userService = {
       // Create params object with only the properties that are defined
       const params: Record<string, any> = {
         Page: query.page || 1,
-        PageSize: query.pageSize || 10,
+        PageSize: query.pageSize || 10
       };
 
       // Only add filters if they exist
-      if (query.status !== undefined && query.status !== null && query.status !== '') {
+      if (
+        query.status !== undefined &&
+        query.status !== null &&
+        query.status !== ''
+      ) {
         params.Status = query.status;
       }
 
@@ -34,14 +45,16 @@ export const userService = {
         params.Username = query.username;
       }
 
-      const response = await axiosInstance.get(`${baseUrl}/User/GetAllUsers`, { params });
+      const response = await axiosInstance.get(`${baseUrl}/User/GetAllUsers`, {
+        params
+      });
 
       if (response.status >= 400) {
         // console.error('Error fetching users:', response.statusText);
         return null;
       }
 
-      return response.data as IResponseList<IUserResponse> || null;
+      return (response.data as IResponseList<IUserResponse>) || null;
     } catch (error) {
       // console.error('Exception fetching users:', error);
       return null;
@@ -55,14 +68,16 @@ export const userService = {
         return null;
       }
 
-      const response = await axiosInstance.get(`${baseUrl}/User/GetUserById/${id}`);
+      const response = await axiosInstance.get(
+        `${baseUrl}/User/GetUserById/${id}`
+      );
 
       if (response.status >= 400) {
         // console.error(`Error fetching user ${id}:`, response.statusText);
         return null;
       }
 
-      return response.data as IResponse<UserDetailed> || null;
+      return (response.data as IResponse<UserDetailed>) || null;
     } catch (error) {
       // console.error(`Exception fetching user ${id}:`, error);
       return null;
@@ -72,7 +87,10 @@ export const userService = {
   async createUser(user: UserPayloadDto) {
     console.log(user);
     try {
-      const response = await axiosClient.post(`${baseUrl}/User/CreateUser`, user);
+      const response = await axiosClient.post(
+        `${baseUrl}/User/CreateUser`,
+        user
+      );
       console.log(response);
       if (response.status >= 400) {
         // console.error('Error creating user:', response.statusText);
@@ -81,7 +99,7 @@ export const userService = {
         return null;
       }
 
-      return response.data as IResponse<boolean> || null;
+      return (response.data as IResponse<boolean>) || null;
     } catch (error) {
       // console.error('Exception creating user:', error);
       return null;
@@ -95,14 +113,17 @@ export const userService = {
         return null;
       }
 
-      const response = await axiosClient.put(`${baseUrl}/User/UpdateUser`, user);
+      const response = await axiosClient.put(
+        `${baseUrl}/User/UpdateUser`,
+        user
+      );
 
       if (response.status >= 400) {
         // console.error(`Error updating user ${user.id}:`, response.statusText);
         return null;
       }
 
-      return response.data as IResponse<boolean> || null;
+      return (response.data as IResponse<boolean>) || null;
     } catch (error) {
       // console.error(`Exception updating user ${user.id}:`, error);
       return null;
@@ -129,14 +150,17 @@ export const userService = {
         return null;
       }
 
-      const response = await axiosClient.put(`${baseUrl}/User/ChangePassword`, request);
+      const response = await axiosClient.put(
+        `${baseUrl}/User/ChangePassword`,
+        request
+      );
 
       if (response.status >= 400) {
         // console.error(`Error changing password for user ${request.id}:`, response.statusText);
         return null;
       }
 
-      return response.data as IResponse<boolean> || null;
+      return (response.data as IResponse<boolean>) || null;
     } catch (error) {
       // console.error(`Exception changing password for user ${request.id}:`, error);
       return null;
@@ -156,14 +180,17 @@ export const userService = {
         confirmNewPassword: request.confirmNewPassword
       };
 
-      const response = await axiosClient.put(`${baseUrl}/User/ResetPassword`, payload);
+      const response = await axiosClient.put(
+        `${baseUrl}/User/ResetPassword`,
+        payload
+      );
 
       if (response.status >= 400) {
         // console.error(`Error resetting password for user ${request.id}:`, response.statusText);
         return null;
       }
 
-      return response.data as IResponse<boolean> || null;
+      return (response.data as IResponse<boolean>) || null;
     } catch (error) {
       // console.error(`Exception resetting password for user ${request.id}:`, error);
       return null;
@@ -177,14 +204,17 @@ export const userService = {
         return null;
       }
 
-      const response = await axiosClient.patch(`${baseUrl}/ChangeStatus/ChangeStatus`, request);
+      const response = await axiosClient.patch(
+        `${baseUrl}/ChangeStatus/ChangeStatus`,
+        request
+      );
 
       if (response.status >= 400) {
         // console.error(`Error updating status for record ${request.id}:`, response.statusText);
         return null;
       }
 
-      return response.data as IResponse<boolean> || null;
+      return (response.data as IResponse<boolean>) || null;
     } catch (error) {
       //  console.error(`Exception updating status for record ${request.id}:`, error);
       return null;
@@ -199,7 +229,9 @@ export const userService = {
         return null;
       }
 
-      const response = await axiosInstance.get(`${baseUrl}/User/SearchUser`, { params: query });
+      const response = await axiosInstance.get(`${baseUrl}/User/SearchUser`, {
+        params: query
+      });
 
       if (response.status >= 400) {
         // console.error(`Error searching user with term "${term}":`, response.statusText);
@@ -220,7 +252,9 @@ export const userService = {
         // console.error('searchUserClient called without a search term');
         return null;
       }
-      const response = await axiosClient.get(`${baseUrl}/User/SearchUser`, { params: query });
+      const response = await axiosClient.get(`${baseUrl}/User/SearchUser`, {
+        params: query
+      });
 
       if (response.status >= 400) {
         // console.error(`Error searching user with term "${term}":`, response.statusText);
@@ -232,6 +266,4 @@ export const userService = {
       return null;
     }
   }
-
 };
-

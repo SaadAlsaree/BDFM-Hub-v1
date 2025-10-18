@@ -3,15 +3,9 @@ import { axiosInstance } from '@/lib/axios';
 import { IResponse } from '@/types/response';
 import { UserDto } from './auth/auth';
 
-
-
 const baseUrl = 'http://localhost:5000/BDFM/v1/api';
 
-
-
-
 class UtilizesService {
-
   public async getTypeOfService(params: { searchTerm?: string }): Promise<any> {
     try {
       const data = await axiosInstance.get<any>(`${baseUrl}/User/SearchUser`, {
@@ -22,9 +16,6 @@ class UtilizesService {
       return null;
     }
   }
-
-
-
 }
 
 export const utilizesService: UtilizesService = new UtilizesService();

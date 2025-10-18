@@ -5,7 +5,6 @@ import PermissionViewPage from '@/features/permissions/components/permission-vie
 import { IPermissionDetail } from '@/features/permissions/types/permission';
 import React, { Suspense } from 'react';
 
-
 export const metadata = {
   title: 'بيانات الأذونات',
   description: 'بيانات الأذونات'
@@ -17,7 +16,7 @@ type pageProps = {
 
 const ViewPermissionPage = async (props: pageProps) => {
   const params = await props.params;
-  const permission = await permissionService.getPermissionDetail(params.id)
+  const permission = await permissionService.getPermissionDetail(params.id);
 
   return (
     <PageContainer scrollable>
@@ -30,5 +29,5 @@ const ViewPermissionPage = async (props: pageProps) => {
   );
 };
 
-export default ViewPermissionPage
+export default ViewPermissionPage;
 // @END_EXAMPLE }
