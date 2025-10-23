@@ -172,6 +172,63 @@ export interface UserGuideEntry {
 }
 
 // ============================================
+// Conversation Models
+// ============================================
+
+export interface Conversation {
+  id: string;
+  userId: string;
+  title: string;
+  language: 'ar' | 'en';
+  createdAt: Date;
+  updatedAt: Date;
+  lastMessageAt?: Date;
+  messageCount: number;
+  isActive: boolean;
+}
+
+export interface ConversationMessage {
+  id: string;
+  conversationId: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  sources?: SearchResult[];
+  metadata?: {
+    queryProcessingTime?: number;
+    embeddingTime?: number;
+    searchTime?: number;
+    generationTime?: number;
+  };
+  createdAt: Date;
+}
+
+export interface CreateConversationRequest {
+  userId: string;
+  title?: string;
+  language?: 'ar' | 'en';
+}
+
+export interface SendMessageRequest {
+  conversationId: string;
+  userId: string;
+  message: string;
+  maxResults?: number;
+  similarityThreshold?: number;
+  filters?: SearchFilters;
+}
+
+export interface ConversationListRequest {
+  userId: string;
+  limit?: number;
+  offset?: number;
+}
+
+export interface ConversationResponse {
+  conversation: Conversation;
+  messages: ConversationMessage[];
+}
+
+// ============================================
 // API Response Models
 // ============================================
 

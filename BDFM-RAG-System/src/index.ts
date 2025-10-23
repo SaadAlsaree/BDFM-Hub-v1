@@ -3,11 +3,13 @@ import cors from 'cors';
 import config from './config';
 import logger from './utils/logger';
 import routes from './routes';
+import conversationRoutes from './routes/conversation.routes';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import qdrantService from './services/qdrant.service';
 import databaseService from './services/database.service';
 import embeddingService from './services/embedding.service';
 import llmService from './services/llm.service';
+import conversationService from './services/conversation.service';
 
 class App {
   public app: Application;
@@ -48,6 +50,7 @@ class App {
   private setupRoutes(): void {
     // API routes
     this.app.use('/api/rag', routes);
+    this.app.use('/api/rag', conversationRoutes);
 
     // Root endpoint
     this.app.get('/', (req, res) => {
@@ -55,10 +58,11 @@ class App {
         success: true,
         data: {
           name: 'BDFM RAG System',
-          version: '1.0.0',
+          version: '1.1.0',
           description:
-            'RAG system for BDFM.Hub using Qdrant, Ollama, and Node.js',
+            'RAG system for BDFM.Hub with conversation support',
           endpoints: {
+            // RAG Endpoints
             query: 'POST /api/rag/query',
             queryStream: 'POST /api/rag/query/stream',
             search: 'POST /api/rag/search',
@@ -69,6 +73,14 @@ class App {
             status: 'GET /api/rag/status',
             syncStats: 'GET /api/rag/sync/stats',
             health: 'GET /api/rag/health',
+            // Conversation Endpoints
+            createConversation: 'POST /api/rag/conversations',
+            listConversations: 'GET /api/rag/conversations',
+            getConversation: 'GET /api/rag/conversations/:id',
+            updateTitle: 'PUT /api/rag/conversations/:id/title',
+            deleteConversation: 'DELETE /api/rag/conversations/:id',
+            sendMessage: 'POST /api/rag/conversations/message',
+            sendMessageStream: 'POST /api/rag/conversations/message/stream',
           },
         },
         timestamp: new Date().toISOString(),
@@ -95,6 +107,9 @@ class App {
       const dbConnected = await databaseService.testConnection();
       if (!dbConnected) {
         logger.warn('Database connection failed, but continuing...');
+      } else {
+        // Initialize conversation tables
+        await conversationService.initializeTables();
       }
 
       // Initialize Qdrant
