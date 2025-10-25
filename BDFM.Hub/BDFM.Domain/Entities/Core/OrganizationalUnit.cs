@@ -38,5 +38,6 @@ namespace BDFM.Domain.Entities.Core
         public virtual ICollection<CustomWorkflow> TriggeringCustomWorkflows { get; set; } = new HashSet<CustomWorkflow>();
         public virtual ICollection<WorkflowStep> WorkflowStepsFromUnit { get; set; } = new HashSet<WorkflowStep>();
         public virtual ICollection<Tag> OrganizationalUnitTags { get; set; } = new HashSet<Tag>();
+        public virtual ICollection<Correspondence> Correspondences { get; set; } = new HashSet<Correspondence>();
     }
 }

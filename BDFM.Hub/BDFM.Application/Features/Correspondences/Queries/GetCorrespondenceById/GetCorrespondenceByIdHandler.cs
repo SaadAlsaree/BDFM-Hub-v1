@@ -79,7 +79,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
             }).FirstOrDefault(u => u.UserId == _currentUserService.UserId && u.CorrespondenceId == x.Id) ?? new UserCorrespondenceInteractionDto(),
 
             // 
-            WorkflowSteps = x.WorkflowSteps.OrderBy(y => y.CreateAt).Select(y => new WorkflowStepHistoryVm
+            WorkflowSteps = x.WorkflowSteps.OrderBy(y => y.Sequence).Select(y => new WorkflowStepHistoryVm
             {
                 Id = y.Id,
                 CorrespondenceId = x.Id,
@@ -113,6 +113,9 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
                 WorkflowStepStatusName = y.Status.GetDisplayName(),
                 IsTimeSensitive = y.IsTimeSensitive,
                 CreateAt = y.CreateAt,
+                CreateBy = y.CreateBy ?? Guid.Empty,
+                Sequence = y.Sequence,
+                IsActive = y.IsActive,
                 SecondaryRecipients = y.SecondaryRecipients.Select(sr => new SecondaryRecipientVm
                 {
                     Id = sr.Id,
@@ -147,7 +150,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
                     Notes = wt.Notes,
                     CreateAt = wt.CreateAt
                 }).ToList(),
-            }).OrderBy(y => y.CreateAt).ToList(),
+            }).OrderBy(y => y.Sequence).Where(y => y.IsActive == true || y.CreateBy == _currentUserService.UserId).ToList(),
 
             ReferencesToCorrespondences = x.ReferencesTo.Select(y => new LinkedCorrespondenceInfoVm
             {
@@ -176,19 +179,25 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
 
         public async Task<Response<CorrespondenceDetailVm>> Handle(GetCorrespondenceByIdQuery request, CancellationToken cancellationToken)
         {
-            // First check if user can access this correspondence
-            var canAccessCorrespondence = await _permissionValidationService.CanAccessCorrespondenceAsync(request.Id, cancellationToken);
+            // Get user info and access control parameters
+            var userUnitId = _currentUserService.OrganizationalUnitId;
+            var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
+            var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
 
-            if (!canAccessCorrespondence)
-            {
-                return Response<CorrespondenceDetailVm>.Fail(
-                    new List<object> { "Unauthorized access" },
-                    new MessageResponse { Code = "Error403", Message = "Access denied. You do not have permission to access this correspondence." });
-            }
+            var query = _repository.Query();
+
+            // Apply access control filter
+            query = query.ApplyCorrespondenceAccessControl(
+                _currentUserService.UserId,
+                userUnitId,
+                isSuAdminOrManager,
+                accessibleUnitIds);
+
+            // Apply the ID predicate
+            query = query.Where(IdPredicate(request));
 
             // Get the correspondence with initial data
-            var correspondence = await _repository
-                .Query(IdPredicate(request))
+            var correspondence = await query
                 .Select(Selector)
                 .FirstOrDefaultAsync(cancellationToken);
 

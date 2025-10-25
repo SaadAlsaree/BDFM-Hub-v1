@@ -159,8 +159,6 @@ export default function CustomWorkflowForm({
     unit: debouncedUnitSearch
   });
 
-  console.log(unitList);
-
   const units: IOrganizationalUnitDetails[] = unitList?.data || [];
 
   const handleUnitSearch = (searchText: string) => {

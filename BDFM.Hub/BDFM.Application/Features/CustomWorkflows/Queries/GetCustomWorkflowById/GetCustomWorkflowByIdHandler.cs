@@ -1,3 +1,4 @@
+using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetById;
 using BDFM.Domain.Entities.Core;
 using BDFM.Domain.Entities.Supporting;
@@ -9,15 +10,18 @@ internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, Get
 {
     private readonly IBaseRepository<User> _userRepository;
     private readonly IBaseRepository<OrganizationalUnit> _unitRepository;
+    private readonly ICurrentUserService _currentUserService;
 
     public GetCustomWorkflowByIdHandler(
         IBaseRepository<CustomWorkflow> repository,
         IBaseRepository<User> userRepository,
-        IBaseRepository<OrganizationalUnit> unitRepository) : base(repository)
+        IBaseRepository<OrganizationalUnit> unitRepository,
+        ICurrentUserService currentUserService) : base(repository)
     {
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         _unit_repository_check(unitRepository);
         _unitRepository = unitRepository ?? throw new ArgumentNullException(nameof(unitRepository));
+        _currentUserService = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
     }
 
     // Small helper to keep a clearer exception message when unit repository missing
@@ -26,8 +30,30 @@ internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, Get
         if (repo == null) throw new ArgumentNullException(nameof(repo));
     }
 
-    public override Expression<Func<CustomWorkflow, bool>> IdPredicate(GetCustomWorkflowByIdQuery request) =>
-        x => x.Id == request.Id && !x.IsDeleted;
+    public override Expression<Func<CustomWorkflow, bool>> IdPredicate(GetCustomWorkflowByIdQuery request)
+    {
+        // Check if user is Admin or SuAdmin - they can access all workflows
+        var isAdmin = _currentUserService.HasRole("Admin") || _currentUserService.HasRole("SuAdmin");
+
+        if (isAdmin)
+        {
+            // Admin and SuAdmin can access all workflows
+            return x => x.Id == request.Id && !x.IsDeleted;
+        }
+
+        // Regular users can only access workflows from their organizational unit
+        var userUnitId = _currentUserService.OrganizationalUnitId;
+
+        if (userUnitId.HasValue)
+        {
+            return x => x.Id == request.Id &&
+                       !x.IsDeleted &&
+                       x.TriggeringUnitId == userUnitId.Value;
+        }
+
+        // If user has no organizational unit, they cannot access any workflows
+        return x => false;
+    }
 
     public override Expression<Func<CustomWorkflow, GetCustomWorkflowByIdVm>> Selector =>
         e => new GetCustomWorkflowByIdVm
@@ -59,7 +85,9 @@ internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, Get
                 // cannot reliably navigate related User/Unit inside projection here, will resolve after projection
                 TargetIdentifierName = string.Empty,
                 DefaultInstructionText = s.DefaultInstructionText,
-                DefaultDueDateOffsetDays = s.DefaultDueDateOffsetDays
+                DefaultDueDateOffsetDays = s.DefaultDueDateOffsetDays,
+                Sequence = s.Sequence,
+                IsActive = s.IsActive
             }).ToList()
         };
 

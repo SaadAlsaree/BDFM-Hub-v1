@@ -35,5 +35,7 @@ public class CustomWorkflowStepDto
     public string? TargetIdentifierName { get; set; } = string.Empty;
     public string? DefaultInstructionText { get; set; } // Text type in DB
     public int? DefaultDueDateOffsetDays { get; set; } // In days from previous step
+    public int Sequence { get; set; }
+    public bool IsActive { get; set; }
 }
 

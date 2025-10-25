@@ -43,6 +43,8 @@ export interface CustomWorkflowDetails {
   status: number;
   statusName: string;
   steps: CustomWorkflowStepList[];
+  isActive: boolean;
+  sequence: number;
 }
 
 export interface CreateWorkflowPayload {
@@ -66,6 +68,8 @@ export interface CustomWorkflowStepList {
   targetIdentifierName: string | null;
   defaultInstructionText: string | null;
   defaultDueDateOffsetDays: number | null;
+  isActive: boolean;
+  sequence: number;
 }
 
 export interface CustomWorkflowStepDetails {
@@ -77,6 +81,8 @@ export interface CustomWorkflowStepDetails {
   targetIdentifier: string;
   defaultInstructionText: string;
   defaultDueDateOffsetDays: number;
+  isActive: boolean;
+  sequence: number;
   createAt: string; // ISO date string
   lastUpdateAt: string; // ISO date string
   createBy: string;
@@ -94,6 +100,7 @@ export interface CreateWorkflowStepPayload {
   targetIdentifier?: string;
   defaultInstructionText?: string;
   defaultDueDateOffsetDays?: number;
+  isActive?: boolean;
 }
 
 export const CorrespondenceTypeEnumNames: Record<

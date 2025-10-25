@@ -19,5 +19,7 @@
         Reply = 6,
         [Display(Name = "اعمام")]
         Public = 7,
+        [Display(Name = "طلب شخصي")]
+        PersonalRequest = 8
     }
 }

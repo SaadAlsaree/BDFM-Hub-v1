@@ -10,7 +10,6 @@ import {
   hasAnyPermission,
   isAuthenticated
 } from './auth-utils';
-import { getSession } from 'next-auth/react';
 
 type RoleGuardProps = {
   children: ReactNode;
@@ -40,9 +39,6 @@ export function RoleGuard({
 }: RoleGuardProps) {
   const router = useRouter();
   const [canAccess, setCanAccess] = useState<boolean>(false);
-  const userSession = getSession();
-
-  console.log(userSession);
 
   useEffect(() => {
     // Allow access while loading

@@ -1,7 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthApi } from './use-auth-api';
-import { customWorkflowService } from '@/features/custom-workflow/api/custom-workflow.service';
+import { customWorkflowService } from '@/features/customWorkflow/api/customWorkflow.service';
 
 export function useSearchCustomWorkflow(searchParams: Record<string, any>) {
   const { authApiCall } = useAuthApi();

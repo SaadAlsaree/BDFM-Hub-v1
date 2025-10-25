@@ -14,7 +14,17 @@ import {
   getCorrespondenceTypeDisplay
 } from '../utils/customWorkflow';
 import { Button } from '@/components/ui/button';
-import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react';
+import {
+  IconEdit,
+  IconPlus,
+  IconTrash,
+  IconClock,
+  IconUser,
+  IconBuilding,
+  IconCheck,
+  IconX,
+  IconArrowRight
+} from '@tabler/icons-react';
 import Link from 'next/link';
 import CustomWorkflowStepDialog from './custom-workflow-step-dialog';
 import {
@@ -63,6 +73,8 @@ export default function CustomWorkflowViewPage({
         targetIdentifier: step.targetIdentifier || '',
         defaultInstructionText: step.defaultInstructionText || '',
         defaultDueDateOffsetDays: step.defaultDueDateOffsetDays ?? 0,
+        isActive: step.isActive,
+        sequence: step.stepOrder,
         // Fill system fields with reasonable defaults (dialog only uses a subset)
         createAt: new Date().toISOString(),
         lastUpdateAt: new Date().toISOString(),
@@ -196,46 +208,137 @@ export default function CustomWorkflowViewPage({
         </CardHeader>
         <CardContent>
           {workflow.steps && workflow.steps.length > 0 ? (
-            <div className='space-y-4'>
-              {workflow.steps.map((step) => (
-                <div
-                  key={step.id}
-                  className='flex items-center justify-between rounded-lg border p-4'
-                >
-                  <div className='flex items-center gap-4'>
-                    <div className='bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium'>
-                      {step.stepOrder}
-                    </div>
-                    <div>
-                      <p className='font-medium'>{step.targetTypeName}</p>
-                      <p className='text-muted-foreground text-sm'>
-                        {step.defaultInstructionText || 'لا توجد تعليمات'}
-                      </p>
-                    </div>
-                  </div>
-                  {/* قم بإضافة زر التعديل الخاص بالخطوة هنا */}
-                  <div className='flex items-center gap-2'>
-                    <Button
-                      type='button'
-                      variant='outline'
-                      onClick={() => handleEditStep(step.id)}
-                    >
-                      تعديل
-                    </Button>
-                    <Button
-                      type='button'
-                      variant='outline'
-                      onClick={() => {
-                        setPendingStepId(step.id);
-                        setShowDeleteDialog(true);
-                      }}
-                    >
-                      <IconTrash className='ml-2 h-4 w-4' />
-                      حذف
-                    </Button>
-                  </div>
-                </div>
-              ))}
+            <div className='space-y-3'>
+              {workflow.steps
+                .sort((a, b) => a.stepOrder - b.stepOrder)
+                .map((step) => (
+                  <Card
+                    key={step.id}
+                    className='group transition-all duration-200 hover:shadow-md'
+                  >
+                    <CardContent className='p-2'>
+                      <div className='flex items-start justify-between'>
+                        <div className='flex flex-1 items-start gap-4'>
+                          {/* Step Number & Status */}
+                          <div className='flex flex-col items-center gap-2'>
+                            <div
+                              className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-colors ${
+                                step.isActive
+                                  ? 'bg-primary text-primary-foreground'
+                                  : 'bg-muted text-muted-foreground'
+                              }`}
+                            >
+                              {step.stepOrder}
+                            </div>
+                            {step.isActive ? (
+                              <Badge
+                                variant='default'
+                                className='border-green-200 bg-green-100 text-xs text-green-800'
+                              >
+                                <IconCheck className='mr-1 h-3 w-3' />
+                                نشط
+                              </Badge>
+                            ) : (
+                              <Badge
+                                variant='secondary'
+                                className='border-gray-200 bg-gray-100 text-xs text-gray-600'
+                              >
+                                <IconX className='mr-1 h-3 w-3' />
+                                غير نشط
+                              </Badge>
+                            )}
+                          </div>
+
+                          {/* Step Content */}
+                          <div className='flex-1 space-y-3'>
+                            <div className='flex items-center gap-2'>
+                              <h3 className='text-lg font-semibold'>
+                                {step.actionTypeName}
+                              </h3>
+                              <IconArrowRight className='text-muted-foreground h-4 w-4' />
+                              <span className='text-muted-foreground'>
+                                {step.targetTypeName}
+                              </span>
+                            </div>
+
+                            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                              <div className='space-y-2'>
+                                <div className='flex items-center gap-2'>
+                                  {step.targetType === 1 ? (
+                                    <IconUser className='h-4 w-4 text-blue-500' />
+                                  ) : (
+                                    <IconBuilding className='h-4 w-4 text-green-500' />
+                                  )}
+                                  <span className='text-sm font-medium'>
+                                    المستهدف:
+                                  </span>
+                                </div>
+                                <p className='text-muted-foreground ml-6 text-sm'>
+                                  {step.targetIdentifierName || 'غير محدد'}
+                                </p>
+                              </div>
+
+                              <div className='space-y-2'>
+                                <div className='flex items-center gap-2'>
+                                  <IconClock className='h-4 w-4 text-orange-500' />
+                                  <span className='text-sm font-medium'>
+                                    مدة الاستحقاق:
+                                  </span>
+                                </div>
+                                <p className='text-muted-foreground ml-6 text-sm'>
+                                  {step.defaultDueDateOffsetDays || 0} يوم
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Additional Step Info */}
+                            <div className='text-muted-foreground flex items-center gap-4 text-xs'>
+                              <span>الترتيب: {step.stepOrder}</span>
+                              {step.sequence &&
+                                step.sequence !== step.stepOrder && (
+                                  <span>التسلسل: {step.sequence}</span>
+                                )}
+                            </div>
+
+                            {step.defaultInstructionText && (
+                              <div className='bg-muted/50 rounded-lg p-3'>
+                                <p className='text-muted-foreground text-sm'>
+                                  <strong>التعليمات:</strong>{' '}
+                                  {step.defaultInstructionText}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className='flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100'>
+                          <Button
+                            type='button'
+                            variant='outline'
+                            size='sm'
+                            onClick={() => handleEditStep(step.id)}
+                            className='hover:border-blue-200 hover:bg-blue-50'
+                          >
+                            <IconEdit className='h-4 w-4' />
+                          </Button>
+                          <Button
+                            type='button'
+                            variant='outline'
+                            size='sm'
+                            onClick={() => {
+                              setPendingStepId(step.id);
+                              setShowDeleteDialog(true);
+                            }}
+                            className='text-red-600 hover:border-red-200 hover:bg-red-50'
+                          >
+                            <IconTrash className='h-4 w-4' />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
             </div>
           ) : (
             <div className='py-8 text-center'>

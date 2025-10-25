@@ -27,8 +27,8 @@ namespace BDFM.Domain.Entities.Core
         public PriorityLevelEnum PriorityLevel { get; set; } = PriorityLevelEnum.Normal;
         public PersonalityLevelEnum PersonalityLevel { get; set; } = PersonalityLevelEnum.General;
 
-        public bool HasAttachments { get; set; } = false;
-        public int AttachmentCount { get; set; } = 0;
+        public Guid? CorrespondenceOrganizationalUnitId { get; set; }
+        public virtual OrganizationalUnit? CorrespondenceOrganizationalUnit { get; set; }
 
         public CorrespondenceStatusEnum Status { get; set; } = CorrespondenceStatusEnum.PendingReferral;
 

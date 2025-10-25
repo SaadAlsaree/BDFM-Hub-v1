@@ -95,14 +95,15 @@ namespace BDFM.Identity.Services
                new Claim(JwtRegisteredClaimNames.Jti, auth.Id.ToString()),
                new Claim(JwtRegisteredClaimNames.Email, auth.Email ?? string.Empty),
                new Claim("name",auth.FullName ?? string.Empty),
-               new Claim("uid", auth.Id.ToString())
+               new Claim("uid", auth.Id.ToString()),
+               new Claim("org_unit_id", auth.OrganizationalUnitId?.ToString() ?? string.Empty)
             };
 
             // Add roles to claims
             var roles = userWithRoles?.UserRoles ?? new List<UserRole>();
             foreach (var role in roles)
             {
-                claims.Add(new Claim("role", role.Role.Value));
+                claims.Add(new Claim("role", role.Role.Name));
             }
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));

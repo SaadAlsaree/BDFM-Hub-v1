@@ -1,6 +1,8 @@
 using BDFM.Application.Contracts.Identity;
+using BDFM.Application.Contracts.SignalR;
 using BDFM.Domain.Entities.Core;
 using BDFM.Domain.Entities.Workflow;
+using BDFM.Domain.Enums;
 
 namespace BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction
 {
@@ -10,17 +12,23 @@ namespace BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<WorkflowStep> _workflowStepRepository;
         private readonly IBaseRepository<RecipientActionLog> _recipientActionLogRepository;
+        private readonly ICorrespondenceNotificationService _correspondenceNotificationService;
+        private readonly INotificationService _notificationService;
 
         public LogRecipientInternalActionHandler(
             IBaseRepository<RecipientActionLog> recipientActionLogRepository,
             ICurrentUserService currentUserService,
             IBaseRepository<User> userRepository,
-            IBaseRepository<WorkflowStep> workflowStepRepository)
+            IBaseRepository<WorkflowStep> workflowStepRepository,
+            ICorrespondenceNotificationService correspondenceNotificationService,
+            INotificationService notificationService)
         {
             _currentUserService = currentUserService;
             _userRepository = userRepository;
             _workflowStepRepository = workflowStepRepository;
             _recipientActionLogRepository = recipientActionLogRepository;
+            _correspondenceNotificationService = correspondenceNotificationService;
+            _notificationService = notificationService;
         }
 
         public async Task<Response<bool>> Handle(LogRecipientInternalActionCommand request, CancellationToken cancellationToken)
@@ -58,6 +66,45 @@ namespace BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction
 
             if (result.Id != Guid.Empty)
             {
+                // Create notifications for the recipient(s) about this internal action
+                try
+                {
+                    // If the workflow step targets a user, notify that user
+                    if (workflowStep.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User)
+                    {
+                        var message = $"تم تسجيل إجراء داخلي على الإجراء الخاص بالكتاب: {workflowStep.Correspondence?.MailNum}";
+                        await _notificationService.CreateNotificationAsync(
+                        workflowStep.ToPrimaryRecipientId,
+                        message,
+                        NotificationTypeEnum.NewMail,
+                        workflowStep.CorrespondenceId,
+                        workflowStep.Id,
+                        cancellationToken: cancellationToken);
+                    }
+                    else if (workflowStep.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit)
+                    {
+                        // Create module notifications for the unit
+                        var message = $"تم تسجيل إجراء داخلي مرتبط بالإجراء على الكتاب: {workflowStep.Correspondence?.MailNum}";
+                        await _notificationService.CreateModuleNotificationsAsync(
+                            workflowStep.ToPrimaryRecipientId,
+                            message,
+                            NotificationTypeEnum.NewMail,
+                            workflowStep.CorrespondenceId,
+                            workflowStep.Id,
+                            cancellationToken);
+                    }
+
+                    // Real-time notify UI about the workflow step update and inbox
+                    await _correspondenceNotificationService.NotifyWorkflowStepCreatedAsync(workflowStep.Id, workflowStep.CorrespondenceId,
+                        workflowStep.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit ? workflowStep.ToPrimaryRecipientId : null);
+
+                    await _correspondenceNotificationService.NotifyInboxUpdateAsync();
+                }
+                catch
+                {
+                    // swallow notification errors
+                }
+
                 return SuccessMessage.Create.ToSuccessMessage(true);
             }
 

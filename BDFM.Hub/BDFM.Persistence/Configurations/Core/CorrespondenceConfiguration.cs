@@ -55,6 +55,12 @@ namespace BDFM.Persistence.Configurations.Core
                 .HasForeignKey(uci => uci.CorrespondenceId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Relationship with OrganizationalUnit (Creator)
+            builder.HasOne(c => c.CorrespondenceOrganizationalUnit)
+                .WithMany(ou => ou.Correspondences)
+                .HasForeignKey(c => c.CorrespondenceOrganizationalUnitId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Filter soft-deleted entities
             builder.HasQueryFilter(c => !c.IsDeleted);
         }

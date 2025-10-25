@@ -62,6 +62,13 @@ public interface IPermissionValidationService
     Task<IEnumerable<Guid>> GetAccessibleUnitIdsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Gets the current user's organizational unit ID (NOT including sub-units)
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The user's organizational unit ID if assigned, null otherwise</returns>
+    Task<Guid?> GetUserOrganizationalUnitIdAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Checks if the current user can access correspondence for a specific unit (considering hierarchy)
     /// </summary>
     /// <param name="unitId">The unit ID to check access for</param>

@@ -54,14 +54,18 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
             }
 
             var createdWorkflowSteps = new List<WorkflowStep>();
+            // only collect activated steps for notifications
+            var activatedWorkflowSteps = new List<WorkflowStep>();
             var organizationalUnitsToNotify = new HashSet<Guid>();
             var createdStepIds = new List<Guid>();
 
             try
             {
                 // 3- Process each workflow step
-                foreach (var stepItem in request.WorkflowSteps)
+                // Assign Sequence numbers based on the order in the request (1..N)
+                for (int i = 0; i < request.WorkflowSteps.Count; i++)
                 {
+                    var stepItem = request.WorkflowSteps[i];
                     // Check if workflow step already exists
                     var existingWorkflowStep = await _workflowStepRepository.Find(x =>
                         x.CorrespondenceId == request.CorrespondenceId &&
@@ -86,6 +90,9 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
                         DueDate = stepItem.DueDate.HasValue ? DateTime.SpecifyKind(stepItem.DueDate.Value, DateTimeKind.Utc) : null,
                         IsTimeSensitive = stepItem.IsTimeSensitive,
                         Status = stepItem.Status,
+                        // Respect user-provided Sequence/IsActive when present
+                        Sequence = stepItem.Sequence > 0 ? stepItem.Sequence : i + 1,
+                        IsActive = stepItem.IsActive,
                         InstructionText = stepItem.InstructionText,
                         ActionType = stepItem.ActionType,
                         CreateAt = DateTime.UtcNow,
@@ -97,13 +104,24 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
 
                     if (result != null && result.Id != Guid.Empty)
                     {
+                        // If this step was marked active by the caller, ensure status is InProgress (unless already set)
+                        if (result.IsActive && result.Status == Domain.Enums.WorkflowStepStatus.Pending)
+                        {
+                            result.Status = Domain.Enums.WorkflowStepStatus.InProgress;
+                            result.ActivatedAt = DateTime.UtcNow;
+                            _workflowStepRepository.Update(result);
+                        }
                         createdWorkflowSteps.Add(result);
                         createdStepIds.Add(result.Id);
 
-                        // Track organizational units for bulk notification
-                        if (stepItem.ToPrimaryRecipientType == RecipientTypeEnum.Unit)
+                        // If this step is active (we may have activated sequence==1), track it for notifications
+                        if (result.IsActive)
                         {
-                            organizationalUnitsToNotify.Add(stepItem.ToPrimaryRecipientId);
+                            activatedWorkflowSteps.Add(result);
+                            if (result.ToPrimaryRecipientType == RecipientTypeEnum.Unit)
+                            {
+                                organizationalUnitsToNotify.Add(result.ToPrimaryRecipientId);
+                            }
                         }
 
                         // Audit log (use safe access for MailNum)
@@ -115,7 +133,28 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
                             $"تم إنشاء {createdWorkflowSteps.Count} اجراء تحويل للكتاب {mailNum}"
                         );
                     }
+
                 }
+                // If caller didn't activate any steps, activate the step with the smallest Sequence (first step)
+                if (!activatedWorkflowSteps.Any() && createdWorkflowSteps.Any())
+                {
+                    var firstStep = createdWorkflowSteps.OrderBy(s => s.Sequence).First();
+                    // Only activate if its status is Pending - otherwise respect provided status
+                    if (!firstStep.IsActive && firstStep.Status == Domain.Enums.WorkflowStepStatus.Pending)
+                    {
+                        firstStep.IsActive = true;
+                        firstStep.Status = Domain.Enums.WorkflowStepStatus.InProgress;
+                        firstStep.ActivatedAt = DateTime.UtcNow;
+                        _workflowStepRepository.Update(firstStep);
+                        activatedWorkflowSteps.Add(firstStep);
+                        if (firstStep.ToPrimaryRecipientType == RecipientTypeEnum.Unit)
+                        {
+                            organizationalUnitsToNotify.Add(firstStep.ToPrimaryRecipientId);
+                        }
+                    }
+                }
+
+                // 4- Handle bulk notifications
 
 
 
@@ -153,17 +192,35 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
                             }
                         }
 
-                        // Send general workflow steps created notifications
-                        foreach (var step in createdWorkflowSteps)
+
+                        // Send notifications only for activated steps
+                        foreach (var step in activatedWorkflowSteps)
                         {
+                            // Create persistent notification for user recipients
+                            if (step.ToPrimaryRecipientType == RecipientTypeEnum.User)
+                            {
+                                var message = $"تم تعيين اجراء على الكتاب: {step.Correspondence?.MailNum}";
+                                await _notificationService.CreateNotificationAsync(
+                                    step.ToPrimaryRecipientId,
+                                    message,
+                                    NotificationTypeEnum.NewMail,
+                                    request.CorrespondenceId,
+                                    step.Id,
+                                    cancellationToken);
+                            }
+
+                            // Real-time notify about the created/activated workflow step
                             await _correspondenceNotificationService.NotifyWorkflowStepCreatedAsync(
                                 step.Id,
                                 request.CorrespondenceId,
                                 step.ToPrimaryRecipientType == RecipientTypeEnum.Unit ? step.ToPrimaryRecipientId : null);
                         }
 
-                        // Send general inbox update
-                        await _correspondenceNotificationService.NotifyInboxUpdateAsync();
+                        // Send general inbox update only if we had any activated steps
+                        if (activatedWorkflowSteps.Any())
+                        {
+                            await _correspondenceNotificationService.NotifyInboxUpdateAsync();
+                        }
 
                         _logger.LogInformation("تم إنشاء {Count} خطوة عمل للكتاب {CorrespondenceId}",
                             createdWorkflowSteps.Count, request.CorrespondenceId);

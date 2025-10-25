@@ -1,6 +1,7 @@
 using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
+using BDFM.Application.Extensions;
 using BDFM.Domain.Entities.Core;
 
 namespace BDFM.Application.Features.Correspondences.Queries.GetOutgoingInternal
@@ -9,12 +10,14 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetOutgoingInternal
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IPermissionValidationService _permissionValidationService;
-        private readonly IBaseRepository<User> _userRepository;
-        public GetOutgoingInternalHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IPermissionValidationService permissionValidationService, IBaseRepository<User> userRepository) : base(repository)
+
+        public GetOutgoingInternalHandler(
+            IBaseRepository<Correspondence> repository,
+            ICurrentUserService currentUserService,
+            IPermissionValidationService permissionValidationService) : base(repository)
         {
             _currentUserService = currentUserService;
             _permissionValidationService = permissionValidationService;
-            _userRepository = userRepository;
         }
 
         public override Expression<Func<Correspondence, OutgoingInternalVm>> Selector => x => new OutgoingInternalVm
@@ -65,43 +68,22 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetOutgoingInternal
 
         public async Task<Response<PagedResult<OutgoingInternalVm>>> Handle(GetOutgoingInternalQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
+            // Get user info and access control parameters
+            var userUnitId = _currentUserService.OrganizationalUnitId;
+            var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
             var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
 
             var query = _repository.Query();
 
-            // Filter for outgoing internal correspondences only and apply user access control
-            query = query.Where(c =>
-                c.CorrespondenceType == CorrespondenceTypeEnum.OutgoingInternal &&
-                (
-                    // User is the creator of the correspondence
-                    c.CreateByUserId == _currentUserService.UserId ||
-                    // Correspondence is assigned to user's organizational unit (primary recipient)
-                    c.WorkflowSteps.Any(ws =>
-                        ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
-                        accessibleUnitIds.Contains(ws.ToPrimaryRecipientId)
-                    ) ||
-                    // Correspondence has user's organizational unit as secondary recipient
-                    c.WorkflowSteps.Any(ws =>
-                        ws.SecondaryRecipients.Any(sr =>
-                            sr.RecipientType == RecipientTypeEnum.Unit &&
-                            accessibleUnitIds.Contains(sr.RecipientId)
-                        )
-                    ) ||
-                    // User is directly assigned as primary recipient
-                    c.WorkflowSteps.Any(ws =>
-                        ws.ToPrimaryRecipientType == RecipientTypeEnum.User &&
-                        ws.ToPrimaryRecipientId == _currentUserService.UserId
-                    ) ||
-                    // User is directly assigned as secondary recipient
-                    c.WorkflowSteps.Any(ws =>
-                        ws.SecondaryRecipients.Any(sr =>
-                            sr.RecipientType == RecipientTypeEnum.User &&
-                            sr.RecipientId == _currentUserService.UserId
-                        )
-                    )
-                )
-            );
+            // Apply access control
+            query = query.ApplyCorrespondenceAccessControl(
+                _currentUserService.UserId,
+                userUnitId,
+                isSuAdminOrManager,
+                accessibleUnitIds);
+
+            // Filter for outgoing internal correspondences only
+            query = query.Where(c => c.CorrespondenceType == CorrespondenceTypeEnum.OutgoingInternal);
 
             // Apply filtering with current user context
             query = query.ApplyFilter();

@@ -91,17 +91,22 @@ export function MailHeader({
         </div>
 
         <div className='flex gap-2'>
-          {data.workflowSteps?.length === 0 &&
-            data.correspondenceType !== 0 && (
-              <CustomWorkflowDialog correspondenceId={data.id}>
-                <Button variant='default'>إنشاء سير العمل مخصص</Button>
-              </CustomWorkflowDialog>
-            )}
           {isLoading && (
             <div className='flex items-center justify-center'>
               <Spinner className='text-primary animate-spin' />
             </div>
           )}
+
+          {(user?.id === data.createdByUserId ||
+            hasAnyPermission(user as UserDto | null, [
+              'Correspondence|WorkflowStep'
+            ])) &&
+            data.workflowSteps?.length === 0 &&
+            data.correspondenceType !== 0 && (
+              <CustomWorkflowDialog correspondenceId={data.id}>
+                <Button variant='default'>إنشاء سير العمل مخصص</Button>
+              </CustomWorkflowDialog>
+            )}
           {(user?.id === data.createdByUserId ||
             hasAnyPermission(user as UserDto | null, [
               'Correspondence|UpdateStatus'

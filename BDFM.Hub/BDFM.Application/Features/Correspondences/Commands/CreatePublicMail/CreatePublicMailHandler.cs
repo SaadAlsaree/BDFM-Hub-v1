@@ -12,14 +12,16 @@ public class CreatePublicMailHandler : IRequestHandler<CreatePublicMailCommand, 
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuditTrailService _auditTrailService;
     private readonly IMailNumberGenerator _mailNumberGenerator;
+    private readonly IBaseRepository<User> _userRepository;
     //private readonly IRAGService _ragService;
 
-    public CreatePublicMailHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IAuditTrailService auditTrailService, IRAGService rAGService, IMailNumberGenerator mailNumberGenerator)
+    public CreatePublicMailHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IAuditTrailService auditTrailService, IRAGService rAGService, IMailNumberGenerator mailNumberGenerator, IBaseRepository<User> userRepository)
     {
         _repository = repository;
         _currentUserService = currentUserService;
         _auditTrailService = auditTrailService;
         _mailNumberGenerator = mailNumberGenerator;
+        _userRepository = userRepository;
         //_ragService = rAGService;
     }
 
@@ -27,6 +29,13 @@ public class CreatePublicMailHandler : IRequestHandler<CreatePublicMailCommand, 
     {
         try
         {
+            // 1- Get current user
+            var currentUser = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
+            if (currentUser == null)
+            {
+                return ErrorsMessage.NotFoundData.ToErrorMessage<Guid>(Guid.Empty);
+            }
+
             // Create public mail
             var publicMail = new Correspondence
             {
@@ -46,7 +55,8 @@ public class CreatePublicMailHandler : IRequestHandler<CreatePublicMailCommand, 
                 CorrespondenceType = CorrespondenceTypeEnum.Public,
                 ExternalReferenceNumber = request.ExternalReferenceNumber,
                 ExternalReferenceDate = request.ExternalReferenceDate.HasValue ?
-                    DateOnly.FromDateTime(request.ExternalReferenceDate.Value) : null
+                    DateOnly.FromDateTime(request.ExternalReferenceDate.Value) : null,
+                CorrespondenceOrganizationalUnitId = currentUser.OrganizationalUnitId,
             };
 
             // Save public mail

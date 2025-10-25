@@ -1,5 +1,7 @@
 using BDFM.Application.Contracts.Identity;
 using BDFM.Domain.Entities.Supporting;
+using BDFM.Domain.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace BDFM.Application.Features.UserCorrespondenceInteractionFeatures.IsRead;
 
@@ -22,15 +24,40 @@ public class IsReadHandler : IRequestHandler<IsReadCommand, Response<bool>>
         // 3- return the result
 
         var userCorrespondenceInteraction = await _userCorrespondenceInteraction.Find(x => x.CorrespondenceId == request.CorrespondenceId && x.UserId == _currentUserService.UserId, cancellationToken: cancellationToken);
+
         if (userCorrespondenceInteraction == null)
         {
-            userCorrespondenceInteraction = new UserCorrespondenceInteraction
+            // Try to create new record, handle race condition
+            try
             {
-                CorrespondenceId = request.CorrespondenceId,
-                UserId = _currentUserService.UserId,
-                IsRead = request.IsRead
-            };
-            await _userCorrespondenceInteraction.Create(userCorrespondenceInteraction, cancellationToken);
+                userCorrespondenceInteraction = new UserCorrespondenceInteraction
+                {
+                    CorrespondenceId = request.CorrespondenceId,
+                    UserId = _currentUserService.UserId,
+                    IsRead = request.IsRead
+                };
+                await _userCorrespondenceInteraction.Create(userCorrespondenceInteraction, cancellationToken);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("duplicate key value violates unique constraint") == true)
+            {
+                // Race condition occurred - another request created the record
+                // Fetch the existing record and update it
+                userCorrespondenceInteraction = await _userCorrespondenceInteraction.Find(x => x.CorrespondenceId == request.CorrespondenceId && x.UserId == _currentUserService.UserId, cancellationToken: cancellationToken);
+                if (userCorrespondenceInteraction != null)
+                {
+                    userCorrespondenceInteraction.IsRead = request.IsRead;
+                    _userCorrespondenceInteraction.Update(userCorrespondenceInteraction);
+                }
+                else
+                {
+                    // This should not happen, but handle gracefully
+                    return Response<bool>.Fail(new MessageResponse
+                    {
+                        Code = "CONCURRENT_ACCESS_ERROR",
+                        Message = "Unable to process request due to concurrent access"
+                    });
+                }
+            }
         }
         else
         {

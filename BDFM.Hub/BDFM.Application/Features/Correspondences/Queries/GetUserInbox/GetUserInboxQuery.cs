@@ -18,6 +18,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
         public string? SearchTerm { get; set; }
         public CorrespondenceStatusEnum? CorrespondenceStatus { get; set; }
         public CorrespondenceTypeEnum? CorrespondenceType { get; set; }
+
     }
 
     // Extension method for filtering

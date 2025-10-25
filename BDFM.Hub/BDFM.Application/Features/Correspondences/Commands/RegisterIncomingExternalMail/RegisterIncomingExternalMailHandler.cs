@@ -108,6 +108,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.RegisterIncomingExt
                     StatusId = Status.Unverified,
                     IsDraft = false,
                     CreateByUserId = request.CreatedByUserId,
+                    CorrespondenceOrganizationalUnitId = currentUser.OrganizationalUnitId,
                 };
 
                 await _correspondenceRepository.Create(correspondence, cancellationToken);

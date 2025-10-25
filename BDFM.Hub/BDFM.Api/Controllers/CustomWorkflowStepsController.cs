@@ -1,5 +1,5 @@
 using BDFM.Application.Features.CustomWorkflowSteps.Commands.CreateCustomWorkflowStep;
-using BDFM.Application.Features.CustomWorkflowSteps.Commands.SoftDeleteCustomWorkflowStep;
+using BDFM.Application.Features.CustomWorkflowSteps.Commands.DeteleCustomWorkflowStep;
 using BDFM.Application.Features.CustomWorkflowSteps.Commands.UpdateCustomWorkflowStep;
 using BDFM.Application.Features.CustomWorkflowSteps.Queries.GetCustomWorkflowStepById;
 using BDFM.Application.Features.CustomWorkflowSteps.Queries.GetCustomWorkflowStepList;
@@ -62,6 +62,6 @@ public class CustomWorkflowStepsController : Base<CustomWorkflowStepsController>
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Response<bool>>> DeleteCustomWorkflowStep([FromRoute] Guid id)
     {
-        return await Okey(() => _mediator.Send(new SoftDeleteCustomWorkflowStepCommand { Id = id }));
+        return await Okey(() => _mediator.Send(new DeteleCustomWorkflowStepCommand { Id = id }));
     }
 }

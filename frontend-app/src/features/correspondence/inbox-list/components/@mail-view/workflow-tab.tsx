@@ -28,7 +28,6 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
-  ArrowRight,
   User,
   Plus,
   Workflow,
@@ -54,8 +53,10 @@ import {
 import UpdateWorkflowStatusDialog from '@/features/workflow-step/components/updateWorkflowStatus-dialog';
 import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
-import WorkflowStepSecondaryFormDialog from '@/features/workflow-step-secondary/components/workflow-step-secondary-form-dialog';
+// import WorkflowStepSecondaryFormDialog from '@/features/workflow-step-secondary/components/workflow-step-secondary-form-dialog';
 import { Separator } from '@/components/ui/separator';
+import CompleteWorkflowStepDialog from '@/features/workflow-step/components/completeWorkflowStep-dialog';
+import { useRouter } from 'next/navigation';
 
 // import TodoList from './todo-list';
 
@@ -76,7 +77,7 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
   };
 
   const { user } = useCurrentUser();
-
+  const router = useRouter();
   // Workflow statistics
   const workflowStats = useMemo(() => {
     if (!data.workflowSteps || data.workflowSteps.length === 0) return null;
@@ -269,11 +270,11 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
                     <CardAction className='flex gap-2'>
                       {/* تحديث الحالة */}
                       {(user?.id === step.toPrimaryRecipientId ||
-                        user?.organizationalUnitId ===
-                          step.toPrimaryRecipientId ||
-                        hasAnyPermission(user as UserDto | null, [
-                          'Correspondence|UpdateWorkflowStatus' // امكانية التحديث للحالة
-                        ])) && (
+                        (user?.organizationalUnitId ===
+                          step.toPrimaryRecipientId &&
+                          hasAnyPermission(user as UserDto | null, [
+                            'Correspondence|UpdateWorkflowStatus' // امكانية التحديث للحالة
+                          ]))) && (
                         <UpdateWorkflowStatusDialog
                           id={step.id}
                           status={step.status}
@@ -284,6 +285,17 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
                           }
                         />
                       )}
+                      {/* <CompleteWorkflowStepDialog
+                        workflowStepId={step.id}
+                        trigger={
+                          <Button variant='default' size='sm'>
+                            تحديث كمكتمل
+                          </Button>
+                        }
+                        onSuccess={() => {
+                          router.refresh();
+                        }}
+                      /> */}
                       {/* تحويل داخلي */}
                       {/* {(user?.id === step.toPrimaryRecipientId ||
                         user?.organizationalUnitId ===
@@ -303,11 +315,11 @@ export function WorkflowTab({ data, onLogActionSubmit }: WorkflowTabProps) {
                       )} */}
                       {/* تسجيل أجراء */}
                       {(user?.id === step.toPrimaryRecipientId ||
-                        user?.organizationalUnitId ===
-                          step.toPrimaryRecipientId ||
-                        hasAnyPermission(user as UserDto | null, [
-                          'Correspondence|UpdateWorkflowStatus' // امكانية التسجيل لإجراء
-                        ])) && (
+                        (user?.organizationalUnitId ===
+                          step.toPrimaryRecipientId &&
+                          hasAnyPermission(user as UserDto | null, [
+                            'Correspondence|UpdateWorkflowStatus' // امكانية التسجيل لإجراء
+                          ]))) && (
                         <LogRecipientInternalActionFormDialog
                           workflowStepId={step.id}
                           onSubmit={onLogActionSubmit}

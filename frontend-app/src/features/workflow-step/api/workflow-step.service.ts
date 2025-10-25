@@ -7,7 +7,7 @@ import {
   WorkflowStepBulkInsert
 } from '../types/workflow-step';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const workflowStepService = {
   ///Workflow/CreateWorkflowStep
@@ -67,20 +67,40 @@ export const workflowStepService = {
     }
   },
 
-  // /Workflow/CompleteWorkflowStep/id
+  //BDFM/v1/api/Workflow/CompleteWorkflowStep/{id}
   async completeWorkflowStep(id: string) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Workflow/CompleteWorkflowStep/id/${id}`
+        `${baseUrl}/Workflow/CompleteWorkflowStep/${id}`
       );
       if (response.status >= 400) {
-        // console.error('Error creating role:', response.statusText);
-        return null;
+        // eslint-disable-next-line no-console
+        console.error('Error completing workflow step:', response.statusText);
+        return {
+          succeeded: false,
+          data: false,
+          message: 'Failed to complete workflow step',
+          errors: [response.statusText],
+          code: 'COMPLETION_FAILED'
+        } as IResponse<boolean>;
       }
-      return (response.data as IResponse<boolean>) || null;
+      return (response.data as IResponse<boolean>) || {
+        succeeded: false,
+        data: false,
+        message: 'No response data received',
+        errors: ['No response data'],
+        code: 'NO_DATA'
+      };
     } catch (error) {
-      // console.log(error);
-      return null;
+      // eslint-disable-next-line no-console
+      console.error('Error completing workflow step:', error);
+      return {
+        succeeded: false,
+        data: false,
+        message: 'Network error occurred',
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
+        code: 'NETWORK_ERROR'
+      } as IResponse<boolean>;
     }
   },
 

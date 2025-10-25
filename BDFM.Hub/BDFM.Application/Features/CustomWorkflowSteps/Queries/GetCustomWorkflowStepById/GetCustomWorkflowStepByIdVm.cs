@@ -17,4 +17,6 @@ public class GetCustomWorkflowStepByIdVm
     public int StatusId { get; set; }
     public int Status { get; set; }
     public string StatusName { get; set; } = string.Empty;
+    public int Sequence { get; set; }
+    public bool IsActive { get; set; }
 }

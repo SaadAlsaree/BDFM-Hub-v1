@@ -12,13 +12,29 @@ export function useAuthApi() {
   const authApiCall = useCallback(
     async <T>(apiFunction: () => Promise<T>): Promise<T> => {
       try {
-        // Set the auth token if available
-        if (session?.accessToken) {
-          setAuthToken(session.accessToken);
+        // Check if session exists and has valid token
+        if (!session) {
+          throw new Error('No active session found. Please log in again.');
         }
+
+        if (!session.accessToken) {
+          throw new Error('No access token found. Please log in again.');
+        }
+
+        // Set the auth token
+        setAuthToken(session.accessToken);
 
         // Execute the API function
         return await apiFunction();
+      } catch (error: any) {
+        // Log authentication errors for debugging
+        if (error?.message?.includes('401') || error?.message?.includes('403')) {
+          // Use a more appropriate logging method for production
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Authentication error:', error.message);
+          }
+        }
+        throw error;
       } finally {
         // Always clear the token after the request
         setAuthToken(null);

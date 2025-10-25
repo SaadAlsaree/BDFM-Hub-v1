@@ -20,5 +20,7 @@ namespace BDFM.Domain.Entities.Supporting
         public string? TargetIdentifier { get; set; } // UserID, UnitID, RoleName, etc.
         public string? DefaultInstructionText { get; set; } // Text type in DB
         public int? DefaultDueDateOffsetDays { get; set; } // In days from previous step
+        public bool IsActive { get; set; } = false;
+        public int Sequence { get; set; } = 0;
     }
 }

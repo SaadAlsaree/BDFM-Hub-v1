@@ -1,4 +1,6 @@
+using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
+using BDFM.Application.Extensions;
 using BDFM.Domain.Entities.Core;
 
 namespace BDFM.Application.Features.Correspondences.Queries.SearchCorrespondences
@@ -7,16 +9,33 @@ namespace BDFM.Application.Features.Correspondences.Queries.SearchCorrespondence
     {
         private readonly IBaseRepository<Correspondence> _repository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IPermissionValidationService _permissionValidationService;
 
-        public SearchCorrespondencesHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService)
+        public SearchCorrespondencesHandler(
+            IBaseRepository<Correspondence> repository,
+            ICurrentUserService currentUserService,
+            IPermissionValidationService permissionValidationService)
         {
             _repository = repository;
             _currentUserService = currentUserService;
+            _permissionValidationService = permissionValidationService;
         }
 
         public async Task<Response<List<SearchCorrespondencesVm>>> Handle(SearchCorrespondencesQuery request, CancellationToken cancellationToken)
         {
+            // Get user info and access control parameters
+            var userUnitId = _currentUserService.OrganizationalUnitId;
+            var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
+            var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+
             var query = _repository.Query();
+
+            // Apply access control
+            query = query.ApplyCorrespondenceAccessControl(
+                _currentUserService.UserId,
+                userUnitId,
+                isSuAdminOrManager,
+                accessibleUnitIds);
 
             query = query.ApplyFilter(request);
 

@@ -279,7 +279,7 @@ public class PermissionValidationService : IPermissionValidationService
                 .Select(u => new { u.OrganizationalUnitId })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (!user?.OrganizationalUnitId.HasValue == true)
+            if (user == null || !user.OrganizationalUnitId.HasValue)
             {
                 _logger.LogDebug("User {UserId} does not belong to any organizational unit", userId);
                 return accessibleUnitIds;
@@ -302,6 +302,39 @@ public class PermissionValidationService : IPermissionValidationService
         {
             _logger.LogError(ex, "Error retrieving accessible unit IDs for user {UserId}", _currentUserService.UserId);
             return Enumerable.Empty<Guid>();
+        }
+    }
+
+    public async Task<Guid?> GetUserOrganizationalUnitIdAsync(CancellationToken cancellationToken = default)
+    {
+        if (!_currentUserService.IsAuthenticated)
+        {
+            return null;
+        }
+
+        try
+        {
+            var userId = _currentUserService.UserId;
+
+            // Get user's organizational unit (NOT including sub-units)
+            var user = await _userRepository.Query()
+                .Where(u => u.Id == userId && !u.IsDeleted)
+                .Select(u => new { u.OrganizationalUnitId })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (user == null || !user.OrganizationalUnitId.HasValue)
+            {
+                _logger.LogDebug("User {UserId} does not belong to any organizational unit", userId);
+                return null;
+            }
+
+            _logger.LogDebug("User {UserId} belongs to organizational unit {UnitId}", userId, user.OrganizationalUnitId.Value);
+            return user.OrganizationalUnitId.Value;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving organizational unit ID for user {UserId}", _currentUserService.UserId);
+            return null;
         }
     }
 

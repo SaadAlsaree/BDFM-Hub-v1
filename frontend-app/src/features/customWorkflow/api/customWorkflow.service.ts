@@ -9,13 +9,27 @@ import {
   CustomWorkflowStepDetails
 } from '../types/customWorkflow';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const customWorkflowService = {
   ///CustomWorkflows/GetCustomWorkflowList
   async getCustomWorkflowList(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
+        `${baseUrl}/CustomWorkflows/GetCustomWorkflowList`,
+        { params: query }
+      );
+      return response.data as IResponseList<CustomWorkflowList>;
+    } catch (error) {
+      // console.error('Error getting custom workflow list:', error);
+      return null;
+    }
+  },
+
+  ///CustomWorkflows/GetCustomWorkflowList client
+  async getCustomWorkflowListClient(query: Record<string, any>) {
+    try {
+      const response = await axiosClient.get(
         `${baseUrl}/CustomWorkflows/GetCustomWorkflowList`,
         { params: query }
       );

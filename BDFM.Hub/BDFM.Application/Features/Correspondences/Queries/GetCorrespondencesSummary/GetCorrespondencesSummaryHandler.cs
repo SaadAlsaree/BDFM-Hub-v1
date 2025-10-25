@@ -1,5 +1,6 @@
 using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
+using BDFM.Application.Extensions;
 using BDFM.Domain.Entities.Core;
 
 namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary;
@@ -64,26 +65,29 @@ public class GetCorrespondencesSummaryHandler : IRequestHandler<GetCorrespondenc
                 }
             }
 
-            // 2. Check if user has ViewAll permission; otherwise apply workflow-based access filtering
+            // 2. Check if user has ViewAll permission; otherwise apply access control
             var canViewAll = await _permissionValidationService.HasPermissionAsync(PERMISSION_VIEW_ALL, cancellationToken);
             if (!canViewAll)
             {
-                _logger.LogDebug("User {UserId} has limited access - applying workflow-based filtering", _currentUserService.UserId);
+                _logger.LogDebug("User {UserId} has limited access - applying access control filtering", _currentUserService.UserId);
 
-                var accessibleUnitIds = (await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)).ToList();
+                // Get user's organizational unit
+                var userUnitId = _currentUserService.OrganizationalUnitId;
 
-                queryable = queryable.Where(c => !c.IsDeleted && (
-                    // User created the correspondence
-                    c.CreateBy == _currentUserService.UserId ||
+                // Check if user has special roles (Manager)
+                var isSuAdminOrManager = _currentUserService.HasRole("Manager");
 
-                    // For others, check workflow participation against accessible units
-                    (c.CreateBy != _currentUserService.UserId && c.WorkflowSteps.Any(ws =>
-                        (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && ws.ToPrimaryRecipientId == _currentUserService.UserId) ||
-                        (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(ws.ToPrimaryRecipientId)) ||
-                        ws.SecondaryRecipients.Any(sr => (sr.RecipientType == Domain.Enums.RecipientTypeEnum.User && sr.RecipientId == _currentUserService.UserId) || (sr.RecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(sr.RecipientId))) ||
-                        ws.Interactions.Any(wsi => wsi.InteractingUserId == _currentUserService.UserId)
-                    ))
-                ));
+                // Get accessible unit IDs for managers
+                var accessibleUnitIds = isSuAdminOrManager
+                    ? await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)
+                    : new List<Guid>();
+
+                // Apply access control using extension method
+                queryable = queryable.ApplyCorrespondenceAccessControl(
+                    _currentUserService.UserId,
+                    userUnitId,
+                    isSuAdminOrManager,
+                    accessibleUnitIds);
             }
 
             var correspondences = (await _correspondenceRepository.GetAsync(filter: c => queryable.Contains(c), include: q => q.Include(x => x.CreateByUser).Include(x => x.WorkflowSteps))).ToList();

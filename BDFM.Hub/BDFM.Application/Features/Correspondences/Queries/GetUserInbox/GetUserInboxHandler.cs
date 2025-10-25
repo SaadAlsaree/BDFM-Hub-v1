@@ -1,5 +1,6 @@
 using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
+using BDFM.Application.Extensions;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Domain.Entities.Core;
 
@@ -79,6 +80,8 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
 
         public async Task<Response<PagedResult<InboxItemVm>>> Handle(GetUserInboxQuery request, CancellationToken cancellationToken)
         {
+            _logger.LogWarning("User {UserId} has Roles: {Roles}", _currentUserService.UserId, string.Join(", ", _currentUserService.GetRoles()));
+
             try
             {
                 // 1. Validate basic permission
@@ -91,53 +94,50 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
                         new MessageResponse { Code = "Error403", Message = "Access denied. You do not have permission to access user inbox." });
                 }
 
-                // 2. Check if user has ViewAll permission (managers, etc.)
-                var canViewAll = await _permissionValidationService.HasPermissionAsync(PERMISSION_VIEW_ALL_CORRESPONDENCE, cancellationToken);
 
-                var query = _repository.Query();
-
-                if (canViewAll)
+                // 2. Get user's organizational unit
+                var userUnitId = _currentUserService.OrganizationalUnitId;
+                if (!userUnitId.HasValue)
                 {
-                    _logger.LogDebug("User {UserId} has ViewAll permission - showing all correspondence", _currentUserService.UserId);
-                    // User can see all correspondence - apply only the basic filters
-                    query = query.ApplyFilter(request, _currentUserService.UserId);
+                    _logger.LogWarning("User {UserId} does not belong to any organizational unit", _currentUserService.UserId);
+                    return Response<PagedResult<InboxItemVm>>.Fail(
+                        new List<object> { "User not assigned to unit" },
+                        new MessageResponse { Code = "Error400", Message = "User must be assigned to an organizational unit to view correspondence." });
+                }
+
+                // 3. Check if user has special roles (SuAdmin or Manager)
+                var isSuAdminOrManager = _currentUserService.HasRole("Manager");
+
+                var query = _repository.Query().Where(c => !c.IsDeleted);
+
+                if (isSuAdminOrManager)
+                {
+                    _logger.LogDebug("User {UserId} has Manager role - showing all correspondence in unit hierarchy", _currentUserService.UserId);
+
+                    // Get user's unit + all sub-units hierarchically
+                    var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+
+                    // Apply access control using extension method
+                    query = query.ApplyCorrespondenceAccessControl(
+                        _currentUserService.UserId,
+                        userUnitId,
+                        isSuAdminOrManager,
+                        accessibleUnitIds);
                 }
                 else
                 {
-                    _logger.LogDebug("User {UserId} has limited access - applying workflow-based filtering", _currentUserService.UserId);
+                    _logger.LogDebug("User {UserId} has standard access - applying new correspondence visibility rules", _currentUserService.UserId);
 
-                    // 3. Get user's accessible unit IDs (their unit + sub-units)
-                    var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
-
-                    // 4. Apply workflow-based access control
-                    query = query.Where(c => !c.IsDeleted && (
-                        // User created the correspondence (creators can see their own correspondence regardless of workflow)
-                        c.CreateBy == _currentUserService.UserId ||
-
-                        // For correspondence NOT created by the user, check workflow participation
-                        (c.CreateBy != _currentUserService.UserId &&
-                         c.WorkflowSteps.Any(ws =>
-                            // Primary recipient is the user
-                            (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && ws.ToPrimaryRecipientId == _currentUserService.UserId) ||
-
-                            // Primary recipient is a unit the user has access to
-                            (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(ws.ToPrimaryRecipientId)) ||
-
-                            // User is a secondary recipient
-                            ws.SecondaryRecipients.Any(sr =>
-                                (sr.RecipientType == Domain.Enums.RecipientTypeEnum.User && sr.RecipientId == _currentUserService.UserId) ||
-                                (sr.RecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(sr.RecipientId))
-                            ) ||
-
-                            // User has WorkflowStepInteraction access (forwarded within module)
-                            ws.Interactions.Any(wsi => wsi.InteractingUserId == _currentUserService.UserId)
-                         )
-                        )
-                    ));
-
-                    // Apply additional filters from the request (skip IsDeleted since we already applied it)
-                    query = query.ApplyFilter(request, _currentUserService.UserId, applyIsDeletedFilter: false);
+                    // Apply access control using extension method
+                    query = query.ApplyCorrespondenceAccessControl(
+                        _currentUserService.UserId,
+                        userUnitId,
+                        isSuAdminOrManager,
+                        new List<Guid>());
                 }
+
+                // Apply additional filters from the request (skip IsDeleted since we already applied it)
+                query = query.ApplyFilter(request, _currentUserService.UserId, applyIsDeletedFilter: false);
 
                 // Apply ordering
                 var orderedQuery = OrderBy(query);

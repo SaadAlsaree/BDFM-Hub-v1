@@ -37,6 +37,10 @@ namespace BDFM.Identity
                 {
                     o.RequireHttpsMetadata = false;
                     o.SaveToken = false;
+
+                    // Map JSON array claims to multiple claims
+                    o.MapInboundClaims = false; // Disable default claim mapping
+
                     o.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -46,7 +50,10 @@ namespace BDFM.Identity
                         ClockSkew = TimeSpan.Zero,
                         ValidIssuer = configuration["JwtSettings:Issuer"],
                         ValidAudience = configuration["JwtSettings:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!)),
+                        // Keep claim names as they are in the token
+                        NameClaimType = "name",
+                        RoleClaimType = "role"
                     };
 
                     o.Events = new JwtBearerEvents()
