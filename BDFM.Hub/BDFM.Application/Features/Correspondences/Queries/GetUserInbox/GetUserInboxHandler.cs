@@ -128,12 +128,15 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
                 {
                     _logger.LogDebug("User {UserId} has standard access - applying new correspondence visibility rules", _currentUserService.UserId);
 
+                    // Get all related units (parent units + user unit + sub-units) for workflow-based access
+                    var relatedUnitIds = await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
+
                     // Apply access control using extension method
                     query = query.ApplyCorrespondenceAccessControl(
                         _currentUserService.UserId,
                         userUnitId,
                         isSuAdminOrManager,
-                        new List<Guid>());
+                        relatedUnitIds);
                 }
 
                 // Apply additional filters from the request (skip IsDeleted since we already applied it)

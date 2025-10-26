@@ -77,10 +77,10 @@ public class GetCorrespondencesSummaryHandler : IRequestHandler<GetCorrespondenc
                 // Check if user has special roles (Manager)
                 var isSuAdminOrManager = _currentUserService.HasRole("Manager");
 
-                // Get accessible unit IDs for managers
+                // Get appropriate unit IDs based on user role
                 var accessibleUnitIds = isSuAdminOrManager
                     ? await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)
-                    : new List<Guid>();
+                    : await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
 
                 // Apply access control using extension method
                 queryable = queryable.ApplyCorrespondenceAccessControl(

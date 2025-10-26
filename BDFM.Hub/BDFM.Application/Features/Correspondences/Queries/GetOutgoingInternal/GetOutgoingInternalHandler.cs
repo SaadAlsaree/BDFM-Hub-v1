@@ -71,7 +71,11 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetOutgoingInternal
             // Get user info and access control parameters
             var userUnitId = _currentUserService.OrganizationalUnitId;
             var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
-            var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+            
+            // Get appropriate unit IDs based on user role
+            var accessibleUnitIds = isSuAdminOrManager 
+                ? await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)
+                : await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
 
             var query = _repository.Query();
 

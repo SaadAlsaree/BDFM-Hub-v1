@@ -104,8 +104,8 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUrgentBooks
                 {
                     _logger.LogDebug("User {UserId} has limited access - applying workflow-based filtering for urgent books", _currentUserService.UserId);
 
-                    // 3. Get user's accessible unit IDs (their unit + sub-units)
-                    var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+                    // 3. Get user's related unit IDs (parent units + their unit + sub-units)
+                    var accessibleUnitIds = await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
 
                     // 4. Apply workflow-based access control
                     query = query.Where(c => !c.IsDeleted && (

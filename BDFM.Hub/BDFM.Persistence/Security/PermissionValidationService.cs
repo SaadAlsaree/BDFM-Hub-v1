@@ -372,6 +372,90 @@ public class PermissionValidationService : IPermissionValidationService
         }
     }
 
+    public async Task<IEnumerable<Guid>> GetAllRelatedUnitIdsAsync(CancellationToken cancellationToken = default)
+    {
+        if (!_currentUserService.IsAuthenticated)
+        {
+            return Enumerable.Empty<Guid>();
+        }
+
+        try
+        {
+            var userId = _currentUserService.UserId;
+            var relatedUnitIds = new HashSet<Guid>();
+
+            // Get user's organizational unit
+            var user = await _userRepository.Query()
+                .Where(u => u.Id == userId && !u.IsDeleted)
+                .Select(u => new { u.OrganizationalUnitId })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (user == null || !user.OrganizationalUnitId.HasValue)
+            {
+                _logger.LogDebug("User {UserId} does not belong to any organizational unit", userId);
+                return relatedUnitIds;
+            }
+
+            var userUnitId = user.OrganizationalUnitId.Value;
+            relatedUnitIds.Add(userUnitId);
+
+            // Get all parent units recursively
+            var parentUnitIds = await GetAllParentUnitIdsAsync(userUnitId, cancellationToken);
+            foreach (var parentUnitId in parentUnitIds)
+            {
+                relatedUnitIds.Add(parentUnitId);
+            }
+
+            // Get all sub-units recursively
+            var subUnitIds = await GetAllSubUnitIdsAsync(userUnitId, cancellationToken);
+            foreach (var subUnitId in subUnitIds)
+            {
+                relatedUnitIds.Add(subUnitId);
+            }
+
+            _logger.LogDebug("User {UserId} has {UnitCount} related organizational units (parents + user unit + sub-units)", 
+                userId, relatedUnitIds.Count);
+            return relatedUnitIds;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving related unit IDs for user {UserId}", _currentUserService.UserId);
+            return Enumerable.Empty<Guid>();
+        }
+    }
+
+    /// <summary>
+    /// Recursively gets all parent unit IDs for a given unit
+    /// </summary>
+    /// <param name="unitId">The child unit ID</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>List of all parent unit IDs</returns>
+    private async Task<IEnumerable<Guid>> GetAllParentUnitIdsAsync(Guid unitId, CancellationToken cancellationToken)
+    {
+        var allParentUnitIds = new HashSet<Guid>();
+
+        // Get the parent unit
+        var parentUnit = await _organizationalUnitRepository.Query()
+            .Where(u => u.Id == unitId && !u.IsDeleted && u.ParentUnitId.HasValue)
+            .Select(u => new { u.ParentUnitId })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (parentUnit?.ParentUnitId.HasValue == true)
+        {
+            var parentUnitId = parentUnit.ParentUnitId.Value;
+            allParentUnitIds.Add(parentUnitId);
+
+            // Recursively get parent units of this parent unit
+            var grandParentUnitIds = await GetAllParentUnitIdsAsync(parentUnitId, cancellationToken);
+            foreach (var grandParentUnitId in grandParentUnitIds)
+            {
+                allParentUnitIds.Add(grandParentUnitId);
+            }
+        }
+
+        return allParentUnitIds;
+    }
+
     /// <summary>
     /// Recursively gets all sub-unit IDs for a given unit
     /// </summary>

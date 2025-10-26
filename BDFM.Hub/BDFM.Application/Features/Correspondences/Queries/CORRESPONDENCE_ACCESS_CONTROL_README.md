@@ -41,10 +41,20 @@ ws.ToPrimaryRecipientId == currentUserId
 ```csharp
 ws.IsActive &&
 ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
-ws.ToPrimaryRecipientId == userUnitId.Value
+accessibleUnitIds.Contains(ws.ToPrimaryRecipientId)
 ```
 
-**النتيجة:** جميع المستخدمين في تلك الوحدة يمكنهم رؤية المراسلة
+**النتيجة (تحديث جديد):** جميع المستخدمين في أي وحدة ذات صلة يمكنهم رؤية المراسلة:
+
+-  إذا تم التحويل للوحدة الأم (Parent Unit): جميع مستخدمي الوحدة الأم والوحدات الفرعية يرون المراسلة
+-  إذا تم التحويل لوحدة المستخدم مباشرة: جميع مستخدمي الوحدة يرون المراسلة
+-  إذا تم التحويل لوحدة فرعية (Sub-unit): جميع مستخدمي الوحدة الأم والوحدات الفرعية يرون المراسلة
+
+**ملاحظة مهمة:** للمستخدمين العاديين (non-Manager/SuAdmin)، يستخدم النظام `GetAllRelatedUnitIdsAsync` التي تشمل:
+
+-  الوحدة الخاصة بالمستخدم
+-  جميع الوحدات الأم (بشكل متسلسل حتى الجذر)
+-  جميع الوحدات الفرعية (بشكل شجري/هرمي)
 
 ### 3. المستخدمون ذوو الصلاحيات الخاصة (SuAdmin / Manager)
 
@@ -91,6 +101,9 @@ c.CreateBy == currentUserId || c.CreateByUserId == currentUserId
 
 -  `CorrespondenceOrganizationalUnitId`: يتم تعيينه تلقائياً عند إنشاء المراسلة من `_currentUserService.OrganizationalUnitId`
 -  Extension Method مشترك: `ApplyCorrespondenceAccessControl` في ملف `CorrespondenceAccessControlExtensions.cs`
+-  **Method جديد `GetAllRelatedUnitIdsAsync`**: يحصل على جميع الوحدات ذات الصلة (الوحدة الأم + وحدة المستخدم + الوحدات الفرعية) للمستخدمين العاديين
+   -  يتم استخدامها بدلاً من `GetAccessibleUnitIdsAsync` للمستخدمين غير الـ Manager/SuAdmin
+   -  تضمن رؤية المراسلات المحولة لأي وحدة ذات صلة بالمستخدم (أب، ابن، أو ابن ابن)
 
 ## Handlers المحدثة
 
@@ -114,21 +127,27 @@ public async Task<Response<PagedResult<TViewModel>>> Handle(TQuery request, Canc
     var userUnitId = _currentUserService.OrganizationalUnitId;
     var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") ||
                              _currentUserService.HasRole("Manager");
-    var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+
+    // 2. Get appropriate unit IDs based on user role
+    // Managers/SuAdmin: Get their unit + sub-units only
+    // Standard users: Get all related units (parents + their unit + sub-units)
+    var accessibleUnitIds = isSuAdminOrManager
+        ? await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)
+        : await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
 
     var query = _repository.Query();
 
-    // 2. Apply access control
+    // 3. Apply access control
     query = query.ApplyCorrespondenceAccessControl(
         _currentUserService.UserId,
         userUnitId,
         isSuAdminOrManager,
         accessibleUnitIds);
 
-    // 3. Apply additional filters (correspondence type, status, etc.)
+    // 4. Apply additional filters (correspondence type, status, etc.)
     query = query.ApplyFilter(request, _currentUserService.UserId);
 
-    // 4. Continue with ordering, pagination, etc.
+    // 5. Continue with ordering, pagination, etc.
     // ...
 }
 ```
@@ -147,6 +166,10 @@ public async Task<Response<PagedResult<TViewModel>>> Handle(TQuery request, Canc
 
 ## التاريخ
 
--  **تاريخ التحديث**: 2025-10-24
--  **النسخة**: v2.0
+-  **تاريخ التحديث الأخير**: 2025-10-26
+-  **النسخة**: v2.1
 -  **المطور**: AI Assistant
+-  **التغييرات الأخيرة**:
+   -  إضافة `GetAllRelatedUnitIdsAsync` لتمكين المستخدمين من رؤية المراسلات المحولة إلى الوحدات الأم أو الفرعية
+   -  تحديث جميع الـ handlers لاستخدام الـ method الجديد
+   -  إضافة `GetAllParentUnitIdsAsync` كـ helper method في `PermissionValidationService`

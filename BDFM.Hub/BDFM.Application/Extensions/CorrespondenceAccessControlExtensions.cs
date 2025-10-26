@@ -13,8 +13,9 @@ public static class CorrespondenceAccessControlExtensions
     /// Applies the new correspondence access control rules based on:
     /// 1. Users in same unit can see all correspondence in that unit (without workflow)
     /// 2. Users can see correspondence transferred to them via WorkflowSteps (IsActive only)
-    /// 3. SuAdmin and Manager can see all correspondence in their unit + sub-units hierarchically
-    /// 4. Creators always see their own correspondence
+    /// 3. Users can see correspondence transferred to ANY related unit (parent units, their unit, or sub-units)
+    /// 4. SuAdmin and Manager can see all correspondence in their unit + sub-units hierarchically
+    /// 5. Creators always see their own correspondence
     /// </summary>
     public static IQueryable<Correspondence> ApplyCorrespondenceAccessControl(
         this IQueryable<Correspondence> query,
@@ -48,9 +49,10 @@ public static class CorrespondenceAccessControlExtensions
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.User &&
                      ws.ToPrimaryRecipientId == currentUserId) ||
 
-                    // Case B: Transferred to unit (all users in that unit can see it)
+                    // Case B: Transferred to any related unit (parent units + user unit + sub-units)
+                    // This allows users to see correspondence transferred to their parent units or sub-units
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
-                     ws.ToPrimaryRecipientId == userUnitId.Value)
+                     accessibleUnitIds.Contains(ws.ToPrimaryRecipientId))
                 ))
             );
         }
@@ -63,4 +65,3 @@ public static class CorrespondenceAccessControlExtensions
         }
     }
 }
-

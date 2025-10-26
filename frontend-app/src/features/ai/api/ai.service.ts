@@ -2,7 +2,7 @@ import { axiosClient } from '@/lib/axios';
 import { IResponse } from '@/types/response';
 import { SearchRequest, RAGResponse } from '../types/ai';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/api';
+const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/api';
 
 /**
  * AI Service for RAG (Retrieval-Augmented Generation) operations

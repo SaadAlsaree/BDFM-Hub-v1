@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.application\\features\\correspondences\\queries\\getcompleted\\getcompletedhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D3D51E-3F8D-4F00-BE25-B6E05BD0667E}|BDFM.Application\\BDFM.Application.csproj|solutionrelative:bdfm.application\\features\\correspondences\\queries\\getcompleted\\getcompletedhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|f:\\.net\\bdfm-hub\\bdfm.hub\\bdfm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{8D0D2526-0AF0-47B8-A1D7-C2A48D74F6BD}|BDFM.Api\\BDFM.Api.csproj|solutionrelative:bdfm.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -38,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,7 +54,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "GetCompletedHandler.cs",
+              "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedHandler.cs",
+              "RelativeDocumentMoniker": "BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedHandler.cs",
+              "ToolTip": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedHandler.cs",
+              "RelativeToolTip": "BDFM.Application\\Features\\Correspondences\\Queries\\GetCompleted\\GetCompletedHandler.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAAAE8AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:17:04.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.Development.json",
               "RelativeDocumentMoniker": "BDFM.Api\\appsettings.Development.json",
@@ -58,12 +75,11 @@
               "RelativeToolTip": "BDFM.Api\\appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-25T16:42:47.783Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-25T16:42:47.783Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Api\\appsettings.json",
               "RelativeDocumentMoniker": "BDFM.Api\\appsettings.json",
@@ -76,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "20251024163121_Update4.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Persistence\\Migrations\\20251024163121_Update4.cs",
               "RelativeDocumentMoniker": "BDFM.Persistence\\Migrations\\20251024163121_Update4.cs",
@@ -84,12 +100,11 @@
               "RelativeToolTip": "BDFM.Persistence\\Migrations\\20251024163121_Update4.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-24T16:31:21.162Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-24T16:31:21.162Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "GetMailFileContentsQueryHandler.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\MailFiles\\Queries\\GetMailFileContents\\GetMailFileContentsQueryHandler.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\MailFiles\\Queries\\GetMailFileContents\\GetMailFileContentsQueryHandler.cs",
@@ -101,7 +116,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "20251023192158_Update3.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Persistence\\Migrations\\20251023192158_Update3.cs",
               "RelativeDocumentMoniker": "BDFM.Persistence\\Migrations\\20251023192158_Update3.cs",
@@ -113,7 +128,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "CreateBulkWorkflowStepsHandler.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Workflow\\Commands\\CreateBulkWorkflowSteps\\CreateBulkWorkflowStepsHandler.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Workflow\\Commands\\CreateBulkWorkflowSteps\\CreateBulkWorkflowStepsHandler.cs",
@@ -125,7 +140,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "CreateBulkWorkflowStepsCommand.cs",
               "DocumentMoniker": "F:\\.NET\\BDFM-Hub\\BDFM.Hub\\BDFM.Application\\Features\\Workflow\\Commands\\CreateBulkWorkflowSteps\\CreateBulkWorkflowStepsCommand.cs",
               "RelativeDocumentMoniker": "BDFM.Application\\Features\\Workflow\\Commands\\CreateBulkWorkflowSteps\\CreateBulkWorkflowStepsCommand.cs",
