@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import path from 'path';
 
 // Load environment variables
 dotenv.config();
@@ -32,14 +31,14 @@ export const config = {
   // Ollama
   ollama: {
     url: process.env.OLLAMA_URL || 'http://localhost:11434',
-    embeddingModel: process.env.OLLAMA_EMBEDDING_MODEL || 'qwen2.5:3b',
+    embeddingModel: process.env.OLLAMA_EMBEDDING_MODEL || 'nomic-embed-text:latest',
     chatModel: process.env.OLLAMA_CHAT_MODEL || 'gpt-oss:20b',
     timeout: parseInt(process.env.OLLAMA_TIMEOUT || '120000', 10),
   },
 
   // RAG
   rag: {
-    embeddingDimension: parseInt(process.env.EMBEDDING_DIMENSION || '3584', 10),
+    embeddingDimension: parseInt(process.env.EMBEDDING_DIMENSION || '768', 10),
     chunkSize: parseInt(process.env.CHUNK_SIZE || '500', 10),
     chunkOverlap: parseInt(process.env.CHUNK_OVERLAP || '50', 10),
     maxResults: parseInt(process.env.MAX_RESULTS || '10', 10),

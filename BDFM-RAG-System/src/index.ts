@@ -38,7 +38,7 @@ class App {
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
     // Request logging
-    this.app.use((req, res, next) => {
+    this.app.use((req, _res, next) => {
       logger.info(`${req.method} ${req.path}`);
       next();
     });
@@ -53,7 +53,7 @@ class App {
     this.app.use('/api/rag', conversationRoutes);
 
     // Root endpoint
-    this.app.get('/', (req, res) => {
+    this.app.get('/', (_req, res) => {
       res.json({
         success: true,
         data: {
@@ -70,9 +70,15 @@ class App {
             index: 'POST /api/rag/index',
             delete: 'DELETE /api/rag/correspondence/:id',
             rebuild: 'POST /api/rag/rebuild',
+            removeDuplicates: 'POST /api/rag/remove-duplicates',
+            fixDimensions: 'POST /api/rag/fix-dimensions',
             status: 'GET /api/rag/status',
             syncStats: 'GET /api/rag/sync/stats',
             health: 'GET /api/rag/health',
+            // Qdrant Data Endpoints
+            getAllCollections: 'GET /api/rag/collections',
+            getCollectionData: 'GET /api/rag/collections/:collection',
+            getCollectionStats: 'GET /api/rag/collections/:collection/stats',
             // Conversation Endpoints
             createConversation: 'POST /api/rag/conversations',
             listConversations: 'GET /api/rag/conversations',

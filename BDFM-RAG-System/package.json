@@ -1,6 +1,6 @@
 {
   "name": "bdfm-rag-system",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "RAG System for BDFM.Hub using Qdrant, Ollama, and Node.js",
   "main": "dist/index.js",
   "scripts": {

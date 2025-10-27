@@ -277,6 +277,116 @@ export class RAGService {
   }
 
   /**
+   * Get all data from Qdrant collection
+   */
+  async getQdrantData(
+    collectionName: string,
+    limit: number = 100,
+    offset: number = 0
+  ): Promise<any> {
+    try {
+      logger.info(`Getting data from collection: ${collectionName}`);
+
+      const qdrantService = (await import('./qdrant.service')).default;
+
+      // Get collection info
+      const collectionInfo = await qdrantService.getCollectionInfo(collectionName);
+
+      // Get points from collection
+      const points = await (qdrantService as any).client.scroll(collectionName, {
+        limit,
+        offset,
+        with_payload: true,
+        with_vector: false, // Don't include vectors to reduce response size
+      });
+
+      return {
+        collection: collectionName,
+        totalPoints: collectionInfo.points_count || 0,
+        returnedPoints: points.points.length,
+        limit,
+        offset,
+        data: points.points.map((point: any) => ({
+          id: point.id,
+          payload: point.payload,
+        })),
+      };
+    } catch (error: any) {
+      logger.error(`Error getting data from collection ${collectionName}:`, error);
+      throw new Error(`Failed to get data from collection: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get collection statistics
+   */
+  async getCollectionStats(collectionName: string): Promise<any> {
+    try {
+      logger.info(`Getting stats for collection: ${collectionName}`);
+
+      const qdrantService = (await import('./qdrant.service')).default;
+
+      const collectionInfo = await qdrantService.getCollectionInfo(collectionName);
+      const count = await qdrantService.getCollectionCount(collectionName);
+
+      return {
+        collection: collectionName,
+        pointsCount: count,
+        vectorSize: collectionInfo.config?.params?.vectors?.size || 'unknown',
+        distance: collectionInfo.config?.params?.vectors?.distance || 'unknown',
+        status: collectionInfo.status || 'unknown',
+        optimizerStatus: collectionInfo.optimizer_status || 'unknown',
+        payloadSchema: collectionInfo.payload_schema || {},
+        config: collectionInfo.config || {},
+      };
+    } catch (error: any) {
+      logger.error(`Error getting stats for collection ${collectionName}:`, error);
+      throw new Error(`Failed to get collection stats: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get all collections
+   */
+  async getAllCollections(): Promise<any> {
+    try {
+      logger.info('Getting all Qdrant collections');
+
+      const qdrantService = (await import('./qdrant.service')).default;
+
+      const collections = await qdrantService.getCollections();
+
+      // Get stats for each collection
+      const collectionsWithStats = await Promise.all(
+        collections.map(async (collectionName) => {
+          try {
+            const stats = await this.getCollectionStats(collectionName);
+            return stats;
+          } catch (error) {
+            logger.warn(`Could not get stats for collection ${collectionName}:`, error);
+            return {
+              collection: collectionName,
+              pointsCount: 0,
+              vectorSize: 'unknown',
+              distance: 'unknown',
+              status: 'error',
+              error: (error as Error).message,
+            };
+          }
+        })
+      );
+
+      return {
+        totalCollections: collections.length,
+        collections: collectionsWithStats,
+      };
+    } catch (error: any) {
+      logger.error('Error getting all collections:', error);
+      throw new Error(`Failed to get collections: ${error.message}`);
+    }
+  }
+
+  /**
    * Check PostgreSQL connection
    */
   private async checkPostgresConnection(): Promise<boolean> {

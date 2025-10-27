@@ -5,7 +5,6 @@ import { SearchResult, VectorEmbedding, SearchFilters } from '../models';
 
 export class QdrantService {
   private client: QdrantClient;
-  private initialized: boolean = false;
 
   constructor() {
     this.client = new QdrantClient({
@@ -35,7 +34,7 @@ export class QdrantService {
         config.rag.embeddingDimension
       );
 
-      this.initialized = true;
+      // Service initialized successfully
       logger.info('Qdrant service initialized successfully');
     } catch (error) {
       logger.error('Failed to initialize Qdrant service:', error);
@@ -226,6 +225,64 @@ export class QdrantService {
       logger.info(`Deleted collection: ${collectionName}`);
     } catch (error) {
       logger.error(`Error deleting collection ${collectionName}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Rebuild collection with new vector size
+   */
+  async rebuildCollection(collectionName: string, newVectorSize: number): Promise<void> {
+    try {
+      logger.info(`Rebuilding collection ${collectionName} with vector size ${newVectorSize}`);
+
+      // Delete existing collection
+      await this.deleteCollection(collectionName);
+
+      // Create new collection with correct dimensions
+      await this.client.createCollection(collectionName, {
+        vectors: {
+          size: newVectorSize,
+          distance: 'Cosine',
+        },
+        optimizers_config: {
+          default_segment_number: 2,
+        },
+        replication_factor: 1,
+      });
+
+      logger.info(`Collection ${collectionName} rebuilt successfully`);
+    } catch (error) {
+      logger.error(`Error rebuilding collection ${collectionName}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Fix collection dimensions by rebuilding it
+   */
+  async fixCollectionDimensions(collectionName: string, correctVectorSize: number): Promise<void> {
+    try {
+      logger.info(`Fixing collection ${collectionName} dimensions to ${correctVectorSize}`);
+
+      // Get current collection info
+      const currentInfo = await this.getCollectionInfo(collectionName);
+      const currentSize = currentInfo.config?.params?.vectors?.size;
+
+      if (currentSize === correctVectorSize) {
+        logger.info(`Collection ${collectionName} already has correct dimensions (${correctVectorSize})`);
+        return;
+      }
+
+      logger.info(`Collection ${collectionName} has wrong dimensions: ${currentSize}, expected: ${correctVectorSize}`);
+      logger.info('Rebuilding collection with correct dimensions...');
+
+      // Rebuild collection
+      await this.rebuildCollection(collectionName, correctVectorSize);
+
+      logger.info(`Collection ${collectionName} rebuilt with correct dimensions`);
+    } catch (error) {
+      logger.error(`Error fixing collection dimensions for ${collectionName}:`, error);
       throw error;
     }
   }

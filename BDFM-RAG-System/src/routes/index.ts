@@ -15,13 +15,20 @@ router.delete('/correspondence/:correspondenceId', (req, res) =>
   ragController.deleteCorrespondence(req, res)
 );
 router.post('/rebuild', (req, res) => ragController.rebuildIndex(req, res));
+router.post('/remove-duplicates', (req, res) => ragController.removeDuplicates(req, res));
+router.post('/fix-dimensions', (req, res) => ragController.fixDimensions(req, res));
 
 // Status Routes
 router.get('/status', (req, res) => ragController.getStatus(req, res));
 router.get('/sync/stats', (req, res) => ragController.getSyncStats(req, res));
 
+// Qdrant Data Routes
+router.get('/collections', (req, res) => ragController.getAllCollections(req, res));
+router.get('/collections/:collection', (req, res) => ragController.getQdrantData(req, res));
+router.get('/collections/:collection/stats', (req, res) => ragController.getCollectionStats(req, res));
+
 // Health check
-router.get('/health', (req, res) => {
+router.get('/health', (_req, res) => {
   res.json({
     success: true,
     data: {

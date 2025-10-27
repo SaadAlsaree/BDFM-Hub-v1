@@ -1435,3 +1435,4 @@ System.InvalidOperationException: User is not authenticated or 'uid' claim is mi
 2025-10-27 00:24:44.285 +03:00 [INF] HTTP GET /correspondenceHub responded 200 in 90001.8443 ms
 2025-10-27 00:25:20.480 +03:00 [INF] HTTP GET /correspondenceHub responded 200 in 77887.8128 ms
 2025-10-27 00:25:21.618 +03:00 [INF] HTTP GET /correspondenceHub responded 200 in 37326.1391 ms
+2025-10-27 00:39:52.542 +03:00 [WRN] Entity 'Correspondence' has a global query filter defined and is the required end of a relationship with the entity 'CorrespondenceTimeline'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
