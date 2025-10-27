@@ -11,7 +11,6 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateInternalMail
     {
         private readonly IBaseRepository<Correspondence> _correspondenceRepository;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IBaseRepository<User> _userRepository;
         private readonly ICorrespondenceNotificationService _notificationService;
         private readonly ILogger<CreateInternalMailHandler> _logger;
         private readonly IAuditTrailService _auditTrailService;
@@ -21,16 +20,13 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateInternalMail
         public CreateInternalMailHandler(
             IBaseRepository<Correspondence> correspondenceRepository,
             ICurrentUserService currentUserService,
-            IBaseRepository<User> userRepository,
             ICorrespondenceNotificationService notificationService,
             ILogger<CreateInternalMailHandler> logger,
             IAuditTrailService auditTrailService,
-            IRAGService ragService,
             IMailNumberGenerator mailNumberGenerator)
         {
             _correspondenceRepository = correspondenceRepository;
             _currentUserService = currentUserService;
-            _userRepository = userRepository;
             _notificationService = notificationService;
             _logger = logger;
             _auditTrailService = auditTrailService;
@@ -44,12 +40,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateInternalMail
             {
                 _logger.LogInformation("Handling CreateInternalMail request");
 
-                // 1- Get current user
-                var currentUser = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
-                if (currentUser == null)
-                {
-                    return ErrorsMessage.NotFoundData.ToErrorMessage<Guid>(Guid.Empty);
-                }
+
 
 
 
@@ -69,8 +60,9 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateInternalMail
                     IsDraft = request.IsDraft,
                     StatusId = Status.Unverified,
                     CreateAt = DateTime.UtcNow,
-                    CreateBy = currentUser.Id,
-                    CreateByUserId = currentUser.Id,
+                    CreateBy = _currentUserService.UserId,
+                    CreateByUserId = _currentUserService.UserId,
+                    CorrespondenceOrganizationalUnitId = _currentUserService.OrganizationalUnitId,
                 };
 
                 //var mailRag = new CreateCorrespondenceRequest

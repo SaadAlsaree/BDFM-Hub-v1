@@ -42,6 +42,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Spinner } from '@/components/spinner';
+import { Switch } from '@/components/ui/switch';
 
 import {
   ActionTypeEnum,
@@ -124,11 +125,14 @@ export default function CustomWorkflowStepDialog({
           targetType: initialData.targetType as CustomWorkflowTargetTypeEnum,
           targetIdentifier: initialData.targetIdentifier,
           defaultInstructionText: initialData.defaultInstructionText || '',
-          defaultDueDateOffsetDays: initialData.defaultDueDateOffsetDays
+          defaultDueDateOffsetDays: initialData.defaultDueDateOffsetDays,
+          isActive: initialData.isActive,
+          sequence: initialData.sequence
         }
       : {
           stepOrder: 1,
-          defaultDueDateOffsetDays: 0
+          defaultDueDateOffsetDays: 0,
+          isActive: true
         }
   });
 
@@ -141,13 +145,15 @@ export default function CustomWorkflowStepDialog({
         targetType: initialData.targetType as CustomWorkflowTargetTypeEnum,
         targetIdentifier: initialData.targetIdentifier,
         defaultInstructionText: initialData.defaultInstructionText || '',
-        defaultDueDateOffsetDays: initialData.defaultDueDateOffsetDays
+        defaultDueDateOffsetDays: initialData.defaultDueDateOffsetDays,
+        isActive: initialData.isActive
       });
     } else {
       // New step - reset to defaults when dialog opens
       form.reset({
         stepOrder: 1,
-        defaultDueDateOffsetDays: 0
+        defaultDueDateOffsetDays: 0,
+        isActive: true
       });
     }
   }, [initialData, isOpen, form]);
@@ -557,6 +563,28 @@ export default function CustomWorkflowStepDialog({
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='isActive'
+              render={({ field }) => (
+                <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
+                  <div className='space-y-0.5'>
+                    <FormLabel className='text-base'>تفعيل الخطوة</FormLabel>
+                    <div className='text-muted-foreground text-sm'>
+                      تحديد ما إذا كانت هذه الخطوة نشطة أم لا
+                    </div>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={loading}
+                    />
+                  </FormControl>
                 </FormItem>
               )}
             />

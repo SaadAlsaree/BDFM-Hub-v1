@@ -80,6 +80,8 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
         public OrganizationalUnitDetailVm? FromUnit { get; set; }
         public RecipientTypeEnum ToPrimaryRecipientType { get; set; }
         public string ToPrimaryRecipientTypeName { get; set; } = string.Empty;
+        public int Sequence { get; set; }
+        public bool IsActive { get; set; }
 
         public Guid ToPrimaryRecipientId { get; set; }
         public string ToPrimaryRecipientName { get; set; } = string.Empty;
@@ -89,6 +91,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
         public string WorkflowStepStatusName { get; set; } = string.Empty;
         public bool IsTimeSensitive { get; set; }
         public DateTime CreateAt { get; set; }
+        public Guid CreateBy { get; set; }
 
 
         // Navigation Properties

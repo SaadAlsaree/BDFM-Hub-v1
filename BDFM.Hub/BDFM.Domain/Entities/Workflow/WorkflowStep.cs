@@ -32,6 +32,14 @@ namespace BDFM.Domain.Entities.Workflow
         public WorkflowStepStatus Status { get; set; } = WorkflowStepStatus.Pending;
         public bool IsTimeSensitive { get; set; } = false;
 
+        // new: sequence/order to determine step order
+        public bool IsActive { get; set; } = false;
+        public int Sequence { get; set; } = 0;
+
+        // optional timestamps
+        public DateTime? ActivatedAt { get; set; }
+        public DateTime? CompletedAt { get; set; }
+
         // Navigation Properties
         public virtual ICollection<WorkflowStepSecondaryRecipient> SecondaryRecipients { get; set; } = new HashSet<WorkflowStepSecondaryRecipient>();
         public virtual ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();

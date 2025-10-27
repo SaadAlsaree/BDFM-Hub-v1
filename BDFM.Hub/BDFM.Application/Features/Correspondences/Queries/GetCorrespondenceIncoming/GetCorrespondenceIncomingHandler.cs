@@ -73,8 +73,8 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceInc
 
         public async Task<Response<PagedResult<GetCorrespondenceIncomingVm>>> Handle(GetCorrespondenceIncomingQuery request, CancellationToken cancellationToken)
         {
-            // Get user's accessible unit IDs (their unit + sub-units)
-            var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+            // Get user's related unit IDs (parent units + their unit + sub-units)
+            var accessibleUnitIds = await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
 
             var user = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
 

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import ragService from '../services/rag.service';
 import syncService from '../services/sync.service';
+import qdrantService from '../services/qdrant.service';
+import config from '../config';
 import logger from '../utils/logger';
 import { SearchRequest, SyncRequest, ApiResponse } from '../models';
 
@@ -265,7 +267,7 @@ export class RAGController {
   /**
    * Get system status
    */
-  async getStatus(req: Request, res: Response): Promise<void> {
+  async getStatus(_req: Request, res: Response): Promise<void> {
     try {
       logger.info('Status request');
 
@@ -292,7 +294,7 @@ export class RAGController {
   /**
    * Get sync statistics
    */
-  async getSyncStats(req: Request, res: Response): Promise<void> {
+  async getSyncStats(_req: Request, res: Response): Promise<void> {
     try {
       logger.info('Sync statistics request');
 
@@ -319,7 +321,7 @@ export class RAGController {
   /**
    * Rebuild index
    */
-  async rebuildIndex(req: Request, res: Response): Promise<void> {
+  async rebuildIndex(_req: Request, res: Response): Promise<void> {
     try {
       logger.info('Rebuild index request');
 
@@ -337,6 +339,164 @@ export class RAGController {
         error: {
           message: error.message || 'Internal server error',
           code: 'REBUILD_FAILED',
+        },
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
+
+  /**
+   * Get all data from Qdrant collection
+   */
+  async getQdrantData(req: Request, res: Response): Promise<void> {
+    try {
+      const { collection } = req.params;
+      const { limit = 100, offset = 0 } = req.query;
+
+      logger.info(`Getting data from Qdrant collection: ${collection}`);
+
+      const result = await ragService.getQdrantData(
+        collection,
+        parseInt(limit as string, 10),
+        parseInt(offset as string, 10)
+      );
+
+      res.json({
+        success: true,
+        data: result,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error: any) {
+      logger.error('Error getting Qdrant data:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          message: error.message || 'Internal server error',
+          code: 'QDRANT_DATA_ERROR',
+        },
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
+
+  /**
+   * Get collection statistics
+   */
+  async getCollectionStats(req: Request, res: Response): Promise<void> {
+    try {
+      const { collection } = req.params;
+
+      logger.info(`Getting stats for collection: ${collection}`);
+
+      const result = await ragService.getCollectionStats(collection);
+
+      res.json({
+        success: true,
+        data: result,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error: any) {
+      logger.error('Error getting collection stats:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          message: error.message || 'Internal server error',
+          code: 'COLLECTION_STATS_ERROR',
+        },
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
+
+  /**
+   * Get all collections
+   */
+  async getAllCollections(_req: Request, res: Response): Promise<void> {
+    try {
+      logger.info('Getting all Qdrant collections');
+
+      const result = await ragService.getAllCollections();
+
+      res.json({
+        success: true,
+        data: result,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error: any) {
+      logger.error('Error getting collections:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          message: error.message || 'Internal server error',
+          code: 'COLLECTIONS_ERROR',
+        },
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
+
+  /**
+   * Remove duplicate embeddings
+   */
+  async removeDuplicates(_req: Request, res: Response): Promise<void> {
+    try {
+      logger.info('Starting duplicate removal process');
+
+      const result = await syncService.removeDuplicates();
+
+      res.json({
+        success: result.success,
+        data: {
+          processed: result.processed,
+          cleaned: result.cleaned,
+          message: result.message,
+        },
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error: any) {
+      logger.error('Error removing duplicates:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          message: error.message || 'Internal server error',
+          code: 'REMOVE_DUPLICATES_ERROR',
+        },
+        timestamp: new Date().toISOString(),
+      });
+    }
+  }
+
+  /**
+   * Fix collection dimensions
+   */
+  async fixDimensions(_req: Request, res: Response): Promise<void> {
+    try {
+      logger.info('Starting collection dimensions fix');
+
+      // Get correct embedding dimension from config
+      const correctDimension = config.rag.embeddingDimension;
+
+      // Fix correspondence collection
+      await qdrantService.fixCollectionDimensions(
+        config.collections.correspondence,
+        correctDimension
+      );
+
+      res.json({
+        success: true,
+        data: {
+          message: `Collection dimensions fixed to ${correctDimension}`,
+          dimension: correctDimension,
+        },
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error: any) {
+      logger.error('Error fixing collection dimensions:', error);
+      res.status(500).json({
+        success: false,
+        error: {
+          message: error.message || 'Internal server error',
+          code: 'FIX_DIMENSIONS_ERROR',
         },
         timestamp: new Date().toISOString(),
       });

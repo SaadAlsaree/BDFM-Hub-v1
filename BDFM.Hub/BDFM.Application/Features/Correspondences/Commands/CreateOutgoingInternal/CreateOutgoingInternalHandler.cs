@@ -15,6 +15,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateOutgoingInter
         private readonly ICurrentUserService _currentUserService;
         private readonly IAuditTrailService _auditTrailService;
         private readonly IMailNumberGenerator _mailNumberGenerator;
+        private readonly IBaseRepository<User> _userRepository;
         //private readonly IRAGService _ragService;
 
 
@@ -24,13 +25,15 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateOutgoingInter
             ICurrentUserService currentUserService,
             IAuditTrailService auditTrailService,
             IRAGService ragService,
-            IMailNumberGenerator mailNumberGenerator)
+            IMailNumberGenerator mailNumberGenerator,
+            IBaseRepository<User> userRepository)
         {
             _correspondencRepository = correspondencRepository;
             _correspondencLinkRepository = correspondencLinkRepository;
             _currentUserService = currentUserService;
             _auditTrailService = auditTrailService;
             _mailNumberGenerator = mailNumberGenerator;
+            _userRepository = userRepository;
             //_ragService = ragService;
         }
 
@@ -39,6 +42,13 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateOutgoingInter
         {
             try
             {
+                // 1- Get current user
+                var currentUser = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
+                if (currentUser == null)
+                {
+                    return ErrorsMessage.NotFoundData.ToErrorMessage<bool>(false);
+                }
+
                 // Create correspondence
                 var correspondenc = new Correspondence
                 {
@@ -55,6 +65,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateOutgoingInter
                     CreateAt = DateTime.UtcNow,
                     Status = CorrespondenceStatusEnum.PendingReferral,
                     CorrespondenceType = CorrespondenceTypeEnum.OutgoingInternal,
+                    CorrespondenceOrganizationalUnitId = currentUser.OrganizationalUnitId,
                 };
                 var outgoingInternal = await _correspondencRepository.Create(correspondenc, cancellationToken);
 

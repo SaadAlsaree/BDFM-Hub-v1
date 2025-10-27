@@ -182,8 +182,8 @@ public class SecureGetUserInboxHandler :
             return query; // No filtering needed
         }
 
-        // Get all unit IDs the user can access (their unit + all sub-units)
-        var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+        // Get all related unit IDs the user can access (parent units + their unit + sub-units)
+        var accessibleUnitIds = await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
         var accessibleUnitIdsList = accessibleUnitIds.ToList();
 
         if (accessibleUnitIdsList.Any())

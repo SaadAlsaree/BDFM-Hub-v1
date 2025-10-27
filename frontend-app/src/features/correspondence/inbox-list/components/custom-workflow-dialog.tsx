@@ -115,7 +115,9 @@ const CustomWorkflowDialog = ({
           instructionText: step.defaultInstructionText ?? '',
           dueDate: dueDateIso,
           status: WorkflowStepStatus.Pending,
-          isTimeSensitive: false
+          isTimeSensitive: false,
+          sequence: step.sequence,
+          isActive: step.isActive
         };
       }
     );
@@ -296,7 +298,7 @@ const CustomWorkflowDialog = ({
                         <div className='space-y-2 pl-6'>
                           <div className='flex items-center justify-between'>
                             <h5 className='leading-tight font-medium'>
-                              {step.actionType}
+                              {step.actionTypeName}
                             </h5>
                             <div className='flex items-center gap-2'>
                               {step.targetType ===

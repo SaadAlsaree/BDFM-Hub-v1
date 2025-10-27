@@ -1,3 +1,4 @@
+using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Domain.Entities.Supporting;
 using BDFM.Domain.Entities.Core;
@@ -10,14 +11,17 @@ internal class GetCustomWorkflowListHandler : GetAllWithCountHandler<CustomWorkf
 {
     private readonly IBaseRepository<User> _userRepository;
     private readonly IBaseRepository<OrganizationalUnit> _unitRepository;
+    private readonly ICurrentUserService _currentUserService;
 
     public GetCustomWorkflowListHandler(IBaseRepository<CustomWorkflow> repository,
         IBaseRepository<User> userRepository,
-        IBaseRepository<OrganizationalUnit> unitRepository) : base(repository)
+        IBaseRepository<OrganizationalUnit> unitRepository,
+        ICurrentUserService currentUserService) : base(repository)
     {
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         _unit_repository_check(unitRepository);
         _unitRepository = unitRepository ?? throw new ArgumentNullException(nameof(unitRepository));
+        _currentUserService = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
     }
 
     // Small helper to keep a clearer exception message when unit repository missing
@@ -56,7 +60,9 @@ internal class GetCustomWorkflowListHandler : GetAllWithCountHandler<CustomWorkf
                 // cannot reliably navigate related User/Unit inside projection here, will resolve after projection
                 TargetIdentifierName = string.Empty,
                 DefaultInstructionText = s.DefaultInstructionText,
-                DefaultDueDateOffsetDays = s.DefaultDueDateOffsetDays
+                DefaultDueDateOffsetDays = s.DefaultDueDateOffsetDays,
+                Sequence = s.Sequence,
+                IsActive = s.IsActive
             }).ToList()
         };
 
@@ -65,8 +71,28 @@ internal class GetCustomWorkflowListHandler : GetAllWithCountHandler<CustomWorkf
 
     public async Task<Response<PagedResult<GetCustomWorkflowListVm>>> Handle(GetCustomWorkflowListQuery request, CancellationToken cancellationToken)
     {
-
         var query = _repository.Query();
+
+        // Apply unit-based filtering
+        var isAdmin = _currentUserService.HasRole("Admin") || _currentUserService.HasRole("SuAdmin");
+
+        if (!isAdmin)
+        {
+            // Regular users can only access workflows from their organizational unit
+            var userUnitId = _currentUserService.OrganizationalUnitId;
+
+            if (userUnitId.HasValue)
+            {
+                query = query.Where(x => x.TriggeringUnitId == userUnitId.Value);
+            }
+            else
+            {
+                // If user has no organizational unit, they cannot access any workflows
+                query = query.Where(x => false);
+            }
+        }
+        // Admin and SuAdmin can access all workflows (no additional filtering needed)
+
         if (!string.IsNullOrEmpty(request.SearchTerm))
         {
             var searchTerm = request.SearchTerm.ToLower();

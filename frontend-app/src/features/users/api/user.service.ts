@@ -85,13 +85,13 @@ export const userService = {
   },
 
   async createUser(user: UserPayloadDto) {
-    console.log(user);
+
     try {
       const response = await axiosClient.post(
         `${baseUrl}/User/CreateUser`,
         user
       );
-      console.log(response);
+
       if (response.status >= 400) {
         // console.error('Error creating user:', response.statusText);
         console.log(response);

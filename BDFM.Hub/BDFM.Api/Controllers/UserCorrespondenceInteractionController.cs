@@ -26,37 +26,27 @@ namespace BDFM.Api.Controllers
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> IsInTrash([FromBody] IsInTrashCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<Response<bool>>> IsInTrash([FromBody] IsInTrashCommand command, CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(command, cancellationToken));
+            return await Okey(() => _mediator.Send(command, cancellationToken));
         }
 
         [HttpPost]
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> IsPostponed([FromBody] IsPostponedCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<Response<bool>>> IsPostponed([FromBody] IsPostponedCommand command, CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(command, cancellationToken));
+            return await Okey(() => _mediator.Send(command, cancellationToken));
         }
 
         [HttpPost]
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> IsRead([FromBody] IsReadCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<Response<bool>>> IsRead([FromBody] IsReadCommand command, CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(command, cancellationToken));
-        }
-
-
-        [HttpPost]
-        [ServiceFilter(typeof(LogActionArguments))]
-        [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> IsStarred([FromBody] IsStarredCommand command, CancellationToken cancellationToken)
-        {
-            return Ok(await _mediator.Send(command, cancellationToken));
+            return await Okey(() => _mediator.Send(command, cancellationToken));
         }
 
 
@@ -64,9 +54,19 @@ namespace BDFM.Api.Controllers
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ReceiveNotification([FromBody] ReceiveNotificationsCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult<Response<bool>>> IsStarred([FromBody] IsStarredCommand command, CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(command, cancellationToken));
+            return await Okey(() => _mediator.Send(command, cancellationToken));
+        }
+
+
+        [HttpPost]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Response<bool>>> ReceiveNotification([FromBody] ReceiveNotificationsCommand command, CancellationToken cancellationToken)
+        {
+            return await Okey(() => _mediator.Send(command, cancellationToken));
         }
     }
 }

@@ -78,6 +78,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CORS configuration
 - Error message sanitization in production
 
+## [1.1.0] - 2025-10-27
+
+### Added
+- **Duplicate Prevention System**: Implemented deterministic ID generation for embeddings
+- **Remove Duplicates Endpoint**: New API endpoint `POST /api/rag/remove-duplicates` to clean existing duplicates
+- **Helper Functions**: Added `generateDeterministicId()` and `simpleHash()` utility functions
+- **Documentation**: Added comprehensive deduplication guide in Arabic (`docs/DEDUPLICATION_AR.md`)
+
+### Changed
+- **Embedding IDs**: Switched from random UUIDs to deterministic IDs based on correspondence ID and chunk index
+- **Sync Process**: Modified sync service to delete old embeddings before inserting new ones
+- **Single Correspondence Sync**: Updated `syncSingleCorrespondence()` to prevent duplicates
+
+### Fixed
+- **Data Duplication**: Resolved issue where repeated sync operations created duplicate embeddings in Qdrant
+- **Memory Usage**: Reduced storage usage by preventing duplicate data accumulation
+- **Search Results**: Eliminated duplicate results in search queries
+
+### Technical Details
+- Deterministic ID format: `{correspondenceId}-chunk-{chunkIndex}`
+- Delete-then-insert pattern for all sync operations
+- Automatic cleanup of old embeddings before re-indexing
+
 ## [Unreleased]
 
 ### Planned Features

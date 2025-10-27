@@ -715,11 +715,11 @@ namespace BDFM.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("AttachmentCount")
-                        .HasColumnType("integer");
-
                     b.Property<string>("BodyText")
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("CorrespondenceOrganizationalUnitId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("CorrespondenceType")
                         .HasColumnType("integer");
@@ -757,9 +757,6 @@ namespace BDFM.Persistence.Migrations
 
                     b.Property<DateTime?>("FinalizedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("HasAttachments")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -810,6 +807,8 @@ namespace BDFM.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CorrespondenceOrganizationalUnitId");
 
                     b.HasIndex("CreateBy");
 
@@ -2134,6 +2133,9 @@ namespace BDFM.Persistence.Migrations
                     b.Property<DateTime?>("DoneProcdureDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsCompleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -2147,6 +2149,9 @@ namespace BDFM.Persistence.Migrations
 
                     b.Property<Guid?>("LastUpdateBy")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Sequence")
+                        .HasColumnType("integer");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
@@ -2869,6 +2874,12 @@ namespace BDFM.Persistence.Migrations
                     b.Property<int>("ActionType")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("ActivatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("CorrespondenceId")
                         .HasColumnType("uuid");
 
@@ -2899,6 +2910,9 @@ namespace BDFM.Persistence.Migrations
                     b.Property<string>("InstructionText")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -2910,6 +2924,9 @@ namespace BDFM.Persistence.Migrations
 
                     b.Property<Guid?>("LastUpdateBy")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Sequence")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -3227,6 +3244,11 @@ namespace BDFM.Persistence.Migrations
 
             modelBuilder.Entity("BDFM.Domain.Entities.Core.Correspondence", b =>
                 {
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "CorrespondenceOrganizationalUnit")
+                        .WithMany("Correspondences")
+                        .HasForeignKey("CorrespondenceOrganizationalUnitId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("BDFM.Domain.Entities.Core.User", null)
                         .WithMany("CreatedCorrespondences")
                         .HasForeignKey("CreateBy")
@@ -3255,6 +3277,8 @@ namespace BDFM.Persistence.Migrations
                         .WithMany("SignedCorrespondences")
                         .HasForeignKey("SignatoryUserId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CorrespondenceOrganizationalUnit");
 
                     b.Navigation("CreateByUser");
 
@@ -3782,6 +3806,8 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("ChildUnits");
 
                     b.Navigation("CorrespondenceTemplates");
+
+                    b.Navigation("Correspondences");
 
                     b.Navigation("OrganizationalUnitTags");
 

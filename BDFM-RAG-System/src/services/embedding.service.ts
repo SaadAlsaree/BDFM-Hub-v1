@@ -1,9 +1,8 @@
 import axios from 'axios';
 import config from '../config';
 import logger from '../utils/logger';
-import { chunkText, sanitizeText } from '../utils/helpers';
+import { chunkText, sanitizeText, generateDeterministicId } from '../utils/helpers';
 import { VectorEmbedding, Correspondence, TextChunk } from '../models';
-import { v4 as uuidv4 } from 'uuid';
 
 export class EmbeddingService {
   private ollamaUrl: string;
@@ -76,8 +75,11 @@ export class EmbeddingService {
         const chunk = chunks[i];
         const embeddingVector = await this.generateEmbedding(chunk);
 
+        // Use deterministic ID to prevent duplicates
+        const embeddingId = generateDeterministicId(correspondence.id, i);
+
         const embedding: VectorEmbedding = {
-          id: uuidv4(),
+          id: embeddingId,
           correspondenceId: correspondence.id,
           textChunk: chunk,
           embeddingVector,

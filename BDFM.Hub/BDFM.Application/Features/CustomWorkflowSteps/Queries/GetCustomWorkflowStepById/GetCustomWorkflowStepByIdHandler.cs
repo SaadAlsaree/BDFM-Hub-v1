@@ -29,7 +29,9 @@ internal class GetCustomWorkflowStepByIdHandler : GetByIdHandler<CustomWorkflowS
             CreateBy = e.CreateBy.ToString(),
             LastUpdateBy = e.LastUpdateBy.ToString(),
             StatusId = (int)e.StatusId,
-            StatusName = e.StatusId.GetDisplayName() // Will be populated by base handler
+            StatusName = e.StatusId.GetDisplayName(),
+            Sequence = e.Sequence,
+            IsActive = e.IsActive
         };
 
     public async Task<Response<GetCustomWorkflowStepByIdVm>> Handle(GetCustomWorkflowStepByIdQuery request, CancellationToken cancellationToken)

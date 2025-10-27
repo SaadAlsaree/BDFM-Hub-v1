@@ -1,6 +1,5 @@
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Domain.Entities.Core;
-using BDFM.Domain.Common;
 
 namespace BDFM.Application.Features.MailFiles.Queries.GetMailFileContents;
 
@@ -97,9 +96,8 @@ public class GetMailFileContentsQueryHandler :
                     : null,
                 CorrespondenceType = (int)c.CorrespondenceType,
                 Status = (int)c.StatusId,
-                CreateAt = c.CreateAt,
-                AttachmentCount = c.AttachmentCount,
-                HasAttachments = c.HasAttachments
+                CreateAt = c.CreateAt
+
             })
             .ToListAsync(cancellationToken);
 

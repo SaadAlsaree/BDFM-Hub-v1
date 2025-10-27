@@ -12036,6 +12036,13 @@
             "type": "string",
             "nullable": true
           },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
           "toPrimaryRecipientId": {
             "type": "string",
             "format": "uuid"
@@ -12066,6 +12073,10 @@
           "createAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "createBy": {
+            "type": "string",
+            "format": "uuid"
           },
           "secondaryRecipients": {
             "type": "array",
@@ -14789,6 +14800,9 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -14826,6 +14840,9 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -14892,6 +14909,13 @@
           "statusName": {
             "type": "string",
             "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -14950,6 +14974,13 @@
           "statusName": {
             "type": "string",
             "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -15053,6 +15084,13 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -15171,6 +15209,13 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -19371,6 +19416,13 @@
           },
           "isTimeSensitive": {
             "type": "boolean"
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -21974,7 +22026,8 @@
           4,
           5,
           6,
-          7
+          7,
+          8
         ],
         "type": "integer",
         "format": "int32"

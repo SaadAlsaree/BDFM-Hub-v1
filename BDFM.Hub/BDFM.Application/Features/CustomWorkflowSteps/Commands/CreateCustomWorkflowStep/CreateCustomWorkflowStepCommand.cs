@@ -10,4 +10,5 @@ public class CreateCustomWorkflowStepCommand : IRequest<Response<Guid>>
     public string? TargetIdentifier { get; set; } // UserID, UnitID, RoleName, etc.
     public string? DefaultInstructionText { get; set; } // Text type in DB
     public int? DefaultDueDateOffsetDays { get; set; } // In days from previous step
+    public bool IsActive { get; set; } = false;
 }

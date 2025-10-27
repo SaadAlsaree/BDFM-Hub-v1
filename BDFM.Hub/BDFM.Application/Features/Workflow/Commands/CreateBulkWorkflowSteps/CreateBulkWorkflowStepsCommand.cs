@@ -15,5 +15,7 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
         public DateTime? DueDate { get; set; }
         public WorkflowStepStatus Status { get; set; } = WorkflowStepStatus.Pending;
         public bool IsTimeSensitive { get; set; } = false;
+        public int Sequence { get; set; }
+        public bool IsActive { get; set; }
     }
 }

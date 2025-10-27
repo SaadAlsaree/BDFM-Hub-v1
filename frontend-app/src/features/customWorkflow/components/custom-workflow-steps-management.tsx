@@ -6,7 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { IconPlus, IconEdit, IconTrash } from '@tabler/icons-react';
+import {
+  IconPlus,
+  IconEdit,
+  IconTrash,
+  IconCheck,
+  IconX
+} from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 import {
@@ -175,11 +181,39 @@ export default function CustomWorkflowStepsManagement({
                     <p className='text-sm'>{step.defaultInstructionText}</p>
                   </div>
                 )}
-                <div>
-                  <label className='text-muted-foreground text-sm font-medium'>
-                    عدد أيام الاستحقاق
-                  </label>
-                  <p className='text-sm'>{step.defaultDueDateOffsetDays} يوم</p>
+                <div className='grid grid-cols-2 gap-4'>
+                  <div>
+                    <label className='text-muted-foreground text-sm font-medium'>
+                      عدد أيام الاستحقاق
+                    </label>
+                    <p className='text-sm'>
+                      {step.defaultDueDateOffsetDays} يوم
+                    </p>
+                  </div>
+                  <div>
+                    <label className='text-muted-foreground text-sm font-medium'>
+                      حالة الخطوة
+                    </label>
+                    <div className='flex items-center gap-2'>
+                      {step.isActive ? (
+                        <Badge
+                          variant='default'
+                          className='border-green-200 bg-green-100 text-green-800'
+                        >
+                          <IconCheck className='mr-1 h-3 w-3' />
+                          نشط
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant='secondary'
+                          className='border-gray-200 bg-gray-100 text-gray-600'
+                        >
+                          <IconX className='mr-1 h-3 w-3' />
+                          غير نشط
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

@@ -118,13 +118,19 @@ export class SyncService {
   private async processBatch(correspondences: Correspondence[]): Promise<void> {
     for (const correspondence of correspondences) {
       try {
+        // Delete old embeddings for this correspondence first to prevent duplicates
+        await qdrantService.deleteByCorrespondenceId(
+          config.collections.correspondence,
+          correspondence.id
+        );
+
         // Generate embeddings
         const embeddings =
           await embeddingService.generateEmbeddingsForCorrespondence(
             correspondence
           );
 
-        // Upsert to Qdrant
+        // Upsert to Qdrant (now with deterministic IDs)
         await qdrantService.upsertEmbeddings(
           config.collections.correspondence,
           embeddings
@@ -158,13 +164,19 @@ export class SyncService {
         return false;
       }
 
+      // Delete old embeddings for this correspondence first to prevent duplicates
+      await qdrantService.deleteByCorrespondenceId(
+        config.collections.correspondence,
+        correspondenceId
+      );
+
       // Generate embeddings
       const embeddings =
         await embeddingService.generateEmbeddingsForCorrespondence(
           correspondence
         );
 
-      // Upsert to Qdrant
+      // Upsert to Qdrant (now with deterministic IDs)
       await qdrantService.upsertEmbeddings(
         config.collections.correspondence,
         embeddings
@@ -248,6 +260,91 @@ export class SyncService {
     } catch (error: any) {
       logger.error('Error rebuilding index:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Remove duplicate embeddings for all correspondences
+   * This function identifies and removes old duplicates that were created with random UUIDs
+   */
+  async removeDuplicates(): Promise<{
+    success: boolean;
+    processed: number;
+    cleaned: number;
+    message: string;
+  }> {
+    try {
+      logger.info('Starting duplicate removal process...');
+
+      // Get all correspondences from PostgreSQL
+      const correspondences: string[] = [];
+      let offset = 0;
+      const batchSize = 100;
+      let hasMore = true;
+
+      while (hasMore) {
+        const batch = await databaseService.getAllCorrespondences(
+          batchSize,
+          offset
+        );
+
+        if (batch.length === 0) {
+          hasMore = false;
+        } else {
+          correspondences.push(...batch.map((c) => c.id));
+          offset += batchSize;
+        }
+      }
+
+      logger.info(
+        `Found ${correspondences.length} correspondences to check for duplicates`
+      );
+
+      let cleaned = 0;
+
+      // For each correspondence, delete all embeddings and re-sync
+      // This will remove old UUID-based embeddings and create new deterministic ones
+      for (const correspondenceId of correspondences) {
+        try {
+          // Delete all embeddings for this correspondence
+          await qdrantService.deleteByCorrespondenceId(
+            config.collections.correspondence,
+            correspondenceId
+          );
+
+          // Re-sync with deterministic IDs
+          await this.syncSingleCorrespondence(correspondenceId);
+          cleaned++;
+
+          if (cleaned % 50 === 0) {
+            logger.info(`Cleaned ${cleaned}/${correspondences.length} correspondences`);
+          }
+        } catch (error: any) {
+          logger.warn(
+            `Failed to clean correspondence ${correspondenceId}: ${error.message}`
+          );
+          // Continue with next correspondence
+        }
+      }
+
+      logger.info(
+        `Duplicate removal completed: ${cleaned}/${correspondences.length} correspondences processed`
+      );
+
+      return {
+        success: true,
+        processed: correspondences.length,
+        cleaned,
+        message: `Successfully removed duplicates for ${cleaned} correspondences`,
+      };
+    } catch (error: any) {
+      logger.error('Error removing duplicates:', error);
+      return {
+        success: false,
+        processed: 0,
+        cleaned: 0,
+        message: `Failed to remove duplicates: ${error.message}`,
+      };
     }
   }
 }

@@ -72,6 +72,8 @@ export const CustomWorkflowStepListSchema = z.object({
     .number()
     .int()
     .min(0, 'Due date offset must be non-negative'),
+  isActive: z.boolean(),
+  sequence: z.number().int().positive('Sequence must be a positive integer'),
   createAt: ISODateSchema,
   lastUpdateAt: ISODateSchema,
   statusId: z.number().int(),
@@ -106,6 +108,8 @@ export const CustomWorkflowStepDetailsSchema = z.object({
     .number()
     .int()
     .min(0, 'Due date offset must be non-negative'),
+  isActive: z.boolean(),
+  sequence: z.number().int().positive('Sequence must be a positive integer'),
   createAt: ISODateSchema,
   lastUpdateAt: ISODateSchema,
   createBy: NonEmptyStringSchema,
@@ -162,7 +166,8 @@ export const CreateWorkflowStepPayloadSchema = z
       .number()
       .int()
       .min(0, 'Due date offset must be non-negative')
-      .optional()
+      .optional(),
+    isActive: z.boolean().optional()
   })
   .refine(
     (data) => {
@@ -278,7 +283,9 @@ export const customWorkflowStepFormSchema = z.object({
   defaultDueDateOffsetDays: z
     .number()
     .min(0, 'عدد الأيام يجب أن يكون أكبر من أو يساوي 0')
-    .default(0)
+    .default(0),
+  isActive: z.boolean().default(true),
+  sequence: z.number().int().positive('Sequence must be a positive integer').default(1)
 });
 
 // Define the form values types

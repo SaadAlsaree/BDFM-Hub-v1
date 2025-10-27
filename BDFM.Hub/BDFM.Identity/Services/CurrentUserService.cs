@@ -64,6 +64,7 @@ namespace BDFM.Identity.Services
                 return false;
 
             var roles = GetRoles();
+
             return roles.Any(r => string.Equals(r, role, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -81,10 +82,14 @@ namespace BDFM.Identity.Services
             if (!IsAuthenticated)
                 return Enumerable.Empty<string>();
 
-            return _httpContextAccessor.HttpContext!.User.Claims
+            // JWT middleware automatically expands JSON arrays into multiple claims
+            // So we just need to get all claims with type "role"
+            var roles = _httpContextAccessor.HttpContext!.User.Claims
                 .Where(c => c.Type == ROLE_CLAIM_TYPE)
                 .Select(c => c.Value)
                 .ToList();
+
+            return roles;
         }
 
         public IEnumerable<string> GetPermissions()

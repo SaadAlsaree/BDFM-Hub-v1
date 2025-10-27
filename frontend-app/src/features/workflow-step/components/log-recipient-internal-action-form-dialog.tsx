@@ -45,6 +45,12 @@ import {
 import { Spinner } from '@/components/spinner';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { hasAnyRole } from '@/utils/auth/auth-utils';
+import { toast } from 'sonner';
+import { useAuthApi } from '@/hooks/use-auth-api';
+import { workflowStepService } from '../api/workflow-step.service';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 
 interface LogRecipientInternalActionFormDialogProps {
   workflowStepId: string;
@@ -61,8 +67,9 @@ export function LogRecipientInternalActionFormDialog({
 }: LogRecipientInternalActionFormDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const { user } = useCurrentUser();
-
+  const { authApiCall } = useAuthApi();
   const $svg = useRef<any>(null);
   const handle = () => $svg.current?.clear?.();
 
@@ -79,16 +86,56 @@ export function LogRecipientInternalActionFormDialog({
     }
   });
 
+  const handelCompleteWorkflowStep = async () => {
+    try {
+      const result = await authApiCall(() =>
+        workflowStepService.completeWorkflowStep(workflowStepId)
+      );
+      if (result?.succeeded) {
+        toast.success('تم إكمال أجراء التحويل بنجاح');
+        setIsCompleted(true);
+      } else {
+        const errorMessage =
+          result?.message || 'حدث خطأ أثناء إكمال أجراء التحويل';
+        toast.error(errorMessage);
+        // eslint-disable-next-line no-console
+        console.error('Workflow completion failed:', result);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error completing workflow step:', error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'حدث خطأ أثناء إكمال أجراء التحويل';
+      toast.error(errorMessage);
+    }
+  };
+
   const signatureColor = form.watch('signatureColor');
 
   form.setValue('workflowStepId', workflowStepId);
 
-  function onFormSubmit(data: LogRecipientInternalActionInputFormData) {
+  async function onFormSubmit(data: LogRecipientInternalActionInputFormData) {
     setLoading(true);
-    onSubmit?.(data);
-    setOpen(false);
-    form.reset();
-    setLoading(false);
+    try {
+      // تسجيل الإجراء أولاً
+      onSubmit?.(data);
+
+      // إذا كان المستخدم يريد إكمال الخطوة
+      if (isCompleted) {
+        await handelCompleteWorkflowStep();
+      }
+
+      setOpen(false);
+      form.reset();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error submitting form:', error);
+      toast.error('حدث خطأ أثناء حفظ البيانات');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -182,6 +229,34 @@ export function LogRecipientInternalActionFormDialog({
                 </FormItem>
               )}
             />
+
+            <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
+              <div className='flex-1 space-y-2'>
+                <div className='flex items-center gap-2 space-x-2'>
+                  <Checkbox
+                    id='complete-step'
+                    checked={isCompleted}
+                    onCheckedChange={(checked) =>
+                      setIsCompleted(checked === true)
+                    }
+                  />
+                  <FormLabel
+                    htmlFor='complete-step'
+                    className='cursor-pointer text-base'
+                  >
+                    تحديث كمكتمل
+                  </FormLabel>
+                </div>
+                <Alert className='border-amber-200 bg-amber-50 dark:bg-amber-900/5 dark:text-amber-100'>
+                  <AlertTriangle className='h-4 w-4 text-amber-600' />
+                  <AlertDescription className='text-sm text-amber-800'>
+                    ⚠️ تحذير: عند تحديد هذا الخيار سيتم تحديث الخطوة كمكتمل عند
+                    الضغط على زر الحفظ
+                  </AlertDescription>
+                </Alert>
+              </div>
+            </FormItem>
+
             {hasAnyRole(user ?? null, ['Admin', 'Manager']) && (
               <>
                 <FormField
@@ -235,19 +310,22 @@ export function LogRecipientInternalActionFormDialog({
                   name='signatureColor'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
-                      <FormLabel className='text-sm font-medium text-center block'>اختر لون التوقيع</FormLabel>
+                      <FormLabel className='block text-center text-sm font-medium'>
+                        اختر لون التوقيع
+                      </FormLabel>
                       <FormControl>
-                        <div className='flex flex-row gap-4 justify-center'>
+                        <div className='flex flex-row justify-center gap-4'>
                           {Object.entries(SignatureColorDisplay).map(
                             ([key, value]) => (
                               <button
                                 key={key}
                                 type='button'
                                 onClick={() => field.onChange(key)}
-                                className={`w-6 h-6 rounded-sm border-2 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${field.value === key
-                                  ? 'border-primary shadow-lg scale-105 ring-1 ring-primary ring-offset-2'
-                                  : 'border-gray-300 hover:border-gray-400'
-                                  }`}
+                                className={`focus:ring-primary h-6 w-6 rounded-sm border-2 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:outline-none ${
+                                  field.value === key
+                                    ? 'border-primary ring-primary scale-105 shadow-lg ring-1 ring-offset-2'
+                                    : 'border-gray-300 hover:border-gray-400'
+                                }`}
                                 style={{ backgroundColor: key }}
                                 aria-label={`اختيار لون ${value}`}
                               />
@@ -275,7 +353,7 @@ export function LogRecipientInternalActionFormDialog({
                 إلغاء
               </Button>
               <Button disabled={loading} type='submit'>
-                تسجيل الإجراء
+                {isCompleted ? 'تسجيل الإجراء وتحديث كمكتمل' : 'تسجيل الإجراء'}
                 {loading && (
                   <Spinner variant='default' className='ml-2 h-4 w-4' />
                 )}

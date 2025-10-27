@@ -32,6 +32,8 @@ internal class CreateCustomWorkflowStepHandler : IRequestHandler<CreateCustomWor
             TargetIdentifier = request.TargetIdentifier,
             DefaultInstructionText = request.DefaultInstructionText,
             DefaultDueDateOffsetDays = request.DefaultDueDateOffsetDays,
+            Sequence = request.StepOrder,
+            IsActive = request.IsActive,
             CreateAt = DateTime.UtcNow,
             CreateBy = _currentUserService.UserId
         };

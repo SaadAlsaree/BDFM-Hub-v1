@@ -14,14 +14,16 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateMailDraft
         private readonly ICurrentUserService _currentUserService;
         private readonly IAuditTrailService _auditTrailService;
         private readonly IMailNumberGenerator _mailNumberGenerator;
+        private readonly IBaseRepository<User> _userRepository;
         //private readonly IRAGService _ragService;
 
-        public CreateMailDraftHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IAuditTrailService auditTrailService, IRAGService rAGService, IMailNumberGenerator mailNumberGenerator)
+        public CreateMailDraftHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IAuditTrailService auditTrailService, IRAGService rAGService, IMailNumberGenerator mailNumberGenerator, IBaseRepository<User> userRepository)
         {
             _repository = repository;
             _currentUserService = currentUserService;
             _auditTrailService = auditTrailService;
             _mailNumberGenerator = mailNumberGenerator;
+            _userRepository = userRepository;
             //_ragService = rAGService;
         }
 
@@ -30,6 +32,13 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateMailDraft
         {
             try
             {
+                // 1- Get current user
+                var currentUser = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
+                if (currentUser == null)
+                {
+                    return ErrorsMessage.NotFoundData.ToErrorMessage<Guid>(Guid.Empty);
+                }
+
                 // 2- Create mail draft
                 var mailDraft = new Correspondence
                 {
@@ -47,6 +56,7 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateMailDraft
                     CreateAt = DateTime.UtcNow,
                     Status = CorrespondenceStatusEnum.PendingReferral,
                     CorrespondenceType = CorrespondenceTypeEnum.Draft,
+                    CorrespondenceOrganizationalUnitId = currentUser.OrganizationalUnitId,
                 };
 
                 // 3- Save mail draft

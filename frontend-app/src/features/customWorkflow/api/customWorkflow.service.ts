@@ -26,6 +26,20 @@ export const customWorkflowService = {
     }
   },
 
+  ///CustomWorkflows/GetCustomWorkflowList client
+  async getCustomWorkflowListClient(query: Record<string, any>) {
+    try {
+      const response = await axiosClient.get(
+        `${baseUrl}/CustomWorkflows/GetCustomWorkflowList`,
+        { params: query }
+      );
+      return response.data as IResponseList<CustomWorkflowList>;
+    } catch (error) {
+      // console.error('Error getting custom workflow list:', error);
+      return null;
+    }
+  },
+
   ///CustomWorkflows/GetCustomWorkflowById/{id}
   async getCustomWorkflowById(id: string) {
     try {

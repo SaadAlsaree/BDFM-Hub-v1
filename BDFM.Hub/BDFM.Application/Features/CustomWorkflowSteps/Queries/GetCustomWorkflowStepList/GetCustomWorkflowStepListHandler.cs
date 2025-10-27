@@ -25,7 +25,9 @@ internal class GetCustomWorkflowStepListHandler : GetAllWithCountHandler<CustomW
             CreateAt = e.CreateAt,
             LastUpdateAt = e.LastUpdateAt,
             Status = (int)e.StatusId,
-            StatusName = e.StatusId.GetDisplayName() // Will be populated by base handler
+            StatusName = e.StatusId.GetDisplayName(),
+            Sequence = e.Sequence,
+            IsActive = e.IsActive
         };
 
     public override Func<IQueryable<CustomWorkflowStep>, IOrderedQueryable<CustomWorkflowStep>> OrderBy =>

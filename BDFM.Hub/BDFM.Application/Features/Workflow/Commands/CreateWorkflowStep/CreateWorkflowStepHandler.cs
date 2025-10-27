@@ -68,11 +68,36 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep
                 DueDate = request.DueDate.HasValue ? DateTime.SpecifyKind(request.DueDate.Value, DateTimeKind.Utc) : null,
                 IsTimeSensitive = request.IsTimeSensitive,
                 Status = request.Status,
+                // Sequence will be set below (max existing + 1)
                 InstructionText = request.InstructionText,
                 ActionType = request.ActionType,
                 CreateAt = DateTime.UtcNow,
                 CreateBy = currentUser.Id,
             };
+
+            // Determine sequence as max existing sequence for the correspondence + 1
+            var existingMax = (await _workflowStepRepository.GetAsync(
+                s => s.CorrespondenceId == request.CorrespondenceId,
+                orderBy: q => q.OrderByDescending(s => s.Sequence),
+                take: 1,
+                skip: -1)).FirstOrDefault();
+
+            if (existingMax != null)
+            {
+                newWorkflowStep.Sequence = existingMax.Sequence + 1;
+            }
+            else
+            {
+                newWorkflowStep.Sequence = 1;
+            }
+
+            // If this is the first step and incoming status is Pending, activate it
+            if (newWorkflowStep.Sequence == 1 && newWorkflowStep.Status == Domain.Enums.WorkflowStepStatus.Pending)
+            {
+                newWorkflowStep.IsActive = true;
+                newWorkflowStep.Status = Domain.Enums.WorkflowStepStatus.InProgress;
+                newWorkflowStep.ActivatedAt = DateTime.UtcNow;
+            }
 
 
 
@@ -118,6 +143,28 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep
 
                             _logger.LogInformation("تم إنشاء خطوة العمل {WorkflowStepId} وتم إرسال الإشعارات للكتاب {CorrespondenceId} المعين للوحدة {ModuleName}",
                                 result.Id, request.CorrespondenceId, organizationalUnit.UnitName);
+                        }
+                    }
+
+                    // If the recipient is a user, create a persistent notification for that user
+                    if (request.ToPrimaryRecipientType == RecipientTypeEnum.User)
+                    {
+                        try
+                        {
+                            var message = $"تم تعيين اجراء على الكتاب: {result.Correspondence?.MailNum}";
+                            await _notificationService.CreateNotificationAsync(
+                                request.ToPrimaryRecipientId,
+                                message,
+                                NotificationTypeEnum.NewMail,
+                                request.CorrespondenceId,
+                                result.Id,
+                                cancellationToken);
+
+                            _logger.LogInformation("تم إنشاء خطوة العمل {WorkflowStepId} وتم إرسال إشعار للمستخدم {UserId}", result.Id, request.ToPrimaryRecipientId);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "خطأ في إرسال الإشعار للمستخدم {UserId} لخطوة العمل {WorkflowStepId}", request.ToPrimaryRecipientId, result.Id);
                         }
                     }
 

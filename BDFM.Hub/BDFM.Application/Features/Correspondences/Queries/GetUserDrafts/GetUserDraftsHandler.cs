@@ -1,5 +1,7 @@
+using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
+using BDFM.Application.Extensions;
 using BDFM.Domain.Entities.Core;
 
 namespace BDFM.Application.Features.Correspondences.Queries.GetUserDrafts
@@ -7,9 +9,15 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserDrafts
     public class GetUserDraftsHandler : GetAllWithCountHandler<Correspondence, DraftItemVm, GetUserDraftsQuery>, IRequestHandler<GetUserDraftsQuery, Response<PagedResult<DraftItemVm>>>
     {
         private readonly ICurrentUserService _currentUserService;
-        public GetUserDraftsHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService) : base(repository)
+        private readonly IPermissionValidationService _permissionValidationService;
+
+        public GetUserDraftsHandler(
+            IBaseRepository<Correspondence> repository,
+            ICurrentUserService currentUserService,
+            IPermissionValidationService permissionValidationService) : base(repository)
         {
             _currentUserService = currentUserService;
+            _permissionValidationService = permissionValidationService;
         }
 
         public override Expression<Func<Correspondence, DraftItemVm>> Selector => x => new DraftItemVm
@@ -59,7 +67,23 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserDrafts
 
         public async Task<Response<PagedResult<DraftItemVm>>> Handle(GetUserDraftsQuery request, CancellationToken cancellationToken)
         {
+            // Get user info and access control parameters
+            var userUnitId = _currentUserService.OrganizationalUnitId;
+            var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
+            
+            // Get appropriate unit IDs based on user role
+            var accessibleUnitIds = isSuAdminOrManager 
+                ? await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)
+                : await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
+
             var query = _repository.Query();
+
+            // Apply access control
+            query = query.ApplyCorrespondenceAccessControl(
+                _currentUserService.UserId,
+                userUnitId,
+                isSuAdminOrManager,
+                accessibleUnitIds);
 
             // Apply filtering
             query = query.ApplyFilter(request, _currentUserService.UserId);
