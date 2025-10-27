@@ -4,12 +4,16 @@ import config from './config';
 import logger from './utils/logger';
 import routes from './routes';
 import conversationRoutes from './routes/conversation.routes';
+import speechRoutes from './routes/speech.routes';
+import statisticsRoutes from './routes/statistics.routes';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import qdrantService from './services/qdrant.service';
 import databaseService from './services/database.service';
 import embeddingService from './services/embedding.service';
 import llmService from './services/llm.service';
 import conversationService from './services/conversation.service';
+import speechToTextService from './services/speech-to-text.service';
+import statisticsService from './services/statistics.service';
 
 class App {
   public app: Application;
@@ -51,6 +55,8 @@ class App {
     // API routes
     this.app.use('/api/rag', routes);
     this.app.use('/api/rag', conversationRoutes);
+    this.app.use('/api/rag', speechRoutes);
+    this.app.use('/api/rag', statisticsRoutes);
 
     // Root endpoint
     this.app.get('/', (req, res) => {
@@ -58,9 +64,9 @@ class App {
         success: true,
         data: {
           name: 'BDFM RAG System',
-          version: '1.1.0',
+          version: '1.2.0',
           description:
-            'RAG system for BDFM.Hub with conversation support',
+            'RAG system for BDFM.Hub with conversation support, speech-to-text, and statistics',
           endpoints: {
             // RAG Endpoints
             query: 'POST /api/rag/query',
@@ -81,6 +87,22 @@ class App {
             deleteConversation: 'DELETE /api/rag/conversations/:id',
             sendMessage: 'POST /api/rag/conversations/message',
             sendMessageStream: 'POST /api/rag/conversations/message/stream',
+            // Speech-to-Text Endpoints
+            transcribe: 'POST /api/rag/speech/transcribe',
+            transcribeUrl: 'POST /api/rag/speech/transcribe-url',
+            voiceMessage: 'POST /api/rag/speech/voice-message',
+            voiceMessageStream: 'POST /api/rag/speech/voice-message/stream',
+            speechFormats: 'GET /api/rag/speech/formats',
+            detectLanguage: 'POST /api/rag/speech/detect-language',
+            // Statistics Endpoints
+            correspondenceOverview: 'GET /api/rag/statistics/correspondences/overview',
+            correspondenceTimeSeries: 'GET /api/rag/statistics/correspondences/time-series',
+            workflowOverview: 'GET /api/rag/statistics/workflow/overview',
+            workflowTracking: 'GET /api/rag/statistics/workflow/tracking/:correspondenceId',
+            workflowOverdue: 'GET /api/rag/statistics/workflow/overdue',
+            performanceReport: 'GET /api/rag/statistics/reports/performance',
+            userProductivity: 'GET /api/rag/statistics/users/:userId/productivity',
+            clearCache: 'POST /api/rag/statistics/cache/clear',
           },
         },
         timestamp: new Date().toISOString(),
@@ -127,6 +149,17 @@ class App {
       if (!chatModelAvailable) {
         logger.warn(`Chat model ${config.ollama.chatModel} not available`);
       }
+
+      // Verify Whisper model for speech-to-text
+      const whisperModelAvailable = await speechToTextService.verifyModel();
+      if (!whisperModelAvailable) {
+        logger.warn(
+          `Whisper model ${config.speech.whisperModel} not available. Speech-to-text features may not work.`
+        );
+      }
+
+      // Cleanup old audio files
+      await speechToTextService.cleanupTempFiles(24);
 
       logger.info('Services initialized successfully');
     } catch (error) {

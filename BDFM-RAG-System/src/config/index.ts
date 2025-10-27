@@ -58,6 +58,22 @@ export const config = {
     level: process.env.LOG_LEVEL || 'info',
     file: process.env.LOG_FILE || 'logs/bdfm-rag.log',
   },
+
+  // Speech-to-Text
+  speech: {
+    whisperModel: process.env.WHISPER_MODEL || 'whisper:latest',
+    maxFileSize: parseInt(process.env.MAX_AUDIO_FILE_SIZE || '26214400', 10), // 25MB
+    maxDuration: parseInt(process.env.MAX_AUDIO_DURATION || '600', 10), // 10 minutes
+    supportedFormats: ['mp3', 'wav', 'ogg', 'm4a', 'webm', 'flac'],
+    uploadDir: process.env.UPLOAD_DIR || 'uploads/audio',
+  },
+
+  // Statistics
+  statistics: {
+    cacheEnabled: process.env.STATS_CACHE_ENABLED === 'true',
+    cacheTTL: parseInt(process.env.STATS_CACHE_TTL || '300', 10), // 5 minutes
+    defaultLimit: parseInt(process.env.STATS_DEFAULT_LIMIT || '100', 10),
+  },
 } as const;
 
 export default config;

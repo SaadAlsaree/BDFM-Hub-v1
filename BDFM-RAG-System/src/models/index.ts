@@ -297,3 +297,167 @@ export enum WorkflowStepStatus {
   Delegated = 'Delegated',
   Returned = 'Returned',
 }
+
+// ============================================
+// Speech-to-Text Models
+// ============================================
+
+export interface TranscriptionRequest {
+  language?: 'ar' | 'en' | 'auto';
+  responseFormat?: 'text' | 'json' | 'verbose_json';
+}
+
+export interface TranscriptionResponse {
+  text: string;
+  language?: string;
+  duration?: number;
+  segments?: TranscriptionSegment[];
+  metadata?: {
+    fileSize: number;
+    format: string;
+    processingTime: number;
+  };
+}
+
+export interface TranscriptionSegment {
+  id: number;
+  start: number;
+  end: number;
+  text: string;
+  confidence?: number;
+}
+
+export interface VoiceMessageRequest {
+  conversationId: string;
+  userId: string;
+  language?: 'ar' | 'en' | 'auto';
+  maxResults?: number;
+  similarityThreshold?: number;
+  filters?: SearchFilters;
+}
+
+// ============================================
+// Statistics Models
+// ============================================
+
+export interface StatisticsFilters {
+  dateFrom?: string;
+  dateTo?: string;
+  correspondenceType?: string[];
+  priorityLevel?: string[];
+  secrecyLevel?: string[];
+  status?: string[];
+  userId?: string;
+  unitId?: string;
+  includeDeleted?: boolean;
+}
+
+export interface CorrespondenceStatistics {
+  total: number;
+  byType: Record<string, number>;
+  byPriority: Record<string, number>;
+  bySecrecy: Record<string, number>;
+  byStatus: Record<string, number>;
+  withAttachments: number;
+  drafts: number;
+}
+
+export interface WorkflowStatistics {
+  total: number;
+  byStatus: Record<string, number>;
+  byAction: Record<string, number>;
+  overdue: number;
+  timeSensitive: number;
+  avgCompletionTime?: number;
+  completionRate: number;
+}
+
+export interface TimeSeriesData {
+  date: string;
+  count: number;
+  label?: string;
+}
+
+export interface CorrespondenceTimeSeriesStats {
+  period: 'day' | 'week' | 'month' | 'year';
+  data: TimeSeriesData[];
+  total: number;
+  average: number;
+  trend?: 'up' | 'down' | 'stable';
+}
+
+export interface WorkflowTrackingData {
+  correspondenceId: string;
+  correspondence: {
+    mailNum: string;
+    mailDate: string;
+    subject: string;
+    correspondenceType: string;
+    priorityLevel: string;
+  };
+  steps: Array<{
+    id: string;
+    actionType: string;
+    status: string;
+    fromUserId?: string;
+    toPrimaryRecipientId: string;
+    createdAt: Date;
+    completedAt?: Date;
+    dueDate?: Date;
+    isOverdue: boolean;
+    duration?: number;
+  }>;
+  currentStatus: string;
+  totalSteps: number;
+  completedSteps: number;
+  progressPercentage: number;
+  avgStepDuration?: number;
+  totalDuration?: number;
+}
+
+export interface PerformanceReport {
+  period: {
+    from: string;
+    to: string;
+  };
+  correspondences: {
+    total: number;
+    created: number;
+    completed: number;
+    pending: number;
+    avgProcessingTime?: number;
+  };
+  workflows: {
+    totalSteps: number;
+    completedSteps: number;
+    pendingSteps: number;
+    overdueSteps: number;
+    completionRate: number;
+    avgCompletionTime?: number;
+  };
+  topPerformers?: Array<{
+    userId: string;
+    completedSteps: number;
+    avgResponseTime?: number;
+  }>;
+  bottlenecks?: Array<{
+    actionType: string;
+    avgDuration: number;
+    count: number;
+  }>;
+}
+
+export interface UserProductivityStats {
+  userId: string;
+  period: {
+    from: string;
+    to: string;
+  };
+  correspondencesCreated: number;
+  correspondencesSigned: number;
+  workflowStepsCompleted: number;
+  workflowStepsPending: number;
+  avgResponseTime?: number;
+  completionRate: number;
+  overdueCount: number;
+}
