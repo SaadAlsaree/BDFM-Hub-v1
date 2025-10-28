@@ -212,6 +212,15 @@ export const navItems: NavItem[] = [
   },
 
   {
+    title: 'المساعد الذكي',
+    url: '/ai-assistant',
+    icon: 'sparkles',
+    shortcut: ['a', 'i'],
+    isActive: false,
+    requiredRoles: ['Correspondence', 'SuAdmin', 'User']
+  },
+
+  {
     title: 'أدارة الأضابير',
     url: '/files',
     icon: 'folder',

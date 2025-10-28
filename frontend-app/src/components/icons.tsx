@@ -41,7 +41,8 @@ import {
   IconShieldCog,
   IconFolder,
   IconReport,
-  IconDevicesSearch
+  IconDevicesSearch,
+  IconSparkles
 } from '@tabler/icons-react';
 
 export type Icon = React.ComponentType<IconProps>;
@@ -88,5 +89,6 @@ export const Icons = {
   note: IconNotes,
   template: IconTemplate,
   caretDown: IconCaretDown,
-  shieldCog: IconShieldCog
+  shieldCog: IconShieldCog,
+  sparkles: IconSparkles
 };
