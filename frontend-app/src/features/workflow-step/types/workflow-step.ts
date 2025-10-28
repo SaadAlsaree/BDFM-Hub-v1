@@ -105,8 +105,8 @@ export enum InternalActionTypeEnum {
 }
 
 export const InternalActionTypeDisplay: Record<InternalActionTypeEnum, string> =
-{
-  [InternalActionTypeEnum.Referral]: 'إعادة إحالة',
-  [InternalActionTypeEnum.Answer]: 'أجابة',
-  [InternalActionTypeEnum.Reject]: 'رفض'
-};
+  {
+    [InternalActionTypeEnum.Referral]: 'إعادة إحالة',
+    [InternalActionTypeEnum.Answer]: 'أجابة',
+    [InternalActionTypeEnum.Reject]: 'رفض'
+  };

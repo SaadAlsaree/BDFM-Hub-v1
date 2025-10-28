@@ -16,5 +16,6 @@ namespace BDFM.Application.Contracts.SignalR
         // New methods for workflow operations
         Task NotifyWorkflowStepCompletedAsync(Guid workflowStepId, Guid correspondenceId, Guid completedBy, Guid? nextStepId = null);
         Task NotifyWorkflowStepAssignedAsync(Guid workflowStepId, Guid correspondenceId, Guid assignedTo, Guid assignedBy, DateTime? dueDate = null);
+        Task NotifyWorkflowStepStatusChangedAsync(Guid workflowStepId, Guid correspondenceId, string oldStatus, string newStatus, Guid? changedBy = null, Guid? userId = null);
     }
 }

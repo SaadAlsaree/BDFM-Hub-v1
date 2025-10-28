@@ -1,11 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -30,6 +43,9 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { Switch } from '@/components/ui/switch';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { useSearchUnit } from '@/hooks/use-search-unit';
+import { IOrganizationalUnitDetails } from '@/features/organizational-unit/types/organizational';
+import { cn } from '@/lib/utils';
 
 import { correspondenceTemplatesService } from '../api/correspondence-templates.service';
 import { CorrespondenceTemplatesDetail } from '../types/correspondence-templates';
@@ -49,8 +65,37 @@ export function CorrespondenceTemplatesForm({
 }: CorrespondenceTemplatesFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [unitSearchValue, setUnitSearchValue] = useState('');
+  const [debouncedUnitSearch, setDebouncedUnitSearch] = useState('');
+  const [unitPopoverOpenBool, setUnitPopoverOpenBool] = useState(false);
   const currentUser = useCurrentUser();
   const { authApiCall } = useAuthApi();
+
+  // Debounce unit search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUnitSearch(unitSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [unitSearchValue]);
+
+  // Unit Search using existing hook
+  const {
+    data: unitList,
+    isLoading: isUnitLoading,
+    error: unitError
+  } = useSearchUnit({
+    unit: debouncedUnitSearch
+  });
+
+  const units: IOrganizationalUnitDetails[] = useMemo(() => {
+    return unitList?.data || [];
+  }, [unitList?.data]);
+
+  const handleUnitSearch = useCallback((searchText: string) => {
+    setUnitSearchValue(searchText);
+  }, []);
 
   // console.log(currentUser.user);
 
@@ -73,6 +118,28 @@ export function CorrespondenceTemplatesForm({
     }
   });
 
+  // Update form values when initialData changes (for edit mode)
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
+        id: initialData.id || undefined,
+        templateName: initialData.templateName || '',
+        subject: initialData.subject || '',
+        bodyText: initialData.bodyText || '',
+        organizationalUnitId: initialData.organizationalUnitId || '',
+        status: initialData.status || 1
+      });
+    }
+  }, [initialData, form]);
+
+  // Debug: You can uncomment the following lines for debugging if needed
+  // const currentUnitId = form.watch('organizationalUnitId');
+  // useEffect(() => {
+  //   console.log('Form values:', form.getValues());
+  //   console.log('Selected unit ID:', currentUnitId);
+  //   console.log('Available units:', units);
+  // }, [currentUnitId, units, form]);
+
   const onSubmit = async (data: CorrespondenceTemplateFormValues) => {
     try {
       setIsLoading(true);
@@ -83,10 +150,8 @@ export function CorrespondenceTemplatesForm({
 
       // Set additional fields
       data.createBy = currentUser.user.id || '';
-      data.organizationalUnitId =
-        currentUser.user.organizationalUnitId ||
-        data.organizationalUnitId ||
-        '';
+      // Keep the selected organizationalUnitId from the form
+      data.organizationalUnitId = data.organizationalUnitId || '';
 
       const payload = formatCorrespondenceTemplatePayload(
         data,
@@ -164,8 +229,97 @@ export function CorrespondenceTemplatesForm({
                 )}
               />
             </div>
-
             <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='organizationalUnitId'
+                render={({ field }) => (
+                  <FormItem className='flex flex-col'>
+                    <FormLabel>الجهة</FormLabel>
+                    <Popover
+                      open={unitPopoverOpenBool}
+                      onOpenChange={(open) =>
+                        setUnitPopoverOpenBool(Boolean(open))
+                      }
+                    >
+                      <PopoverTrigger asChild>
+                        <FormControl className='w-full'>
+                          <Button
+                            variant='outline'
+                            role='combobox'
+                            className={cn(
+                              'w-full justify-between',
+                              !field.value && 'text-muted-foreground'
+                            )}
+                          >
+                            {field.value
+                              ? units?.find(
+                                  (unit: IOrganizationalUnitDetails) =>
+                                    unit.id === field.value
+                                )?.unitName || `الوحدة المختارة: ${field.value}`
+                              : 'اختر الجهة'}
+                            <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className='w-[400px] p-0'>
+                        <Command>
+                          <CommandInput
+                            placeholder='ابحث عن الجهة...'
+                            value={unitSearchValue}
+                            onValueChange={handleUnitSearch}
+                          />
+                          <CommandList>
+                            <CommandEmpty>
+                              {isUnitLoading
+                                ? 'جاري البحث...'
+                                : unitError
+                                  ? 'حدث خطأ في البحث'
+                                  : 'لا توجد جهات '}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {units?.map(
+                                (unit: IOrganizationalUnitDetails) => (
+                                  <CommandItem
+                                    value={unit.unitName}
+                                    key={unit.id}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        'organizationalUnitId',
+                                        unit.id || ''
+                                      );
+                                      setUnitPopoverOpenBool(false);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        'mr-2 h-4 w-4',
+                                        unit.id === field.value
+                                          ? 'opacity-100'
+                                          : 'opacity-0'
+                                      )}
+                                    />
+                                    <div className='flex flex-col'>
+                                      <h1 className='text-sm font-medium'>
+                                        {unit?.unitName}
+                                      </h1>
+                                      <p className='text-muted-foreground text-xs'>
+                                        {unit?.parentUnitName}
+                                      </p>
+                                    </div>
+                                  </CommandItem>
+                                )
+                              )}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name='status'

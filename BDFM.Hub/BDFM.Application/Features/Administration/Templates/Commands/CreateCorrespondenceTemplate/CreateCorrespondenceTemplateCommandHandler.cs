@@ -16,10 +16,9 @@ public class CreateCorrespondenceTemplateCommandHandler : CreateHandler<Correspo
 
     protected override Expression<Func<CorrespondenceTemplate, bool>> ExistencePredicate(CreateCorrespondenceTemplateCommand request)
     {
-        return entity => entity.TemplateName == request.TemplateName &&
-                         entity.Subject == request.Subject &&
-                         !entity.IsDeleted;
-    }
+        // ?????? ?????? ???????? - ?? ???? ??? ??? ???????
+      return entity => false;
+  }
 
     protected override CorrespondenceTemplate MapToEntity(CreateCorrespondenceTemplateCommand request)
     {

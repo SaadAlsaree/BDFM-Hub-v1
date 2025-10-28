@@ -5,8 +5,6 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Heading } from '@/components/ui/heading';
-import { Separator } from '@/components/ui/separator';
-import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ConversationList } from '@/features/ai-assistant/components/conversation-list';
 import { ChatWindow } from '@/features/ai-assistant/components/chat-window';
@@ -14,10 +12,16 @@ import { StatisticsOverview } from '@/features/ai-assistant/components/statistic
 import AIAssistantService from '@/features/ai-assistant/api/ai-assistant.service';
 import type { Conversation } from '@/features/ai-assistant/types';
 
+// export const metadata = {
+//   title: 'المساعد الذكي',
+//   description: 'تحدث مع المساعد الذكي للحصول على معلومات عن الكتب والإحصائيات'
+// };
+
 export default function AIAssistantPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
+  const [currentConversation, setCurrentConversation] =
+    useState<Conversation | null>(null);
   const [activeTab, setActiveTab] = useState('chat');
 
   // Redirect if not authenticated
@@ -38,7 +42,7 @@ export default function AIAssistantPage() {
       const newConversation = await AIAssistantService.createConversation({
         userId: session.user.id,
         title: `محادثة جديدة - ${new Date().toLocaleDateString('ar-SA')}`,
-        language: 'ar',
+        language: 'ar'
       });
 
       setCurrentConversation(newConversation);
@@ -58,7 +62,7 @@ export default function AIAssistantPage() {
     if (currentConversation) {
       setCurrentConversation({
         ...currentConversation,
-        title,
+        title
       });
     }
   };
@@ -70,43 +74,43 @@ export default function AIAssistantPage() {
 
   if (status === 'loading') {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-muted-foreground">جاري التحميل...</p>
+      <div className='flex min-h-screen items-center justify-center'>
+        <div className='text-center'>
+          <div className='border-primary mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-t-transparent' />
+          <p className='text-muted-foreground'>جاري التحميل...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className='flex h-full flex-col'>
       {/* Page Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b">
+      <div className='flex items-center justify-between border-b px-6 py-4'>
         <div>
           <Heading
-            title="المساعد الذكي"
-            description="تحدث مع المساعد الذكي للحصول على معلومات عن المراسلات والإحصائيات"
+            title='المساعد الذكي'
+            description='(هذه النسخة تجريبية) تحدث مع المساعد الذكي للحصول على معلومات عن الكتب والإحصائيات'
           />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
-          <div className="border-b bg-background px-6">
-            <TabsList className="h-12">
-              <TabsTrigger value="chat" className="gap-2">
+      <div className='flex-1 overflow-hidden'>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className='h-full'>
+          <div className='bg-background border-b px-6'>
+            <TabsList className='h-12'>
+              <TabsTrigger value='chat' className='gap-2'>
                 <span>المحادثة</span>
               </TabsTrigger>
-              <TabsTrigger value="stats" className="gap-2">
+              <TabsTrigger value='stats' className='gap-2'>
                 <span>الإحصائيات</span>
               </TabsTrigger>
             </TabsList>
           </div>
 
-          <TabsContent value="chat" className="h-[calc(100%-3rem)] m-0">
-            <div className="grid grid-cols-[320px_1fr] h-full">
+          <TabsContent value='chat' className='m-0 h-[calc(100%-3rem)]'>
+            <div className='grid h-full grid-cols-[320px_1fr]'>
               {/* Sidebar - Conversations List */}
               <ConversationList
                 selectedId={currentConversation?.id}
@@ -124,8 +128,8 @@ export default function AIAssistantPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="stats" className="h-[calc(100%-3rem)] m-0 p-6">
-            <div className="container max-w-7xl mx-auto">
+          <TabsContent value='stats' className='m-0 h-[calc(100%-3rem)] p-6'>
+            <div className='container mx-auto max-w-7xl'>
               <StatisticsOverview />
             </div>
           </TabsContent>

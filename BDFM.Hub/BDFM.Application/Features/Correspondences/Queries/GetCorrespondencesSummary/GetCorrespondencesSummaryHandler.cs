@@ -77,17 +77,28 @@ public class GetCorrespondencesSummaryHandler : IRequestHandler<GetCorrespondenc
                 // Check if user has special roles (Manager)
                 var isSuAdminOrManager = _currentUserService.HasRole("Manager");
 
-                // Get appropriate unit IDs based on user role
-                var accessibleUnitIds = isSuAdminOrManager
-                    ? await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)
-                    : await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
+                // Get hierarchical unit IDs based on user role
+                IEnumerable<Guid> hierarchicalUnitIds;
+
+                if (isSuAdminOrManager)
+                {
+                    // Managers/Admins get their unit + all sub-units hierarchically
+                    hierarchicalUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+                }
+                else
+                {
+                    // Standard users: pass user's unit only
+                    hierarchicalUnitIds = userUnitId.HasValue
+                        ? [userUnitId.Value]
+                        : Enumerable.Empty<Guid>();
+                }
 
                 // Apply access control using extension method
                 queryable = queryable.ApplyCorrespondenceAccessControl(
                     _currentUserService.UserId,
                     userUnitId,
                     isSuAdminOrManager,
-                    accessibleUnitIds);
+                    hierarchicalUnitIds);
             }
 
             var correspondences = (await _correspondenceRepository.GetAsync(filter: c => queryable.Contains(c), include: q => q.Include(x => x.CreateByUser).Include(x => x.WorkflowSteps))).ToList();

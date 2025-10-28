@@ -1,7 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { MessageSquare, Trash2, Edit2, Sparkles, AlertCircle } from 'lucide-react';
+import {
+  MessageSquare,
+  Trash2,
+  Edit2,
+  Sparkles,
+  AlertCircle
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -24,7 +30,7 @@ export function ChatWindow({
   onNewConversation,
   onTitleChange,
   onDeleteConversation,
-  className,
+  className
 }: ChatWindowProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -38,7 +44,7 @@ export function ChatWindow({
     sendMessage,
     sendMessageStream,
     updateTitle,
-    clearMessages,
+    clearMessages
   } = useAIChat(conversation?.id);
 
   // Scroll to bottom when messages change
@@ -76,20 +82,20 @@ export function ChatWindow({
   const isEmpty = messages.length === 0;
 
   return (
-    <div className={cn('flex flex-col h-full bg-background', className)}>
+    <div className={cn('bg-background flex h-full flex-col', className)}>
       {/* Header */}
-      <div className="border-b bg-muted/30 backdrop-blur supports-[backdrop-filter]:bg-muted/20">
-        <div className="container max-w-4xl py-4">
-          <div className="flex items-center justify-between gap-4">
+      <div className='bg-muted/30 supports-[backdrop-filter]:bg-muted/20 border-b backdrop-blur'>
+        <div className='container max-w-4xl py-4'>
+          <div className='flex items-center justify-between gap-4'>
             {/* Title */}
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <Sparkles className="h-5 w-5 text-primary" />
+            <div className='flex min-w-0 flex-1 items-center gap-3'>
+              <div className='bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full'>
+                <Sparkles className='text-primary h-5 w-5' />
               </div>
 
               {isEditingTitle && conversation ? (
                 <input
-                  type="text"
+                  type='text'
                   value={titleInput}
                   onChange={(e) => setTitleInput(e.target.value)}
                   onBlur={handleSaveTitle}
@@ -100,15 +106,15 @@ export function ChatWindow({
                       setIsEditingTitle(false);
                     }
                   }}
-                  className="flex-1 bg-transparent border-b border-border px-2 py-1 text-lg font-semibold outline-none focus:border-primary"
+                  className='border-border focus:border-primary flex-1 border-b bg-transparent px-2 py-1 text-lg font-semibold outline-none'
                   autoFocus
                 />
               ) : (
-                <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-semibold truncate">
+                <div className='min-w-0 flex-1'>
+                  <h2 className='truncate text-lg font-semibold'>
                     {conversation?.title || 'محادثة جديدة'}
                   </h2>
-                  <p className="text-xs text-muted-foreground">
+                  <p className='text-muted-foreground text-xs'>
                     {messages.length} رسالة
                   </p>
                 </div>
@@ -116,38 +122,38 @@ export function ChatWindow({
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
+            <div className='flex items-center gap-2'>
               {conversation && (
                 <>
                   <Button
-                    variant="ghost"
-                    size="icon"
+                    variant='ghost'
+                    size='icon'
                     onClick={() => setIsEditingTitle(true)}
-                    title="تعديل العنوان"
+                    title='تعديل العنوان'
                   >
-                    <Edit2 className="h-4 w-4" />
+                    <Edit2 className='h-4 w-4' />
                   </Button>
 
                   <Button
-                    variant="ghost"
-                    size="icon"
+                    variant='ghost'
+                    size='icon'
                     onClick={handleClearChat}
                     disabled={isEmpty}
-                    title="حذف الرسائل"
+                    title='حذف الرسائل'
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className='h-4 w-4' />
                   </Button>
                 </>
               )}
 
               {onNewConversation && (
                 <Button
-                  variant="outline"
-                  size="sm"
+                  variant='outline'
+                  size='sm'
                   onClick={onNewConversation}
-                  className="gap-2"
+                  className='gap-2'
                 >
-                  <MessageSquare className="h-4 w-4" />
+                  <MessageSquare className='h-4 w-4' />
                   <span>محادثة جديدة</span>
                 </Button>
               )}
@@ -157,42 +163,42 @@ export function ChatWindow({
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1">
-        <div className="container max-w-4xl py-6">
+      <ScrollArea className='flex-1'>
+        <div className='container max-w-4xl py-6'>
           {isEmpty ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-300px)] text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
-                <Sparkles className="h-8 w-8 text-primary" />
+            <div className='flex h-[calc(100vh-300px)] flex-col items-center justify-center text-center'>
+              <div className='bg-primary/10 mb-4 flex h-16 w-16 items-center justify-center rounded-full'>
+                <Sparkles className='text-primary h-8 w-8' />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
+              <h3 className='mb-2 text-xl font-semibold'>
                 مرحباً! كيف يمكنني مساعدتك؟
               </h3>
-              <p className="text-muted-foreground max-w-md">
-                اسألني أي سؤال عن المراسلات، أو ابحث في قاعدة البيانات، أو احصل على
+              <p className='text-muted-foreground max-w-md'>
+                اسألني أي سؤال عن الكتب, أو ابحث في قاعدة البيانات، أو احصل على
                 إحصائيات مفصلة
               </p>
 
               {/* Suggested Questions */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-8 w-full max-w-2xl">
+              <div className='mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 md:grid-cols-2'>
                 {[
-                  'أرني المراسلات العاجلة لهذا الأسبوع',
-                  'ما هي المراسلات المتأخرة؟',
-                  'احصائيات المراسلات لهذا الشهر',
-                  'أرني المراسلات السرية',
+                  'أرني الكتب العاجلة لهذا الأسبوع',
+                  'ما هي الكتب المتأخرة؟',
+                  'احصائيات الكتب لهذا الشهر',
+                  'أرني الكتب السرية'
                 ].map((question, i) => (
                   <Button
                     key={i}
-                    variant="outline"
-                    className="h-auto py-4 px-6 text-right justify-start hover:bg-accent/50"
+                    variant='outline'
+                    className='hover:bg-accent/50 h-auto justify-start px-6 py-4 text-right'
                     onClick={() => handleSendMessage(question)}
                   >
-                    <span className="text-sm">{question}</span>
+                    <span className='text-sm'>{question}</span>
                   </Button>
                 ))}
               </div>
             </div>
           ) : (
-            <div className="space-y-1">
+            <div className='space-y-1'>
               {messages.map((message, index) => (
                 <ChatMessage
                   key={message.id}
@@ -202,14 +208,14 @@ export function ChatWindow({
               ))}
 
               {isTyping && (
-                <div className="flex gap-4 py-4 px-2 animate-in fade-in">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
-                    <Sparkles className="h-5 w-5 text-muted-foreground animate-pulse" />
+                <div className='animate-in fade-in flex gap-4 px-2 py-4'>
+                  <div className='bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-full'>
+                    <Sparkles className='text-muted-foreground h-5 w-5 animate-pulse' />
                   </div>
-                  <div className="flex items-center gap-1">
-                    <div className="h-2 w-2 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:0ms]" />
-                    <div className="h-2 w-2 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:150ms]" />
-                    <div className="h-2 w-2 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:300ms]" />
+                  <div className='flex items-center gap-1'>
+                    <div className='bg-muted-foreground/50 h-2 w-2 animate-bounce rounded-full [animation-delay:0ms]' />
+                    <div className='bg-muted-foreground/50 h-2 w-2 animate-bounce rounded-full [animation-delay:150ms]' />
+                    <div className='bg-muted-foreground/50 h-2 w-2 animate-bounce rounded-full [animation-delay:300ms]' />
                   </div>
                 </div>
               )}
@@ -220,8 +226,8 @@ export function ChatWindow({
 
           {/* Error Message */}
           {error && (
-            <Alert variant="destructive" className="mt-4">
-              <AlertCircle className="h-4 w-4" />
+            <Alert variant='destructive' className='mt-4'>
+              <AlertCircle className='h-4 w-4' />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}

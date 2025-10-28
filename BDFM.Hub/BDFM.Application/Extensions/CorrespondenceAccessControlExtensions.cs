@@ -10,49 +10,74 @@ namespace BDFM.Application.Extensions;
 public static class CorrespondenceAccessControlExtensions
 {
     /// <summary>
-    /// Applies the new correspondence access control rules based on:
-    /// 1. Users in same unit can see all correspondence in that unit (without workflow)
-    /// 2. Users can see correspondence transferred to them via WorkflowSteps (IsActive only)
-    /// 3. Users can see correspondence transferred to ANY related unit (parent units, their unit, or sub-units)
-    /// 4. SuAdmin and Manager can see all correspondence in their unit + sub-units hierarchically
-    /// 5. Creators always see their own correspondence
+    /// Applies the correspondence access control rules based on:
+    /// 1. Users in the same unit can view all correspondence created in that unit OR forwarded to that unit via WorkflowSteps
+    /// 2. Users can view correspondence forwarded to them personally via WorkflowSteps (IsActive only)
+    /// 3. Users can view correspondence forwarded to their specific unit (not parent/child units) via WorkflowSteps (IsActive only)
+    /// 4. System administrators and managers can view all correspondence in their unit + submodules hierarchically
+    /// 5. Creators can always view their own correspondence
     /// </summary>
     public static IQueryable<Correspondence> ApplyCorrespondenceAccessControl(
         this IQueryable<Correspondence> query,
         Guid currentUserId,
         Guid? userUnitId,
         bool isSuAdminOrManager,
-        IEnumerable<Guid> accessibleUnitIds)
+        IEnumerable<Guid> hierarchicalUnitIds)
     {
         if (isSuAdminOrManager)
         {
-            // SuAdmin/Manager can see all correspondence in their unit + sub-units
-            return query.Where(c =>
-                c.CorrespondenceOrganizationalUnitId.HasValue &&
-                accessibleUnitIds.Contains(c.CorrespondenceOrganizationalUnitId.Value));
-        }
-        else if (userUnitId.HasValue)
-        {
-            // Standard users with unit assignment
+            // SuAdmin/Manager can see:
+            // 1. All correspondence in their unit + sub-units hierarchically
+            // 2. Correspondence forwarded to them personally via WorkflowSteps (from any unit)
+            // 3. Correspondence forwarded to their unit hierarchy via WorkflowSteps (from any unit)
             return query.Where(c =>
                 // Rule 1: Creator always sees their correspondence
                 c.CreateBy == currentUserId ||
                 c.CreateByUserId == currentUserId ||
 
-                // Rule 2: All users in same unit see correspondence created in that unit (without workflow required)
+                // Rule 2: All correspondence created in their unit hierarchy
                 (c.CorrespondenceOrganizationalUnitId.HasValue &&
-                 c.CorrespondenceOrganizationalUnitId.Value == userUnitId.Value) ||
+                 hierarchicalUnitIds.Contains(c.CorrespondenceOrganizationalUnitId.Value)) ||
 
-                // Rule 3: Workflow-based access (only IsActive WorkflowSteps)
+                // Rule 3: Workflow-based access - correspondence forwarded to them or their units
                 c.WorkflowSteps.Any(ws => ws.IsActive && (
-                    // Case A: Transferred to specific user
+                    // Case A: Forwarded to them personally (from any unit)
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.User &&
                      ws.ToPrimaryRecipientId == currentUserId) ||
 
-                    // Case B: Transferred to any related unit (parent units + user unit + sub-units)
-                    // This allows users to see correspondence transferred to their parent units or sub-units
+                    // Case B: Forwarded to any unit in their hierarchy (from any unit)
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
-                     accessibleUnitIds.Contains(ws.ToPrimaryRecipientId))
+                     hierarchicalUnitIds.Contains(ws.ToPrimaryRecipientId))
+                ))
+            );
+        }
+        else if (userUnitId.HasValue)
+        {
+            var userUnitIdValue = userUnitId.Value;
+
+            // Standard users with unit assignment
+            return query.Where(c =>
+                // Rule 1: Creator always sees their correspondence (anywhere it was created)
+                c.CreateBy == currentUserId ||
+                c.CreateByUserId == currentUserId ||
+
+                // Rule 2: Users see correspondence created in their EXACT unit
+                // This means if correspondence was created in unit A, only users of unit A can see it
+                // (not users in parent or child units)
+                (c.CorrespondenceOrganizationalUnitId.HasValue &&
+                 c.CorrespondenceOrganizationalUnitId.Value == userUnitIdValue) ||
+
+                // Rule 3: Workflow-based access - users can see correspondence transferred to them
+                c.WorkflowSteps.Any(ws => ws.IsActive && (
+                    // Case A: Transferred to this specific user personally
+                    (ws.ToPrimaryRecipientType == RecipientTypeEnum.User &&
+                     ws.ToPrimaryRecipientId == currentUserId) ||
+
+                    // Case B: Transferred to user's EXACT unit (not parent or child units)
+                    // If correspondence is transferred to unit A, only users in unit A can see it
+                    // Users in parent/child units cannot see it unless it's transferred to them too
+                    (ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
+                     ws.ToPrimaryRecipientId == userUnitIdValue)
                 ))
             );
         }

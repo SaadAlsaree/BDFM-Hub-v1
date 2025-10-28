@@ -26,7 +26,7 @@ public class GetAllUsersQueryHandler : GetAllWithCountHandler<User, UserListView
         Status = (int)u.StatusId
     };
 
-    public override Func<IQueryable<User>, IOrderedQueryable<User>> OrderBy => query => query.OrderBy(u => u.Username);
+    public override Func<IQueryable<User>, IOrderedQueryable<User>> OrderBy => query => query.OrderBy(u => u.CreateAt);
 
     public async Task<Response<PagedResult<UserListViewModel>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
@@ -63,7 +63,7 @@ public class GetAllUsersQueryHandler : GetAllWithCountHandler<User, UserListView
 
         // Apply pagination and get results
         var result = await query
-            .OrderBy(u => u.Username)
+
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
             .Select(Selector)

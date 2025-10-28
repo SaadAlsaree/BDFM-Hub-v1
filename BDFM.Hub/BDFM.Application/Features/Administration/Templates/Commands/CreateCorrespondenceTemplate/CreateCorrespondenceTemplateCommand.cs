@@ -15,11 +15,11 @@ public class CreateCorrespondenceTemplateCommandValidator : AbstractValidator<Cr
     public CreateCorrespondenceTemplateCommandValidator()
     {
         RuleFor(p => p.TemplateName)
-            .NotEmpty().WithMessage("اسم نموذج مطلوب")
-            .MaximumLength(255).WithMessage("اسم نموذج يجب ألا يتجاوز 255 حرف");
+            .NotEmpty().WithMessage("name is required")
+            .MaximumLength(255).WithMessage("name must not exceed 255 characters");
 
         RuleFor(p => p.Subject)
-            .NotEmpty().WithMessage("موضوع الكتاب مطلوب");
+            .NotEmpty().WithMessage("subject is required");
 
     }
 }

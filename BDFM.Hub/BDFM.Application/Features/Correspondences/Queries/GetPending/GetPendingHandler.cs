@@ -69,10 +69,21 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPending
             var userUnitId = _currentUserService.OrganizationalUnitId;
             var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
             
-            // Get appropriate unit IDs based on user role
-            var accessibleUnitIds = isSuAdminOrManager 
-                ? await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken)
-                : await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
+            // Get hierarchical unit IDs based on user role
+            IEnumerable<Guid> hierarchicalUnitIds;
+
+            if (isSuAdminOrManager)
+            {
+                // Managers/Admins get their unit + all sub-units hierarchically
+                hierarchicalUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+            }
+            else
+            {
+                // Standard users: pass user's unit only
+                hierarchicalUnitIds = userUnitId.HasValue
+                    ? [userUnitId.Value]
+                    : Enumerable.Empty<Guid>();
+            }
 
             var query = _repository.Query();
 
@@ -81,7 +92,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPending
                 _currentUserService.UserId,
                 userUnitId,
                 isSuAdminOrManager,
-                accessibleUnitIds);
+                hierarchicalUnitIds);
 
             // Apply filtering
             query = query.ApplyFilter(request, _currentUserService.UserId);

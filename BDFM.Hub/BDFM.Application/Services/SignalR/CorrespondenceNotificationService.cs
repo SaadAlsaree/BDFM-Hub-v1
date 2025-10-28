@@ -492,5 +492,50 @@ namespace BDFM.Application.Services.SignalR
                 throw;
             }
         }
+
+        public async Task NotifyWorkflowStepStatusChangedAsync(Guid workflowStepId, Guid correspondenceId, string oldStatus, string newStatus, Guid? changedBy = null, Guid? userId = null)
+        {
+            try
+            {
+                _logger.LogInformation("Sending workflow step status changed notification for workflow step {WorkflowStepId} from {OldStatus} to {NewStatus}",
+                    workflowStepId, oldStatus, newStatus);
+
+                var message = new
+                {
+                    workflowStepId = workflowStepId.ToString(),
+                    correspondenceId = correspondenceId.ToString(),
+                    oldStatus = oldStatus,
+                    newStatus = newStatus,
+                    changedBy = changedBy?.ToString() ?? "System",
+                    changedAt = DateTime.UtcNow.ToString("O"),
+                    message = $"تم تحديث حالة خطوة العمل من {oldStatus} إلى {newStatus}"
+                };
+
+                if (userId.HasValue)
+                {
+                    // Send to specific user
+                    await _hubContext.Clients.Group($"User_{userId.Value}")
+                        .SendAsync("WorkflowStepStatusChanged", message);
+
+                    _logger.LogInformation("Workflow step status changed notification sent to user {UserId} for workflow step {WorkflowStepId}",
+                        userId.Value, workflowStepId);
+                }
+                else
+                {
+                    // Send to all users in general correspondence updates group
+                    await _hubContext.Clients.Group("CorrespondenceUpdates")
+                        .SendAsync("WorkflowStepStatusChanged", message);
+
+                    _logger.LogInformation("Workflow step status changed notification sent to all users for workflow step {WorkflowStepId}",
+                        workflowStepId);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending workflow step status changed notification for workflow step {WorkflowStepId}",
+                    workflowStepId);
+                throw;
+            }
+        }
     }
 }

@@ -110,34 +110,34 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
 
                 var query = _repository.Query().Where(c => !c.IsDeleted);
 
+                // Get hierarchical unit IDs based on user role
+                IEnumerable<Guid> hierarchicalUnitIds;
+
                 if (isSuAdminOrManager)
                 {
                     _logger.LogDebug("User {UserId} has Manager role - showing all correspondence in unit hierarchy", _currentUserService.UserId);
 
-                    // Get user's unit + all sub-units hierarchically
-                    var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
-
-                    // Apply access control using extension method
-                    query = query.ApplyCorrespondenceAccessControl(
-                        _currentUserService.UserId,
-                        userUnitId,
-                        isSuAdminOrManager,
-                        accessibleUnitIds);
+                    // Managers/Admins get their unit + all sub-units hierarchically
+                    hierarchicalUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
                 }
                 else
                 {
-                    _logger.LogDebug("User {UserId} has standard access - applying new correspondence visibility rules", _currentUserService.UserId);
+                    _logger.LogDebug("User {UserId} has standard access - showing correspondence in their unit only", _currentUserService.UserId);
 
-                    // Get all related units (parent units + user unit + sub-units) for workflow-based access
-                    var relatedUnitIds = await _permissionValidationService.GetAllRelatedUnitIdsAsync(cancellationToken);
-
-                    // Apply access control using extension method
-                    query = query.ApplyCorrespondenceAccessControl(
-                        _currentUserService.UserId,
-                        userUnitId,
-                        isSuAdminOrManager,
-                        relatedUnitIds);
+                    // Standard users: pass user's unit only (will be used for CorrespondenceOrganizationalUnitId check)
+                    // The extension will use userUnitId directly for WorkflowSteps checks
+                    // We pass hierarchicalUnitIds but it won't be used for standard users in the new logic
+                    hierarchicalUnitIds = userUnitId.HasValue
+                        ? new[] { userUnitId.Value }
+                        : Enumerable.Empty<Guid>();
                 }
+
+                // Apply access control using extension method
+                query = query.ApplyCorrespondenceAccessControl(
+                    _currentUserService.UserId,
+                    userUnitId,
+                    isSuAdminOrManager,
+                    hierarchicalUnitIds);
 
                 // Apply additional filters from the request (skip IsDeleted since we already applied it)
                 query = query.ApplyFilter(request, _currentUserService.UserId, applyIsDeletedFilter: false);

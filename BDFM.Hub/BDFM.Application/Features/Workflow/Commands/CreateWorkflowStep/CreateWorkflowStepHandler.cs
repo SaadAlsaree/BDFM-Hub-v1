@@ -152,6 +152,8 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep
                         try
                         {
                             var message = $"تم تعيين اجراء على الكتاب: {result.Correspondence?.MailNum}";
+
+                            // Create persistent notification in database
                             await _notificationService.CreateNotificationAsync(
                                 request.ToPrimaryRecipientId,
                                 message,
@@ -160,11 +162,21 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep
                                 result.Id,
                                 cancellationToken);
 
-                            _logger.LogInformation("تم إنشاء خطوة العمل {WorkflowStepId} وتم إرسال إشعار للمستخدم {UserId}", result.Id, request.ToPrimaryRecipientId);
+                            // ✅ Send real-time SignalR notification to the assigned user
+                            await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
+                                result.Id,
+                                request.CorrespondenceId,
+                                request.ToPrimaryRecipientId,
+                                currentUser.Id,
+                                request.DueDate);
+
+                            _logger.LogInformation("✅ تم إنشاء خطوة العمل {WorkflowStepId} وتم إرسال إشعار فوري ومحفوظ للمستخدم {UserId}",
+                                result.Id, request.ToPrimaryRecipientId);
                         }
                         catch (Exception ex)
                         {
-                            _logger.LogError(ex, "خطأ في إرسال الإشعار للمستخدم {UserId} لخطوة العمل {WorkflowStepId}", request.ToPrimaryRecipientId, result.Id);
+                            _logger.LogError(ex, "❌ خطأ في إرسال الإشعار للمستخدم {UserId} لخطوة العمل {WorkflowStepId}",
+                                request.ToPrimaryRecipientId, result.Id);
                         }
                     }
 

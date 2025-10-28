@@ -281,9 +281,9 @@ export default function MailViewPage({ data }: Props) {
           <TabsTrigger value='workflow' className='flex items-center gap-2'>
             <Workflow className='h-4 w-4' />
             سير العمل
-            {workflowStatus.active > 0 && (
+            {workflowStatus.total > 0 && (
               <Badge variant='secondary' className='text-xs'>
-                {workflowStatus.active}
+                {workflowStatus.total}
               </Badge>
             )}
           </TabsTrigger>

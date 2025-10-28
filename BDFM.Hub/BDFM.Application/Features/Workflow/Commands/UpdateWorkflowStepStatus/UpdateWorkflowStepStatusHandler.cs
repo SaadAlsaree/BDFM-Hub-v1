@@ -72,17 +72,18 @@ namespace BDFM.Application.Features.Workflow.Commands.UpdateWorkflowStepStatus
 
                             try
                             {
-                                // Notify assignment via SignalR
-                                await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
-                                    nextStep.Id,
-                                    nextStep.CorrespondenceId,
-                                    nextStep.ToPrimaryRecipientId,
-                                    _currentUserService.UserId,
-                                    nextStep.DueDate);
-
-                                // Persistent notifications
+                                // Persistent notifications and real-time SignalR
                                 if (nextStep.ToPrimaryRecipientType == RecipientTypeEnum.Unit)
                                 {
+                                    // Send real-time SignalR notification to the module
+                                    await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
+                                        nextStep.Id,
+                                        nextStep.CorrespondenceId,
+                                        nextStep.ToPrimaryRecipientId,
+                                        _currentUserService.UserId,
+                                        nextStep.DueDate);
+
+                                    // Create persistent notifications for all users in the module
                                     await _notificationService.CreateModuleNotificationsAsync(
                                         nextStep.ToPrimaryRecipientId,
                                         $"لقد تم تحويل الكتاب لوحدتك: {nextStep.Correspondence?.MailNum}",
@@ -93,6 +94,7 @@ namespace BDFM.Application.Features.Workflow.Commands.UpdateWorkflowStepStatus
                                 }
                                 else if (nextStep.ToPrimaryRecipientType == RecipientTypeEnum.User)
                                 {
+                                    // Create persistent notification in database
                                     var message = $"تم تعيين اجراء على الكتاب: {nextStep.Correspondence?.MailNum}";
                                     await _notificationService.CreateNotificationAsync(
                                         nextStep.ToPrimaryRecipientId,
@@ -101,6 +103,14 @@ namespace BDFM.Application.Features.Workflow.Commands.UpdateWorkflowStepStatus
                                         nextStep.CorrespondenceId,
                                         nextStep.Id,
                                         cancellationToken);
+
+                                    // ✅ Send real-time SignalR notification to the assigned user
+                                    await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
+                                        nextStep.Id,
+                                        nextStep.CorrespondenceId,
+                                        nextStep.ToPrimaryRecipientId,
+                                        _currentUserService.UserId,
+                                        nextStep.DueDate);
                                 }
 
                                 // Notify UI and inbox

@@ -19,6 +19,7 @@ export function useSignalR() {
   const connectionStateHandlerRef = useRef<
     ((state: SignalRConnectionState) => void) | null
   >(null);
+  const reconnectHandlerRef = useRef<(() => void) | null>(null);
 
   // Initialize connection when session is available
   useEffect(() => {
@@ -92,6 +93,13 @@ export function useSignalR() {
         connectionStateHandlerRef.current = handleConnectionStateChange;
         signalR.onConnectionStateChange(handleConnectionStateChange);
 
+        // Set up reconnect callback (will be called by NotificationProvider)
+        const handleReconnected = () => {
+          // console.log('🔔 [useSignalR] Reconnected - handlers will be re-registered by NotificationProvider');
+        };
+        reconnectHandlerRef.current = handleReconnected;
+        signalR.onReconnected(handleReconnected);
+
         // Start connection with error handling
         signalR.start().catch((error) => {
           // console.error('🔔 [useSignalR] Failed to start SignalR connection:', error);
@@ -136,6 +144,11 @@ export function useSignalR() {
         );
         connectionStateHandlerRef.current = null;
       }
+
+      if (reconnectHandlerRef.current && signalRRef.current) {
+        signalRRef.current.offReconnected(reconnectHandlerRef.current);
+        reconnectHandlerRef.current = null;
+      }
     };
   }, [session?.accessToken, session?.error, status]);
 
@@ -149,6 +162,11 @@ export function useSignalR() {
           connectionStateHandlerRef.current
         );
         connectionStateHandlerRef.current = null;
+      }
+
+      if (reconnectHandlerRef.current && signalRRef.current) {
+        signalRRef.current.offReconnected(reconnectHandlerRef.current);
+        reconnectHandlerRef.current = null;
       }
 
       disposeSignalRInstance();
@@ -278,7 +296,7 @@ export function useSignalR() {
   // Helper function to test SignalR connection and troubleshoot issues
   const testConnection = useCallback(async () => {
     // console.log('🔔 [useSignalR] Starting connection test...');
-    const diagnostics = getConnectionDiagnostics();
+    getConnectionDiagnostics();
 
     if (!session?.accessToken) {
       // console.error('🔔 [useSignalR] Test failed: No access token available');

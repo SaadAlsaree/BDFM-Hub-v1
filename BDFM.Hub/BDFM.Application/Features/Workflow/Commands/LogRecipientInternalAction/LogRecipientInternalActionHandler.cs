@@ -72,6 +72,7 @@ namespace BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction
                     // If the workflow step targets a user, notify that user
                     if (workflowStep.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User)
                     {
+                        // Create persistent notification in database
                         var message = $"تم تسجيل إجراء داخلي على الإجراء الخاص بالكتاب: {workflowStep.Correspondence?.MailNum}";
                         await _notificationService.CreateNotificationAsync(
                         workflowStep.ToPrimaryRecipientId,
@@ -80,6 +81,14 @@ namespace BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction
                         workflowStep.CorrespondenceId,
                         workflowStep.Id,
                         cancellationToken: cancellationToken);
+
+                        // ✅ Send real-time SignalR notification to the user
+                        await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
+                            workflowStep.Id,
+                            workflowStep.CorrespondenceId,
+                            workflowStep.ToPrimaryRecipientId,
+                            currentUser.Id,
+                            workflowStep.DueDate);
                     }
                     else if (workflowStep.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit)
                     {
@@ -92,6 +101,14 @@ namespace BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction
                             workflowStep.CorrespondenceId,
                             workflowStep.Id,
                             cancellationToken);
+
+                        // ✅ Send real-time SignalR notification to the module
+                        await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
+                            workflowStep.Id,
+                            workflowStep.CorrespondenceId,
+                            workflowStep.ToPrimaryRecipientId,
+                            currentUser.Id,
+                            workflowStep.DueDate);
                     }
 
                     // Real-time notify UI about the workflow step update and inbox

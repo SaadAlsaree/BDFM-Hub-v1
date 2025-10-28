@@ -25,7 +25,7 @@ export function ChatInput({
   disabled = false,
   placeholder = 'اكتب رسالتك هنا...',
   maxLength = 4000,
-  showVoice = true,
+  showVoice = true
 }: ChatInputProps) {
   const [message, setMessage] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -39,7 +39,7 @@ export function ChatInput({
     startRecording,
     stopRecording,
     clearTranscript,
-    isSupported: isVoiceSupported,
+    isSupported: isVoiceSupported
   } = useVoiceInput({
     onTranscript: (text) => {
       setMessage(text);
@@ -48,7 +48,7 @@ export function ChatInput({
         textareaRef.current?.focus();
       }, 100);
     },
-    language: 'auto',
+    language: 'auto'
   });
 
   const handleSend = () => {
@@ -105,22 +105,22 @@ export function ChatInput({
   const showCharCount = message.length > maxLength * 0.8;
 
   return (
-    <div className="relative border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className='bg-background/95 supports-[backdrop-filter]:bg-background/60 relative border-t backdrop-blur'>
       {/* Voice Recording Indicator */}
       {isRecording && (
-        <div className="absolute -top-12 left-0 right-0 flex items-center justify-center">
+        <div className='absolute -top-12 right-0 left-0 flex items-center justify-center'>
           <Badge
-            variant="default"
-            className="gap-2 px-4 py-2 animate-in fade-in slide-in-from-bottom-2"
+            variant='default'
+            className='animate-in fade-in slide-in-from-bottom-2 gap-2 px-4 py-2'
           >
-            <div className="flex gap-1">
+            <div className='flex gap-1'>
               {[...Array(4)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-1 bg-primary-foreground rounded-full transition-all"
+                  className='bg-primary-foreground w-1 rounded-full transition-all'
                   style={{
                     height: `${12 + audioLevel * 20}px`,
-                    animationDelay: `${i * 100}ms`,
+                    animationDelay: `${i * 100}ms`
                   }}
                 />
               ))}
@@ -132,24 +132,27 @@ export function ChatInput({
 
       {/* Transcription Status */}
       {isTranscribing && (
-        <div className="absolute -top-12 left-0 right-0 flex items-center justify-center">
-          <Badge variant="secondary" className="gap-2 px-4 py-2 animate-in fade-in">
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+        <div className='absolute -top-12 right-0 left-0 flex items-center justify-center'>
+          <Badge
+            variant='secondary'
+            className='animate-in fade-in gap-2 px-4 py-2'
+          >
+            <Loader2 className='h-3.5 w-3.5 animate-spin' />
             <span>جاري تحويل الصوت...</span>
           </Badge>
         </div>
       )}
 
-      <div className="container max-w-4xl py-4">
-        <div className="flex items-end gap-2">
+      <div className='container max-w-4xl py-4'>
+        <div className='flex items-end gap-2'>
           {/* Voice Input Button */}
           {showVoice && isVoiceSupported && (
             <Button
-              type="button"
-              size="icon"
+              type='button'
+              size='icon'
               variant={isRecording ? 'destructive' : 'outline'}
               className={cn(
-                'shrink-0 h-10 w-10 rounded-full transition-all',
+                'h-10 w-10 shrink-0 rounded-full transition-all',
                 isRecording && 'animate-pulse'
               )}
               onClick={handleVoiceToggle}
@@ -157,9 +160,9 @@ export function ChatInput({
               title={isRecording ? 'إيقاف التسجيل' : 'تسجيل صوتي'}
             >
               {isRecording ? (
-                <Square className="h-4 w-4" />
+                <Square className='h-4 w-4' />
               ) : (
-                <Mic className="h-4 w-4" />
+                <Mic className='h-4 w-4' />
               )}
             </Button>
           )}
@@ -167,29 +170,29 @@ export function ChatInput({
           {/* File Upload (hidden) */}
           <input
             ref={fileInputRef}
-            type="file"
-            accept="audio/*"
-            className="hidden"
+            type='file'
+            accept='audio/*'
+            className='hidden'
             onChange={handleFileSelect}
           />
 
           {/* Attachment Button (for audio files) */}
           {showVoice && onVoiceMessage && (
             <Button
-              type="button"
-              size="icon"
-              variant="outline"
-              className="shrink-0 h-10 w-10 rounded-full"
+              type='button'
+              size='icon'
+              variant='outline'
+              className='h-10 w-10 shrink-0 rounded-full'
               onClick={() => fileInputRef.current?.click()}
               disabled={isDisabled}
-              title="رفع ملف صوتي"
+              title='رفع ملف صوتي'
             >
-              <Paperclip className="h-4 w-4" />
+              <Paperclip className='h-4 w-4' />
             </Button>
           )}
 
           {/* Text Input */}
-          <div className="relative flex-1">
+          <div className='relative flex-1'>
             <Textarea
               ref={textareaRef}
               value={message}
@@ -198,8 +201,8 @@ export function ChatInput({
               placeholder={placeholder}
               disabled={isDisabled}
               className={cn(
-                'min-h-[44px] max-h-[200px] resize-none rounded-2xl pr-12',
-                'focus-visible:ring-1 focus-visible:ring-ring',
+                'max-h-[200px] min-h-[44px] resize-none rounded-2xl pr-12',
+                'focus-visible:ring-ring focus-visible:ring-1',
                 'scrollbar-thin scrollbar-thumb-rounded'
               )}
               rows={1}
@@ -209,7 +212,7 @@ export function ChatInput({
             {showCharCount && (
               <div
                 className={cn(
-                  'absolute bottom-2 right-3 text-[10px] font-medium',
+                  'absolute right-3 bottom-2 text-[10px] font-medium',
                   message.length >= maxLength
                     ? 'text-destructive'
                     : 'text-muted-foreground'
@@ -222,22 +225,22 @@ export function ChatInput({
 
           {/* Send Button */}
           <Button
-            type="submit"
-            size="icon"
-            className="shrink-0 h-10 w-10 rounded-full"
+            type='submit'
+            size='icon'
+            className='h-10 w-10 shrink-0 rounded-full'
             onClick={handleSend}
             disabled={isDisabled || !message.trim()}
           >
             {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className='h-4 w-4 animate-spin' />
             ) : (
-              <Send className="h-4 w-4" />
+              <Send className='h-4 w-4' />
             )}
           </Button>
         </div>
 
         {/* Helper Text */}
-        <p className="text-[11px] text-muted-foreground mt-2 px-1">
+        <p className='text-muted-foreground mt-2 px-1 text-[11px]'>
           اضغط Enter للإرسال، Shift+Enter للسطر الجديد
         </p>
       </div>

@@ -57,7 +57,7 @@ export function useVoiceInput(options: UseVoiceInputOptions = {}) {
       const mediaRecorder = new MediaRecorder(stream, {
         mimeType: MediaRecorder.isTypeSupported('audio/webm')
           ? 'audio/webm'
-          : 'audio/mp4',
+          : 'audio/mp4'
       });
 
       mediaRecorderRef.current = mediaRecorder;
@@ -82,7 +82,7 @@ export function useVoiceInput(options: UseVoiceInputOptions = {}) {
 
         // Create audio blob
         const audioBlob = new Blob(audioChunksRef.current, {
-          type: mediaRecorder.mimeType,
+          type: mediaRecorder.mimeType
         });
 
         // Transcribe audio
@@ -127,11 +127,14 @@ export function useVoiceInput(options: UseVoiceInputOptions = {}) {
 
         // Convert blob to file
         const audioFile = new File([audioBlob], 'recording.webm', {
-          type: audioBlob.type,
+          type: audioBlob.type
         });
 
         // Transcribe
-        const result = await AIAssistantService.transcribeAudio(audioFile, language);
+        const result = await AIAssistantService.transcribeAudio(
+          audioFile,
+          language
+        );
 
         if (result.text && result.text.trim()) {
           setTranscript(result.text);
@@ -216,6 +219,7 @@ export function useVoiceInput(options: UseVoiceInputOptions = {}) {
     stopRecording,
     transcribeFile,
     clearTranscript,
-    isSupported: typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia,
+    isSupported:
+      typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia
   };
 }

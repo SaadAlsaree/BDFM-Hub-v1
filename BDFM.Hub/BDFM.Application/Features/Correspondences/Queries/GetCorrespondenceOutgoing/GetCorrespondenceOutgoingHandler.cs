@@ -64,28 +64,30 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceOut
 
         public async Task<Response<PagedResult<GetCorrespondenceOutgoingVm>>> Handle(GetCorrespondenceOutgoingQuery request, CancellationToken cancellationToken)
         {
-            // Get user's accessible unit IDs (their unit + sub-units)
             var user = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
-            var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+            var userUnitId = _currentUserService.OrganizationalUnitId;
 
             var query = _repository.Query();
 
             // Filter for outgoing external correspondences only and apply user access control
+            // Standard users can only see correspondence from their own unit (not parent/child units)
             query = query.Where(c =>
                 c.CorrespondenceType == CorrespondenceTypeEnum.OutgoingExternal &&
                 (
                     // User is the creator of the correspondence
                     c.CreateByUserId == _currentUserService.UserId ||
-                    // Correspondence is assigned to user's organizational unit (primary recipient)
+                    // Correspondence is assigned to user's organizational unit (primary recipient - exact unit match)
                     c.WorkflowSteps.Any(ws =>
                         ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
-                        accessibleUnitIds.Contains(ws.ToPrimaryRecipientId)
+                        userUnitId.HasValue &&
+                        ws.ToPrimaryRecipientId == userUnitId.Value
                     ) ||
-                    // Correspondence has user's organizational unit as secondary recipient
+                    // Correspondence has user's organizational unit as secondary recipient (exact unit match)
                     c.WorkflowSteps.Any(ws =>
                         ws.SecondaryRecipients.Any(sr =>
                             sr.RecipientType == RecipientTypeEnum.Unit &&
-                            accessibleUnitIds.Contains(sr.RecipientId)
+                            userUnitId.HasValue &&
+                            sr.RecipientId == userUnitId.Value
                         )
                     ) ||
                     // User is directly assigned as primary recipient

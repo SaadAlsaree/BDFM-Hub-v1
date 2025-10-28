@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BDFM.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+270650c4fe4e1d1b50a1844592c2d6bd4e17202c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7e1da22aade9d5e2cf0180e509c49502df57cc4")]
 [assembly: System.Reflection.AssemblyProductAttribute("BDFM.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BDFM.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

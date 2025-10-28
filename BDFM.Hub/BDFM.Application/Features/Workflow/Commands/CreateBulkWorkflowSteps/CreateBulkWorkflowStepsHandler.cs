@@ -200,6 +200,8 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
                             if (step.ToPrimaryRecipientType == RecipientTypeEnum.User)
                             {
                                 var message = $"تم تعيين اجراء على الكتاب: {step.Correspondence?.MailNum}";
+
+                                // Create persistent notification in database
                                 await _notificationService.CreateNotificationAsync(
                                     step.ToPrimaryRecipientId,
                                     message,
@@ -207,6 +209,17 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps
                                     request.CorrespondenceId,
                                     step.Id,
                                     cancellationToken);
+
+                                // ✅ Send real-time SignalR notification to the assigned user
+                                await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
+                                    step.Id,
+                                    request.CorrespondenceId,
+                                    step.ToPrimaryRecipientId,
+                                    currentUser.Id,
+                                    step.DueDate);
+
+                                _logger.LogInformation("✅ تم إرسال إشعار فوري ومحفوظ للمستخدم {UserId} لخطوة العمل {WorkflowStepId}",
+                                    step.ToPrimaryRecipientId, step.Id);
                             }
 
                             // Real-time notify about the created/activated workflow step

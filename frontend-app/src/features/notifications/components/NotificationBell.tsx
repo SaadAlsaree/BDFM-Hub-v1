@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Bell, Wifi, WifiOff } from 'lucide-react';
+import { Bell, Wifi, WifiOff, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -14,6 +14,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthApi } from '@/hooks/use-auth-api';
 import { useSignalR } from '@/hooks/useSignalR';
+import { useNotificationContext } from '@/contexts/NotificationProvider';
 import { notificationsApi } from '@/features/notifications/api/notifications-api';
 import { NotificationItem } from './NotificationItem';
 import { NotificationEmpty } from './NotificationEmpty';
@@ -28,6 +29,7 @@ export function NotificationBell({ className }: NotificationBellProps) {
   const queryClient = useQueryClient();
   const { authApiCall } = useAuthApi();
   const { isConnected } = useSignalR();
+  const { soundEnabled, toggleSound } = useNotificationContext();
 
   // Get recent notifications for dropdown (limit to 8) - simplified version without event listeners
   const {
@@ -228,6 +230,21 @@ export function NotificationBell({ className }: NotificationBellProps) {
         <div className='flex items-center justify-between border-b px-4 py-3'>
           <h3 className='font-semibold'>الإشعارات</h3>
           <div className='flex items-center gap-2'>
+            {/* Sound toggle button */}
+            <Button
+              variant='ghost'
+              size='sm'
+              className='h-auto p-1'
+              onClick={toggleSound}
+              title={soundEnabled ? 'إيقاف الصوت' : 'تفعيل الصوت'}
+            >
+              {soundEnabled ? (
+                <Volume2 className='h-4 w-4' />
+              ) : (
+                <VolumeX className='h-4 w-4' />
+              )}
+            </Button>
+
             {unreadCount > 0 && (
               <Button
                 variant='ghost'

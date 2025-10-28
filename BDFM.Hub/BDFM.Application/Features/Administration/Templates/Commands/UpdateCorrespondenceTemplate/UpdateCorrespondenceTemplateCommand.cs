@@ -6,6 +6,7 @@ public class UpdateCorrespondenceTemplateCommand : IRequest<Response<bool>>
     public string TemplateName { get; set; } = string.Empty;
     public string Subject { get; set; } = string.Empty; // Text type in DB
     public string? BodyText { get; set; } // LongText type in DB
+    public Guid? OrganizationalUnitId { get; set; }
 }
 
 public class UpdateCorrespondenceTemplateCommandValidator : AbstractValidator<UpdateCorrespondenceTemplateCommand>

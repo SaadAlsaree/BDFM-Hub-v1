@@ -13,12 +13,14 @@ export class NotificationSignalR {
   private connectionStateCallbacks: ((
     state: SignalRConnectionState
   ) => void)[] = [];
+  private reconnectCallbacks: (() => void)[] = [];
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private reconnectDelay = 1000; // Start with 1 second
   private reconnectTimer: NodeJS.Timeout | null = null;
   private isDisposed = false;
   private isManualDisconnect = false;
+  private startInProgress = false; // Prevent multiple concurrent start attempts
 
   constructor(accessToken?: string) {
     if (accessToken) {
@@ -27,27 +29,33 @@ export class NotificationSignalR {
     }
   }
 
-  private initializeConnection() {
-    if (!this.accessToken || this.isDisposed) return;
+  private initializeConnection(): boolean {
+    if (!this.accessToken || this.isDisposed) {
+      // console.warn('🔔 [SignalR] Cannot initialize - no token or disposed');
+      return false;
+    }
 
     // Clean up existing connection
     if (this.connection) {
       this.cleanupConnection();
     }
 
-    // Ensure connection is null after cleanup
-    this.connection = null;
+    // Double-check we're still not disposed after cleanup
+    if (this.isDisposed) {
+      // console.warn('🔔 [SignalR] Disposed during connection cleanup');
+      return false;
+    }
 
     let apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
     if (!apiUrl) {
-      console.error('NEXT_PUBLIC_API_URL is not configured');
+      // console.error('🔔 [SignalR] NEXT_PUBLIC_API_URL is not configured');
       this.notifyConnectionState({
         isConnected: false,
         isConnecting: false,
         error: 'API URL not configured',
         lastReconnectAttempt: new Date()
       });
-      return;
+      return false;
     }
 
     // Fixed hub URL casing to match backend
@@ -56,13 +64,16 @@ export class NotificationSignalR {
     const hubUrl = `${apiUrl}/correspondenceHub`;
 
     // Debug logging for connection URL
-    console.log('🔔 [SignalR] Attempting to connect to:', hubUrl);
+    // console.log('🔔 [SignalR] Initializing connection to:', hubUrl);
 
+    // Create the new connection immediately (no null gap)
     this.connection = new HubConnectionBuilder()
       .withUrl(hubUrl, {
         accessTokenFactory: () => {
           if (!this.accessToken) {
-            console.warn('🔔 [SignalR] Access token not available for SignalR connection');
+            console.warn(
+              '🔔 [SignalR] Access token not available for SignalR connection'
+            );
             return '';
           }
           return this.accessToken;
@@ -92,6 +103,8 @@ export class NotificationSignalR {
       .build();
 
     this.setupConnectionEvents();
+    // console.log('🔔 [SignalR] Connection initialized successfully');
+    return true;
   }
 
   private cleanupConnection() {
@@ -108,25 +121,35 @@ export class NotificationSignalR {
           'CorrespondenceStatusChanged',
           'InboxUpdated',
           'WorkflowStepCompleted',
-          'WorkflowStepAssigned'
+          'WorkflowStepAssigned',
+          'WorkflowStepStatusChanged'
         ];
 
         events.forEach((eventName) => {
           try {
             this.connection?.off(eventName);
           } catch (error) {
-            console.warn(`🔔 [SignalR] Error removing listener for ${eventName}:`, error);
+            console.warn(
+              `🔔 [SignalR] Error removing listener for ${eventName}:`,
+              error
+            );
           }
         });
 
         // Stop the connection if it's not already disconnected
         if (this.connection.state !== HubConnectionState.Disconnected) {
           this.connection.stop().catch((error) => {
-            console.warn('🔔 [SignalR] Error stopping connection during cleanup:', error);
+            console.warn(
+              '🔔 [SignalR] Error stopping connection during cleanup:',
+              error
+            );
           });
         }
       } catch (error) {
-        console.error('🔔 [SignalR] Error cleaning up SignalR connection:', error);
+        console.error(
+          '🔔 [SignalR] Error cleaning up SignalR connection:',
+          error
+        );
       } finally {
         // Ensure connection is set to null after cleanup
         this.connection = null;
@@ -143,6 +166,15 @@ export class NotificationSignalR {
     if (this.isDisposed) {
       console.error('🔔 [SignalR] Instance is disposed - cannot proceed');
       return false;
+    }
+
+    // Additional check - if connection exists but is in a bad state, try to reinitialize
+    if (this.connection && this.accessToken && !this.isDisposed) {
+      const state = this.connection.state;
+      if (state === HubConnectionState.Disconnected && this.accessToken) {
+        // Connection exists but is disconnected, this is still valid for starting
+        return true;
+      }
     }
 
     return true;
@@ -254,6 +286,9 @@ export class NotificationSignalR {
 
       // Request connection info after successful connection
       this.requestConnectionInfo();
+
+      // Notify reconnect callbacks to re-register event listeners
+      this.notifyReconnectCallbacks();
     });
   }
 
@@ -322,7 +357,7 @@ export class NotificationSignalR {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.accessToken}`
+          Authorization: `Bearer ${this.accessToken}`
         },
         signal: AbortSignal.timeout(10000) // 10 second timeout
       });
@@ -333,8 +368,10 @@ export class NotificationSignalR {
 
       console.log('🔔 [SignalR] Endpoint is available and responding');
     } catch (error) {
-      console.error('🔔 [SignalR] Endpoint test failed:', error);
-      throw new Error(`SignalR endpoint not available: ${(error as Error).message}`);
+      // console.error('🔔 [SignalR] Endpoint test failed:', error);
+      throw new Error(
+        `SignalR endpoint not available: ${(error as Error).message}`
+      );
     }
   }
 
@@ -349,7 +386,9 @@ export class NotificationSignalR {
 
     for (const transport of transports) {
       try {
-        console.log(`🔔 [SignalR] Attempting connection with ${transport.name}...`);
+        // console.log(
+        //   `🔔 [SignalR] Attempting connection with ${transport.name}...`
+        // );
 
         // Create a new connection with the specific transport
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -367,7 +406,9 @@ export class NotificationSignalR {
 
         await testConnection.start();
 
-        console.log(`🔔 [SignalR] Successfully connected with ${transport.name}`);
+        // console.log(
+        //   `🔔 [SignalR] Successfully connected with ${transport.name}`
+        // );
 
         // Stop the test connection and update our main connection
         await testConnection.stop();
@@ -379,7 +420,7 @@ export class NotificationSignalR {
         return;
       } catch (error) {
         lastError = error as Error;
-        console.warn(`🔔 [SignalR] ${transport.name} failed:`, error);
+        // console.warn(`🔔 [SignalR] ${transport.name} failed:`, error);
       }
     }
 
@@ -423,20 +464,46 @@ export class NotificationSignalR {
   }
 
   async start(): Promise<boolean> {
-    if (!this.validateConnection()) {
+    // First check if we have a valid token and not disposed
+    if (!this.accessToken || this.isDisposed) {
+      // console.warn('🔔 [SignalR] Cannot start - no token or disposed');
       return false;
     }
 
-    if (this.connection!.state === HubConnectionState.Connected) {
-      return true;
-    }
-
-    if (this.connection!.state === HubConnectionState.Connecting) {
-      console.log('🔔 [SignalR] Connection already in progress');
+    // Prevent concurrent start attempts
+    if (this.startInProgress) {
+      // console.log('🔔 [SignalR] Start already in progress, skipping...');
       return false;
     }
+
+    this.startInProgress = true;
 
     try {
+      // Initialize connection if it doesn't exist
+      if (!this.connection) {
+        // console.log('🔔 [SignalR] No connection found, initializing...');
+        const initialized = this.initializeConnection();
+        if (!initialized) {
+          // console.error('🔔 [SignalR] Failed to initialize connection');
+          return false;
+        }
+      }
+
+      // Validate connection after potential initialization
+      if (!this.validateConnection()) {
+        // console.error('🔔 [SignalR] Connection validation failed');
+        return false;
+      }
+
+      if (this.connection!.state === HubConnectionState.Connected) {
+        // console.log('🔔 [SignalR] Already connected');
+        return true;
+      }
+
+      if (this.connection!.state === HubConnectionState.Connecting) {
+        // console.log('🔔 [SignalR] Connection already in progress');
+        return false;
+      }
       this.isManualDisconnect = false;
       this.notifyConnectionState({
         isConnected: false,
@@ -448,21 +515,61 @@ export class NotificationSignalR {
       // Test endpoint availability before attempting connection
       await this.testEndpointAvailability();
 
-      // Double-check connection is still valid before starting
+      // Re-validate connection after async endpoint test
+      // This is where the race condition often occurs - during the async endpoint test,
+      // the component might unmount and dispose the connection
+      if (!this.connection) {
+        // console.error('🔔 [SignalR] Connection became null during endpoint test');
+
+        // Check if we're disposed (component unmounted)
+        if (this.isDisposed) {
+          this.notifyConnectionState({
+            isConnected: false,
+            isConnecting: false,
+            error: 'Component unmounted during connection',
+            lastReconnectAttempt: new Date()
+          });
+          return false;
+        }
+
+        // Try to reinitialize if we still have a token and not disposed
+        if (this.accessToken) {
+          const reinitialized = this.initializeConnection();
+          if (!reinitialized || !this.connection) {
+            this.notifyConnectionState({
+              isConnected: false,
+              isConnecting: false,
+              error: 'Connection lost during initialization',
+              lastReconnectAttempt: new Date()
+            });
+            return false;
+          }
+        } else {
+          this.notifyConnectionState({
+            isConnected: false,
+            isConnecting: false,
+            error: 'No access token available',
+            lastReconnectAttempt: new Date()
+          });
+          return false;
+        }
+      }
+
+      // Final validation before starting
       if (!this.validateConnection()) {
         this.notifyConnectionState({
           isConnected: false,
           isConnecting: false,
-          error: 'Connection lost during initialization',
+          error: 'Connection validation failed before start',
           lastReconnectAttempt: new Date()
         });
         return false;
       }
 
-      // Try direct connection with LongPolling (most reliable)
+      // console.log('🔔 [SignalR] Starting connection...');
       await this.connection!.start();
 
-      // console.log('SignalR Connected successfully');
+      // console.log('🔔 [SignalR] Connected successfully');
       this.reconnectAttempts = 0;
       this.clearReconnectTimer();
 
@@ -476,7 +583,7 @@ export class NotificationSignalR {
       return true;
     } catch (error) {
       const errorMessage = this.parseConnectionError(error as Error);
-      console.error('🔔 [SignalR] Connection Error:', error);
+      // console.error('🔔 [SignalR] Connection Error:', error);
 
       const isAuthError = this.isAuthError(error as Error);
 
@@ -490,24 +597,32 @@ export class NotificationSignalR {
       });
 
       // Enhanced error logging for debugging
-      console.error('🔔 [SignalR] Error details:', {
-        message: (error as any)?.message,
-        name: (error as any)?.name,
-        stack: (error as any)?.stack,
-        isAuthError,
-        hubUrl: `${process.env.NEXT_PUBLIC_API_URL}/correspondenceHub`
-      });
+      // console.error('🔔 [SignalR] Error details:', {
+      //   message: (error as any)?.message,
+      //   name: (error as any)?.name,
+      //   stack: (error as any)?.stack,
+      //   isAuthError,
+      //   hubUrl: `${process.env.NEXT_PUBLIC_API_URL}/correspondenceHub`,
+      //   connectionExists: !!this.connection,
+      //   connectionState: this.connection?.state,
+      //   isDisposed: this.isDisposed,
+      //   hasToken: !!this.accessToken
+      // });
 
       // For auth errors, don't schedule immediate reconnect but allow manual retry
       if (!isAuthError && !this.isDisposed) {
         this.scheduleReconnect();
       } else if (isAuthError) {
-        console.warn('🔔 [SignalR] Authentication failed - falling back to polling mode');
+        // console.warn(
+        //   '🔔 [SignalR] Authentication failed - falling back to polling mode'
+        // );
         // Reset reconnect attempts for potential future token refresh
         this.reconnectAttempts = 0;
       }
 
       return false;
+    } finally {
+      this.startInProgress = false;
     }
   }
 
@@ -628,6 +743,29 @@ export class NotificationSignalR {
     });
   }
 
+  private notifyReconnectCallbacks(): void {
+    // console.log('🔔 [SignalR] Notifying reconnect callbacks:', this.reconnectCallbacks.length);
+    this.reconnectCallbacks.forEach((callback) => {
+      try {
+        callback();
+      } catch (error) {
+        // console.error('Error in reconnect callback:', error);
+      }
+    });
+  }
+
+  // Reconnect callback management
+  onReconnected(callback: () => void): void {
+    this.reconnectCallbacks.push(callback);
+  }
+
+  offReconnected(callback: () => void): void {
+    const index = this.reconnectCallbacks.indexOf(callback);
+    if (index > -1) {
+      this.reconnectCallbacks.splice(index, 1);
+    }
+  }
+
   // Utility methods
   get isConnected(): boolean {
     return this.connection?.state === HubConnectionState.Connected;
@@ -637,7 +775,11 @@ export class NotificationSignalR {
     return this.connection?.state || null;
   }
 
-  updateAccessToken(token: string): void {
+  get disposed(): boolean {
+    return this.isDisposed;
+  }
+
+  async updateAccessToken(token: string): Promise<void> {
     if (this.isDisposed) return;
 
     const tokenChanged = this.accessToken !== token;
@@ -646,18 +788,23 @@ export class NotificationSignalR {
 
     // If we have an existing connection and token changed, restart it with the new token
     if (this.connection && tokenChanged) {
-      // console.log('Updating SignalR access token and reconnecting...');
-      this.stop()
-        .then(() => {
-          if (!this.isDisposed) {
-            this.initializeConnection();
-            this.start();
+      // console.log('🔔 [SignalR] Updating access token and reconnecting...');
+      try {
+        await this.stop();
+        // Check if we're still not disposed after stop
+        if (!this.isDisposed) {
+          // Add small delay to ensure cleanup is complete
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          const initialized = this.initializeConnection();
+          if (initialized && !this.isDisposed) {
+            await this.start();
           }
-        })
-        .catch(() => {
-          // console.error('Error during token update reconnection');
-        });
-    } else if (!this.connection) {
+        }
+      } catch (error) {
+        // console.error('🔔 [SignalR] Error during token update reconnection:', error);
+      }
+    } else if (!this.connection && !this.isDisposed) {
       this.initializeConnection();
     }
   }
@@ -681,7 +828,9 @@ export class NotificationSignalR {
   // Get connection diagnostics
   getConnectionDiagnostics() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const hubUrl = apiUrl ? `${apiUrl.replace(/\/+$/g, '')}/correspondenceHub` : 'Not configured';
+    const hubUrl = apiUrl
+      ? `${apiUrl.replace(/\/+$/g, '')}/correspondenceHub`
+      : 'Not configured';
 
     return {
       isConnected: this.isConnected,
@@ -708,7 +857,7 @@ export class NotificationSignalR {
 
   // Cleanup
   dispose(): void {
-    console.log('🔔 [SignalR] Disposing SignalR instance');
+    // console.log('🔔 [SignalR] Disposing SignalR instance');
     this.isDisposed = true;
     this.isManualDisconnect = true;
     this.clearReconnectTimer();
@@ -729,6 +878,11 @@ let signalRInstance: NotificationSignalR | null = null;
 export const getSignalRInstance = (
   accessToken?: string
 ): NotificationSignalR => {
+  // If we have an instance but it's disposed, clear it
+  if (signalRInstance && signalRInstance.disposed) {
+    signalRInstance = null;
+  }
+
   if (!signalRInstance) {
     signalRInstance = new NotificationSignalR(accessToken);
   } else if (accessToken) {
@@ -744,4 +898,3 @@ export const disposeSignalRInstance = (): void => {
     signalRInstance = null;
   }
 };
-

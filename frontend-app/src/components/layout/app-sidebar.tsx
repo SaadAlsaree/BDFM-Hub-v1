@@ -120,80 +120,80 @@ export default function AppSidebar() {
                       'Access|All',
                       'Correspondence|Create|Draft'
                     ]) && (
-                        <DropdownMenuItem
-                          onClick={() => router.push('/correspondence/mail-form')}
-                        >
-                          كتاب مسودة
-                        </DropdownMenuItem>
-                      )}
+                      <DropdownMenuItem
+                        onClick={() => router.push('/correspondence/mail-form')}
+                      >
+                        كتاب مسودة
+                      </DropdownMenuItem>
+                    )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|External',
                       'Access|All'
                     ]) && (
-                        <DropdownMenuItem
-                          onClick={() =>
-                            router.push(
-                              '/correspondence/register-incoming-external-mail'
-                            )
-                          }
-                        >
-                          وارد خارجي
-                        </DropdownMenuItem>
-                      )}
+                      <DropdownMenuItem
+                        onClick={() =>
+                          router.push(
+                            '/correspondence/register-incoming-external-mail'
+                          )
+                        }
+                      >
+                        وارد خارجي
+                      </DropdownMenuItem>
+                    )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|External',
                       'Access|All'
                     ]) && (
-                        <DropdownMenuItem
-                          onClick={() =>
-                            router.push(
-                              '/correspondence/create-outgoing-external-mail'
-                            )
-                          }
-                        >
-                          صادر خارجي
-                        </DropdownMenuItem>
-                      )}
+                      <DropdownMenuItem
+                        onClick={() =>
+                          router.push(
+                            '/correspondence/create-outgoing-external-mail'
+                          )
+                        }
+                      >
+                        صادر خارجي
+                      </DropdownMenuItem>
+                    )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|Internal',
                       'Access|All'
                     ]) && (
-                        <DropdownMenuItem
-                          onClick={() =>
-                            router.push(
-                              '/correspondence/create-incoming-internal-book'
-                            )
-                          }
-                        >
-                          وارد داخلي
-                        </DropdownMenuItem>
-                      )}
+                      <DropdownMenuItem
+                        onClick={() =>
+                          router.push(
+                            '/correspondence/create-incoming-internal-book'
+                          )
+                        }
+                      >
+                        وارد داخلي
+                      </DropdownMenuItem>
+                    )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|Internal',
                       'Access|All'
                     ]) && (
-                        <DropdownMenuItem
-                          onClick={() =>
-                            router.push(
-                              '/correspondence/create-outgoing-internal-book'
-                            )
-                          }
-                        >
-                          صادر داخلي
-                        </DropdownMenuItem>
-                      )}
+                      <DropdownMenuItem
+                        onClick={() =>
+                          router.push(
+                            '/correspondence/create-outgoing-internal-book'
+                          )
+                        }
+                      >
+                        صادر داخلي
+                      </DropdownMenuItem>
+                    )}
                     {hasAnyPermission(user as UserDto, [
                       'Correspondence|Create|Memorandum',
                       'Access|All'
                     ]) && (
-                        <DropdownMenuItem
-                          onClick={() =>
-                            router.push('/correspondence/create-memorandum')
-                          }
-                        >
-                          مطالعة\مذكرة
-                        </DropdownMenuItem>
-                      )}
+                      <DropdownMenuItem
+                        onClick={() =>
+                          router.push('/correspondence/create-memorandum')
+                        }
+                      >
+                        مطالعة\مذكرة
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
@@ -285,40 +285,40 @@ export default function AppSidebar() {
                                     )}
                                     {subItem.url ===
                                       '/correspondence/pending-books' && (
-                                        <CorrespondenceCountBadge
-                                          isLoading={isLoadingSummary}
-                                          count={
-                                            correspondencesSummary?.totalCorrespondencesPending
-                                          }
-                                        />
-                                      )}
+                                      <CorrespondenceCountBadge
+                                        isLoading={isLoadingSummary}
+                                        count={
+                                          correspondencesSummary?.totalCorrespondencesPending
+                                        }
+                                      />
+                                    )}
                                     {subItem.url ===
                                       '/correspondence/processing-books' && (
-                                        <CorrespondenceCountBadge
-                                          isLoading={isLoadingSummary}
-                                          count={
-                                            correspondencesSummary?.totalCorrespondencesUnderProcessing
-                                          }
-                                        />
-                                      )}
+                                      <CorrespondenceCountBadge
+                                        isLoading={isLoadingSummary}
+                                        count={
+                                          correspondencesSummary?.totalCorrespondencesUnderProcessing
+                                        }
+                                      />
+                                    )}
                                     {subItem.url ===
                                       '/correspondence/return-for-editing' && (
-                                        <CorrespondenceCountBadge
-                                          isLoading={isLoadingSummary}
-                                          count={
-                                            correspondencesSummary?.totalCorrespondencesReturnedForModification
-                                          }
-                                        />
-                                      )}
+                                      <CorrespondenceCountBadge
+                                        isLoading={isLoadingSummary}
+                                        count={
+                                          correspondencesSummary?.totalCorrespondencesReturnedForModification
+                                        }
+                                      />
+                                    )}
                                     {subItem.url ===
                                       '/correspondence/completed-books' && (
-                                        <CorrespondenceCountBadge
-                                          isLoading={isLoadingSummary}
-                                          count={
-                                            correspondencesSummary?.totalCorrespondencesCompleted
-                                          }
-                                        />
-                                      )}
+                                      <CorrespondenceCountBadge
+                                        isLoading={isLoadingSummary}
+                                        count={
+                                          correspondencesSummary?.totalCorrespondencesCompleted
+                                        }
+                                      />
+                                    )}
                                   </div>
                                 </Link>
                               </SidebarMenuSubButton>

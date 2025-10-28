@@ -28,7 +28,10 @@ export function useAuthApi() {
         return await apiFunction();
       } catch (error: any) {
         // Log authentication errors for debugging
-        if (error?.message?.includes('401') || error?.message?.includes('403')) {
+        if (
+          error?.message?.includes('401') ||
+          error?.message?.includes('403')
+        ) {
           // Use a more appropriate logging method for production
           if (process.env.NODE_ENV === 'development') {
             console.warn('Authentication error:', error.message);

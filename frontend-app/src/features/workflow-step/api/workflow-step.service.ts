@@ -7,7 +7,7 @@ import {
   WorkflowStepBulkInsert
 } from '../types/workflow-step';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const workflowStepService = {
   ///Workflow/CreateWorkflowStep
@@ -84,13 +84,15 @@ export const workflowStepService = {
           code: 'COMPLETION_FAILED'
         } as IResponse<boolean>;
       }
-      return (response.data as IResponse<boolean>) || {
-        succeeded: false,
-        data: false,
-        message: 'No response data received',
-        errors: ['No response data'],
-        code: 'NO_DATA'
-      };
+      return (
+        (response.data as IResponse<boolean>) || {
+          succeeded: false,
+          data: false,
+          message: 'No response data received',
+          errors: ['No response data'],
+          code: 'NO_DATA'
+        }
+      );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error completing workflow step:', error);

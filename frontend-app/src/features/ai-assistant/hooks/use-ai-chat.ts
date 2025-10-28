@@ -6,7 +6,7 @@ import type {
   Message,
   Conversation,
   SendMessageRequest,
-  QueryRequest,
+  QueryRequest
 } from '../types';
 
 export function useAIChat(conversationId?: string) {
@@ -28,268 +28,294 @@ export function useAIChat(conversationId?: string) {
   /**
    * Load conversation with messages
    */
-  const loadConversation = useCallback(async (id: string) => {
-    if (!session?.user?.id) return;
+  const loadConversation = useCallback(
+    async (id: string) => {
+      if (!session?.user?.id) return;
 
-    try {
-      setIsLoading(true);
-      setError(null);
-      const response = await AIAssistantService.getConversation(id, session.user.id);
-      setConversation(response.conversation);
-      setMessages(response.messages);
-    } catch (err: any) {
-      const errorMsg = err.message || 'فشل في تحميل المحادثة';
-      setError(errorMsg);
-      toast.error(errorMsg);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [session?.user?.id]);
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await AIAssistantService.getConversation(
+          id,
+          session.user.id
+        );
+        setConversation(response.conversation);
+        setMessages(response.messages);
+      } catch (err: any) {
+        const errorMsg = err.message || 'فشل في تحميل المحادثة';
+        setError(errorMsg);
+        toast.error(errorMsg);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [session?.user?.id]
+  );
 
   /**
    * Create new conversation
    */
-  const createConversation = useCallback(async (title?: string, language: 'ar' | 'en' = 'ar') => {
-    if (!session?.user?.id) {
-      toast.error('يجب تسجيل الدخول أولاً');
-      return null;
-    }
+  const createConversation = useCallback(
+    async (title?: string, language: 'ar' | 'en' = 'ar') => {
+      if (!session?.user?.id) {
+        toast.error('يجب تسجيل الدخول أولاً');
+        return null;
+      }
 
-    try {
-      setIsLoading(true);
-      setError(null);
-      const newConversation = await AIAssistantService.createConversation({
-        userId: session.user.id,
-        title,
-        language,
-      });
-      setConversation(newConversation);
-      setMessages([]);
-      return newConversation;
-    } catch (err: any) {
-      const errorMsg = err.message || 'فشل في إنشاء المحادثة';
-      setError(errorMsg);
-      toast.error(errorMsg);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [session?.user?.id]);
+      try {
+        setIsLoading(true);
+        setError(null);
+        const newConversation = await AIAssistantService.createConversation({
+          userId: session.user.id,
+          title,
+          language
+        });
+        setConversation(newConversation);
+        setMessages([]);
+        return newConversation;
+      } catch (err: any) {
+        const errorMsg = err.message || 'فشل في إنشاء المحادثة';
+        setError(errorMsg);
+        toast.error(errorMsg);
+        return null;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [session?.user?.id]
+  );
 
   /**
    * Send message without conversation (direct query)
    */
-  const sendQuery = useCallback(async (query: string, options?: Partial<QueryRequest>) => {
-    try {
-      setIsLoading(true);
-      setIsTyping(true);
-      setError(null);
+  const sendQuery = useCallback(
+    async (query: string, options?: Partial<QueryRequest>) => {
+      try {
+        setIsLoading(true);
+        setIsTyping(true);
+        setError(null);
 
-      // Add user message
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        role: 'user',
-        content: query,
-        createdAt: new Date(),
-      };
-      setMessages((prev) => [...prev, userMessage]);
+        // Add user message
+        const userMessage: Message = {
+          id: Date.now().toString(),
+          role: 'user',
+          content: query,
+          createdAt: new Date()
+        };
+        setMessages((prev) => [...prev, userMessage]);
 
-      // Query RAG system
-      const response = await AIAssistantService.query({
-        query,
-        language: 'ar',
-        ...options,
-      });
+        // Query RAG system
+        const response = await AIAssistantService.query({
+          query,
+          language: 'ar',
+          ...options
+        });
 
-      // Add assistant message
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: response.answer,
-        sources: response.sources,
-        metadata: response.metadata,
-        createdAt: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+        // Add assistant message
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: response.answer,
+          sources: response.sources,
+          metadata: response.metadata,
+          createdAt: new Date()
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
 
-      return assistantMessage;
-    } catch (err: any) {
-      const errorMsg = err.message || 'فشل في إرسال الاستعلام';
-      setError(errorMsg);
-      toast.error(errorMsg);
-      return null;
-    } finally {
-      setIsLoading(false);
-      setIsTyping(false);
-    }
-  }, []);
+        return assistantMessage;
+      } catch (err: any) {
+        const errorMsg = err.message || 'فشل في إرسال الاستعلام';
+        setError(errorMsg);
+        toast.error(errorMsg);
+        return null;
+      } finally {
+        setIsLoading(false);
+        setIsTyping(false);
+      }
+    },
+    []
+  );
 
   /**
    * Send message in conversation
    */
-  const sendMessage = useCallback(async (message: string, options?: Partial<SendMessageRequest>) => {
-    if (!conversation || !session?.user?.id) {
-      toast.error('لا توجد محادثة نشطة');
-      return null;
-    }
+  const sendMessage = useCallback(
+    async (message: string, options?: Partial<SendMessageRequest>) => {
+      if (!conversation || !session?.user?.id) {
+        toast.error('لا توجد محادثة نشطة');
+        return null;
+      }
 
-    try {
-      setIsLoading(true);
-      setIsTyping(true);
-      setError(null);
+      try {
+        setIsLoading(true);
+        setIsTyping(true);
+        setError(null);
 
-      // Add user message immediately
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        conversationId: conversation.id,
-        role: 'user',
-        content: message,
-        createdAt: new Date(),
-      };
-      setMessages((prev) => [...prev, userMessage]);
+        // Add user message immediately
+        const userMessage: Message = {
+          id: Date.now().toString(),
+          conversationId: conversation.id,
+          role: 'user',
+          content: message,
+          createdAt: new Date()
+        };
+        setMessages((prev) => [...prev, userMessage]);
 
-      // Send to server
-      const assistantMessage = await AIAssistantService.sendMessage({
-        conversationId: conversation.id,
-        userId: session.user.id,
-        message,
-        ...options,
-      });
+        // Send to server
+        const assistantMessage = await AIAssistantService.sendMessage({
+          conversationId: conversation.id,
+          userId: session.user.id,
+          message,
+          ...options
+        });
 
-      // Add assistant message
-      setMessages((prev) => [...prev, assistantMessage]);
+        // Add assistant message
+        setMessages((prev) => [...prev, assistantMessage]);
 
-      return assistantMessage;
-    } catch (err: any) {
-      const errorMsg = err.message || 'فشل في إرسال الرسالة';
-      setError(errorMsg);
-      toast.error(errorMsg);
-      return null;
-    } finally {
-      setIsLoading(false);
-      setIsTyping(false);
-    }
-  }, [conversation, session?.user?.id]);
+        return assistantMessage;
+      } catch (err: any) {
+        const errorMsg = err.message || 'فشل في إرسال الرسالة';
+        setError(errorMsg);
+        toast.error(errorMsg);
+        return null;
+      } finally {
+        setIsLoading(false);
+        setIsTyping(false);
+      }
+    },
+    [conversation, session?.user?.id]
+  );
 
   /**
    * Send message with streaming
    */
-  const sendMessageStream = useCallback(async (
-    message: string,
-    onToken?: (token: string) => void,
-    options?: Partial<SendMessageRequest>
-  ) => {
-    if (!conversation || !session?.user?.id) {
-      toast.error('لا توجد محادثة نشطة');
-      return;
-    }
+  const sendMessageStream = useCallback(
+    async (
+      message: string,
+      onToken?: (token: string) => void,
+      options?: Partial<SendMessageRequest>
+    ) => {
+      if (!conversation || !session?.user?.id) {
+        toast.error('لا توجد محادثة نشطة');
+        return;
+      }
 
-    try {
-      setIsLoading(true);
-      setIsTyping(true);
-      setError(null);
+      try {
+        setIsLoading(true);
+        setIsTyping(true);
+        setError(null);
 
-      // Add user message
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        conversationId: conversation.id,
-        role: 'user',
-        content: message,
-        createdAt: new Date(),
-      };
-      setMessages((prev) => [...prev, userMessage]);
+        // Add user message
+        const userMessage: Message = {
+          id: Date.now().toString(),
+          conversationId: conversation.id,
+          role: 'user',
+          content: message,
+          createdAt: new Date()
+        };
+        setMessages((prev) => [...prev, userMessage]);
 
-      // Start streaming
-      const stream = await AIAssistantService.sendMessageStream({
-        conversationId: conversation.id,
-        userId: session.user.id,
-        message,
-        ...options,
-      });
+        // Start streaming
+        const stream = await AIAssistantService.sendMessageStream({
+          conversationId: conversation.id,
+          userId: session.user.id,
+          message,
+          ...options
+        });
 
-      // Create assistant message placeholder
-      const assistantMessageId = (Date.now() + 1).toString();
-      const assistantMessage: Message = {
-        id: assistantMessageId,
-        conversationId: conversation.id,
-        role: 'assistant',
-        content: '',
-        createdAt: new Date(),
-        isStreaming: true,
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+        // Create assistant message placeholder
+        const assistantMessageId = (Date.now() + 1).toString();
+        const assistantMessage: Message = {
+          id: assistantMessageId,
+          conversationId: conversation.id,
+          role: 'assistant',
+          content: '',
+          createdAt: new Date(),
+          isStreaming: true
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
 
-      // Read stream
-      const reader = stream.getReader();
-      const decoder = new TextDecoder();
-      let fullContent = '';
+        // Read stream
+        const reader = stream.getReader();
+        const decoder = new TextDecoder();
+        let fullContent = '';
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n\n');
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n\n');
 
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = JSON.parse(line.slice(6));
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = JSON.parse(line.slice(6));
 
-            if (data.type === 'token') {
-              fullContent += data.content;
-              onToken?.(data.content);
+              if (data.type === 'token') {
+                fullContent += data.content;
+                onToken?.(data.content);
 
-              // Update message
-              setMessages((prev) =>
-                prev.map((msg) =>
-                  msg.id === assistantMessageId
-                    ? { ...msg, content: fullContent }
-                    : msg
-                )
-              );
-            } else if (data.type === 'done') {
-              // Final message with sources
-              setMessages((prev) =>
-                prev.map((msg) =>
-                  msg.id === assistantMessageId
-                    ? { ...msg, isStreaming: false, sources: data.sources, metadata: data.metadata }
-                    : msg
-                )
-              );
-            } else if (data.type === 'error') {
-              throw new Error(data.message);
+                // Update message
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === assistantMessageId
+                      ? { ...msg, content: fullContent }
+                      : msg
+                  )
+                );
+              } else if (data.type === 'done') {
+                // Final message with sources
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === assistantMessageId
+                      ? {
+                          ...msg,
+                          isStreaming: false,
+                          sources: data.sources,
+                          metadata: data.metadata
+                        }
+                      : msg
+                  )
+                );
+              } else if (data.type === 'error') {
+                throw new Error(data.message);
+              }
             }
           }
         }
+      } catch (err: any) {
+        const errorMsg = err.message || 'فشل في إرسال الرسالة';
+        setError(errorMsg);
+        toast.error(errorMsg);
+      } finally {
+        setIsLoading(false);
+        setIsTyping(false);
       }
-    } catch (err: any) {
-      const errorMsg = err.message || 'فشل في إرسال الرسالة';
-      setError(errorMsg);
-      toast.error(errorMsg);
-    } finally {
-      setIsLoading(false);
-      setIsTyping(false);
-    }
-  }, [conversation, session?.user?.id]);
+    },
+    [conversation, session?.user?.id]
+  );
 
   /**
    * Update conversation title
    */
-  const updateTitle = useCallback(async (title: string) => {
-    if (!conversation || !session?.user?.id) return;
+  const updateTitle = useCallback(
+    async (title: string) => {
+      if (!conversation || !session?.user?.id) return;
 
-    try {
-      const updated = await AIAssistantService.updateConversationTitle(
-        conversation.id,
-        session.user.id,
-        title
-      );
-      setConversation(updated);
-      toast.success('تم تحديث العنوان');
-    } catch (err: any) {
-      toast.error(err.message || 'فشل في تحديث العنوان');
-    }
-  }, [conversation, session?.user?.id]);
+      try {
+        const updated = await AIAssistantService.updateConversationTitle(
+          conversation.id,
+          session.user.id,
+          title
+        );
+        setConversation(updated);
+        toast.success('تم تحديث العنوان');
+      } catch (err: any) {
+        toast.error(err.message || 'فشل في تحديث العنوان');
+      }
+    },
+    [conversation, session?.user?.id]
+  );
 
   /**
    * Delete conversation
@@ -298,7 +324,10 @@ export function useAIChat(conversationId?: string) {
     if (!conversation || !session?.user?.id) return;
 
     try {
-      await AIAssistantService.deleteConversation(conversation.id, session.user.id);
+      await AIAssistantService.deleteConversation(
+        conversation.id,
+        session.user.id
+      );
       setConversation(null);
       setMessages([]);
       toast.success('تم حذف المحادثة');
@@ -340,6 +369,6 @@ export function useAIChat(conversationId?: string) {
     updateTitle,
     deleteConversation,
     clearMessages,
-    stop,
+    stop
   };
 }

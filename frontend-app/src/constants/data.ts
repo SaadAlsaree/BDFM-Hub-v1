@@ -121,9 +121,7 @@ export const navItems: NavItem[] = [
         shortcut: ['o', 'o'],
         isActive: false,
         requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
-      },
-
-
+      }
     ] // No child items
   },
 

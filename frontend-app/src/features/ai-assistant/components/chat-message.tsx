@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
+  CollapsibleTrigger
 } from '@/components/ui/collapsible';
 import type { Message } from '../types';
 
@@ -26,7 +26,7 @@ function ChatMessageComponent({ message, isLast }: ChatMessageProps) {
   return (
     <div
       className={cn(
-        'flex gap-4 py-4 px-2 animate-in fade-in-50 slide-in-from-bottom-4',
+        'animate-in fade-in-50 slide-in-from-bottom-4 flex gap-4 px-2 py-4',
         isUser ? 'flex-row-reverse' : 'flex-row',
         isLast && 'pb-8'
       )}
@@ -40,35 +40,37 @@ function ChatMessageComponent({ message, isLast }: ChatMessageProps) {
             : 'bg-muted text-muted-foreground'
         )}
       >
-        {isUser ? (
-          <User className="h-5 w-5" />
-        ) : (
-          <Bot className="h-5 w-5" />
-        )}
+        {isUser ? <User className='h-5 w-5' /> : <Bot className='h-5 w-5' />}
       </div>
 
       {/* Message Content */}
-      <div className={cn('flex flex-col gap-2', isUser ? 'items-end' : 'items-start', 'flex-1 max-w-[85%]')}>
+      <div
+        className={cn(
+          'flex flex-col gap-2',
+          isUser ? 'items-end' : 'items-start',
+          'max-w-[85%] flex-1'
+        )}
+      >
         {/* Message Bubble */}
         <div
           className={cn(
             'rounded-2xl px-4 py-3 shadow-sm',
             isUser
               ? 'bg-primary text-primary-foreground'
-              : 'bg-muted/50 border border-border',
+              : 'bg-muted/50 border-border border',
             message.isStreaming && 'animate-pulse'
           )}
         >
-          <div className="prose prose-sm dark:prose-invert max-w-none">
-            <p className="whitespace-pre-wrap break-words m-0 leading-relaxed">
+          <div className='prose prose-sm dark:prose-invert max-w-none'>
+            <p className='m-0 leading-relaxed break-words whitespace-pre-wrap'>
               {message.content}
             </p>
           </div>
 
           {/* Voice indicator */}
           {message.isVoice && (
-            <Badge variant="secondary" className="mt-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse mr-1.5" />
+            <Badge variant='secondary' className='mt-2'>
+              <span className='mr-1.5 h-1.5 w-1.5 animate-pulse rounded-full bg-green-500' />
               رسالة صوتية
             </Badge>
           )}
@@ -76,8 +78,8 @@ function ChatMessageComponent({ message, isLast }: ChatMessageProps) {
 
         {/* Metadata */}
         {message.metadata && isAssistant && (
-          <div className="flex items-center gap-2 text-xs text-muted-foreground px-1">
-            <CheckCircle className="h-3 w-3" />
+          <div className='text-muted-foreground flex items-center gap-2 px-1 text-xs'>
+            <CheckCircle className='h-3 w-3' />
             <span>
               {message.metadata.queryProcessingTime
                 ? `${message.metadata.queryProcessingTime}ms`
@@ -88,72 +90,81 @@ function ChatMessageComponent({ message, isLast }: ChatMessageProps) {
 
         {/* Sources */}
         {hasSources && isAssistant && (
-          <Collapsible className="w-full">
+          <Collapsible className='w-full'>
             <CollapsibleTrigger asChild>
               <Button
-                variant="ghost"
-                size="sm"
-                className="h-auto py-1.5 px-2 text-xs gap-2"
+                variant='ghost'
+                size='sm'
+                className='h-auto gap-2 px-2 py-1.5 text-xs'
               >
-                <FileText className="h-3.5 w-3.5" />
+                <FileText className='h-3.5 w-3.5' />
                 <span>{message.sources!.length} مصادر مرجعية</span>
               </Button>
             </CollapsibleTrigger>
 
-            <CollapsibleContent className="mt-2 space-y-2">
+            <CollapsibleContent className='mt-2 space-y-2'>
               {message.sources!.map((source) => (
                 <Card
                   key={source.id}
-                  className="p-3 hover:bg-accent/50 transition-colors"
+                  className='hover:bg-accent/50 p-3 transition-colors'
                 >
-                  <div className="space-y-2">
+                  <div className='space-y-2'>
                     {/* Source Header */}
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <Badge variant="outline" className="shrink-0">
+                    <div className='flex items-start justify-between gap-2'>
+                      <div className='min-w-0 flex-1'>
+                        <div className='flex flex-wrap items-center gap-2'>
+                          <Badge variant='outline' className='shrink-0'>
                             {source.mailNum}
                           </Badge>
-                          <span className="text-xs text-muted-foreground">
-                            {new Date(source.mailDate).toLocaleDateString('ar-SA')}
+                          <span className='text-muted-foreground text-xs'>
+                            {new Date(source.mailDate).toLocaleDateString(
+                              'ar-SA'
+                            )}
                           </span>
                         </div>
-                        <h4 className="text-sm font-medium mt-1 line-clamp-1">
+                        <h4 className='mt-1 line-clamp-1 text-sm font-medium'>
                           {source.subject}
                         </h4>
                       </div>
 
                       {/* Similarity Score */}
                       <Badge
-                        variant={source.similarityScore > 0.8 ? 'default' : 'secondary'}
-                        className="shrink-0"
+                        variant={
+                          source.similarityScore > 0.8 ? 'default' : 'secondary'
+                        }
+                        className='shrink-0'
                       >
                         {(source.similarityScore * 100).toFixed(0)}%
                       </Badge>
                     </div>
 
                     {/* Source Content */}
-                    <p className="text-xs text-muted-foreground line-clamp-2">
+                    <p className='text-muted-foreground line-clamp-2 text-xs'>
                       {source.bodyText}
                     </p>
 
                     {/* Tags */}
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                    <div className='flex flex-wrap items-center gap-1.5'>
                       <Badge
-                        variant="outline"
+                        variant='outline'
                         className={cn(
                           'text-[10px]',
-                          source.priorityLevel === 'Urgent' && 'border-red-500 text-red-500',
-                          source.priorityLevel === 'High' && 'border-orange-500 text-orange-500'
+                          source.priorityLevel === 'Urgent' &&
+                            'border-red-500 text-red-500',
+                          source.priorityLevel === 'High' &&
+                            'border-orange-500 text-orange-500'
                         )}
                       >
                         {source.priorityLevel}
                       </Badge>
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant='outline' className='text-[10px]'>
                         {source.correspondenceType}
                       </Badge>
                       {source.secrecyLevel !== 'None' && (
-                        <Badge variant="outline" className="text-[10px] border-yellow-500 text-yellow-500">
+                        <Badge
+                          variant='outline'
+                          className='border-yellow-500 text-[10px] text-yellow-500'
+                        >
                           {source.secrecyLevel}
                         </Badge>
                       )}
@@ -166,10 +177,10 @@ function ChatMessageComponent({ message, isLast }: ChatMessageProps) {
         )}
 
         {/* Timestamp */}
-        <span className="text-[10px] text-muted-foreground px-1">
+        <span className='text-muted-foreground px-1 text-[10px]'>
           {new Date(message.createdAt).toLocaleTimeString('ar-SA', {
             hour: '2-digit',
-            minute: '2-digit',
+            minute: '2-digit'
           })}
         </span>
       </div>

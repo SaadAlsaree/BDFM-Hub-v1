@@ -106,8 +106,10 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetLateBooks
 
                     // 3. Get user's accessible unit IDs (their unit + sub-units)
                     var accessibleUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+                    var userUnitId = _currentUserService.OrganizationalUnitId;
 
                     // 4. Apply workflow-based access control
+                    // Standard users can only see correspondence from their own unit via workflow steps
                     query = query.Where(c => !c.IsDeleted && (
                         // User created the correspondence (creators can see their own correspondence regardless of workflow)
                         c.CreateBy == _currentUserService.UserId ||
@@ -118,13 +120,13 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetLateBooks
                             // Primary recipient is the user
                             (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && ws.ToPrimaryRecipientId == _currentUserService.UserId) ||
 
-                            // Primary recipient is a unit the user has access to
-                            (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(ws.ToPrimaryRecipientId)) ||
+                            // Primary recipient is user's exact unit (not parent/child units)
+                            (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && userUnitId.HasValue && ws.ToPrimaryRecipientId == userUnitId.Value) ||
 
                             // User is a secondary recipient
                             ws.SecondaryRecipients.Any(sr =>
                                 (sr.RecipientType == Domain.Enums.RecipientTypeEnum.User && sr.RecipientId == _currentUserService.UserId) ||
-                                (sr.RecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(sr.RecipientId))
+                                (sr.RecipientType == Domain.Enums.RecipientTypeEnum.Unit && userUnitId.HasValue && sr.RecipientId == userUnitId.Value)
                             ) ||
 
                             // User has WorkflowStepInteraction access (forwarded within module)

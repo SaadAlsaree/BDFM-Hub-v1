@@ -285,7 +285,11 @@ export const customWorkflowStepFormSchema = z.object({
     .min(0, 'عدد الأيام يجب أن يكون أكبر من أو يساوي 0')
     .default(0),
   isActive: z.boolean().default(true),
-  sequence: z.number().int().positive('Sequence must be a positive integer').default(1)
+  sequence: z
+    .number()
+    .int()
+    .positive('Sequence must be a positive integer')
+    .default(1)
 });
 
 // Define the form values types

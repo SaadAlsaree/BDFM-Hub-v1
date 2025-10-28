@@ -10264,6 +10264,11 @@
           "bodyText": {
             "type": "string",
             "nullable": true
+          },
+          "organizationalUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           }
         },
         "additionalProperties": false

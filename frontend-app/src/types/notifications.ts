@@ -107,6 +107,16 @@ export interface SignalREvents {
     assignedBy: string;
     dueDate?: string;
   }) => void;
+
+  WorkflowStepStatusChanged: (data: {
+    workflowStepId: string;
+    correspondenceId: string;
+    oldStatus: string;
+    newStatus: string;
+    changedBy: string;
+    changedAt: string;
+    message: string;
+  }) => void;
 }
 
 // API Query Parameters

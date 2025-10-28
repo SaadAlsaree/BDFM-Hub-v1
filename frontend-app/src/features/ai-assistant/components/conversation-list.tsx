@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { MessageSquare, Plus, Trash2, MoreVertical, Loader2 } from 'lucide-react';
+import {
+  MessageSquare,
+  Plus,
+  Trash2,
+  MoreVertical,
+  Loader2
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -11,7 +17,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import AIAssistantService from '../api/ai-assistant.service';
 import type { Conversation } from '../types';
@@ -27,7 +33,7 @@ export function ConversationList({
   selectedId,
   onSelect,
   onNew,
-  className,
+  className
 }: ConversationListProps) {
   const { data: session } = useSession();
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -63,7 +69,10 @@ export function ConversationList({
     if (!session?.user?.id) return;
 
     try {
-      await AIAssistantService.deleteConversation(conversationId, session.user.id);
+      await AIAssistantService.deleteConversation(
+        conversationId,
+        session.user.id
+      );
       setConversations((prev) => prev.filter((c) => c.id !== conversationId));
       toast.success('تم حذف المحادثة');
 
@@ -77,90 +86,100 @@ export function ConversationList({
   };
 
   return (
-    <div className={cn('flex flex-col h-full border-l bg-muted/30', className)}>
+    <div className={cn('bg-muted/30 flex h-full flex-col border-l', className)}>
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 p-4 border-b">
-        <div className="flex items-center gap-2">
-          <MessageSquare className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold">المحادثات</h3>
+      <div className='flex items-center justify-between gap-2 border-b p-4'>
+        <div className='flex items-center gap-2'>
+          <MessageSquare className='text-primary h-5 w-5' />
+          <h3 className='font-semibold'>المحادثات</h3>
         </div>
-        <Button size="icon" variant="ghost" onClick={onNew} title="محادثة جديدة">
-          <Plus className="h-4 w-4" />
+        <Button
+          size='icon'
+          variant='ghost'
+          onClick={onNew}
+          title='محادثة جديدة'
+        >
+          <Plus className='h-4 w-4' />
         </Button>
       </div>
 
       {/* Conversations List */}
-      <ScrollArea className="flex-1">
+      <ScrollArea className='flex-1'>
         {isLoading ? (
-          <div className="flex items-center justify-center p-8">
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <div className='flex items-center justify-center p-8'>
+            <Loader2 className='text-muted-foreground h-6 w-6 animate-spin' />
           </div>
         ) : conversations.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-8 text-center">
-            <MessageSquare className="h-12 w-12 text-muted-foreground/50 mb-3" />
-            <p className="text-sm text-muted-foreground mb-4">
+          <div className='flex flex-col items-center justify-center p-8 text-center'>
+            <MessageSquare className='text-muted-foreground/50 mb-3 h-12 w-12' />
+            <p className='text-muted-foreground mb-4 text-sm'>
               لا توجد محادثات بعد
             </p>
-            <Button size="sm" onClick={onNew} className="gap-2">
-              <Plus className="h-4 w-4" />
+            <Button size='sm' onClick={onNew} className='gap-2'>
+              <Plus className='h-4 w-4' />
               <span>ابدأ محادثة</span>
             </Button>
           </div>
         ) : (
-          <div className="p-2 space-y-1">
+          <div className='space-y-1 p-2'>
             {conversations.map((conversation) => (
               <button
                 key={conversation.id}
                 onClick={() => onSelect(conversation)}
                 className={cn(
-                  'w-full flex items-start gap-3 p-3 rounded-lg text-right transition-colors',
+                  'flex w-full items-start gap-3 rounded-lg p-3 text-right transition-colors',
                   'hover:bg-accent/50',
                   conversation.id === selectedId && 'bg-accent'
                 )}
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                  <MessageSquare className="h-4 w-4 text-primary" />
+                <div className='bg-primary/10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full'>
+                  <MessageSquare className='text-primary h-4 w-4' />
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <h4 className="text-sm font-medium truncate">
+                <div className='min-w-0 flex-1'>
+                  <div className='flex items-start justify-between gap-2'>
+                    <h4 className='truncate text-sm font-medium'>
                       {conversation.title}
                     </h4>
 
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                      <DropdownMenuTrigger
+                        asChild
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 shrink-0"
+                          variant='ghost'
+                          size='icon'
+                          className='h-7 w-7 shrink-0'
                         >
-                          <MoreVertical className="h-3.5 w-3.5" />
+                          <MoreVertical className='h-3.5 w-3.5' />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent align='end'>
                         <DropdownMenuItem
-                          className="text-destructive"
+                          className='text-destructive'
                           onClick={(e) => handleDelete(conversation.id, e)}
                         >
-                          <Trash2 className="h-4 w-4 ml-2" />
+                          <Trash2 className='ml-2 h-4 w-4' />
                           <span>حذف</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
 
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-muted-foreground">
+                  <div className='mt-1 flex items-center gap-2'>
+                    <span className='text-muted-foreground text-xs'>
                       {conversation.messageCount} رسالة
                     </span>
                     {conversation.lastMessageAt && (
                       <>
-                        <span className="text-xs text-muted-foreground">•</span>
-                        <span className="text-xs text-muted-foreground">
-                          {new Date(conversation.lastMessageAt).toLocaleDateString('ar-SA', {
+                        <span className='text-muted-foreground text-xs'>•</span>
+                        <span className='text-muted-foreground text-xs'>
+                          {new Date(
+                            conversation.lastMessageAt
+                          ).toLocaleDateString('ar-SA', {
                             month: 'short',
-                            day: 'numeric',
+                            day: 'numeric'
                           })}
                         </span>
                       </>
