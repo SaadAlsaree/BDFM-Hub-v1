@@ -20,10 +20,8 @@ export function AiChatbot() {
             <BotIcon className='h-5 w-5' />
           </div>
           <div className='flex-1' dir='rtl'>
-            <h2 className='text-lg font-semibold'>مساعد BDFM الذكي</h2>
-            <p className='text-sm text-white/80'>
-              اسأل عن المعاملات والمراسلات
-            </p>
+            <h2 className='text-lg font-semibold'>مساعد نضام الاتمتة الذكي</h2>
+            <p className='text-sm text-white/80'>اسأل عن المعاملات و الكتب</p>
           </div>
           <Sparkles className='h-5 w-5 animate-pulse' />
         </div>

@@ -16,9 +16,9 @@ const AiAssistantPage = () => {
               <Sparkles className='h-8 w-8 text-white' />
             </div>
           </div>
-          <h1 className='text-3xl font-bold'>مساعد BDFM الذكي</h1>
+          <h1 className='text-3xl font-bold'>مساعد نضام الاتمتة الذكي</h1>
           <p className='text-muted-foreground mt-2'>
-            استخدم الذكاء الاصطناعي للبحث في المراسلات والمعاملات
+            استخدم الذكاء الاصطناعي للبحث في الكتب
           </p>
         </div>
 
