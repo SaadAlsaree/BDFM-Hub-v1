@@ -13,7 +13,7 @@ export const metadata = {
 const NewOrganizationalUnitPage = async () => {
   const units = await organizationalService.getOrganizationalUnits({
     page: 1,
-    pageSize: 100
+    pageSize: 200
   });
   const unitsList = units?.data?.items as IOrganizationalUnitList[];
   const parentUnits = unitsList.map((unit) => ({
