@@ -1,0 +1,282 @@
+### ============================================
+### BDFM RAG System API Endpoints
+### Base URL: http://localhost:3001/api/rag
+### ============================================
+
+@baseUrl = http://localhost:3001/api/rag
+@userId = 0199dcde-0a99-7c9a-bb26-4dbcd064579c
+@conversationId = 7855b184-f0e6-4097-9ee2-3b183b359be9
+
+### ============================================
+### 1. RAG Query Endpoints
+### ============================================
+
+### 1.1 Query the RAG system
+POST {{baseUrl}}/query
+Content-Type: application/json
+
+{
+  "query": "ما هي أنواع المعاملات المتاحة؟",
+  "maxResults": 5,
+  "similarityThreshold": 0.7,
+  "includeMetadata": true
+}
+
+### 1.2 Query with streaming response
+POST {{baseUrl}}/query/stream
+Content-Type: application/json
+
+{
+  "query": "اشرح لي سير العمل في النظام",
+  "maxResults": 3,
+  "similarityThreshold": 0.6
+}
+
+### 1.3 Search without LLM generation
+POST {{baseUrl}}/search
+Content-Type: application/json
+
+{
+  "query": "معاملات واردة",
+  "maxResults": 10,
+  "similarityThreshold": 0.5
+}
+
+### ============================================
+### 2. Conversation Endpoints
+### ============================================
+
+### 2.1 Create a new conversation
+POST {{baseUrl}}/conversations
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "title": "محادثة حول سير العمل",
+  "metadata": {
+    "topic": "workflow",
+    "language": "ar"
+  }
+}
+
+### 2.2 List all conversations for a user
+GET {{baseUrl}}/conversations?userId={{userId}}&limit=50&offset=0
+
+### 2.3 Get a specific conversation with all messages
+GET {{baseUrl}}/conversations/{{conversationId}}?userId={{userId}}
+
+### 2.4 Send a message in a conversation
+POST {{baseUrl}}/conversations/message
+Content-Type: application/json
+
+{
+  "conversationId": "{{conversationId}}",
+  "userId": "{{userId}}",
+  "message": "كيف يمكنني إنشاء معاملة جديدة؟",
+  "maxResults": 5,
+  "similarityThreshold": 0.7
+}
+
+### 2.5 Send message with streaming response
+POST {{baseUrl}}/conversations/message/stream
+Content-Type: application/json
+
+{
+  "conversationId": "{{conversationId}}",
+  "userId": "{{userId}}",
+  "message": "اشرح لي خطوات الموافقة على المعاملة",
+  "maxResults": 3
+}
+
+### 2.6 Update conversation title
+PUT {{baseUrl}}/conversations/{{conversationId}}/title
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "title": "محادثة محدثة - سير العمل"
+}
+
+### 2.7 Delete a conversation
+DELETE {{baseUrl}}/conversations/{{conversationId}}?userId={{userId}}
+
+### ============================================
+### 3. Speech-to-Text Endpoints
+### ============================================
+
+### 3.1 Transcribe audio file to text
+POST {{baseUrl}}/speech/transcribe
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="audio"; filename="audio.mp3"
+Content-Type: audio/mpeg
+
+< ./path/to/audio.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="language"
+
+ar
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 3.2 Transcribe audio from URL
+POST {{baseUrl}}/speech/transcribe-url
+Content-Type: application/json
+
+{
+  "url": "https://example.com/audio.mp3",
+  "language": "ar"
+}
+
+### 3.3 Send voice message in conversation
+POST {{baseUrl}}/speech/voice-message
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="audio"; filename="voice.mp3"
+Content-Type: audio/mpeg
+
+< ./path/to/voice.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="conversationId"
+
+{{conversationId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userId"
+
+{{userId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="language"
+
+ar
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="maxResults"
+
+5
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 3.4 Send voice message with streaming
+POST {{baseUrl}}/speech/voice-message/stream
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="audio"; filename="voice.mp3"
+Content-Type: audio/mpeg
+
+< ./path/to/voice.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="conversationId"
+
+{{conversationId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userId"
+
+{{userId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 3.5 Get supported audio formats
+GET {{baseUrl}}/speech/formats
+
+### 3.6 Detect language from audio
+POST {{baseUrl}}/speech/detect-language
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="audio"; filename="audio.mp3"
+Content-Type: audio/mpeg
+
+< ./path/to/audio.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### ============================================
+### 4. Statistics Endpoints - Correspondences
+### ============================================
+
+### 4.1 Get correspondence statistics overview
+GET {{baseUrl}}/statistics/correspondences/overview
+
+### 4.2 Get correspondence statistics with filters
+GET {{baseUrl}}/statistics/correspondences/overview?dateFrom=2025-01-01&dateTo=2025-10-29&correspondenceType=incoming,outgoing&priorityLevel=high,urgent&secrecyLevel=confidential&userId={{userId}}
+
+### 4.3 Get correspondence time series data - Daily
+GET {{baseUrl}}/statistics/correspondences/time-series?period=day
+
+### 4.4 Get correspondence time series data - Weekly
+GET {{baseUrl}}/statistics/correspondences/time-series?period=week&dateFrom=2025-09-01&dateTo=2025-10-29
+
+### 4.5 Get correspondence time series data - Monthly
+GET {{baseUrl}}/statistics/correspondences/time-series?period=month&dateFrom=2025-01-01&dateTo=2025-10-29
+
+### 4.6 Get correspondence time series data - Yearly
+GET {{baseUrl}}/statistics/correspondences/time-series?period=year
+
+### ============================================
+### 5. Statistics Endpoints - Workflow
+### ============================================
+
+### 5.1 Get workflow statistics overview
+GET {{baseUrl}}/statistics/workflow/overview
+
+### 5.2 Get workflow statistics with filters
+GET {{baseUrl}}/statistics/workflow/overview?dateFrom=2025-01-01&dateTo=2025-10-29&status=pending,in_progress,completed&userId={{userId}}
+
+### 5.3 Get workflow tracking for a correspondence
+GET {{baseUrl}}/statistics/workflow/tracking/CORR-123
+
+### 5.4 Get overdue workflow steps
+GET {{baseUrl}}/statistics/workflow/overdue
+
+### 5.5 Get overdue workflow steps for specific user
+GET {{baseUrl}}/statistics/workflow/overdue?userId={{userId}}
+
+### ============================================
+### 6. Statistics Endpoints - Reports
+### ============================================
+
+### 6.1 Get performance report
+GET {{baseUrl}}/statistics/reports/performance?startDate=2025-01-01&endDate=2025-10-29
+
+### 6.2 Get performance report for specific user
+GET {{baseUrl}}/statistics/reports/performance?startDate=2025-01-01&endDate=2025-10-29&userId={{userId}}
+
+### 6.3 Get user productivity statistics
+GET {{baseUrl}}/statistics/users/{{userId}}/productivity?startDate=2025-01-01&endDate=2025-10-29
+
+### 6.4 Clear statistics cache
+POST {{baseUrl}}/statistics/cache/clear
+
+### ============================================
+### 7. System Health & Status
+### ============================================
+
+### 7.1 Health check
+GET {{baseUrl}}/health
+
+### 7.2 Get system status
+GET {{baseUrl}}/status
+
+### ============================================
+### Notes:
+### ============================================
+### 
+### 1. Replace {{baseUrl}} with your actual API base URL
+### 2. Replace {{userId}} and {{conversationId}} with actual IDs
+### 3. For file uploads, replace ./path/to/audio.mp3 with actual file path
+### 4. Streaming endpoints return Server-Sent Events (SSE)
+### 5. All Arabic text in requests should be UTF-8 encoded
+### 6. Timeout is set to 120000ms (2 minutes) for AI operations
+### 
+### Supported Audio Formats:
+### - MP3, WAV, M4A, OGG, WEBM, FLAC
+### - Max file size: typically 25MB
+### - Max duration: typically 30 minutes
+### 
+### Date Format: ISO 8601 (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.sssZ)
+### 
+### Response Format: All endpoints return:
+### {
+###   "success": boolean,
+###   "data": any,
+###   "error": { "message": string, "code": string } | null
+### }
+### ============================================

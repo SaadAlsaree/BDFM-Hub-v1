@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj": {}
+    "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj": {}
   },
   "projects": {
-    "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj": {
+    "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj",
+        "projectUniqueName": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj",
         "projectName": "BDFM.Api",
-        "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj",
-        "packagesPath": "C:\\Users\\SAAD\\.nuget\\packages\\",
-        "outputPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\obj\\",
+        "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\BDFM.Api.csproj",
+        "packagesPath": "C:\\Users\\saad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SAAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\saad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -33,17 +33,17 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
               },
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj"
               },
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj"
               },
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj"
               }
             }
           }
@@ -122,20 +122,20 @@
         }
       }
     },
-    "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
+    "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
+        "projectUniqueName": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
         "projectName": "BDFM.Application",
-        "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
-        "packagesPath": "C:\\Users\\SAAD\\.nuget\\packages\\",
-        "outputPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\obj\\",
+        "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
+        "packagesPath": "C:\\Users\\saad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SAAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\saad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -151,8 +151,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj"
               }
             }
           }
@@ -238,20 +238,20 @@
         }
       }
     },
-    "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
+    "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj",
         "projectName": "BDFM.Domain",
-        "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj",
-        "packagesPath": "C:\\Users\\SAAD\\.nuget\\packages\\",
-        "outputPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\obj\\",
+        "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj",
+        "packagesPath": "C:\\Users\\saad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SAAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\saad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -326,20 +326,20 @@
         }
       }
     },
-    "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj": {
+    "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj",
+        "projectUniqueName": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj",
         "projectName": "BDFM.Identity",
-        "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj",
-        "packagesPath": "C:\\Users\\SAAD\\.nuget\\packages\\",
-        "outputPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\obj\\",
+        "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\BDFM.Identity.csproj",
+        "packagesPath": "C:\\Users\\saad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Identity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SAAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\saad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -355,11 +355,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
               },
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj"
               }
             }
           }
@@ -439,20 +439,20 @@
         }
       }
     },
-    "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj": {
+    "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj",
         "projectName": "BDFM.Infrastructure",
-        "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\SAAD\\.nuget\\packages\\",
-        "outputPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\BDFM.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\saad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SAAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\saad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -468,11 +468,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
               },
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj"
               }
             }
           }
@@ -526,20 +526,20 @@
         }
       }
     },
-    "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
+    "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj",
         "projectName": "BDFM.Persistence",
-        "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj",
-        "packagesPath": "C:\\Users\\SAAD\\.nuget\\packages\\",
-        "outputPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\obj\\",
+        "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\BDFM.Persistence.csproj",
+        "packagesPath": "C:\\Users\\saad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SAAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\saad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -555,11 +555,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj"
               },
-              "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
-                "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj"
+              "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
+                "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj"
               }
             }
           }

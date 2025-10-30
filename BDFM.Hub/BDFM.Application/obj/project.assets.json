@@ -2932,23 +2932,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SAAD\\.nuget\\packages\\": {},
+    "C:\\Users\\saad\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
+      "projectUniqueName": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
       "projectName": "BDFM.Application",
-      "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
-      "packagesPath": "C:\\Users\\SAAD\\.nuget\\packages\\",
-      "outputPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\obj\\",
+      "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\BDFM.Application.csproj",
+      "packagesPath": "C:\\Users\\saad\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\SAAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\saad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2964,8 +2964,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
-              "projectPath": "F:\\.NET\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj"
+            "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj": {
+              "projectPath": "C:\\Users\\saad\\source\\repos\\BDFM-Hub-v1\\BDFM.Hub\\BDFM.Domain\\BDFM.Domain.csproj"
             }
           }
         }

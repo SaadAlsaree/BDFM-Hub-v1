@@ -12,9 +12,12 @@ const NewUserPage = async () => {
   // Fetch organizational units
   const units = await organizationalService.getOrganizationalUnits({
     page: 1,
-    pageSize: 100
+    pageSize: 200
   });
   const unitsList = units?.data?.items as IOrganizationalUnitList[];
+  const count = units?.data?.totalCount;
+
+  console.log(count);
   const parentUnits = unitsList.map((unit) => ({
     id: unit.id!,
     unitName: unit.unitName!

@@ -329,7 +329,17 @@ export class SpeechController {
         filters,
       };
 
-      await conversationRAGService.sendMessageStream(messageRequest, res);
+      // Set headers for streaming
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      // Stream the response
+      for await (const chunk of conversationRAGService.sendMessageStream(
+        messageRequest
+      )) {
+        res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+      }
 
       res.end();
     } catch (error: any) {

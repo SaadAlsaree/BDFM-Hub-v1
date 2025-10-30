@@ -42,7 +42,7 @@ public static class StartupExtensions
         {
             options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             options.AddPolicy("AllowSpecificOrigin", builder =>
-                builder.WithOrigins("http://cm.inss.local:3000", "http://localhost:3000", "http://192.168.25.34:3000", "http://cm.inss.local")
+                builder.WithOrigins("http://cm.inss.local:3000", "http://localhost:3000", "http://192.168.25.34:3000", "http://cm.inss.local", "http://192.168.25.207:3000")
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials());
