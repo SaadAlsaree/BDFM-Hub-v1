@@ -4019,6 +4019,514 @@
     ]
   },
   {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "ApproveLeaveRequest",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/ApproveLeaveRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BDFM.Application.Features.LeaveRequests.Commands.ApproveLeaveRequest.ApproveLeaveRequestCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "CancelLeaveRequest",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/CancelLeaveRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BDFM.Application.Features.LeaveRequests.Commands.CancelLeaveRequest.CancelLeaveRequestCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "CreateLeaveRequest",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/CreateLeaveRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BDFM.Application.Features.LeaveRequests.Commands.CreateLeaveRequest.CreateLeaveRequestCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "GetAllLeaveRequests",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/GetAllLeaveRequests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmployeeId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LeaveType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDateFrom",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDateTo",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDateFrom",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDateTo",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrganizationalUnitId",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "GetLeaveCancellationsByRequestId",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/GetLeaveCancellationsByRequestId/{requestId}/Cancellations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Collections.Generic.List\u00601[[BDFM.Application.Features.LeaveCancellations.Queries.GetLeaveCancellationsByRequestId.LeaveCancellationViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "GetLeaveInterruptionsByRequestId",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/GetLeaveInterruptionsByRequestId/{requestId}/Interruptions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Collections.Generic.List\u00601[[BDFM.Application.Features.LeaveInterruptions.Queries.GetLeaveInterruptionsByRequestId.LeaveInterruptionViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "GetLeaveRequestById",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/GetLeaveRequestById/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestById.LeaveRequestViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "GetLeaveRequestsByEmployeeId",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/GetLeaveRequestsByEmployeeId/ByEmployee/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "EmployeeId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LeaveType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "GetLeaveRequestsByStatus",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/GetLeaveRequestsByStatus/ByStatus/{status}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "Status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrganizationalUnitId",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmployeeId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Byte",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult\u00601[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "InterruptLeaveRequest",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/InterruptLeaveRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BDFM.Application.Features.LeaveRequests.Commands.InterruptLeaveRequest.InterruptLeaveRequestCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "RejectLeaveRequest",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/RejectLeaveRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BDFM.Application.Features.LeaveRequests.Commands.RejectLeaveRequest.RejectLeaveRequestCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
+    "ContainingType": "BDFM.Api.Controllers.LeaveRequestsController",
+    "Method": "UpdateLeaveRequest",
+    "RelativePath": "BDFM/v1/api/LeaveRequests/UpdateLeaveRequest",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BDFM.Application.Features.LeaveRequests.Commands.UpdateLeaveRequest.UpdateLeaveRequestCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BDFM.Domain.Common.Response\u00601[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ],
+    "Tags": [
+      "LeaveRequests"
+    ]
+  },
+  {
     "ContainingType": "BDFM.Api.Controllers.MailFileController",
     "Method": "ChangeStatus",
     "RelativePath": "BDFM/v1/api/MailFile/ChangeStatus/ChangeStatus",

@@ -1025,6 +1025,481 @@ namespace BDFM.Persistence.Migrations
                     b.ToTable("ExternalEntities");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveBalance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("AvailableBalance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("EmployeeName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("EmployeeNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastMonthlyResetDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("LastSyncDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("LeaveType")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("MonthlyBalance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<decimal>("MonthlyUsedBalance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<Guid?>("OrganizationalUnitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalBalance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<decimal>("UsedBalance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveType");
+
+                    b.HasIndex("OrganizationalUnitId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("EmployeeId", "LeaveType")
+                        .IsUnique();
+
+                    b.ToTable("LeaveBalances");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveBalanceHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("ChangeAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ChangeReason")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("ChangeType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid?>("ChangedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("EmployeeNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("LeaveRequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("LeaveType")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("NewBalance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<decimal>("PreviousBalance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChangeDate");
+
+                    b.HasIndex("ChangeType");
+
+                    b.HasIndex("ChangedByUserId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveRequestId");
+
+                    b.HasIndex("LeaveType");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("EmployeeId", "LeaveType", "ChangeDate");
+
+                    b.ToTable("LeaveBalanceHistories");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveCancellation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CancellationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CancelledByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsBalanceRestored")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LeaveRequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("RestoredDays")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CancelledByUserId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveRequestId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("LeaveCancellations");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveInterruption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("AdjustedDays")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("InterruptedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("InterruptionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("InterruptionType")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LeaveRequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("InterruptedByUserId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveRequestId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("LeaveInterruptions");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ActualEndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ApprovedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ApprovedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("ApprovedDays")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CancellationReason")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CancelledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CancelledByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("EmployeeName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("EmployeeNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsInterrupted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("LeaveType")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("OrganizationalUnitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RequestNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("RequestedDays")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedByUserId");
+
+                    b.HasIndex("CancelledByUserId");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveType");
+
+                    b.HasIndex("OrganizationalUnitId");
+
+                    b.HasIndex("RequestNumber")
+                        .IsUnique()
+                        .HasFilter("\"RequestNumber\" IS NOT NULL");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("EmployeeId", "Status");
+
+                    b.HasIndex("StartDate", "EndDate");
+
+                    b.ToTable("LeaveRequests");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Core.MailFile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2675,6 +3150,387 @@ namespace BDFM.Persistence.Migrations
                     b.ToTable("DraftVersions");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveRecipientActionLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ActionDescription")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("ActionTakenByUnitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ActionTakenByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ActionTimestamp")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("InternalActionType")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LeaveWorkflowStepId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActionTakenByUnitId");
+
+                    b.HasIndex("ActionTakenByUserId");
+
+                    b.HasIndex("ActionTimestamp");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveWorkflowStepId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("LeaveRecipientActionLogs");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TriggeringLeaveType")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("TriggeringUnitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("WorkflowName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("IsEnabled");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("TriggeringLeaveType");
+
+                    b.HasIndex("TriggeringUnitId");
+
+                    b.HasIndex("WorkflowName");
+
+                    b.HasIndex("WorkflowName", "TriggeringUnitId")
+                        .IsUnique();
+
+                    b.ToTable("LeaveWorkflows");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflowStep", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ActionType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ActivatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("FromUnitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("FromUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InstructionText")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsTimeSensitive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LeaveRequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Sequence")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ToPrimaryRecipientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ToPrimaryRecipientType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUnitId");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveRequestId");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("ToPrimaryRecipientId");
+
+                    b.HasIndex("LeaveRequestId", "Status");
+
+                    b.HasIndex("ToPrimaryRecipientId", "ToPrimaryRecipientType", "Status");
+
+                    b.ToTable("LeaveWorkflowSteps");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflowStepInteraction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("InteractingUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LeaveWorkflowStepId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InteractingUserId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveWorkflowStepId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("LeaveWorkflowStepId", "InteractingUserId")
+                        .IsUnique()
+                        .HasFilter("\"InteractingUserId\" IS NOT NULL");
+
+                    b.ToTable("LeaveWorkflowStepInteractions");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflowStepTemplate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ActionType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("DefaultDueDateOffsetDays")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("DefaultInstructionText")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LeaveWorkflowId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Sequence")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StepOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TargetIdentifier")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<int>("TargetType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("LeaveWorkflowId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("LeaveWorkflowId", "StepOrder");
+
+                    b.ToTable("LeaveWorkflowStepTemplates");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Workflow.RecipientActionLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3317,6 +4173,102 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("Correspondence");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveBalance", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "OrganizationalUnit")
+                        .WithMany("LeaveBalances")
+                        .HasForeignKey("OrganizationalUnitId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("OrganizationalUnit");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveBalanceHistory", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "ChangedByUser")
+                        .WithMany("LeaveBalanceHistories")
+                        .HasForeignKey("ChangedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Core.LeaveRequest", "LeaveRequest")
+                        .WithMany("BalanceHistories")
+                        .HasForeignKey("LeaveRequestId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ChangedByUser");
+
+                    b.Navigation("LeaveRequest");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveCancellation", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "CancelledByUser")
+                        .WithMany("LeaveCancellations")
+                        .HasForeignKey("CancelledByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BDFM.Domain.Entities.Core.LeaveRequest", "LeaveRequest")
+                        .WithMany("Cancellations")
+                        .HasForeignKey("LeaveRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CancelledByUser");
+
+                    b.Navigation("LeaveRequest");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveInterruption", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "InterruptedByUser")
+                        .WithMany("LeaveInterruptions")
+                        .HasForeignKey("InterruptedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BDFM.Domain.Entities.Core.LeaveRequest", "LeaveRequest")
+                        .WithMany("Interruptions")
+                        .HasForeignKey("LeaveRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InterruptedByUser");
+
+                    b.Navigation("LeaveRequest");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveRequest", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "ApprovedByUser")
+                        .WithMany("ApprovedLeaveRequests")
+                        .HasForeignKey("ApprovedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "CancelledByUser")
+                        .WithMany("CancelledLeaveRequests")
+                        .HasForeignKey("CancelledByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "CreatedByUser")
+                        .WithMany("CreatedLeaveRequests")
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "OrganizationalUnit")
+                        .WithMany("LeaveRequests")
+                        .HasForeignKey("OrganizationalUnitId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ApprovedByUser");
+
+                    b.Navigation("CancelledByUser");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("OrganizationalUnit");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Core.MailFile", b =>
                 {
                     b.HasOne("BDFM.Domain.Entities.Core.User", null)
@@ -3637,6 +4589,95 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("Correspondence");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveRecipientActionLog", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "ActionTakenByUnit")
+                        .WithMany()
+                        .HasForeignKey("ActionTakenByUnitId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "ActionTakenByUser")
+                        .WithMany("LeaveRecipientActionLogs")
+                        .HasForeignKey("ActionTakenByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Workflow.LeaveWorkflowStep", "LeaveWorkflowStep")
+                        .WithMany("RecipientActions")
+                        .HasForeignKey("LeaveWorkflowStepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ActionTakenByUnit");
+
+                    b.Navigation("ActionTakenByUser");
+
+                    b.Navigation("LeaveWorkflowStep");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflow", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "TriggeringUnit")
+                        .WithMany("TriggeringLeaveWorkflows")
+                        .HasForeignKey("TriggeringUnitId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("TriggeringUnit");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflowStep", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "FromUnit")
+                        .WithMany("LeaveWorkflowStepsFromUnit")
+                        .HasForeignKey("FromUnitId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "FromUser")
+                        .WithMany("LeaveWorkflowStepsFromUser")
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Core.LeaveRequest", "LeaveRequest")
+                        .WithMany("WorkflowSteps")
+                        .HasForeignKey("LeaveRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FromUnit");
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("LeaveRequest");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflowStepInteraction", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "InteractingUser")
+                        .WithMany("LeaveWorkflowStepInteractions")
+                        .HasForeignKey("InteractingUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BDFM.Domain.Entities.Workflow.LeaveWorkflowStep", "LeaveWorkflowStep")
+                        .WithMany("Interactions")
+                        .HasForeignKey("LeaveWorkflowStepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InteractingUser");
+
+                    b.Navigation("LeaveWorkflowStep");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflowStepTemplate", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Workflow.LeaveWorkflow", "LeaveWorkflow")
+                        .WithMany("StepTemplates")
+                        .HasForeignKey("LeaveWorkflowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LeaveWorkflow");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Workflow.RecipientActionLog", b =>
                 {
                     b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "ActionTakenByUnit")
@@ -3796,6 +4837,17 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("PermittedCommunications");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Core.LeaveRequest", b =>
+                {
+                    b.Navigation("BalanceHistories");
+
+                    b.Navigation("Cancellations");
+
+                    b.Navigation("Interruptions");
+
+                    b.Navigation("WorkflowSteps");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Core.MailFile", b =>
                 {
                     b.Navigation("Correspondences");
@@ -3809,11 +4861,19 @@ namespace BDFM.Persistence.Migrations
 
                     b.Navigation("Correspondences");
 
+                    b.Navigation("LeaveBalances");
+
+                    b.Navigation("LeaveRequests");
+
+                    b.Navigation("LeaveWorkflowStepsFromUnit");
+
                     b.Navigation("OrganizationalUnitTags");
 
                     b.Navigation("PermittedCommunications");
 
                     b.Navigation("TriggeringCustomWorkflows");
+
+                    b.Navigation("TriggeringLeaveWorkflows");
 
                     b.Navigation("UnitPermissions");
 
@@ -3828,13 +4888,19 @@ namespace BDFM.Persistence.Migrations
 
                     b.Navigation("AppliedCorrespondenceTags");
 
+                    b.Navigation("ApprovedLeaveRequests");
+
                     b.Navigation("AuditLogs");
+
+                    b.Navigation("CancelledLeaveRequests");
 
                     b.Navigation("CreatedComments");
 
                     b.Navigation("CreatedCorrespondenceTemplates");
 
                     b.Navigation("CreatedCorrespondences");
+
+                    b.Navigation("CreatedLeaveRequests");
 
                     b.Navigation("CreatedMailFiles");
 
@@ -3847,6 +4913,18 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("DraftVersionsChangedBy");
 
                     b.Navigation("InitiatedWorkflowSteps");
+
+                    b.Navigation("LeaveBalanceHistories");
+
+                    b.Navigation("LeaveCancellations");
+
+                    b.Navigation("LeaveInterruptions");
+
+                    b.Navigation("LeaveRecipientActionLogs");
+
+                    b.Navigation("LeaveWorkflowStepInteractions");
+
+                    b.Navigation("LeaveWorkflowStepsFromUser");
 
                     b.Navigation("Notifications");
 
@@ -3888,6 +4966,18 @@ namespace BDFM.Persistence.Migrations
             modelBuilder.Entity("BDFM.Domain.Entities.Supporting.Tag", b =>
                 {
                     b.Navigation("CorrespondenceTags");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflow", b =>
+                {
+                    b.Navigation("StepTemplates");
+                });
+
+            modelBuilder.Entity("BDFM.Domain.Entities.Workflow.LeaveWorkflowStep", b =>
+                {
+                    b.Navigation("Interactions");
+
+                    b.Navigation("RecipientActions");
                 });
 
             modelBuilder.Entity("BDFM.Domain.Entities.Workflow.WorkflowStep", b =>

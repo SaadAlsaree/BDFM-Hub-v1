@@ -39,5 +39,8 @@ namespace BDFM.Domain.Entities.Core
         public virtual ICollection<WorkflowStep> WorkflowStepsFromUnit { get; set; } = new HashSet<WorkflowStep>();
         public virtual ICollection<Tag> OrganizationalUnitTags { get; set; } = new HashSet<Tag>();
         public virtual ICollection<Correspondence> Correspondences { get; set; } = new HashSet<Correspondence>();
+
+        // Leave Request Navigation Properties
+        public virtual ICollection<LeaveRequest> LeaveRequests { get; set; } = new HashSet<LeaveRequest>();
     }
 }

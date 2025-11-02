@@ -55,5 +55,13 @@ namespace BDFM.Domain.Entities.Core
         public virtual ICollection<Tag> CreatedTags { get; set; } = new HashSet<Tag>();
         public virtual ICollection<CorrespondenceTag> AppliedCorrespondenceTags { get; set; } = new HashSet<CorrespondenceTag>();
 
+        // Leave Request Navigation Properties
+        public virtual ICollection<LeaveRequest> CreatedLeaveRequests { get; set; } = new HashSet<LeaveRequest>();
+        public virtual ICollection<LeaveRequest> ApprovedLeaveRequests { get; set; } = new HashSet<LeaveRequest>();
+        public virtual ICollection<LeaveRequest> CancelledLeaveRequests { get; set; } = new HashSet<LeaveRequest>();
+        public virtual ICollection<LeaveInterruption> LeaveInterruptions { get; set; } = new HashSet<LeaveInterruption>();
+        public virtual ICollection<LeaveCancellation> LeaveCancellations { get; set; } = new HashSet<LeaveCancellation>();
+        public virtual ICollection<LeaveBalanceHistory> LeaveBalanceHistories { get; set; } = new HashSet<LeaveBalanceHistory>();
+
     }
 }

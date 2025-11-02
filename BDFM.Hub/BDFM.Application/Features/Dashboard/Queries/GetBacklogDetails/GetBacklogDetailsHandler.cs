@@ -1,9 +1,7 @@
+using AutoMapper;
+using BDFM.Application.Features.Dashboard.Queries.GetDashboardOverview;
 using BDFM.Domain.Entities.Core;
 using BDFM.Domain.Entities.Workflow;
-using BDFM.Application.Features.Dashboard.Queries.GetDashboardOverview;
-using AutoMapper;
-using System.Linq.Expressions;
-using BDFM.Domain.Common;
 
 namespace BDFM.Application.Features.Dashboard.Queries.GetBacklogDetails;
 
@@ -138,7 +136,7 @@ public class GetBacklogDetailsHandler : IRequestHandler<GetBacklogDetailsQuery, 
             .Select(ws => new BacklogTaskDetail
             {
                 TaskId = ws.Id,
-                CorrespondenceId = ws.CorrespondenceId,
+                CorrespondenceId = ws.CorrespondenceId ?? Guid.Empty,
                 CorrespondenceSubject = ws.Correspondence?.Subject ?? "N/A",
                 MailNum = ws.Correspondence?.MailNum ?? "N/A",
                 Status = ws.Status,

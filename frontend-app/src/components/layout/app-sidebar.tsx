@@ -30,7 +30,7 @@ import {
   SidebarRail
 } from '@/components/ui/sidebar';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
-import { navItems } from '@/constants/data';
+import { navItems, ordersNavItems, presidentNavItems } from '@/constants/data';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import {
   IconBell,
@@ -60,22 +60,62 @@ export const company = {
   plan: 'Enterprise'
 };
 
-const tenants = [{ id: '1', name: 'منصة الادارة المركزية' }];
+const allTenants = [
+  { id: '1', name: 'منصة الادارة المركزية' },
+  { id: '2', name: 'منصة ادارة طلبات الموظفين' },
+  { id: '3', name: 'السيد رئيس جهاز الأمن الوطني' }
+];
 
 export default function AppSidebar() {
   const pathname = usePathname();
 
   const { isOpen } = useMediaQuery();
   const router = useRouter();
-  const handleSwitchTenant = (/* tenantId: string */) => {
-    // Tenant switching functionality would be implemented here
+  const [activeTenantId, setActiveTenantId] = React.useState<string>('');
+  const handleSwitchTenant = (tenantId: string) => {
+    setActiveTenantId(tenantId);
   };
 
   const { error, isLoading, user } = useCurrentUser();
   const { data: correspondencesSummary, isLoading: isLoadingSummary } =
     useCorrespondencesSummary({});
 
-  const activeTenant = tenants[0];
+  const tenants = React.useMemo(() => {
+    const available: { id: string; name: string }[] = [];
+    if (hasAnyRole(user as UserDto, ['Correspondence', 'SuAdmin'])) {
+      available.push(allTenants[0]);
+    }
+    if (hasAnyRole(user as UserDto, ['Vacation', 'SuAdmin'])) {
+      available.push(allTenants[1]);
+    }
+    if (hasAnyRole(user as UserDto, ['President', 'SuAdmin'])) {
+      available.push(allTenants[2]);
+    }
+    return available.length > 0 ? available : [allTenants[0]];
+  }, [user]);
+
+  React.useEffect(() => {
+    if (!activeTenantId && tenants.length > 0) {
+      setActiveTenantId(tenants[0].id);
+    } else if (
+      activeTenantId &&
+      tenants.length > 0 &&
+      !tenants.find((t) => t.id === activeTenantId)
+    ) {
+      setActiveTenantId(tenants[0].id);
+    }
+  }, [tenants, activeTenantId]);
+
+  const activeTenant =
+    tenants.find((t) => t.id === activeTenantId) || tenants[0];
+
+  // Per-tenant nav items sourced from constants/data
+  const tenantNavItems =
+    activeTenantId === '2'
+      ? ordersNavItems
+      : activeTenantId === '3'
+        ? presidentNavItems
+        : navItems;
 
   React.useEffect(() => {
     // Side effects based on sidebar state changes
@@ -103,8 +143,10 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel></SidebarGroupLabel>
           <SidebarMenu>
-            {/* Create Section */}
-            {hasAnyRole(user as UserDto, ['Correspondence', 'SuAdmin']) &&
+            {/* Create Section (hidden for vacation tenant) */}
+            {activeTenantId !== '2' &&
+              activeTenantId !== '3' &&
+              hasAnyRole(user as UserDto, ['Correspondence', 'SuAdmin']) &&
               hasAnyPermission(user as UserDto, ['Correspondence|Create']) && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild className='mb-6 w-full'>
@@ -197,8 +239,29 @@ export default function AppSidebar() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
+            {activeTenantId === '2' &&
+              hasAnyRole(user as UserDto, ['Vacation', 'SuAdmin']) && (
+                // hasAnyPermission(user as UserDto, ['Vacation|Create']) &&
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild className='mb-6 w-full'>
+                    <Button className='flex w-full items-center justify-between'>
+                      <p className='mr-2'>جديد</p>
+                      <IconPlus className='mr-2 h-4 w-4' />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className='w-56'>
+                    <DropdownMenuLabel>طلب جديد</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Link href='/vacation/create-vacation-request'>
+                        أنشاء طلب أجازة
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             {/* End Create Section */}
-            {navItems.map((item) => {
+            {tenantNavItems.map((item) => {
               const hasRequiredRoles = hasAnyRole(
                 user as UserDto,
                 item.requiredRoles || []

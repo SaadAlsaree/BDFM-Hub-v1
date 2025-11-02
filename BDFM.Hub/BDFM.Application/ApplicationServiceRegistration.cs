@@ -37,6 +37,10 @@ namespace BDFM.Application
             // Register Audit Trail Service
             services.AddScoped<IAuditTrailService, AuditTrailService>();
 
+            // Register Leave Request Services
+            services.AddScoped<IHRIntegrationService, HRIntegrationService>();
+            services.AddScoped<ILeaveRequestService, LeaveRequestService>();
+
             // Update the existing CorrespondenceNotificationService registration to include new dependencies
             services.AddScoped<ICorrespondenceNotificationService>(provider =>
             {

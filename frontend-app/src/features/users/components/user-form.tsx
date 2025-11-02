@@ -11,16 +11,9 @@ import {
 import { Heading } from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Switch } from '@/components/ui/switch';
@@ -43,28 +36,55 @@ import {
 import UserPermissionDialog from './user-permission-dialog';
 import UserRoleManage from './user-role-manage';
 import UserPermissionManage from './user-permission-manage';
+import { IOrganizationalUnitDetails } from '@/features/organizational-unit/types/organizational';
+import { useSearchUnit } from '@/hooks/use-search-unit';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command';
 
 type UserFormProps = {
   initialData: UserDetailed | null;
   pageTitle: string;
   roles: UserRole[] | [];
   permissions?: IPermissionList[] | [];
-  organizationalUnits: Array<{ id: string; unitName: string }>;
 };
 
 export default function UserForm({
   initialData,
   pageTitle,
   roles,
-  organizationalUnits = [],
   permissions = []
 }: UserFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isRolesModalOpen, setIsRolesModalOpen] = useState(false);
   const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
+  const [debouncedUnitSearch, setDebouncedUnitSearch] = useState('');
+  const [unitPopoverOpen, setUnitPopoverOpen] = useState<boolean>(false);
+  const [unitSearchValue, setUnitSearchValue] = useState('');
 
   const { authApiCall } = useAuthApi();
+
+  // Debounce unit search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUnitSearch(unitSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [unitSearchValue]);
 
   // initial values
   const defaultValues = initialData
@@ -97,6 +117,21 @@ export default function UserForm({
     resolver: zodResolver(formSchema(initialData)),
     defaultValues
   });
+
+  // Unit Search using existing hook
+  const {
+    data: unitList,
+    isLoading: isUnitLoading,
+    error: unitError
+  } = useSearchUnit({
+    unit: debouncedUnitSearch
+  });
+
+  const units: IOrganizationalUnitDetails[] = unitList?.data || [];
+
+  const handleUnitSearch = (searchText: string) => {
+    setUnitSearchValue(searchText);
+  };
 
   // on user login change
   const onUserLoginChange = (value: string) => {
@@ -285,27 +320,85 @@ export default function UserForm({
               control={form.control}
               name='organizationalUnitId'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='flex flex-col'>
                   <FormLabel>الوحدة التنظيمية</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
+                  <Popover
+                    open={unitPopoverOpen}
+                    onOpenChange={(open) => setUnitPopoverOpen(open)}
                   >
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue placeholder='اختر الوحدة التنظيمية' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {organizationalUnits.map((unit) => (
-                        <SelectItem key={unit.id} value={unit.id}>
-                          {unit.unitName}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    <PopoverTrigger asChild>
+                      <FormControl className='w-full'>
+                        <Button
+                          variant='outline'
+                          role='combobox'
+                          className={cn(
+                            'w-full justify-between',
+                            !field.value && 'text-muted-foreground'
+                          )}
+                        >
+                          {field.value
+                            ? units?.find(
+                                (unit: IOrganizationalUnitDetails) =>
+                                  unit.id === field.value
+                              )?.unitName
+                            : 'اختر الوحدة التنظيمية'}
+                          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-[300px] p-0'>
+                      <Command>
+                        <CommandInput
+                          placeholder='ابحث عن وحدة تنظيمية...'
+                          value={unitSearchValue}
+                          onValueChange={handleUnitSearch}
+                        />
+                        <CommandList>
+                          <CommandEmpty>
+                            {isUnitLoading
+                              ? 'جاري البحث...'
+                              : unitError
+                                ? 'حدث خطأ في البحث'
+                                : 'لا توجد وحدات تنظيمية'}
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {units?.map((unit: IOrganizationalUnitDetails) => (
+                              <CommandItem
+                                value={unit.unitName}
+                                key={unit.id}
+                                onSelect={() => {
+                                  form.setValue(
+                                    'organizationalUnitId',
+                                    unit.id || ''
+                                  );
+                                  setUnitPopoverOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    'mr-2 h-4 w-4',
+                                    unit.id === field.value
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )}
+                                />
+                                <div className='flex flex-col'>
+                                  <h1 className='text-sm font-medium'>
+                                    {unit?.unitName}
+                                  </h1>
+                                  {unit?.parentUnitName && (
+                                    <p className='text-muted-foreground text-xs'>
+                                      {unit?.parentUnitName}
+                                    </p>
+                                  )}
+                                </div>
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}

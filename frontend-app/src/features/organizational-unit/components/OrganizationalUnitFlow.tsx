@@ -64,6 +64,50 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
     []
   );
 
+  // Helper function to calculate tree dimensions for hierarchical layout
+  const calculateTreeWidth = useCallback(
+    (node: IOrganizationalUnitTree): number => {
+      if (!node || !node.children || node.children.length === 0) {
+        return 250; // Base width for a single node
+      }
+
+      let totalWidth = 0;
+      node.children.forEach((child) => {
+        totalWidth += calculateTreeWidth(child);
+      });
+
+      // Add spacing between children (dynamic based on number of children)
+      const childSpacing = Math.max(80, 20 * node.children.length);
+      return Math.max(
+        totalWidth + (node.children.length - 1) * childSpacing,
+        250
+      );
+    },
+    []
+  );
+
+  // Helper function to calculate tree height for horizontal layout
+  const calculateTreeHeight = useCallback(
+    (node: IOrganizationalUnitTree): number => {
+      if (!node || !node.children || node.children.length === 0) {
+        return 180; // Base height for a single node
+      }
+
+      let maxHeight = 0;
+      node.children.forEach((child) => {
+        maxHeight = Math.max(maxHeight, calculateTreeHeight(child));
+      });
+
+      // Add spacing between children
+      const childSpacing = Math.max(60, 15 * node.children.length);
+      return Math.max(
+        maxHeight + (node.children.length - 1) * childSpacing,
+        180
+      );
+    },
+    []
+  );
+
   // Process the org data into nodes and edges for React Flow based on layout type
   const processOrgData = useCallback(
     (data: IOrganizationalUnitTree[], layout: LayoutType) => {
@@ -75,6 +119,11 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
         return { nodes, edges };
       }
 
+      // Constants for spacing
+      const MIN_HORIZONTAL_SPACING = 100;
+      const MIN_VERTICAL_SPACING = 250;
+      const MIN_HORIZONTAL_LEVEL_SPACING = 400;
+
       function processNodeHierarchical(
         node: IOrganizationalUnitTree,
         level: number,
@@ -82,10 +131,13 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
       ) {
         if (!node || !node.id) return;
 
+        // Dynamic vertical spacing based on level and tree depth
+        const verticalSpacing = MIN_VERTICAL_SPACING + level * 20;
+
         nodes.push({
           id: node.id!,
           type: 'orgUnit',
-          position: { x: xOffset, y: level * 200 },
+          position: { x: xOffset, y: level * verticalSpacing },
           data: {
             unitName: node.unitName || '',
             unitCode: node.unitCode || '',
@@ -96,12 +148,28 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
         });
 
         if (node.children && node.children.length > 0) {
-          const childWidth = 350;
-          const totalWidth = node.children.length * childWidth;
-          const startX = xOffset - totalWidth / 2 + childWidth / 2;
+          // Calculate widths for all children
+          const childWidths = node.children.map((child) =>
+            calculateTreeWidth(child)
+          );
+          const totalWidth = childWidths.reduce((sum, width) => sum + width, 0);
+
+          // Dynamic spacing between children based on their count
+          const childSpacing = Math.max(
+            MIN_HORIZONTAL_SPACING,
+            30 + node.children.length * 10
+          );
+          const totalSpacing = (node.children.length - 1) * childSpacing;
+          const totalRequiredWidth = totalWidth + totalSpacing;
+
+          // Start position to center children under parent
+          let currentX = xOffset - totalRequiredWidth / 2;
 
           node.children.forEach((child, index) => {
             if (!child || !child.id) return;
+
+            const childTreeWidth = childWidths[index];
+            const childCenterX = currentX + childTreeWidth / 2;
 
             edges.push({
               id: `e-${node.id}-${child.id}`,
@@ -111,11 +179,10 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
               style: { stroke: '#b1b1b7', strokeWidth: 2 }
             });
 
-            processNodeHierarchical(
-              child,
-              level + 1,
-              startX + index * childWidth
-            );
+            processNodeHierarchical(child, level + 1, childCenterX);
+
+            // Move to next child position
+            currentX += childTreeWidth + childSpacing;
           });
         }
       }
@@ -127,10 +194,13 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
       ) {
         if (!node || !node.id) return;
 
+        // Dynamic horizontal spacing based on level
+        const horizontalSpacing = MIN_HORIZONTAL_LEVEL_SPACING + level * 50;
+
         nodes.push({
           id: node.id!,
           type: 'orgUnit',
-          position: { x: level * 400, y: yOffset },
+          position: { x: level * horizontalSpacing, y: yOffset },
           data: {
             unitName: node.unitName || '',
             unitCode: node.unitCode || '',
@@ -141,12 +211,28 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
         });
 
         if (node.children && node.children.length > 0) {
-          const childHeight = 200;
-          const totalHeight = node.children.length * childHeight;
-          const startY = yOffset - totalHeight / 2 + childHeight / 2;
+          // Calculate heights for all children
+          const childHeights = node.children.map((child) =>
+            calculateTreeHeight(child)
+          );
+          const totalHeight = childHeights.reduce(
+            (sum, height) => sum + height,
+            0
+          );
+
+          // Dynamic spacing between children
+          const childSpacing = Math.max(80, 20 + node.children.length * 8);
+          const totalSpacing = (node.children.length - 1) * childSpacing;
+          const totalRequiredHeight = totalHeight + totalSpacing;
+
+          // Start position to center children beside parent
+          let currentY = yOffset - totalRequiredHeight / 2;
 
           node.children.forEach((child, index) => {
             if (!child || !child.id) return;
+
+            const childTreeHeight = childHeights[index];
+            const childCenterY = currentY + childTreeHeight / 2;
 
             edges.push({
               id: `e-${node.id}-${child.id}`,
@@ -156,11 +242,10 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
               style: { stroke: '#b1b1b7', strokeWidth: 2 }
             });
 
-            processNodeHorizontal(
-              child,
-              level + 1,
-              startY + index * childHeight
-            );
+            processNodeHorizontal(child, level + 1, childCenterY);
+
+            // Move to next child position
+            currentY += childTreeHeight + childSpacing;
           });
         }
       }
@@ -173,8 +258,13 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
       ) {
         if (!node || !node.id) return;
 
-        const x = Math.cos(angle) * radius * 400;
-        const y = Math.sin(angle) * radius * 400;
+        // Dynamic radius calculation based on level and number of children
+        const baseRadius = 350;
+        const radiusMultiplier = radius + level * 0.3;
+        const dynamicRadius = baseRadius * radiusMultiplier;
+
+        const x = Math.cos(angle) * dynamicRadius;
+        const y = Math.sin(angle) * dynamicRadius;
 
         nodes.push({
           id: node.id!,
@@ -190,7 +280,12 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
         });
 
         if (node.children && node.children.length > 0) {
+          // Dynamic angle step - distribute children evenly
           const angleStep = (2 * Math.PI) / node.children.length;
+
+          // Calculate radius increment based on level and number of children
+          const radiusIncrement = 1.2 + (node.children.length > 5 ? 0.3 : 0);
+
           node.children.forEach((child, index) => {
             if (!child || !child.id) return;
 
@@ -202,34 +297,51 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
               style: { stroke: '#b1b1b7', strokeWidth: 2 }
             });
 
+            // Calculate child angle with slight offset for better visualization
             const childAngle = angle + angleStep * index;
-            processNodeRadial(child, level + 1, childAngle, radius + 1.5);
+            processNodeRadial(
+              child,
+              level + 1,
+              childAngle,
+              radius + radiusIncrement
+            );
           });
         }
       }
 
-      // Process based on layout type
+      // Process based on layout type with improved spacing for multiple roots
       data.forEach((rootNode, index) => {
         switch (layout) {
-          case 'horizontal':
-            processNodeHorizontal(rootNode, 0, index * 400);
+          case 'horizontal': {
+            // Calculate starting Y offset based on previous trees' heights
+            let yOffset = 0;
+            for (let i = 0; i < index; i++) {
+              const prevTreeHeight = calculateTreeHeight(data[i]);
+              yOffset += prevTreeHeight + 300; // Add spacing between root trees
+            }
+            processNodeHorizontal(rootNode, 0, yOffset);
             break;
-          case 'radial':
-            processNodeRadial(
-              rootNode,
-              0,
-              (index * 2 * Math.PI) / data.length,
-              2
-            );
+          }
+          case 'radial': {
+            // Distribute root nodes evenly in a circle
+            const rootAngle = (index * 2 * Math.PI) / data.length;
+            processNodeRadial(rootNode, 0, rootAngle, 1.5);
             break;
+          }
           default: // hierarchical
-            processNodeHierarchical(rootNode, 0, index * 500);
+            // Calculate starting X offset based on previous trees' widths
+            let xOffset = 0;
+            for (let i = 0; i < index; i++) {
+              const prevTreeWidth = calculateTreeWidth(data[i]);
+              xOffset += prevTreeWidth + 400; // Add spacing between root trees
+            }
+            processNodeHierarchical(rootNode, 0, xOffset);
         }
       });
 
       return { nodes, edges };
     },
-    []
+    [calculateTreeWidth, calculateTreeHeight]
   );
 
   // Initialize and update the flow with the selected layout
@@ -250,7 +362,27 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
     );
     setNodes(flowNodes);
     setEdges(flowEdges);
-  }, [initialData, processOrgData, setNodes, setEdges, layoutType]);
+
+    // Auto fit view after nodes are updated (with delay to ensure rendering)
+    if (reactFlowInstance && flowNodes.length > 0) {
+      setTimeout(() => {
+        reactFlowInstance.fitView({
+          duration: 600,
+          padding: 0.25,
+          includeHiddenNodes: false,
+          minZoom: 0.1,
+          maxZoom: 1.5
+        });
+      }, 150);
+    }
+  }, [
+    initialData,
+    processOrgData,
+    setNodes,
+    setEdges,
+    layoutType,
+    reactFlowInstance
+  ]);
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     setSelectedNode(node);
@@ -268,9 +400,24 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
     setSelectedNode(null);
   }, [reactFlowInstance]);
 
-  const onLayoutChange = useCallback((newLayout: LayoutType) => {
-    setLayoutType(newLayout);
-  }, []);
+  const onLayoutChange = useCallback(
+    (newLayout: LayoutType) => {
+      setLayoutType(newLayout);
+      // Auto fit view after layout change (with a small delay to ensure nodes are rendered)
+      setTimeout(() => {
+        if (reactFlowInstance) {
+          reactFlowInstance.fitView({
+            duration: 800,
+            padding: 0.2,
+            includeHiddenNodes: false,
+            minZoom: 0.1,
+            maxZoom: 1.5
+          });
+        }
+      }, 100);
+    },
+    [reactFlowInstance]
+  );
 
   return (
     <Card className='h-[700px] overflow-hidden'>
@@ -284,14 +431,14 @@ function FlowContent({ initialData }: OrganizationalUnitFlowProps) {
         onInit={setReactFlowInstance}
         fitView
         fitViewOptions={{
-          padding: 0.3,
+          padding: 0.25,
           includeHiddenNodes: false,
-          minZoom: 0.1,
-          maxZoom: 1.2
+          minZoom: 0.05,
+          maxZoom: 1.5
         }}
         attributionPosition='bottom-right'
-        minZoom={0.1}
-        maxZoom={2}
+        minZoom={0.05}
+        maxZoom={2.5}
       >
         <Controls />
         <MiniMap />

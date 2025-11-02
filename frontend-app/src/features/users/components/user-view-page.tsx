@@ -7,14 +7,12 @@ type TUserViewPageProps = {
   user: UserDetailed;
   roles?: UserRole[];
   permissions?: IPermissionList[];
-  organizationalUnits: Array<{ id: string; unitName: string }>;
 };
 
 export default async function UserView({
   user,
   roles,
-  permissions,
-  organizationalUnits
+  permissions
 }: TUserViewPageProps) {
   let pageTitle = 'إنشاء مستخدم جديد';
 
@@ -30,7 +28,6 @@ export default async function UserView({
       initialData={user}
       pageTitle={pageTitle}
       roles={roles as UserRole[]}
-      organizationalUnits={organizationalUnits}
       permissions={permissions as IPermissionList[]}
     />
   );

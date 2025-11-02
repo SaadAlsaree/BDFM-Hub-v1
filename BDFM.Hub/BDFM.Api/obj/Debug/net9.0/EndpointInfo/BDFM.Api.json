@@ -5040,6 +5040,682 @@
         }
       }
     },
+    "/BDFM/v1/api/LeaveRequests/CreateLeaveRequest": {
+      "post": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.CreateLeaveRequest.CreateLeaveRequestCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.CreateLeaveRequest.CreateLeaveRequestCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.CreateLeaveRequest.CreateLeaveRequestCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/UpdateLeaveRequest": {
+      "put": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.UpdateLeaveRequest.UpdateLeaveRequestCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.UpdateLeaveRequest.UpdateLeaveRequestCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.UpdateLeaveRequest.UpdateLeaveRequestCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/ApproveLeaveRequest": {
+      "post": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.ApproveLeaveRequest.ApproveLeaveRequestCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.ApproveLeaveRequest.ApproveLeaveRequestCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.ApproveLeaveRequest.ApproveLeaveRequestCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/RejectLeaveRequest": {
+      "post": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.RejectLeaveRequest.RejectLeaveRequestCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.RejectLeaveRequest.RejectLeaveRequestCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.RejectLeaveRequest.RejectLeaveRequestCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/CancelLeaveRequest": {
+      "post": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.CancelLeaveRequest.CancelLeaveRequestCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.CancelLeaveRequest.CancelLeaveRequestCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.CancelLeaveRequest.CancelLeaveRequestCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/InterruptLeaveRequest": {
+      "post": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.InterruptLeaveRequest.InterruptLeaveRequestCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.InterruptLeaveRequest.InterruptLeaveRequestCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Commands.InterruptLeaveRequest.InterruptLeaveRequestCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/GetLeaveRequestById/{id}": {
+      "get": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestById.LeaveRequestViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/GetAllLeaveRequests": {
+      "get": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "parameters": [
+          {
+            "name": "EmployeeId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveRequestStatusEnum"
+            }
+          },
+          {
+            "name": "LeaveType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveTypeEnum"
+            }
+          },
+          {
+            "name": "StartDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "StartDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndDateFrom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EndDateTo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "OrganizationalUnitId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "SearchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/GetLeaveRequestsByEmployeeId/ByEmployee/{employeeId}": {
+      "get": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "EmployeeId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveRequestStatusEnum"
+            }
+          },
+          {
+            "name": "LeaveType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveTypeEnum"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/GetLeaveRequestsByStatus/ByStatus/{status}": {
+      "get": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveRequestStatusEnum"
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveRequestStatusEnum"
+            }
+          },
+          {
+            "name": "OrganizationalUnitId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "EmployeeId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/GetLeaveInterruptionsByRequestId/{requestId}/Interruptions": {
+      "get": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Collections.Generic.List`1[[BDFM.Application.Features.LeaveInterruptions.Queries.GetLeaveInterruptionsByRequestId.LeaveInterruptionViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BDFM/v1/api/LeaveRequests/GetLeaveCancellationsByRequestId/{requestId}/Cancellations": {
+      "get": {
+        "tags": [
+          "LeaveRequests"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BDFM.Domain.Common.Response`1[[System.Collections.Generic.List`1[[BDFM.Application.Features.LeaveCancellations.Queries.GetLeaveCancellationsByRequestId.LeaveCancellationViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/BDFM/v1/api/MailFile/CreateMailFile": {
       "post": {
         "tags": [
@@ -15958,6 +16634,546 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Application.Features.LeaveCancellations.Queries.GetLeaveCancellationsByRequestId.LeaveCancellationViewModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "leaveRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cancellationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelledByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cancelledByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "isBalanceRestored": {
+            "type": "boolean"
+          },
+          "restoredDays": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "createAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveInterruptions.Queries.GetLeaveInterruptionsByRequestId.LeaveInterruptionViewModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "leaveRequestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "interruptionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "returnDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "interruptionType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveInterruptionTypeEnum"
+          },
+          "interruptionTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "interruptedByUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "interruptedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isProcessed": {
+            "type": "boolean"
+          },
+          "adjustedDays": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "createAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Commands.ApproveLeaveRequest.ApproveLeaveRequestCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "approvedDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Commands.CancelLeaveRequest.CancelLeaveRequestCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cancellationReason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Commands.CreateLeaveRequest.CreateLeaveRequestCommand": {
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationalUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "totalBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "usedBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "availableBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyUsedBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastMonthlyResetDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "leaveType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveTypeEnum"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Commands.InterruptLeaveRequest.InterruptLeaveRequestCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "interruptionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "returnDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "interruptionType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveInterruptionTypeEnum"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Commands.RejectLeaveRequest.RejectLeaveRequestCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rejectionReason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Commands.UpdateLeaveRequest.UpdateLeaveRequestCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "leaveType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveTypeEnum"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationalUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "organizationalUnitName": {
+            "type": "string",
+            "nullable": true
+          },
+          "leaveType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveTypeEnum"
+          },
+          "leaveTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requestedDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "approvedDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "availableBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveRequestStatusEnum"
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "isInterrupted": {
+            "type": "boolean"
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "approvedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestById.LeaveRequestViewModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "employeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationalUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "organizationalUnitName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdByUserId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "leaveType": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveTypeEnum"
+          },
+          "leaveTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requestedDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "approvedDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "usedBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "availableBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyUsedBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "lastMonthlyResetDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/BDFM.Domain.Enums.LeaveRequestStatusEnum"
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "rejectionReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "approvedByUserId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "approvedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cancelledByUserId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "cancelledByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cancelledAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cancellationReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "isInterrupted": {
+            "type": "boolean"
+          },
+          "actualEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "requestNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "createAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "lastUpdateAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastUpdateBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "statusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "interruptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.LeaveInterruptions.Queries.GetLeaveInterruptionsByRequestId.LeaveInterruptionViewModel"
+            },
+            "nullable": true
+          },
+          "cancellations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.LeaveCancellations.Queries.GetLeaveCancellationsByRequestId.LeaveCancellationViewModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Application.Features.MailFiles.Commands.CreateMailFile.CreateMailFileCommand": {
         "type": "object",
         "properties": {
@@ -18229,16 +19445,6 @@
             "format": "uuid",
             "nullable": true
           },
-          "positionTitle": {
-            "maxLength": 255,
-            "type": "string",
-            "nullable": true
-          },
-          "rfidTagId": {
-            "maxLength": 100,
-            "type": "string",
-            "nullable": true
-          },
           "isActive": {
             "type": "boolean"
           }
@@ -19053,6 +20259,23 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BDFM.Application.Features.CustomWorkflows.Queries.GetCustomWorkflowList.GetCustomWorkflowListVm"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel"
             },
             "nullable": true
           },
@@ -20239,6 +21462,31 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestById.LeaveRequestViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestById.LeaveRequestViewModel"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.MailFiles.Queries.GetMailFileById.MailFileViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -21089,6 +22337,31 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests.LeaveRequestListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Domain.Common.Response`1[[BDFM.Application.Features.Utility.BaseUtility.Query.GetAll.PagedResult`1[[BDFM.Application.Features.MailFiles.Queries.GetMailFileList.MailFileListViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
         "type": "object",
         "properties": {
@@ -21833,6 +23106,64 @@
         },
         "additionalProperties": false
       },
+      "BDFM.Domain.Common.Response`1[[System.Collections.Generic.List`1[[BDFM.Application.Features.LeaveCancellations.Queries.GetLeaveCancellationsByRequestId.LeaveCancellationViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.LeaveCancellations.Queries.GetLeaveCancellationsByRequestId.LeaveCancellationViewModel"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BDFM.Domain.Common.Response`1[[System.Collections.Generic.List`1[[BDFM.Application.Features.LeaveInterruptions.Queries.GetLeaveInterruptionsByRequestId.LeaveInterruptionViewModel, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "succeeded": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BDFM.Application.Features.LeaveInterruptions.Queries.GetLeaveInterruptionsByRequestId.LeaveInterruptionViewModel"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": { },
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BDFM.Domain.Common.Response`1[[System.Collections.Generic.List`1[[BDFM.Application.Features.OrganizationalUnits.Queries.GetOrganizationalUnitListById.GetOrganizationalUnitListByIdVM, BDFM.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
         "type": "object",
         "properties": {
@@ -22068,6 +23399,40 @@
         "type": "integer",
         "format": "int32"
       },
+      "BDFM.Domain.Enums.LeaveInterruptionTypeEnum": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "BDFM.Domain.Enums.LeaveRequestStatusEnum": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "BDFM.Domain.Enums.LeaveTypeEnum": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "BDFM.Domain.Enums.NotificationTypeEnum": {
         "enum": [
           1,
@@ -22175,7 +23540,16 @@
           33,
           34,
           35,
-          36
+          36,
+          37,
+          39,
+          40,
+          41,
+          47,
+          48,
+          49,
+          50,
+          51
         ],
         "type": "integer",
         "format": "int32"

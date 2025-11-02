@@ -38,5 +38,14 @@
         Tags = 34,
         CorrespondenceTags = 35,
         SystemTagTemplates = 36,
+        LeaveRequests = 37,
+        LeaveInterruptions = 39,
+        LeaveCancellations = 40,
+        LeaveBalanceHistories = 41,
+        LeaveWorkflows = 47,
+        LeaveWorkflowStepTemplates = 48,
+        LeaveWorkflowSteps = 49,
+        LeaveWorkflowStepInteractions = 50,
+        LeaveRecipientActionLogs = 51,
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BDFM.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d78ac2ba4914937400ce32be645ff58abfa3b17")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8842e696e65e795291d672f0894337e9edcda634")]
 [assembly: System.Reflection.AssemblyProductAttribute("BDFM.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BDFM.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

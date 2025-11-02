@@ -160,7 +160,7 @@ public static class WorkflowAccessOptimizations
                     // User has WorkflowStepInteraction access
                     ws.Interactions.Any(wsi => wsi.InteractingUserId == userId)
                 )
-                .Select(ws => ws.CorrespondenceId)
+                .Select(ws => ws.CorrespondenceId ?? Guid.Empty)
                 .Distinct();
         }
 
@@ -179,7 +179,7 @@ public static class WorkflowAccessOptimizations
             var unitIdsList = accessibleUnitIds.ToList();
 
             var accessibleIds = await workflowSteps
-                .Where(ws => correspondenceIdsList.Contains(ws.CorrespondenceId))
+                .Where(ws => correspondenceIdsList.Contains(ws.CorrespondenceId ?? Guid.Empty))
                 .Where(ws =>
                     (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && ws.ToPrimaryRecipientId == userId) ||
                     (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && unitIdsList.Contains(ws.ToPrimaryRecipientId)) ||

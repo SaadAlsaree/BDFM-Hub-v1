@@ -25,16 +25,34 @@ public class UpdateUserCommandHandler : UpdateHandler<User, UpdateUserCommand>, 
         if (user == null)
             return ErrorsMessage.NotFoundData.ToErrorMessage(false);
 
-        // Check if username or userlogin already exists for another user
-        var existingUser = await _repository.Find(
-            u => (u.Username == request.Username || u.UserLogin == request.UserLogin ||
-                 (!string.IsNullOrEmpty(request.Email) && u.Email == request.Email) ||
-                 (!string.IsNullOrEmpty(request.RfidTagId) && u.RfidTagId == request.RfidTagId)) &&
-                 u.Id != request.Id,
+        // Check if username already exists for another user
+        var existingUsername = await _repository.Find(
+            u => u.Username == request.Username && u.Id != request.Id,
             cancellationToken: cancellationToken);
 
-        if (existingUser != null)
+        if (existingUsername != null)
             return ErrorsMessage.ExistOnCreate.ToErrorMessage(false);
+
+        // Check if userlogin already exists for another user
+        var existingUserLogin = await _repository.Find(
+            u => u.UserLogin == request.UserLogin && u.Id != request.Id,
+            cancellationToken: cancellationToken);
+
+        if (existingUserLogin != null)
+            return ErrorsMessage.ExistOnCreate.ToErrorMessage(false);
+
+        // Check if email already exists for another user (only if email is provided)
+        if (!string.IsNullOrWhiteSpace(request.Email))
+        {
+            var existingEmail = await _repository.Find(
+                u => u.Email == request.Email && u.Id != request.Id,
+                cancellationToken: cancellationToken);
+
+            if (existingEmail != null)
+                return ErrorsMessage.ExistOnCreate.ToErrorMessage(false);
+        }
+
+
 
         // Use the base handler to update
         return await HandleBase(request, cancellationToken);

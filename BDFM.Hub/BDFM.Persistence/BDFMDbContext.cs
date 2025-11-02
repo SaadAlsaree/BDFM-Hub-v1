@@ -16,6 +16,12 @@ namespace BDFM.Persistence
         public DbSet<MailFile> MailFiles { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<SequentialCounter> SequentialCounters { get; set; }
+
+        // Leave Request Entities
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
+        public DbSet<LeaveInterruption> LeaveInterruptions { get; set; }
+        public DbSet<LeaveCancellation> LeaveCancellations { get; set; }
+        public DbSet<LeaveBalanceHistory> LeaveBalanceHistories { get; set; }
         #endregion
 
         #region Workflow Entities

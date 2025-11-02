@@ -1,7 +1,7 @@
 // lib/fetch-client.ts
 import { getSession } from 'next-auth/react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://cm-back.inss.local:5000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 /**
  * Base fetch client for making HTTP requests

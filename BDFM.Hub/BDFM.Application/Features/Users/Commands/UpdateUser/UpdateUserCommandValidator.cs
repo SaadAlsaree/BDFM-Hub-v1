@@ -24,12 +24,5 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
             .MaximumLength(255).WithMessage("البريد الإلكتروني يجب أن لا يتجاوز 255 حرف")
             .When(p => !string.IsNullOrEmpty(p.Email));
 
-        RuleFor(p => p.PositionTitle)
-            .MaximumLength(255).WithMessage("المسمى الوظيفي يجب أن لا يتجاوز 255 حرف")
-            .When(p => !string.IsNullOrEmpty(p.PositionTitle));
-
-        RuleFor(p => p.RfidTagId)
-            .MaximumLength(100).WithMessage("معرف بطاقة RFID يجب أن لا يتجاوز 100 حرف")
-            .When(p => !string.IsNullOrEmpty(p.RfidTagId));
     }
 }

@@ -2,8 +2,6 @@
 using BDFM.Application.Contracts.SignalR;
 using BDFM.Application.Services;
 using BDFM.Domain.Entities.Workflow;
-using BDFM.Domain.Enums;
-using Microsoft.EntityFrameworkCore;
 
 namespace BDFM.Application.Features.Workflow.Commands.CompleteWorkflowStep
 {
@@ -76,7 +74,7 @@ namespace BDFM.Application.Features.Workflow.Commands.CompleteWorkflowStep
                                 // Send real-time SignalR notification to the module
                                 await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
                                     nextStep.Id,
-                                    nextStep.CorrespondenceId,
+                                    nextStep.CorrespondenceId ?? Guid.Empty,
                                     nextStep.ToPrimaryRecipientId,
                                     _currentUserService.UserId,
                                     nextStep.DueDate);
@@ -105,14 +103,14 @@ namespace BDFM.Application.Features.Workflow.Commands.CompleteWorkflowStep
                                 // ✅ Send real-time SignalR notification to the assigned user
                                 await _correspondenceNotificationService.NotifyWorkflowStepAssignedAsync(
                                     nextStep.Id,
-                                    nextStep.CorrespondenceId,
+                                    nextStep.CorrespondenceId ?? Guid.Empty,
                                     nextStep.ToPrimaryRecipientId,
                                     _currentUserService.UserId,
                                     nextStep.DueDate);
                             }
 
                             // Real-time notify creation of the workflow step and inbox update
-                            await _correspondenceNotificationService.NotifyWorkflowStepCreatedAsync(nextStep.Id, nextStep.CorrespondenceId,
+                            await _correspondenceNotificationService.NotifyWorkflowStepCreatedAsync(nextStep.Id, nextStep.CorrespondenceId ?? Guid.Empty,
                                 nextStep.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit ? nextStep.ToPrimaryRecipientId : null);
 
                             await _correspondenceNotificationService.NotifyInboxUpdateAsync();

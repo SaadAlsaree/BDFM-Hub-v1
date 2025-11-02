@@ -45,7 +45,16 @@ export const searchParams = {
   mailDate: parseAsString,
   user: parseAsString,
   unit: parseAsString,
-  workflowName: parseAsString
+  workflowName: parseAsString,
+  employeeId: parseAsString,
+  leaveType: parseAsInteger,
+  changeDateFrom: parseAsString,
+  changeDateTo: parseAsString,
+  changeType: parseAsString,
+  workflowId: parseAsString,
+  triggeringUnitId: parseAsString,
+  triggeringLeaveType: parseAsInteger,
+  isEnabled: parseAsBoolean,
 
   // advanced filter
   // filters: getFiltersStateParser().withDefault([]),

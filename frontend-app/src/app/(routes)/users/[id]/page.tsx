@@ -2,11 +2,9 @@ import FormCardSkeleton from '@/components/form-card-skeleton';
 import PageContainer from '@/components/layout/page-container';
 import { userService } from '@/features/users/api/user.service';
 import { roleService } from '@/features/roles/api/role.service';
-import { organizationalService } from '@/features/organizational-unit/api/organizational.service';
 import UserView from '@/features/users/components/user-view-page';
 import { UserDetailed, UserRole } from '@/features/users/types/user';
 import React, { Suspense } from 'react';
-import { IOrganizationalUnitList } from '@/features/organizational-unit/types/organizational';
 import { userRoleService } from '@/features/users/api/userRole.service';
 import { permissionService } from '@/features/permissions/api/permission.service';
 import { IPermissionList } from '@/features/permissions/types/permission';
@@ -30,17 +28,6 @@ const UserViewPage = async (props: UserViewPageProps) => {
   });
   const permissionsData = permissions?.data?.items || [];
 
-  // Fetch organizational units
-  const units = await organizationalService.getOrganizationalUnits({
-    page: 1,
-    pageSize: 100
-  });
-  const unitsList = units?.data?.items as IOrganizationalUnitList[];
-  const parentUnits = unitsList.map((unit) => ({
-    id: unit.id!,
-    unitName: unit.unitName!
-  }));
-
   return (
     <PageContainer scrollable>
       <div className='flex-1 space-y-4'>
@@ -48,7 +35,6 @@ const UserViewPage = async (props: UserViewPageProps) => {
           <UserView
             user={data?.data as UserDetailed}
             roles={rolesData as UserRole[]}
-            organizationalUnits={parentUnits}
             permissions={permissionsData as IPermissionList[]}
           />
         </Suspense>

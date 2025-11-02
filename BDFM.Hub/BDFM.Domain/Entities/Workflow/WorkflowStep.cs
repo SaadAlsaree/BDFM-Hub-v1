@@ -7,8 +7,11 @@ namespace BDFM.Domain.Entities.Workflow
 {
     public class WorkflowStep : AuditableEntity<Guid>
     {
-        public Guid CorrespondenceId { get; set; }
-        public virtual Correspondence Correspondence { get; set; } = default!;
+        public Guid? CorrespondenceId { get; set; }
+        public virtual Correspondence? Correspondence { get; set; }
+
+        public Guid? LeaveRequestId { get; set; }
+        public virtual LeaveRequest? LeaveRequest { get; set; }
 
         public ActionTypeEnum ActionType { get; set; }
 

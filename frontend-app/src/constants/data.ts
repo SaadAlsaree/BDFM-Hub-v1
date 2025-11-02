@@ -1,5 +1,57 @@
 import { NavItem } from '@/types';
 
+export const ordersNavItems: NavItem[] = [
+  {
+    title: 'طلبات الموظفين',
+    url: '/orders',
+    icon: 'orders',
+    shortcut: ['p', 'p'],
+    isActive: false,
+    requiredRoles: ['Orders', 'SuAdmin', 'Vacation'],
+    items: [
+      {
+        title: 'طلبات الإجازة',
+        url: '/leave-request',
+        icon: 'orders',
+        shortcut: ['l', 'r'],
+        requiredPermissions: ['LeaveRequest|GetAllLeaveRequests', 'Access|All']
+      },
+      {
+        title: 'مسارات العمل للإجازات',
+        url: '/leave-workflow',
+        icon: 'ellipsis',
+        shortcut: ['l', 'w'],
+        requiredPermissions: ['LeaveWorkflow|GetLeaveWorkflowList', 'Access|All']
+      },
+      {
+        title: 'سجل أرصدة الإجازات',
+        url: '/leave-balance',
+        icon: 'ellipsis',
+        shortcut: ['l', 'b'],
+        requiredPermissions: ['LeaveBalance|GetLeaveBalanceHistory', 'Access|All']
+      },
+      {
+        title: 'قوالب خطوات مسار العمل',
+        url: '/leave-workflow-step-template',
+        icon: 'ellipsis',
+        shortcut: ['l', 't'],
+        requiredPermissions: ['LeaveWorkflowStepTemplate|GetLeaveWorkflowStepTemplatesByWorkflowId', 'Access|All']
+      }
+    ]
+  }
+];
+
+export const presidentNavItems: NavItem[] = [
+  {
+    title: 'الرئيس',
+    url: '/president',
+    icon: 'inbox',
+    shortcut: ['p', 'p'],
+    isActive: false,
+    requiredRoles: ['President', 'SuAdmin'],
+  }
+];
+
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
 export const navItems: NavItem[] = [
   // {

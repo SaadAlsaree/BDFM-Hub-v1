@@ -42,7 +42,8 @@ import {
   IconFolder,
   IconReport,
   IconDevicesSearch,
-  IconSparkles
+  IconSparkles,
+  IconSortAscendingShapes
 } from '@tabler/icons-react';
 
 export type Icon = React.ComponentType<IconProps>;
@@ -90,5 +91,6 @@ export const Icons = {
   template: IconTemplate,
   caretDown: IconCaretDown,
   shieldCog: IconShieldCog,
-  sparkles: IconSparkles
+  sparkles: IconSparkles,
+  orders: IconSortAscendingShapes
 };

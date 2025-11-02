@@ -23,11 +23,6 @@ public class UpdateUserCommand : IRequest<Response<bool>>
 
     public Guid? OrganizationalUnitId { get; set; }
 
-    [MaxLength(255)]
-    public string? PositionTitle { get; set; }
-
-    [MaxLength(100)]
-    public string? RfidTagId { get; set; }
 
     public bool IsActive { get; set; } = true;
 }
