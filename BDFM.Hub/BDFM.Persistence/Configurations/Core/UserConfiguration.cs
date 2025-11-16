@@ -26,7 +26,7 @@ namespace BDFM.Persistence.Configurations.Core
             builder.Property(u => u.PositionTitle).HasMaxLength(255);
             builder.Property(u => u.RfidTagId).HasMaxLength(100);
             builder.Property(u => u.TwoFactorSecret).HasMaxLength(255);
-
+            builder.Property(u => u.IsDefaultPassword).HasDefaultValue(true);
             // Relationships
             builder.HasOne(u => u.OrganizationalUnit)
                 .WithMany(ou => ou.Users)

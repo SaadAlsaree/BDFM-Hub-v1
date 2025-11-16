@@ -9,8 +9,8 @@ import { hasAnyPermission } from '@/utils/auth/auth-utils';
 import { currentUserService } from '@/utils/auth/corent-user.service';
 import { UserDto } from '@/utils/auth/auth';
 import Unauthorized from '@/components/auth/unauthorized';
-import MailPending from '@/features/correspondence/inbox-list/components/mail-pending';
 import MailCompleted from '@/features/correspondence/inbox-list/components/mail-completed';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'قائمة الكتب المكتملة',
@@ -36,6 +36,17 @@ const MailCompletedPage = async (props: Props) => {
   if (!hasPermission) {
     return <Unauthorized />;
   }
+  const data = await currentUserService.getCurrentUser();
+  const user = data?.data as UserDto;
+  
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
+
 
   return (
     <PageContainer scrollable={false}>

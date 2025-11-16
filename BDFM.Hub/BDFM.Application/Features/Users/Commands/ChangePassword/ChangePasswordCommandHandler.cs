@@ -28,6 +28,7 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
         // Update password using BCrypt for consistency with AuthenticationService
         user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
         user.LastUpdateAt = DateTime.UtcNow;
+        user.IsDefaultPassword = false;
 
         var result = _userRepository.Update(user);
 

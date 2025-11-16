@@ -107,10 +107,8 @@ export function MailHeader({
                 <Button variant='default'>إنشاء سير العمل مخصص</Button>
               </CustomWorkflowDialog>
             )}
-          {(user?.id === data.createdByUserId ||
-            hasAnyPermission(user as UserDto | null, [
-              'Correspondence|UpdateStatus'
-            ])) && (
+          {(user?.organizationalUnit.unitCode === data.createdByUnitCode &&
+      (
             <div>
               <MailStatusDialog
                 correspondenceId={data.id}
@@ -124,7 +122,7 @@ export function MailHeader({
                 <Button variant='outline'>تحديث الحالة</Button>
               </MailStatusDialog>
             </div>
-          )}
+          ))}
           <div>
             {(user?.id === data.createdByUserId ||
               hasAnyPermission(user as UserDto | null, [

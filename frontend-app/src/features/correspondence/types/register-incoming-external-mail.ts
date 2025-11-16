@@ -35,6 +35,7 @@ export interface InboxList {
   receivedDate: string;
   dueDate: string;
   status: number;
+  createdByUnitName: string;
   workflowStepStatusName: string;
   statusName: string;
   fileId: string;

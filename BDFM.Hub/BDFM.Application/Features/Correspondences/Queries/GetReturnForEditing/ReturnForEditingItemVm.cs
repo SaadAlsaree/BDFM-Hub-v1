@@ -16,7 +16,7 @@ public class ReturnForEditingItemVm
 
     public string MailNum { get; set; } = string.Empty;
     public DateOnly MailDate { get; set; }
-
+    public string CreatedByUnitName { get; set; } = string.Empty;
     public PriorityLevelEnum PriorityLevel { get; set; }
     public string PriorityLevelName { get; set; } = string.Empty;
     public SecrecyLevelEnum SecrecyLevel { get; set; }

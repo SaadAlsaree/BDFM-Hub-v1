@@ -11,6 +11,7 @@ import { SearchParams } from 'nuqs/server';
 import { searchParamsCache } from '@/lib/searchparams';
 import { correspondenceTemplatesService } from '@/features/correspondence-templates/api/correspondence-templates.service';
 import { CorrespondenceTemplatesList } from '@/features/correspondence-templates/types/correspondence-templates';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'تعديل المسودة',
@@ -40,6 +41,15 @@ const EditMailDraftPage = async (props: pageProps) => {
     return <Unauthorized />;
   }
 
+  const user = userData?.data as UserDto;
+  
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   const searchText = searchParamsCache.get('searchText');
 
   const filters = {

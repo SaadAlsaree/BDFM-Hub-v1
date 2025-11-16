@@ -31,6 +31,8 @@ namespace BDFM.Domain.Entities.Core
 
         public bool IsActive { get; set; } = true;
 
+        public bool IsDefaultPassword { get; set; } = true;
+
         [StringLength(255)]
         public string? TwoFactorSecret { get; set; }
         public DateTime? LastLogin { get; set; }

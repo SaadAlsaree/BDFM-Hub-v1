@@ -6,6 +6,9 @@ import { correspondenceService } from '@/features/correspondence/api/corresponde
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 import { SearchParams } from 'nuqs/server';
 import { searchParamsCache } from '@/lib/searchparams';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 interface Props {
   params: Promise<{
@@ -23,6 +26,17 @@ const ViewMailDraftPage = async (props: Props) => {
     params.id
   );
   const correspondenceDetails = correspondence?.data as CorrespondenceDetails;
+
+  const data = await currentUserService.getCurrentUser();
+  const user = data?.data as UserDto;
+  
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer scrollable>

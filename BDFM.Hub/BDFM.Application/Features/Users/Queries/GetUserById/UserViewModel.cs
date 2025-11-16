@@ -12,6 +12,7 @@ public class UserViewModel
     public string? PositionTitle { get; set; }
     public string? RfidTagId { get; set; }
     public bool IsActive { get; set; }
+    public bool IsDefaultPassword { get; set; } = true;
     public DateTime CreateAt { get; set; }
     public int Status { get; set; }
     public string StatusName { get; set; } = string.Empty;

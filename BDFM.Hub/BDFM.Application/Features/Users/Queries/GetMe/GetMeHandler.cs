@@ -24,6 +24,7 @@ namespace BDFM.Application.Features.Users.Queries.GetMe
             PositionTitle = x.PositionTitle,
             RfidTagId = x.RfidTagId,
             IsActive = x.IsActive,
+            IsDefaultPassword = x.IsDefaultPassword,
             TwoFactorSecret = x.TwoFactorSecret,
             LastLogin = x.LastLogin,
             UserPermissions = x.UserPermissions.Select(up => new UserPermissionDto

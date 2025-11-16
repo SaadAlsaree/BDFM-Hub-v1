@@ -28,6 +28,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespo
             MailNum = x.MailNum,
             MailDate = x.MailDate,
             ExternalReferenceNumber = x.ExternalReferenceNumber!,
+            CreatedByUnitName = x.CreateByUser != null && x.CreateByUser.OrganizationalUnit != null ? x.CreateByUser.OrganizationalUnit.UnitName : string.Empty,
             ReceivedDate = x.LastUpdateAt ?? x.CreateAt,
             FileId = x.FileId,
             IsDraft = x.IsDraft,

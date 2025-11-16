@@ -38,7 +38,8 @@ import {
   IconChevronsDown,
   IconLogout,
   IconPhotoUp,
-  IconPlus
+  IconPlus,
+  IconUserCircle
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -440,12 +441,12 @@ export default function AppSidebar() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  {/* <DropdownMenuItem
-                    onClick={() => router.push('/dashboard/profile')}
+                  <DropdownMenuItem
+                    onClick={() => router.push('/profile')}
                   >
                     <IconUserCircle className='mr-2 h-4 w-4' />
                     الملف الشخصي
-                  </DropdownMenuItem> */}
+                  </DropdownMenuItem>
 
                   <DropdownMenuItem>
                     <IconBell className='mr-2 h-4 w-4' />

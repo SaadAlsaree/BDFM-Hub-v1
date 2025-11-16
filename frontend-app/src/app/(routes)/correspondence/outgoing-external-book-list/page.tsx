@@ -14,6 +14,7 @@ import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
 import { currentUserService } from '@/utils/auth/corent-user.service';
 import { UserDto } from '@/utils/auth/auth';
 import Unauthorized from '@/components/auth/unauthorized';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'صادر خارجي'
@@ -40,6 +41,13 @@ const OutgoingCorrespondencePage = async (
 
   if (!hasRole && !hasPermission) {
     return <Unauthorized />;
+  }
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
   }
   return (
     <PageContainer scrollable={false}>

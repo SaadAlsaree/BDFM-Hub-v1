@@ -10,6 +10,7 @@ import { correspondenceTemplatesService } from '@/features/correspondence-templa
 import { CorrespondenceTemplatesList } from '@/features/correspondence-templates/types/correspondence-templates';
 import { searchParamsCache } from '@/lib/searchparams';
 import { SearchParams } from 'nuqs/server';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'إضافة مسودة كتاب جديد',
@@ -50,6 +51,16 @@ const CreateDraftMail = async ({ searchParams }: pageProps) => {
 
   // console.log(correspondenceTemplates);
 
+
+  const user = userData?.data as UserDto;
+  
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer scrollable>
       <div className='flex-1 space-y-4'>

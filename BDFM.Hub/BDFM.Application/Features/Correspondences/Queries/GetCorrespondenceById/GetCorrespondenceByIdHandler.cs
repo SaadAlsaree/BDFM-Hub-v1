@@ -152,6 +152,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
                 }).ToList(),
             }).OrderBy(y => y.Sequence).Where(y => y.IsActive == true || y.CreateBy == _currentUserService.UserId).ToList(),
 
+            //
             ReferencesToCorrespondences = x.ReferencesTo.Select(y => new LinkedCorrespondenceInfoVm
             {
                 LinkId = y.Id,
@@ -218,6 +219,8 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
 
             if (correspondence == null)
                 return ErrorsMessage.NotFoundData.ToErrorMessage<CorrespondenceDetailVm>(null!);
+
+            // TODO: فعل التحقق من الصلاحيات لل WorkflowSteps
 
             // Filter WorkflowSteps based on user access permissions
             var accessibleWorkflowStepIds = await _permissionValidationService.GetAccessibleWorkflowStepIdsAsync(request.Id, cancellationToken);

@@ -18,7 +18,7 @@ public class CompletedItemVm
 
     public string MailNum { get; set; } = string.Empty; // e.g., "500-2025"
     public DateOnly MailDate { get; set; } // Date of the mail, not the correspondence creation date
-
+    public string CreatedByUnitName { get; set; } = string.Empty;
     // Classification levels
     public PriorityLevelEnum PriorityLevel { get; set; }
     public string PriorityLevelName { get; set; } = string.Empty; // Auto-populated

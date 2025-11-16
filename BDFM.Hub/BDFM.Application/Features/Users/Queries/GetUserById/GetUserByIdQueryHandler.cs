@@ -27,6 +27,7 @@ public class GetUserByIdQueryHandler : GetByIdHandler<User, UserViewModel, GetUs
         PositionTitle = u.PositionTitle,
         RfidTagId = u.RfidTagId,
         IsActive = u.IsActive,
+        IsDefaultPassword = u.IsDefaultPassword,
         CreateAt = u.CreateAt,
         Status = (int)u.StatusId,
         UserRoles = u.UserRoles.Select(ur => new UserRoleViewModel

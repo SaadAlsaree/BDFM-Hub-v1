@@ -10,6 +10,7 @@ import { currentUserService } from '@/utils/auth/corent-user.service';
 import { UserDto } from '@/utils/auth/auth';
 import Unauthorized from '@/components/auth/unauthorized';
 import MailReturnForEditing from '@/features/correspondence/inbox-list/components/mail-return-for-editing';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'قائمة ارجاع الكتب للتعديل',
@@ -36,6 +37,16 @@ const MailReturnForEditingPage = async (props: Props) => {
     return <Unauthorized />;
   }
 
+  const data = await currentUserService.getCurrentUser();
+  const user = data?.data as UserDto;
+  
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>

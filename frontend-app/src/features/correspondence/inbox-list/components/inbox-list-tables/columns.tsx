@@ -11,7 +11,8 @@ import {
   Redo2,
   CalendarArrowDown,
   CalendarArrowUp,
-  CalendarSync
+  CalendarSync,
+  Building
 } from 'lucide-react';
 import moment from 'moment';
 import { CellAction } from './cell-action';
@@ -29,14 +30,23 @@ export const columns: ColumnDef<InboxList>[] = [
     cell: ({ cell, row }) => {
       const internalNumber = cell.getValue<string>();
       return (
-        <div className='flex cursor-pointer items-center gap-2'>
+       
+          
+          <div className='flex flex-col'>
+             <div className='flex cursor-pointer items-center gap-2'>
           <CellIcons data={row.original} />
-          <Link
-            href={`/correspondence/view/${row.original.correspondenceId}`}
-            className='hover:text-primary/80 transition-colors duration-100'
-          >
-            {internalNumber || '-'}
-          </Link>
+            <Link
+              href={`/correspondence/view/${row.original.correspondenceId}`}
+              className='hover:text-primary/80 transition-colors duration-100'
+            >
+              {internalNumber || '-'}
+            </Link>
+          
+          </div>
+          <span className='text-sm mr-3 text-primary flex items-center gap-2'>
+            <Building className='h-4 w-4' />
+              {row.original.createdByUnitName || '-'}
+            </span>
         </div>
       );
     },

@@ -80,10 +80,10 @@ export interface UserPayloadDto {
 }
 
 export interface ChangePasswordRequest {
-  id: string;
+  userId: string;
   currentPassword: string;
   newPassword: string;
-  confirmNewPassword: string;
+  confirmPassword: string;
 }
 
 export interface ResetPasswordRequest {

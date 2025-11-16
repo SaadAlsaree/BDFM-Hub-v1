@@ -45,6 +45,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
             MailDate = x.MailDate,
             ExternalReferenceNumber = x.ExternalReferenceNumber!,
             ExternalReferenceDate = x.ExternalReferenceDate.HasValue ? x.ExternalReferenceDate.Value.ToDateTime(TimeOnly.MinValue) : DateTime.MinValue,
+            CreatedByUnitName = x.CreateByUser != null && x.CreateByUser.OrganizationalUnit != null ? x.CreateByUser.OrganizationalUnit.UnitName : string.Empty,
             ReceivedDate = x.LastUpdateAt ?? x.CreateAt,
             FileId = x.FileId,
             IsDraft = x.IsDraft,

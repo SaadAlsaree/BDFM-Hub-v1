@@ -14,6 +14,7 @@ import { currentUserService } from '@/utils/auth/corent-user.service';
 import { UserDto } from '@/utils/auth/auth';
 import Unauthorized from '@/components/auth/unauthorized';
 import MailIncomingListing from '@/features/correspondence/inbox-list/components/mail-incoming-listing';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'وارد خارجي'
@@ -39,6 +40,15 @@ const IncomingExternalPage = async (props: OutgoingCorrespondencePageProps) => {
 
   if (!hasRole && !hasPermission) {
     return <Unauthorized />;
+  }
+
+  
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
   }
   return (
     <PageContainer scrollable={false}>

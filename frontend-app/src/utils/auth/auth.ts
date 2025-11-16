@@ -49,6 +49,7 @@ export interface UserDto {
   positionTitle: string;
   rfidTagId: string;
   isActive: boolean;
+  isDefaultPassword?: boolean;
   twoFactorSecret: string;
   lastLogin: string; // ISO string
   userRoles: UserRoleDto[];

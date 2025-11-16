@@ -11,6 +11,7 @@ namespace BDFM.Application.Features.Users.Queries.GetMe
         public string? PositionTitle { get; set; }
         public string? RfidTagId { get; set; } // Make sure it's unique in DB context
         public bool IsActive { get; set; } = true;
+        public bool IsDefaultPassword { get; set; } = true;
         public string? TwoFactorSecret { get; set; }
         public DateTime? LastLogin { get; set; }
 

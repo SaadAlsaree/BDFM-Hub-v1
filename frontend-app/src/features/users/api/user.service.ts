@@ -144,7 +144,7 @@ export const userService = {
 
   async changePassword(request: ChangePasswordRequest) {
     try {
-      if (!request.id) {
+      if (!request.userId) {
         //    console.error('changePassword called without a user ID');
         return null;
       }

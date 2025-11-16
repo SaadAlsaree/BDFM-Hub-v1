@@ -10,6 +10,7 @@ import { currentUserService } from '@/utils/auth/corent-user.service';
 import { UserDto } from '@/utils/auth/auth';
 import Unauthorized from '@/components/auth/unauthorized';
 import IncomingInternalListing from '@/features/correspondence/inbox-list/components/incoming-internal-listing';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'صادر داخلي'
@@ -37,6 +38,15 @@ export default async function InboxPage(props: InboxPageProps) {
     return <Unauthorized />;
   }
 
+  
+  
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>

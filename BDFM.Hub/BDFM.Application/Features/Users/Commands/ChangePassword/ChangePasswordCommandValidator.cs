@@ -5,19 +5,19 @@ public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCo
     public ChangePasswordCommandValidator()
     {
         RuleFor(p => p.UserId)
-            .NotEmpty().WithMessage("معرف المستخدم مطلوب");
+            .NotEmpty().WithMessage("User ID is required");
 
         RuleFor(p => p.CurrentPassword)
-            .NotEmpty().WithMessage("كلمة المرور الحالية مطلوبة");
+            .NotEmpty().WithMessage("Current password is required");
 
         RuleFor(p => p.NewPassword)
-            .NotEmpty().WithMessage("كلمة المرور الجديدة مطلوبة")
-            .MinimumLength(8).WithMessage("كلمة المرور الجديدة يجب أن تحتوي على الأقل 8 أحرف")
-            .MaximumLength(255).WithMessage("كلمة المرور الجديدة يجب أن لا تتجاوز 255 حرف")
-            .NotEqual(p => p.CurrentPassword).WithMessage("كلمة المرور الجديدة يجب أن تكون مختلفة عن كلمة المرور الحالية");
+            .NotEmpty().WithMessage("New password is required")
+            .MinimumLength(6).WithMessage("New password must be at least 6 characters long")
+            .MaximumLength(255).WithMessage("New password must not exceed 255 characters")
+            .NotEqual(p => p.CurrentPassword).WithMessage("New password must be different from current password");
 
         RuleFor(p => p.ConfirmPassword)
-            .NotEmpty().WithMessage("تأكيد كلمة المرور مطلوب")
-            .Equal(p => p.NewPassword).WithMessage("كلمة المرور وتأكيدها غير متطابقين");
+            .NotEmpty().WithMessage("Confirm password is required")
+            .Equal(p => p.NewPassword).WithMessage("Confirm password and new password do not match");
     }
 }
