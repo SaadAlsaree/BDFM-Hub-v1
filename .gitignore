@@ -361,3 +361,17 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# BDFM.Hub project-specific build outputs
+BDFM.Hub/BDFM.Api/bin/
+BDFM.Hub/BDFM.Api/obj/
+BDFM.Hub/BDFM.Application/bin/
+BDFM.Hub/BDFM.Application/obj/
+BDFM.Hub/BDFM.Domain/bin/
+BDFM.Hub/BDFM.Domain/obj/
+BDFM.Hub/BDFM.Identity/bin/
+BDFM.Hub/BDFM.Identity/obj/
+BDFM.Hub/BDFM.Infrastructure/bin/
+BDFM.Hub/BDFM.Infrastructure/obj/
+BDFM.Hub/BDFM.Persistence/bin/
+BDFM.Hub/BDFM.Persistence/obj/

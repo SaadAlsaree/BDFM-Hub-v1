@@ -1,5 +1,0 @@
-2025-07-15 13:23:50.805 +03:00 [WRN] Overriding address(es) 'https://localhost:7123, http://localhost:5026'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
-2025-07-15 13:23:50.833 +03:00 [INF] Now listening on: http://0.0.0.0:5000
-2025-07-15 13:23:50.930 +03:00 [INF] Application started. Press Ctrl+C to shut down.
-2025-07-15 13:23:50.932 +03:00 [INF] Hosting environment: Development
-2025-07-15 13:23:50.934 +03:00 [INF] Content root path: C:\Users\saada\source\repos\BDFM-Hub\BDFM.Hub\BDFM.Api

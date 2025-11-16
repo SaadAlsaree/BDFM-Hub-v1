@@ -3,6 +3,7 @@ using System;
 using BDFM.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BDFM.Persistence.Migrations
 {
     [DbContext(typeof(BDFMDbContext))]
-    partial class BDFMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251116175818_SyncModelAndDatabase")]
+    partial class SyncModelAndDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
