@@ -1,4 +1,0 @@
-wwwroot\css\app.css
-wwwroot\index.html
-F:\.NET\BDFM-Hub\BDFM-Mobile\wwwroot\css\app.css
-F:\.NET\BDFM-Hub\BDFM-Mobile\wwwroot\index.html

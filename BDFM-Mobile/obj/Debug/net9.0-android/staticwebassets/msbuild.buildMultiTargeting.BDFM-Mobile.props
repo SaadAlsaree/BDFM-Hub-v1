@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\BDFM-Mobile.props" />
-</Project>
