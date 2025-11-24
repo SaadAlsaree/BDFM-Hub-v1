@@ -4,8 +4,13 @@ import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
 import ExternalEntityListing from '@/features/external-entities/components/external-entity-listing';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
+import Unauthorized from '@/components/auth/unauthorized';
 import { IconPlus } from '@tabler/icons-react';
 import Link from 'next/link';
 import { SearchParams } from 'nuqs/server';
@@ -24,6 +29,24 @@ const ExternalEntitiesPage = async (props: pageProps) => {
   // Allow nested RSCs to access the search params (in a type-safe way)
   searchParamsCache.parse(searchParams);
 
+  const userData = await currentUserService.getCurrentUser();
+  const user = userData?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Correspondence']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>

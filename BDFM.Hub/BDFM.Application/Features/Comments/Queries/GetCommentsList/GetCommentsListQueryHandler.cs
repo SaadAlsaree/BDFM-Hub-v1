@@ -33,6 +33,8 @@ public class GetCommentsListQueryHandler :
 
     private IQueryable<CorrespondenceComment> ApplyFilters(IQueryable<CorrespondenceComment> query, GetCommentsListQuery request)
     {
+        query = query.Where(x => !x.IsDeleted);
+
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
             query = query.Where(cc =>

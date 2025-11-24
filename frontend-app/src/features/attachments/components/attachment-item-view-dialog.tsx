@@ -13,7 +13,9 @@ import {
   Music,
   File,
   Eye,
-  Info
+  Info,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import {
   Dialog,
@@ -31,10 +33,22 @@ import {
   formatFileSize,
   isImageFile,
   isVideoFile,
-  isAudioFile
+  isAudioFile,
+  getMimeTypeFromExtension,
+  downloadFileFromBase64,
+  printFileFromBase64
 } from '@/lib/file-utils';
 import { format } from 'date-fns';
 import { useToast } from '@/components/ui/use-toast';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+
+// Configure PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url
+).toString();
 
 type Props = {
   attachmentId: string;
@@ -44,6 +58,10 @@ type Props = {
 
 const AttachmentItemViewDialog = ({ attachmentId, isOpen, onClose }: Props) => {
   const [activeTab, setActiveTab] = useState('preview');
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
   const { authApiCall } = useAuthApi();
   const { toast } = useToast();
 
@@ -63,63 +81,114 @@ const AttachmentItemViewDialog = ({ attachmentId, isOpen, onClose }: Props) => {
 
   const attachmentData = attachment?.data;
 
+  // Create PDF blob URL when PDF data is available
+  useEffect(() => {
+    if (
+      attachmentData?.fileBase64 &&
+      attachmentData.fileExtension?.toLowerCase() === '.pdf'
+    ) {
+      try {
+        const byteCharacters = atob(attachmentData.fileBase64);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        setPdfBlobUrl(url);
+
+        return () => {
+          URL.revokeObjectURL(url);
+        };
+      } catch (error) {
+        console.error('Error creating PDF blob:', error);
+        setPdfError('فشل في تحميل ملف PDF');
+      }
+    } else {
+      setPdfBlobUrl(null);
+      setPdfError(null);
+    }
+  }, [attachmentData?.fileBase64, attachmentData?.fileExtension]);
+
+  // Reset page number when PDF changes
+  useEffect(() => {
+    if (pdfBlobUrl) {
+      setPageNumber(1);
+      setNumPages(null);
+    }
+  }, [pdfBlobUrl]);
+
   const onDownload = async () => {
     try {
       const response = await authApiCall(() =>
         attachmentService.downloadAttachment(attachmentId)
       );
 
-      if (response?.data) {
-        const link = document.createElement('a');
-        link.href = `data:application/octet-stream;base64,${response.data}`;
-        link.download = attachmentData?.fileName || 'download';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      if (response?.data && attachmentData) {
+        const extension = attachmentData.fileExtension || '';
+        const mimeType = getMimeTypeFromExtension(extension);
+        downloadFileFromBase64(
+          response.data,
+          attachmentData.fileName || 'download',
+          mimeType
+        );
 
         toast({
-          title: 'Success',
-          description: 'File downloaded successfully'
+          title: 'نجح',
+          description: 'تم تحميل الملف بنجاح'
         });
       } else {
         toast({
-          title: 'Error',
-          description: 'Failed to download file',
+          title: 'خطأ',
+          description: 'فشل تحميل الملف',
           variant: 'destructive'
         });
       }
     } catch (error) {
       console.error('Download error:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to download file',
+        title: 'خطأ',
+        description: 'فشل تحميل الملف',
         variant: 'destructive'
       });
     }
   };
 
-  const onPrint = () => {
-    if (
-      attachmentData?.fileBase64 &&
-      isImageFile(attachmentData.fileExtension || '')
-    ) {
-      const printWindow = window.open('', '_blank');
-      if (printWindow) {
-        printWindow.document.write(`
-          <html>
-            <head><title>Print ${attachmentData.fileName}</title></head>
-            <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;">
-              <img src="data:image/${attachmentData.fileExtension?.replace('.', '')};base64,${attachmentData.fileBase64}" 
-                   style="max-width:100%;max-height:100%;object-fit:contain;" 
-                   onload="window.print();window.close();" />
-            </body>
-          </html>
-        `);
-      }
-    } else {
+  const onPrint = async () => {
+    if (!attachmentData?.fileBase64) {
       toast({
-        title: 'Print',
-        description: `Print functionality for ${attachmentData?.fileName}`
+        title: 'خطأ',
+        description: 'لا يوجد محتوى للطباعة',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    try {
+      const extension = attachmentData.fileExtension || '';
+      const mimeType = getMimeTypeFromExtension(extension);
+
+      await printFileFromBase64(
+        attachmentData.fileBase64,
+        attachmentData.fileName || 'file',
+        mimeType,
+        extension
+      );
+
+      toast({
+        title: 'نجح',
+        description: 'تم فتح نافذة الطباعة'
+      });
+    } catch (error) {
+      console.error('Print error:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'فشل في فتح نافذة الطباعة';
+
+      toast({
+        title: 'خطأ',
+        description: errorMessage,
+        variant: 'destructive'
       });
     }
   };
@@ -216,13 +285,87 @@ const AttachmentItemViewDialog = ({ attachmentId, isOpen, onClose }: Props) => {
     }
 
     if (extension === '.pdf') {
+      if (pdfError) {
+        return (
+          <div className='text-muted-foreground flex h-64 flex-col items-center justify-center'>
+            <FileText className='mb-4 h-16 w-16' />
+            <p className='text-center'>{pdfError}</p>
+            <Button onClick={onDownload} className='mt-4' variant='outline'>
+              <Download className='mr-2 h-4 w-4' />
+              تحميل للعرض
+            </Button>
+          </div>
+        );
+      }
+
+      if (!pdfBlobUrl) {
+        return (
+          <div className='flex h-64 items-center justify-center'>
+            <Loader2 className='h-8 w-8 animate-spin' />
+          </div>
+        );
+      }
+
       return (
-        <div className='flex items-center justify-center p-4'>
-          <iframe
-            src={`data:application/pdf;base64,${base64Data}`}
-            className='h-96 w-full rounded-lg border'
-            title={attachmentData.fileName}
-          />
+        <div className='flex flex-col items-center space-y-4 p-4'>
+          <div className='flex items-center justify-center rounded-lg border bg-white'>
+            <Document
+              file={pdfBlobUrl}
+              onLoadSuccess={({ numPages }) => {
+                setNumPages(numPages);
+                setPdfError(null);
+              }}
+              onLoadError={(error) => {
+                console.error('PDF load error:', error);
+                setPdfError('فشل في تحميل ملف PDF');
+              }}
+              loading={
+                <div className='flex h-96 items-center justify-center'>
+                  <Loader2 className='h-8 w-8 animate-spin' />
+                </div>
+              }
+              error={
+                <div className='text-muted-foreground flex h-64 flex-col items-center justify-center'>
+                  <FileText className='mb-4 h-16 w-16' />
+                  <p className='text-center'>فشل في تحميل ملف PDF</p>
+                </div>
+              }
+            >
+              <Page
+                pageNumber={pageNumber}
+                className='border border-gray-200'
+                renderTextLayer={true}
+                renderAnnotationLayer={true}
+                scale={1.2}
+              />
+            </Document>
+          </div>
+
+          {numPages && numPages > 1 && (
+            <div className='flex items-center space-x-4'>
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={() => setPageNumber((prev) => Math.max(1, prev - 1))}
+                disabled={pageNumber <= 1}
+              >
+                <ChevronLeft className='h-4 w-4' />
+              </Button>
+              <span className='text-sm'>
+                صفحة {pageNumber} من {numPages}
+              </span>
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={() =>
+                  setPageNumber((prev) => Math.min(numPages, prev + 1))
+                }
+                disabled={pageNumber >= numPages}
+              >
+                <ChevronRight className='h-4 w-4' />
+              </Button>
+            </div>
+          )}
         </div>
       );
     }

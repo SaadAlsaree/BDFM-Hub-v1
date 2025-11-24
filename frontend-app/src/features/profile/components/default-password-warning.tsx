@@ -18,60 +18,56 @@ export function DefaultPasswordWarning({
   return (
     <Card
       className={cn(
-        'relative overflow-hidden border-2 w-full h-72 border-orange-500/50 bg-gradient-to-br from-orange-50 via-orange-50/80 to-amber-50/50 dark:from-orange-950/30 dark:via-orange-950/20 dark:to-amber-950/20 shadow-lg transition-all duration-300 hover:shadow-xl',
+        'border-primary/30 bg-card relative overflow-hidden shadow-sm',
         className
       )}
     >
-      {/* Animated Background Pattern */}
-      <div className='absolute inset-0 opacity-5 dark:opacity-10'>
-        <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(249,115,22,0.3),transparent_50%)] animate-pulse' />
-      </div>
-
       {/* Content */}
-      <div className='relative p-6'>
+      <div className='p-6'>
         <div className='flex items-start gap-4'>
           {/* Icon Container */}
           <div className='flex-shrink-0'>
-            <div className='relative'>
-              <div className='absolute inset-0 rounded-full bg-orange-500/20 animate-ping' />
-              <div className='relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-amber-500 shadow-lg ring-4 ring-orange-500/20'>
-                <AlertTriangle className='h-7 w-7 text-white' fill='currentColor' />
-              </div>
+            <div className='bg-primary/10 ring-primary/20 flex h-12 w-12 items-center justify-center rounded-full ring-2'>
+              <AlertTriangle
+                className='text-destructive h-6 w-6'
+                fill='currentColor'
+              />
             </div>
           </div>
 
           {/* Text Content */}
-          <div className='flex-1 space-y-3'>
-            <div className='space-y-1'>
+          <div className='flex-1 space-y-4'>
+            <div className='space-y-2'>
               <div className='flex items-center gap-2'>
-                <h3 className='text-lg font-bold text-orange-900 dark:text-orange-100'>
+                <h3 className='text-card-foreground text-lg font-semibold'>
                   تحذير أمني
                 </h3>
-                <Shield className='h-4 w-4 text-orange-600 dark:text-orange-400' />
+                <Shield className='text-destructive h-4 w-4' />
               </div>
-              <p className='text-sm leading-relaxed text-orange-800 dark:text-orange-200'>
+              <p className='text-muted-foreground text-sm leading-relaxed'>
                 أنت تستخدم كلمة مرور افتراضية. يرجى تغيير كلمة المرور الخاصة بك
-                <span className='font-semibold'> فوراً </span>
+                <span className='text-card-foreground font-semibold'>
+                  {' '}
+                  فوراً{' '}
+                </span>
                 للحفاظ على أمان حسابك وحماية معلوماتك الشخصية.
               </p>
             </div>
-          {!onActionClick && (
-            <Link href='/profile/change-password'>
-              <Button
-                className='group mt-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md transition-all duration-200 hover:from-orange-600 hover:to-amber-600 hover:shadow-lg hover:scale-105'
-                size='sm'
-              >
-                <span>تغيير كلمة المرور الآن</span>
-                <ArrowRight className='mr-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
-              </Button>
-            </Link>
-          )}
+
             {/* Action Button */}
-            {onActionClick && (
+            {!onActionClick ? (
+              <Link href='/profile/change-password'>
+                <Button variant='destructive' size='sm' className='group'>
+                  <span>تغيير كلمة المرور الآن</span>
+                  <ArrowRight className='mr-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
+                </Button>
+              </Link>
+            ) : (
               <Button
                 onClick={onActionClick}
-                className='group mt-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md transition-all duration-200 hover:from-orange-600 hover:to-amber-600 hover:shadow-lg hover:scale-105'
+                variant='destructive'
                 size='sm'
+                className='group'
               >
                 <span>تغيير كلمة المرور الآن</span>
                 <ArrowRight className='mr-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
@@ -79,12 +75,7 @@ export function DefaultPasswordWarning({
             )}
           </div>
         </div>
-
-        {/* Decorative Elements */}
-        <div className='absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-orange-500 via-amber-500 to-orange-500' />
-        <div className='absolute bottom-0 right-0 h-20 w-20 rounded-full bg-orange-500/10 blur-2xl' />
       </div>
     </Card>
   );
 }
-

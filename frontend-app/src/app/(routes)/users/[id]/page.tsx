@@ -5,9 +5,13 @@ import { roleService } from '@/features/roles/api/role.service';
 import UserView from '@/features/users/components/user-view-page';
 import { UserDetailed, UserRole } from '@/features/users/types/user';
 import React, { Suspense } from 'react';
-import { userRoleService } from '@/features/users/api/userRole.service';
 import { permissionService } from '@/features/permissions/api/permission.service';
 import { IPermissionList } from '@/features/permissions/types/permission';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
+import Unauthorized from '@/components/auth/unauthorized';
 
 type UserViewPageProps = {
   params: Promise<{ id: string }>;
@@ -28,6 +32,24 @@ const UserViewPage = async (props: UserViewPageProps) => {
   });
   const permissionsData = permissions?.data?.items || [];
 
+  const userData = await currentUserService.getCurrentUser();
+  const user = userData?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Correspondence']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer scrollable>
       <div className='flex-1 space-y-4'>

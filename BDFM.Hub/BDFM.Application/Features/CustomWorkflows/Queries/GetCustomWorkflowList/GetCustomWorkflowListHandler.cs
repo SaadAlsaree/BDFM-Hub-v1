@@ -73,6 +73,8 @@ internal class GetCustomWorkflowListHandler : GetAllWithCountHandler<CustomWorkf
     {
         var query = _repository.Query();
 
+        query = query.Where(x => !x.IsDeleted);
+
         // Apply unit-based filtering
         var isAdmin = _currentUserService.HasRole("Admin") || _currentUserService.HasRole("SuAdmin");
 

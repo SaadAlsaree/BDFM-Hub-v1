@@ -13,9 +13,10 @@ internal class SearchOrganizationalUnitHandler : IRequestHandler<SearchOrganizat
     public async Task<Response<IEnumerable<SearchOrganizationalUnitVm>>> Handle(SearchOrganizationalUnitQuery request, CancellationToken cancellationToken)
     {
         var result = await _organizationalUnitRepository.GetAsync<SearchOrganizationalUnitVm>(
-            filter: x => string.IsNullOrEmpty(request.Unit) ||
-                         EF.Functions.Like(x.UnitName, request.Unit + "%") ||
-                         EF.Functions.Like(x.UnitCode, request.Unit + "%"),
+            filter: x => !x.IsDeleted &&
+                         (string.IsNullOrEmpty(request.Unit) ||
+                          EF.Functions.Like(x.UnitName, request.Unit + "%") ||
+                          EF.Functions.Like(x.UnitCode, request.Unit + "%")),
             selector: x => new SearchOrganizationalUnitVm
             {
                 Id = x.Id,

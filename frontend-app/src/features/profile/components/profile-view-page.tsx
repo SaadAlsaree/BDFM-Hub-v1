@@ -36,7 +36,7 @@ export default function ProfileViewPage() {
         <Card>
           <CardHeader>
             <Skeleton className='h-8 w-48' />
-            <Skeleton className='h-4 w-64 mt-2' />
+            <Skeleton className='mt-2 h-4 w-64' />
           </CardHeader>
           <CardContent>
             <div className='flex flex-col items-center gap-6 md:flex-row'>
@@ -57,7 +57,7 @@ export default function ProfileViewPage() {
       <div className='flex w-full flex-col gap-6 p-4 md:p-6'>
         <Card>
           <CardContent className='pt-6'>
-            <p className='text-center text-muted-foreground'>
+            <p className='text-muted-foreground text-center'>
               لا يمكن تحميل معلومات المستخدم
             </p>
           </CardContent>
@@ -99,7 +99,7 @@ export default function ProfileViewPage() {
           <div className='flex flex-col gap-6 md:flex-row md:items-start'>
             {/* Avatar Section */}
             <div className='flex flex-col items-center gap-4 md:items-start'>
-              <Avatar className='h-32 w-32 border-4 border-border'>
+              <Avatar className='border-border h-32 w-32 border-4'>
                 <AvatarImage src='/avatar.jpg' alt={user.fullName} />
                 <AvatarFallback className='text-2xl font-semibold'>
                   {getInitials(user.fullName)}
@@ -123,7 +123,7 @@ export default function ProfileViewPage() {
             {/* User Details */}
             <div className='flex-1 space-y-6'>
               <div>
-                <h3 className='text-2xl font-semibold mb-1'>{user.fullName}</h3>
+                <h3 className='mb-1 text-2xl font-semibold'>{user.fullName}</h3>
                 <p className='text-muted-foreground'>{user.positionTitle}</p>
               </div>
 
@@ -132,11 +132,11 @@ export default function ProfileViewPage() {
               <div className='grid gap-4 md:grid-cols-2'>
                 {/* Username */}
                 <div className='flex items-start gap-3'>
-                  <div className='mt-1 rounded-lg bg-muted p-2'>
-                    <User className='h-4 w-4 text-muted-foreground' />
+                  <div className='bg-muted mt-1 rounded-lg p-2'>
+                    <User className='text-muted-foreground h-4 w-4' />
                   </div>
                   <div className='flex-1 space-y-1'>
-                    <p className='text-sm font-medium text-muted-foreground'>
+                    <p className='text-muted-foreground text-sm font-medium'>
                       اسم المستخدم
                     </p>
                     <p className='text-sm font-semibold'>{user.username}</p>
@@ -145,11 +145,11 @@ export default function ProfileViewPage() {
 
                 {/* User Login */}
                 <div className='flex items-start gap-3'>
-                  <div className='mt-1 rounded-lg bg-muted p-2'>
-                    <User className='h-4 w-4 text-muted-foreground' />
+                  <div className='bg-muted mt-1 rounded-lg p-2'>
+                    <User className='text-muted-foreground h-4 w-4' />
                   </div>
                   <div className='flex-1 space-y-1'>
-                    <p className='text-sm font-medium text-muted-foreground'>
+                    <p className='text-muted-foreground text-sm font-medium'>
                       تسجيل الدخول
                     </p>
                     <p className='text-sm font-semibold'>{user.userLogin}</p>
@@ -158,11 +158,11 @@ export default function ProfileViewPage() {
 
                 {/* Email */}
                 <div className='flex items-start gap-3'>
-                  <div className='mt-1 rounded-lg bg-muted p-2'>
-                    <Mail className='h-4 w-4 text-muted-foreground' />
+                  <div className='bg-muted mt-1 rounded-lg p-2'>
+                    <Mail className='text-muted-foreground h-4 w-4' />
                   </div>
                   <div className='flex-1 space-y-1'>
-                    <p className='text-sm font-medium text-muted-foreground'>
+                    <p className='text-muted-foreground text-sm font-medium'>
                       البريد الإلكتروني
                     </p>
                     <p className='text-sm font-semibold'>{user.email}</p>
@@ -171,12 +171,12 @@ export default function ProfileViewPage() {
 
                 {/* Organizational Unit */}
                 <div className='flex items-start gap-3'>
-                  <div className='mt-1 rounded-lg bg-muted p-2'>
-                    <Building2 className='h-4 w-4 text-muted-foreground' />
+                  <div className='bg-muted mt-1 rounded-lg p-2'>
+                    <Building2 className='text-muted-foreground h-4 w-4' />
                   </div>
                   <div className='flex-1 space-y-1'>
-                    <p className='text-sm font-medium text-muted-foreground'>
-                      الوحدة التنظيمية
+                    <p className='text-muted-foreground text-sm font-medium'>
+                      الجهة
                     </p>
                     <p className='text-sm font-semibold'>
                       {user.organizationalUnit?.unitName || 'غير محدد'}
@@ -187,11 +187,11 @@ export default function ProfileViewPage() {
                 {/* Position Title */}
                 {user.positionTitle && (
                   <div className='flex items-start gap-3'>
-                    <div className='mt-1 rounded-lg bg-muted p-2'>
-                      <Briefcase className='h-4 w-4 text-muted-foreground' />
+                    <div className='bg-muted mt-1 rounded-lg p-2'>
+                      <Briefcase className='text-muted-foreground h-4 w-4' />
                     </div>
                     <div className='flex-1 space-y-1'>
-                      <p className='text-sm font-medium text-muted-foreground'>
+                      <p className='text-muted-foreground text-sm font-medium'>
                         المسمى الوظيفي
                       </p>
                       <p className='text-sm font-semibold'>
@@ -204,11 +204,11 @@ export default function ProfileViewPage() {
                 {/* Last Login */}
                 {user.lastLogin && (
                   <div className='flex items-start gap-3'>
-                    <div className='mt-1 rounded-lg bg-muted p-2'>
-                      <Calendar className='h-4 w-4 text-muted-foreground' />
+                    <div className='bg-muted mt-1 rounded-lg p-2'>
+                      <Calendar className='text-muted-foreground h-4 w-4' />
                     </div>
                     <div className='flex-1 space-y-1'>
-                      <p className='text-sm font-medium text-muted-foreground'>
+                      <p className='text-muted-foreground text-sm font-medium'>
                         آخر تسجيل دخول
                       </p>
                       <p className='text-sm font-semibold'>
@@ -225,8 +225,8 @@ export default function ProfileViewPage() {
                   <Separator />
                   <div className='space-y-3'>
                     <div className='flex items-center gap-2'>
-                      <Shield className='h-4 w-4 text-muted-foreground' />
-                      <p className='text-sm font-medium text-muted-foreground'>
+                      <Shield className='text-muted-foreground h-4 w-4' />
+                      <p className='text-muted-foreground text-sm font-medium'>
                         الأدوار
                       </p>
                     </div>
@@ -249,7 +249,7 @@ export default function ProfileViewPage() {
       <Card id='change-password-section'>
         <CardHeader>
           <div className='flex items-center gap-2'>
-            <Key className='h-5 w-5 text-muted-foreground' />
+            <Key className='text-muted-foreground h-5 w-5' />
             <CardTitle>تغيير كلمة المرور</CardTitle>
           </div>
           <CardDescription>

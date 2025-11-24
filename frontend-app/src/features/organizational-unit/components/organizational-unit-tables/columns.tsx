@@ -18,7 +18,7 @@ import { CellAction } from './cell-action';
 
 export const columns: ColumnDef<IOrganizationalUnitList>[] = [
   {
-    id: 'unitName',
+    id: 'searchText',
     accessorKey: 'unitName',
     header: ({
       column

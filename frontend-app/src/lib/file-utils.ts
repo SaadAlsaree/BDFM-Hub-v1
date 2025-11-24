@@ -143,3 +143,242 @@ export function downloadFileFromBase64(
 export function sanitizeFilename(filename: string): string {
   return filename.replace(/[^a-z0-9.-]/gi, '_');
 }
+
+/**
+ * Get MIME type from file extension
+ * @param extension - File extension (e.g., '.pdf', '.jpg')
+ * @returns MIME type string
+ */
+export function getMimeTypeFromExtension(extension: string): string {
+  const ext = extension.toLowerCase().replace('.', '');
+  
+  const mimeTypes: Record<string, string> = {
+    // Images
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    bmp: 'image/bmp',
+    svg: 'image/svg+xml',
+    webp: 'image/webp',
+    
+    // Videos
+    mp4: 'video/mp4',
+    avi: 'video/x-msvideo',
+    mov: 'video/quicktime',
+    wmv: 'video/x-ms-wmv',
+    flv: 'video/x-flv',
+    webm: 'video/webm',
+    mkv: 'video/x-matroska',
+    
+    // Audio
+    mp3: 'audio/mpeg',
+    wav: 'audio/wav',
+    ogg: 'audio/ogg',
+    flac: 'audio/flac',
+    aac: 'audio/aac',
+    m4a: 'audio/mp4',
+    
+    // Documents
+    pdf: 'application/pdf',
+    doc: 'application/msword',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    txt: 'text/plain',
+    rtf: 'application/rtf',
+    xls: 'application/vnd.ms-excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ppt: 'application/vnd.ms-powerpoint',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    
+    // Other
+    zip: 'application/zip',
+    json: 'application/json',
+    xml: 'application/xml',
+    html: 'text/html',
+    css: 'text/css',
+    js: 'application/javascript',
+  };
+  
+  return mimeTypes[ext] || 'application/octet-stream';
+}
+
+/**
+ * Print file from base64 string
+ * @param base64 - Base64 encoded file content
+ * @param filename - File name
+ * @param mimeType - MIME type of the file
+ * @param extension - File extension
+ * @returns Promise that resolves when print dialog is shown
+ */
+export async function printFileFromBase64(
+  base64: string,
+  filename: string,
+  mimeType: string,
+  extension: string
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    try {
+      // Convert base64 to blob
+      const byteCharacters = atob(base64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: mimeType });
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Handle PDF files
+      if (extension.toLowerCase() === '.pdf') {
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'fixed';
+        iframe.style.right = '0';
+        iframe.style.bottom = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = 'none';
+        iframe.src = blobUrl;
+        
+        document.body.appendChild(iframe);
+        
+        iframe.onload = () => {
+          setTimeout(() => {
+            try {
+              iframe.contentWindow?.focus();
+              iframe.contentWindow?.print();
+              
+              // Clean up after printing
+              setTimeout(() => {
+                document.body.removeChild(iframe);
+                URL.revokeObjectURL(blobUrl);
+                resolve();
+              }, 1000);
+            } catch (error) {
+              document.body.removeChild(iframe);
+              URL.revokeObjectURL(blobUrl);
+              reject(error);
+            }
+          }, 250);
+        };
+        
+        iframe.onerror = () => {
+          document.body.removeChild(iframe);
+          URL.revokeObjectURL(blobUrl);
+          reject(new Error('Failed to load PDF for printing'));
+        };
+        
+        return;
+      }
+
+      // Handle image files
+      if (mimeType.startsWith('image/')) {
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+          URL.revokeObjectURL(blobUrl);
+          reject(new Error('Popup blocked. Please allow popups to print.'));
+          return;
+        }
+
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Print ${filename}</title>
+              <style>
+                body {
+                  margin: 0;
+                  padding: 0;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  min-height: 100vh;
+                  background: white;
+                }
+                img {
+                  max-width: 100%;
+                  max-height: 100vh;
+                  object-fit: contain;
+                }
+              </style>
+            </head>
+            <body>
+              <img src="${blobUrl}" alt="${filename}" onload="window.print(); setTimeout(() => window.close(), 1000);" />
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        
+        // Clean up after printing
+        setTimeout(() => {
+          URL.revokeObjectURL(blobUrl);
+          resolve();
+        }, 2000);
+        
+        return;
+      }
+
+      // Handle text files
+      if (mimeType.startsWith('text/') || extension.toLowerCase() === '.txt') {
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+          URL.revokeObjectURL(blobUrl);
+          reject(new Error('Popup blocked. Please allow popups to print.'));
+          return;
+        }
+
+        // Read text content from blob
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const textContent = e.target?.result as string;
+          printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <title>Print ${filename}</title>
+                <style>
+                  body {
+                    margin: 20px;
+                    font-family: 'Courier New', monospace;
+                    font-size: 12pt;
+                    line-height: 1.6;
+                    white-space: pre-wrap;
+                    word-wrap: break-word;
+                  }
+                </style>
+              </head>
+              <body>
+                <pre>${textContent}</pre>
+                <script>
+                  window.onload = function() {
+                    window.print();
+                    setTimeout(() => window.close(), 1000);
+                  };
+                </script>
+              </body>
+            </html>
+          `);
+          printWindow.document.close();
+          
+          setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+            resolve();
+          }, 2000);
+        };
+        
+        reader.onerror = () => {
+          URL.revokeObjectURL(blobUrl);
+          reject(new Error('Failed to read file content'));
+        };
+        
+        reader.readAsText(blob);
+        return;
+      }
+
+      // For other file types, show a message or download
+      URL.revokeObjectURL(blobUrl);
+      reject(new Error(`Printing is not supported for ${extension} files. Please download the file instead.`));
+    } catch (error) {
+      reject(error);
+    }
+  });
+}

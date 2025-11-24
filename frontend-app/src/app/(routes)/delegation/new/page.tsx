@@ -7,6 +7,11 @@ import { roleService } from '@/features/roles/api/role.service';
 import { permissionService } from '@/features/permissions/api/permission.service';
 import { IRoleList } from '@/features/roles/types/role';
 import { IPermissionList } from '@/features/permissions/types/permission';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import Unauthorized from '@/components/auth/unauthorized';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
 
 export const metadata = {
   title: 'إضافة تفويض جديدة',
@@ -24,6 +29,25 @@ const NewDelegationPage = async () => {
     pageSize: 100
   });
   const permissionList = permissions?.data?.items as IPermissionList[];
+
+  const userData = await currentUserService.getCurrentUser();
+  const user = userData?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Correspondence']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer scrollable>
       <div className='flex-1 space-y-4'>

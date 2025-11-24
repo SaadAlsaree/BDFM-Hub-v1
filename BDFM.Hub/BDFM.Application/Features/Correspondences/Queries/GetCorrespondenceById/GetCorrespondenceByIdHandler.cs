@@ -79,7 +79,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
             }).FirstOrDefault(u => u.UserId == _currentUserService.UserId && u.CorrespondenceId == x.Id) ?? new UserCorrespondenceInteractionDto(),
 
             // 
-            WorkflowSteps = x.WorkflowSteps.OrderBy(y => y.Sequence).Select(y => new WorkflowStepHistoryVm
+            WorkflowSteps = x.WorkflowSteps.Select(y => new WorkflowStepHistoryVm
             {
                 Id = y.Id,
                 CorrespondenceId = x.Id,
@@ -223,12 +223,12 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
             // TODO: فعل التحقق من الصلاحيات لل WorkflowSteps
 
             // Filter WorkflowSteps based on user access permissions
-            var accessibleWorkflowStepIds = await _permissionValidationService.GetAccessibleWorkflowStepIdsAsync(request.Id, cancellationToken);
+            // var accessibleWorkflowStepIds = await _permissionValidationService.GetAccessibleWorkflowStepIdsAsync(request.Id, cancellationToken);
 
-            // Only include WorkflowSteps that the user can access
-            correspondence.WorkflowSteps = correspondence.WorkflowSteps
-                .Where(ws => accessibleWorkflowStepIds.Contains(ws.Id))
-                .ToList();
+            // // Only include WorkflowSteps that the user can access
+            // correspondence.WorkflowSteps = correspondence.WorkflowSteps
+            //     .Where(ws => accessibleWorkflowStepIds.Contains(ws.Id))
+            //     .ToList();
 
             // Now populate the recipient information for each accessible workflow step
             foreach (var workflowStep in correspondence.WorkflowSteps)

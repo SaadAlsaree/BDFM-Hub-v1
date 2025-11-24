@@ -22,7 +22,7 @@ import { CustomWorkflowList } from '@/features/customWorkflow/types/customWorkfl
 import { Separator } from '@/components/ui/separator';
 import { customWorkflowService } from '@/features/customWorkflow/api/customWorkflow.service';
 import { toast } from 'sonner';
-
+import { useAuthApi } from '@/hooks/use-auth-api';
 interface CellActionProps {
   data: CustomWorkflowList;
 }
@@ -31,12 +31,13 @@ export function CellAction({ data }: CellActionProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { authApiCall } = useAuthApi();
   const onDelete = async () => {
     try {
       setLoading(true);
-      const response = await customWorkflowService.deleteCustomWorkflow(
-        data.id
+
+      const response = await authApiCall(() =>
+        customWorkflowService.deleteCustomWorkflow(data.id!)
       );
       if (response?.succeeded) {
         toast.success('تم حذف سير العمل بنجاح!');

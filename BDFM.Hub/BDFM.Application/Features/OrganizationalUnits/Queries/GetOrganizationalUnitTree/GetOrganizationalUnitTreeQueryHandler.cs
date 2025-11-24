@@ -16,8 +16,9 @@ public class GetOrganizationalUnitTreeQueryHandler :
         GetOrganizationalUnitTreeQuery request,
         CancellationToken cancellationToken)
     {
-        // Get all organizational units
+        // Get all organizational units (filter out deleted entities)
         var allUnits = await _repository.Query()
+            .Where(x => !x.IsDeleted)
             .Include(x => x.ChildUnits)
             .ToListAsync(cancellationToken);
 

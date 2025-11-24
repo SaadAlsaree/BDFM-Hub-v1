@@ -37,7 +37,38 @@ public class GetOrganizationalUnitListQueryHandler :
         GetOrganizationalUnitListQuery request,
         CancellationToken cancellationToken)
     {
-        return await HandleBase(request, cancellationToken);
+        var query = _repository.Query();
+
+        // Apply custom filters using the extension method
+        query = query.ApplyFilter(request);
+
+        // Apply ordering
+        var orderedQuery = OrderBy(query);
+
+        // Apply pagination and get results
+        var result = await orderedQuery
+            .ApplyPagination(request)
+            .Select(Selector)
+            .ToListAsync(cancellationToken: cancellationToken);
+
+        // Get count (without pagination)
+        var count = await query.CountAsync(cancellationToken: cancellationToken);
+
+        if (!result.Any())
+            return ErrorsMessage.NotFoundData.ToErrorMessage<PagedResult<OrganizationalUnitListViewModel>>(null!);
+
+        result.ToList().ForEach(x =>
+        {
+            (x! as dynamic).StatusName = ((Status)(x as dynamic).Status).GetDisplayName();
+        });
+
+        var pagedResult = new PagedResult<OrganizationalUnitListViewModel>
+        {
+            Items = result,
+            TotalCount = count
+        };
+
+        return SuccessMessage.Get.ToSuccessMessage(pagedResult);
     }
 }
 
@@ -47,13 +78,14 @@ public static class GetOrganizationalUnitListQueryFilterExtensions
         this IQueryable<OrganizationalUnit> query,
         GetOrganizationalUnitListQuery request)
     {
-        if (!string.IsNullOrEmpty(request.SearchText))
+        // Filter out deleted entities
+        query = query.Where(x => !x.IsDeleted);
+
+        if (!string.IsNullOrWhiteSpace(request.SearchText))
         {
-            var searchText = request.SearchText.ToLower();
             query = query.Where(x =>
-                x.UnitName.ToLower().Contains(searchText) ||
-                x.UnitCode.ToLower().Contains(searchText) ||
-                (x.UnitDescription != null && x.UnitDescription.ToLower().Contains(searchText)));
+                EF.Functions.Like(x.UnitName, request.SearchText + "%") ||
+                EF.Functions.Like(x.UnitCode, request.SearchText + "%"));
         }
 
         if (request.ParentUnitId.HasValue)

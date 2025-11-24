@@ -11,7 +11,7 @@ import moment from 'moment';
 
 export const columns: ColumnDef<IUserList>[] = [
   {
-    id: 'username',
+    id: 'searchTerm',
     accessorKey: 'username',
     header: ({ column }: { column: Column<IUserList, unknown> }) => (
       <DataTableColumnHeader column={column} title='الاسم الكامل' />

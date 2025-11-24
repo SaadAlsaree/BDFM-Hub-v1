@@ -28,6 +28,8 @@ public class GetMailFileListQueryHandler :
 
     private IQueryable<MailFile> ApplyFilters(IQueryable<MailFile> query, GetMailFileListQuery request)
     {
+        query = query.Where(x => !x.IsDeleted);
+
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
             query = query.Where(mf =>

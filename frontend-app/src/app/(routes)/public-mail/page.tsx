@@ -13,6 +13,7 @@ import MailPublicListing from '@/features/correspondence/inbox-list/components/m
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { IconPlus } from '@tabler/icons-react';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'الأعمامات'
@@ -40,6 +41,13 @@ export default async function PublicMailPage(props: PublicMailPageProps) {
     return <Unauthorized />;
   }
 
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>

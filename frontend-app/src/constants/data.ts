@@ -109,7 +109,14 @@ export const navItems: NavItem[] = [
         shortcut: ['t', 't'],
         requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
-
+      {
+        title: 'الكتب الموجهة إليك',
+        url: '/correspondence/forwarded-books',
+        icon: 'send',
+        shortcut: ['o', 'o'],
+        isActive: false,
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
       {
         title: 'وارد داخلي',
         url: '/correspondence/incoming-internal-book-list',

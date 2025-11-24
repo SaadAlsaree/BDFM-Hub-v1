@@ -96,6 +96,7 @@ internal class GetCustomWorkflowByIdHandler : GetByIdHandler<CustomWorkflow, Get
         // Get projected VM (this avoids tracking and brings minimal data)
         var vm = await _repository
             .Query(IdPredicate(request))
+            .Where(x => !x.IsDeleted)
             .Select(Selector)
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 

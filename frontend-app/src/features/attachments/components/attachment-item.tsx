@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FileAttachmentList } from '../types/attachment';
 import {
   Card,
@@ -26,7 +26,6 @@ import {
 import { cn } from '@/lib/utils';
 import { formatFileSize } from '@/lib/file-utils';
 import { format } from 'date-fns';
-import AttachmentItemViewDialog from './attachment-item-view-dialog';
 
 type Props = {
   attachment: FileAttachmentList;
@@ -86,13 +85,13 @@ const AttachmentItem = ({
   onPrint,
   className
 }: Props) => {
-  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-
   const FileIcon = getFileIcon(attachment.fileExtension);
   const fileTypeColor = getFileTypeColor(attachment.fileExtension);
 
   const onViewAttachment = () => {
-    setIsViewDialogOpen(true);
+    if (attachment.id) {
+      window.open(`/attachments/${attachment.id}`, '_blank');
+    }
   };
 
   const onDownloadAttachment = () => {
@@ -210,14 +209,6 @@ const AttachmentItem = ({
           </div>
         </CardFooter>
       </Card>
-
-      {attachment.id && (
-        <AttachmentItemViewDialog
-          attachmentId={attachment.id}
-          isOpen={isViewDialogOpen}
-          onClose={() => setIsViewDialogOpen(false)}
-        />
-      )}
     </>
   );
 };

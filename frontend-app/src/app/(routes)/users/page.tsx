@@ -6,10 +6,15 @@ import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
 import UserListingPage from '@/features/users/components/user-listing';
 import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
 import { IconPlus } from '@tabler/icons-react';
 import Link from 'next/link';
 import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
+import Unauthorized from '@/components/auth/unauthorized';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'قائمة المستخدمين'
@@ -23,6 +28,25 @@ export default async function Page(props: pageProps) {
   const searchParams = await props.searchParams;
   // Allow nested RSCs to access the search params (in a type-safe way)
   searchParamsCache.parse(searchParams);
+
+  const userData = await currentUserService.getCurrentUser();
+  const user = userData?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Correspondence']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer scrollable={false}>

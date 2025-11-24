@@ -226,5 +226,22 @@ export const organizationalService = {
     } catch (error) {
       return null;
     }
+  },
+
+  ///OrganizationalUnit/DeleteOrganizationalUnit/019a0be4-1405-74f9-95a8-c9ba169a85b1'
+  async deleteOrganizationalUnit(id: string) {
+    try {
+      const response = await axiosClient.delete(
+        `${baseUrl}/OrganizationalUnit/DeleteOrganizationalUnit/${id}`
+      );
+
+      if (response.status >= 400) {
+        return null;
+      }
+
+      return (response.data as IResponse<boolean>) || null;
+    } catch (error) {
+      return null;
+    }
   }
 };

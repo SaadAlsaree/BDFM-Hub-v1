@@ -40,20 +40,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setLoading(true);
 
       const response = await authApiCall(() =>
-        organizationalService.updateOrganizationalUnitStatus(
-          data.id!,
-          OrganizationalUnitStatus.Deleted
-        )
+        organizationalService.deleteOrganizationalUnit(data.id!)
       );
 
       if (response?.succeeded) {
         router.refresh();
-        toast.success('Organizational unit marked as deleted');
+        toast.success('تم حذف الجهة بنجاح');
       } else {
-        toast.error('Failed to delete organizational unit');
+        toast.error('فشل حذف الجهة');
       }
     } catch (error) {
-      toast.error('Something went wrong.');
+      toast.error('حدث خطأ');
     } finally {
       setLoading(false);
       setOpen(false);

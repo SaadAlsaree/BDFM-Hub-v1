@@ -4,12 +4,17 @@ import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
 import OrganizationalUnitListing from '@/features/organizational-unit/components/organizational-unit-listing';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
 import { IconPlus } from '@tabler/icons-react';
 import Link from 'next/link';
 import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
+import Unauthorized from '@/components/auth/unauthorized';
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 // import { OrganizationalUnitFlow } from '@/features/organizational-unit/components/OrganizationalUnitFlow';
 
@@ -27,6 +32,25 @@ const OrganizationalUnitPage = async (props: pageProps) => {
   searchParamsCache.parse(searchParams);
 
   // const orgTree = await organizationalService.getOrganizationalUnitTree();
+
+  const data = await currentUserService.getCurrentUser();
+  const user = data?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Correspondence']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer scrollable={false}>
