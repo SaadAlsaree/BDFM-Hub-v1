@@ -35,6 +35,7 @@ using BDFM.Application.Features.Correspondences.Queries.GetPending;
 using BDFM.Application.Features.Correspondences.Queries.GetProcessing;
 using BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing;
 using BDFM.Application.Features.Correspondences.Queries.GetCompleted;
+using BDFM.Application.Features.Correspondences.Queries.GetForwardedCorrespondence;
 
 namespace BDFM.API.Controllers.Correspondence
 {
@@ -468,6 +469,19 @@ namespace BDFM.API.Controllers.Correspondence
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Permission("Correspondence|View")]
         public async Task<IActionResult> GetCompleted([FromQuery] GetCompletedQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets correspondences with WorkflowSteps directed to the current user or their unit
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<GetForwardedCorrespondenceVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<PagedResult<GetForwardedCorrespondenceVm>>), StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|GetForwardedCorrespondence")]
+        public async Task<ObjectResult> GetForwardedCorrespondence([FromQuery] GetForwardedCorrespondenceQuery query)
         {
             return await Okey(() => _mediator.Send(query));
         }

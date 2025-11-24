@@ -3,6 +3,8 @@ using BDFM.Application.Contracts.Persistence;
 using BDFM.Application.Models.Authentication;
 using BDFM.Domain.Entities.Core;
 using BDFM.Domain.Entities.Security;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -29,13 +31,13 @@ namespace BDFM.Identity.Services
 
             if (auth == null)
             {
-                throw new Exception($"User with {request.UserLogin} not found.");
+                return new AuthenticationResponse { Success = false, Message = $"User with {request.UserLogin} not found." };
             }
 
             //Check if Password is correct
             if (!BCrypt.Net.BCrypt.Verify(request.Password, auth.PasswordHash))
             {
-                throw new Exception("Invalid Password");
+                return new AuthenticationResponse { Success = false, Message = "Password is incorrect" };
             }
 
             JwtSecurityToken jwtSecurityToken = await GenerateToken(auth);

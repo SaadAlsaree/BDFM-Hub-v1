@@ -1,6 +1,7 @@
-namespace BDFM.Application.Features.Correspondences.Queries.GetTrashItems;
+﻿namespace BDFM.Application.Features.Correspondences.Queries.GetForwardedCorrespondence;
 
-public class TrashItemVm
+public class GetForwardedCorrespondenceVm
+
 {
     // Identifiers
     public Guid CorrespondenceId { get; set; }
@@ -42,6 +43,8 @@ public class TrashItemVm
 
     // User interaction flags
     public UserCorrespondenceInteractionDto UserCorrespondenceInteraction { get; set; } = new UserCorrespondenceInteractionDto();
+    public List<WorkflowStepVm> WorkflowSteps { get; set; } = new List<WorkflowStepVm>();
+
 }
 
 
@@ -57,5 +60,31 @@ public class UserCorrespondenceInteractionDto
     public bool IsInTrash { get; set; } = false; // ?? ???????? ?? ????????
     public bool IsRead { get; set; }
     public bool ReceiveNotifications { get; set; } = false;
+
+}
+
+public class WorkflowStepVm
+{
+        public Guid Id { get; set; }
+        public Guid CorrespondenceId { get; set; }
+
+        public ActionTypeEnum ActionType { get; set; }
+        public string ActionTypeName { get; set; } = string.Empty;
+        public Guid? FromUserId { get; set; }
+        public Guid? FromUnitId { get; set; }
+         public RecipientTypeEnum ToPrimaryRecipientType { get; set; }
+        public string ToPrimaryRecipientTypeName { get; set; } = string.Empty;
+        public int Sequence { get; set; }
+        public bool IsActive { get; set; }
+
+        public Guid ToPrimaryRecipientId { get; set; }
+        public string ToPrimaryRecipientName { get; set; } = string.Empty;
+        public string? InstructionText { get; set; } // Text type in DB
+        public DateTime? DueDate { get; set; }
+        public WorkflowStepStatus Status { get; set; }
+        public string WorkflowStepStatusName { get; set; } = string.Empty;
+        public bool IsTimeSensitive { get; set; }
+        public DateTime CreateAt { get; set; }
+        public Guid CreateBy { get; set; }
 
 }
