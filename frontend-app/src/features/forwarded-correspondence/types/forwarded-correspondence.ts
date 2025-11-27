@@ -32,3 +32,7 @@ export interface ForwardedCorrespondenceItem {
 
 export type ForwardedCorrespondenceResponse = IResponseList<ForwardedCorrespondenceItem>;
 
+
+
+
+
