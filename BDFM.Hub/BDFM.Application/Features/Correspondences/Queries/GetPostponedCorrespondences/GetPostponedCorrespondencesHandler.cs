@@ -1,4 +1,6 @@
+using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
+using BDFM.Application.Extensions;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Domain.Entities.Core;
 
@@ -6,10 +8,16 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespo
 {
     public class GetPostponedCorrespondencesHandler : GetAllWithCountHandler<Correspondence, GetPostponedCorrespondencesVm, GetPostponedCorrespondencesQuery>, IRequestHandler<GetPostponedCorrespondencesQuery, Response<PagedResult<GetPostponedCorrespondencesVm>>>
     {
-        ICurrentUserService _currentUserService;
-        public GetPostponedCorrespondencesHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService) : base(repository)
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IPermissionValidationService _permissionValidationService;
+
+        public GetPostponedCorrespondencesHandler(
+            IBaseRepository<Correspondence> repository,
+            ICurrentUserService currentUserService,
+            IPermissionValidationService permissionValidationService) : base(repository)
         {
             _currentUserService = currentUserService;
+            _permissionValidationService = permissionValidationService;
         }
 
         public override Expression<Func<Correspondence, GetPostponedCorrespondencesVm>> Selector => x => new GetPostponedCorrespondencesVm
@@ -56,7 +64,34 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespo
 
         public async Task<Response<PagedResult<GetPostponedCorrespondencesVm>>> Handle(GetPostponedCorrespondencesQuery request, CancellationToken cancellationToken)
         {
+            // Get user info and access control parameters
+            var userUnitId = _currentUserService.OrganizationalUnitId;
+            var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
+            
+            // Get hierarchical unit IDs based on user role
+            IEnumerable<Guid> hierarchicalUnitIds;
+
+            if (isSuAdminOrManager)
+            {
+                // Managers/Admins get their unit + all sub-units hierarchically
+                hierarchicalUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+            }
+            else
+            {
+                // Standard users: pass user's unit only
+                hierarchicalUnitIds = userUnitId.HasValue
+                    ? [userUnitId.Value]
+                    : Enumerable.Empty<Guid>();
+            }
+
             var query = _repository.Query();
+
+            // Apply access control
+            query = query.ApplyCorrespondenceAccessControl(
+                _currentUserService.UserId,
+                userUnitId,
+                isSuAdminOrManager,
+                hierarchicalUnitIds);
 
             // Apply filtering with current user context for postponed correspondences
             query = query.ApplyFilterPostponed(_currentUserService.UserId);

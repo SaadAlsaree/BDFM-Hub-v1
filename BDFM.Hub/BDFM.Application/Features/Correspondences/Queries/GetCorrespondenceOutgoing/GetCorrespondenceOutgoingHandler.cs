@@ -1,6 +1,6 @@
-
 using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
+using BDFM.Application.Extensions;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Domain.Entities.Core;
 
@@ -10,13 +10,14 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceOut
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IPermissionValidationService _permissionValidationService;
-        private readonly IBaseRepository<User> _userRepository;
 
-        public GetCorrespondenceOutgoingHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IPermissionValidationService permissionValidationService, IBaseRepository<User> userRepository) : base(repository)
+        public GetCorrespondenceOutgoingHandler(
+            IBaseRepository<Correspondence> repository,
+            ICurrentUserService currentUserService,
+            IPermissionValidationService permissionValidationService) : base(repository)
         {
             _currentUserService = currentUserService;
             _permissionValidationService = permissionValidationService;
-            _userRepository = userRepository;
         }
 
         public override Expression<Func<Correspondence, GetCorrespondenceOutgoingVm>> Selector => x => new GetCorrespondenceOutgoingVm
@@ -65,46 +66,37 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceOut
 
         public async Task<Response<PagedResult<GetCorrespondenceOutgoingVm>>> Handle(GetCorrespondenceOutgoingQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.Find(x => x.Id == _currentUserService.UserId);
+            // Get user info and access control parameters
             var userUnitId = _currentUserService.OrganizationalUnitId;
+            var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
+
+            // Get hierarchical unit IDs based on user role
+            IEnumerable<Guid> hierarchicalUnitIds;
+
+            if (isSuAdminOrManager)
+            {
+                // Managers/Admins get their unit + all sub-units hierarchically
+                hierarchicalUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+            }
+            else
+            {
+                // Standard users: pass user's unit only
+                hierarchicalUnitIds = userUnitId.HasValue
+                    ? [userUnitId.Value]
+                    : Enumerable.Empty<Guid>();
+            }
 
             var query = _repository.Query();
 
-            // Filter for outgoing external correspondences only and apply user access control
-            // Standard users can only see correspondence from their own unit (not parent/child units)
-            query = query.Where(c =>
-                c.CorrespondenceType == CorrespondenceTypeEnum.OutgoingExternal &&
-                (
-                    // User is the creator of the correspondence
-                    c.CreateByUserId == _currentUserService.UserId ||
-                    // Correspondence is assigned to user's organizational unit (primary recipient - exact unit match)
-                    c.WorkflowSteps.Any(ws =>
-                        ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
-                        userUnitId.HasValue &&
-                        ws.ToPrimaryRecipientId == userUnitId.Value
-                    ) ||
-                    // Correspondence has user's organizational unit as secondary recipient (exact unit match)
-                    c.WorkflowSteps.Any(ws =>
-                        ws.SecondaryRecipients.Any(sr =>
-                            sr.RecipientType == RecipientTypeEnum.Unit &&
-                            userUnitId.HasValue &&
-                            sr.RecipientId == userUnitId.Value
-                        )
-                    ) ||
-                    // User is directly assigned as primary recipient
-                    c.WorkflowSteps.Any(ws =>
-                        ws.ToPrimaryRecipientType == RecipientTypeEnum.User &&
-                        ws.ToPrimaryRecipientId == _currentUserService.UserId
-                    ) ||
-                    // User is directly assigned as secondary recipient
-                    c.WorkflowSteps.Any(ws =>
-                        ws.SecondaryRecipients.Any(sr =>
-                            sr.RecipientType == RecipientTypeEnum.User &&
-                            sr.RecipientId == _currentUserService.UserId
-                        )
-                    )
-                )
-            );
+            // Filter for outgoing external correspondences only
+            query = query.Where(c => c.CorrespondenceType == CorrespondenceTypeEnum.OutgoingExternal);
+
+            // Apply access control
+            query = query.ApplyCorrespondenceAccessControl(
+                _currentUserService.UserId,
+                userUnitId,
+                isSuAdminOrManager,
+                hierarchicalUnitIds);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

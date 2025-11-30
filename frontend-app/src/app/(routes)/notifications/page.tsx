@@ -375,6 +375,9 @@ export default function NotificationsPage() {
                     getFilteredRowModel: () => ({
                       rows: Array(totalCount).fill(null)
                     }),
+                    getFilteredSelectedRowModel: () => ({
+                      rows: []
+                    }),
                     getRowModel: () => ({
                       rows: Array(pageSize).fill(null)
                     })

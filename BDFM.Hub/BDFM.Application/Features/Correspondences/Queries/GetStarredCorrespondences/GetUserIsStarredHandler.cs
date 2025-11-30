@@ -1,4 +1,6 @@
+using BDFM.Application.Contract.Identity;
 using BDFM.Application.Contracts.Identity;
+using BDFM.Application.Extensions;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Domain.Entities.Core;
 
@@ -6,11 +8,16 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetStarredCorrespond
 {
     public class GetUserIsStarredHandler : GetAllWithCountHandler<Correspondence, StarredItemVm, GetUserIsStarredQuery>, IRequestHandler<GetUserIsStarredQuery, Response<PagedResult<StarredItemVm>>>
     {
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IPermissionValidationService _permissionValidationService;
 
-        ICurrentUserService _currentUserService;
-        public GetUserIsStarredHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService) : base(repository)
+        public GetUserIsStarredHandler(
+            IBaseRepository<Correspondence> repository,
+            ICurrentUserService currentUserService,
+            IPermissionValidationService permissionValidationService) : base(repository)
         {
             _currentUserService = currentUserService;
+            _permissionValidationService = permissionValidationService;
         }
 
         public override Expression<Func<Correspondence, StarredItemVm>> Selector => x => new StarredItemVm
@@ -61,7 +68,34 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetStarredCorrespond
 
         public async Task<Response<PagedResult<StarredItemVm>>> Handle(GetUserIsStarredQuery request, CancellationToken cancellationToken)
         {
+            // Get user info and access control parameters
+            var userUnitId = _currentUserService.OrganizationalUnitId;
+            var isSuAdminOrManager = _currentUserService.HasRole("SuAdmin") || _currentUserService.HasRole("Manager");
+            
+            // Get hierarchical unit IDs based on user role
+            IEnumerable<Guid> hierarchicalUnitIds;
+
+            if (isSuAdminOrManager)
+            {
+                // Managers/Admins get their unit + all sub-units hierarchically
+                hierarchicalUnitIds = await _permissionValidationService.GetAccessibleUnitIdsAsync(cancellationToken);
+            }
+            else
+            {
+                // Standard users: pass user's unit only
+                hierarchicalUnitIds = userUnitId.HasValue
+                    ? [userUnitId.Value]
+                    : Enumerable.Empty<Guid>();
+            }
+
             var query = _repository.Query();
+
+            // Apply access control
+            query = query.ApplyCorrespondenceAccessControl(
+                _currentUserService.UserId,
+                userUnitId,
+                isSuAdminOrManager,
+                hierarchicalUnitIds);
 
             // Apply filtering with current user context
             query = query.ApplyFilter(request, _currentUserService.UserId);
