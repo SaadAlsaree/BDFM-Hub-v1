@@ -14,11 +14,7 @@ namespace BDFM.Application.Features.CorrespondenceTags.Queries.GetCorrespondence
             Id = ct.Id,
             TagId = ct.TagId,
             TagName = ct.Tag.Name,
-            TagDescription = ct.Tag.Description,
-            TagColor = ct.Tag.Color,
-            TagCategory = ct.Tag.Category,
-            TagCategoryName = ct.Tag.Category.ToString(),
-            IsSystemTag = ct.Tag.IsSystemTag,
+         
             IsPrivateTag = ct.IsPrivateTag,
             Notes = ct.Notes,
             Priority = ct.Priority,
@@ -26,7 +22,7 @@ namespace BDFM.Application.Features.CorrespondenceTags.Queries.GetCorrespondence
             AppliedAt = ct.CreateAt
         };
 
-        public override Func<IQueryable<CorrespondenceTag>, IOrderedQueryable<CorrespondenceTag>> OrderBy => q => q.OrderBy(ct => ct.Tag.Category).ThenBy(ct => ct.Priority).ThenBy(ct => ct.Tag.Name);
+        public override Func<IQueryable<CorrespondenceTag>, IOrderedQueryable<CorrespondenceTag>> OrderBy => q => q.OrderBy(ct => ct.Tag.CreateAt).ThenBy(ct => ct.Priority).ThenBy(ct => ct.Tag.Name);
 
         public async Task<Response<IEnumerable<CorrespondenceTagViewModel>>> Handle(GetCorrespondenceTagsQuery request, CancellationToken cancellationToken)
         {
@@ -51,7 +47,7 @@ namespace BDFM.Application.Features.CorrespondenceTags.Queries.GetCorrespondence
 
             // Apply ordering and get results
             var result = await query
-                .OrderBy(ct => ct.Tag.Category)
+                .OrderBy(ct => ct.Tag.CreateAt)
                 .ThenBy(ct => ct.Priority)
                 .ThenBy(ct => ct.Tag.Name)
                 .Select(Selector)

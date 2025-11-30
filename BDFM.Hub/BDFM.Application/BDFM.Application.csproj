@@ -96,6 +96,8 @@
     <Folder Include="Features\Security\Roles\Commands\UpdateRole\" />
     <Folder Include="Features\Security\Roles\Queries\GetRoleList\" />
     <Folder Include="Features\Security\Roles\Queries\GetRoleById\" />
+    <Folder Include="Features\Tags\Commands\" />
+    <Folder Include="Features\Tags\Queries\" />
     <Folder Include="Features\Users\Commands\CreateUser\" />
     <Folder Include="Features\Users\Commands\ChangePassword\" />
     <Folder Include="Features\Users\Commands\UpdateUser\" />

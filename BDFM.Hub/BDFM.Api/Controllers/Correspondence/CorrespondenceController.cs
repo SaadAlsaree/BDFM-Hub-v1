@@ -31,6 +31,7 @@ using BDFM.Application.Features.Correspondences.Queries.GetUserDrafts;
 using BDFM.Application.Features.Correspondences.Queries.GetUserInbox;
 using BDFM.Application.Features.Correspondences.Queries.SearchCorrespondences;
 using BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary;
+using BDFM.Application.Features.Correspondences.Queries.CorrespondencesSummary;
 using BDFM.Application.Features.Correspondences.Queries.GetPending;
 using BDFM.Application.Features.Correspondences.Queries.GetProcessing;
 using BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing;
@@ -419,6 +420,19 @@ namespace BDFM.API.Controllers.Correspondence
         [ProducesResponseType(typeof(Response<GetCorrespondencesSummaryVm>), StatusCodes.Status400BadRequest)]
         [Permission("Correspondence|GetSummary")]
         public async Task<ObjectResult> GetCorrespondencesSummary([FromQuery] GetCorrespondencesSummaryCommand query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets correspondences summary for units of type DEPARTMENT (1) and DIRECTORATE (2) with their sub-units
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<List<CorrespondencesSummaryVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<List<CorrespondencesSummaryVm>>), StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|GetSummary")]
+        public async Task<ObjectResult> GetCorrespondencesSummaryByUnits([FromQuery] CorrespondencesSummaryQuery query)
         {
             return await Okey(() => _mediator.Send(query));
         }

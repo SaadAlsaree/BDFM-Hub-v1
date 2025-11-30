@@ -46,7 +46,7 @@ namespace BDFM.Application.Features.CorrespondenceTags.Commands.ApplyTag
                 var tag = await _tagRepository.Find(t => t.Id == request.TagId, cancellationToken: cancellationToken);
                 if (tag != null)
                 {
-                    var updatedUsageCount = tag.UsageCount + 1;
+                    var updatedUsageCount = tag.CorrespondenceTags.Count + 1;
                     await _tagRepository.UpdateEntity(
                         t => t.Id == request.TagId,
                         new { UsageCount = updatedUsageCount },

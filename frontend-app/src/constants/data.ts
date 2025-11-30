@@ -43,8 +43,8 @@ export const ordersNavItems: NavItem[] = [
 
 export const presidentNavItems: NavItem[] = [
   {
-    title: 'الرئيس',
-    url: '/president',
+    title: 'ملخص الكتب',
+    url: '/correspondences-summary',
     icon: 'inbox',
     shortcut: ['p', 'p'],
     isActive: false,

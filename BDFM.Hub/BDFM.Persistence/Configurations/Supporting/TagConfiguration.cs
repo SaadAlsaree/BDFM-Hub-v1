@@ -14,12 +14,19 @@ namespace BDFM.Persistence.Configurations.Supporting
                 .IsRequired()
                 .HasMaxLength(500);
 
-
-
             // Navigation Properties
+            // Note: Tag can have a direct relationship with Correspondence (for legacy/specific tags)
+            // OR through CorrespondenceTag (many-to-many relationship)
             builder.HasOne(t => t.Correspondence)
-                .WithMany(c => (IEnumerable<Tag>)c.CorrespondenceTags)
-                .HasForeignKey(t => t.CorrespondenceId);
+                .WithMany()
+                .HasForeignKey(t => t.CorrespondenceId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Many-to-many relationship through CorrespondenceTag is configured in CorrespondenceTagConfiguration
+            builder.HasMany(t => t.CorrespondenceTags)
+                .WithOne(ct => ct.Tag)
+                .HasForeignKey(ct => ct.TagId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(t => t.User)
                 .WithMany(u => u.UserTags)

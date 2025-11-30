@@ -35,16 +35,7 @@ namespace BDFM.Domain.Extensions
                 .Select(ct => ct.Tag);
         }
 
-        /// <summary>
-        /// Gets tags by category
-        /// </summary>
-        public static IEnumerable<Tag> GetTagsByCategory(this Correspondence correspondence, TagCategoryEnum category)
-        {
-            return correspondence.CorrespondenceTags
-                .Select(ct => ct.Tag)
-                .Where(t => t.Category == category);
-        }
-
+        
         /// <summary>
         /// Checks if correspondence has a specific tag
         /// </summary>
@@ -52,16 +43,6 @@ namespace BDFM.Domain.Extensions
         {
             return correspondence.CorrespondenceTags
                 .Any(ct => ct.Tag.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase));
-
-        }
-
-        /// <summary>
-        /// Checks if correspondence has any tags from a specific category
-        /// </summary>
-        public static bool HasTagsInCategory(this Correspondence correspondence, TagCategoryEnum category)
-        {
-            return correspondence.CorrespondenceTags
-                .Any(ct => ct.Tag.Category == category);
 
         }
 
@@ -81,13 +62,6 @@ namespace BDFM.Domain.Extensions
             return string.Join(", ", tags);
         }
 
-        /// <summary>
-        /// Gets the most frequently used tags
-        /// </summary>
-        public static IEnumerable<Tag> GetMostUsedTags(this IEnumerable<Tag> tags, int count = 10)
-        {
-            return tags.OrderByDescending(t => t.UsageCount).Take(count);
-        }
 
         /// <summary>
         /// Generates a default color for a tag based on its category

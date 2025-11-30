@@ -105,10 +105,7 @@ namespace BDFM.Persistence
                 .HasFilter("\"Name\" IS NOT NULL");
 
             modelBuilder.Entity<Tag>()
-                .HasIndex(t => t.Category);
-
-            modelBuilder.Entity<Tag>()
-                .HasIndex(t => t.UsageCount);
+                .HasIndex(t => t.CreateAt);
 
             // CorrespondenceTag configurations
             modelBuilder.Entity<CorrespondenceTag>()

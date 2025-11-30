@@ -187,15 +187,7 @@ namespace BDFM.Domain.Common
                           {
                               Id = Guid.NewGuid(),
                               Name = template.Name,
-                              Description = template.Description,
-                              Color = template.DefaultColor,
-                              Category = template.Category,
-                              IsSystemTag = true,
-                              IsPublic = true,
-                              UsageCount = 0,
-                              CreateAt = DateTime.UtcNow,
-                              StatusId = Status.Active
-                          }).ToList();
+                          }).ToList()!;
         }
     }
 }
