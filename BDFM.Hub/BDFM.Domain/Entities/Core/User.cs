@@ -54,7 +54,7 @@ namespace BDFM.Domain.Entities.Core
         public virtual ICollection<MailFile> CreatedMailFiles { get; set; } = new HashSet<MailFile>();
         public virtual ICollection<UserCorrespondenceInteraction> UserCorrespondenceInteractions { get; set; } = new HashSet<UserCorrespondenceInteraction>();
         public virtual ICollection<CorrespondenceComment> CreatedComments { get; set; } = new HashSet<CorrespondenceComment>();
-        public virtual ICollection<Tag> CreatedTags { get; set; } = new HashSet<Tag>();
+        public virtual ICollection<Tag> UserTags { get; set; } = new HashSet<Tag>();
         public virtual ICollection<CorrespondenceTag> AppliedCorrespondenceTags { get; set; } = new HashSet<CorrespondenceTag>();
 
         // Leave Request Navigation Properties
