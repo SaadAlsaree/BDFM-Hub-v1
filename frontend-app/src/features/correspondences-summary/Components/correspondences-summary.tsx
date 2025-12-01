@@ -39,8 +39,11 @@ export function CorrespondencesSummary({
     // Export logic will be implemented here
   }
 
-  const units = initialData?.data || [];
-  const error = initialError || (initialData && !initialData.succeeded ? initialData.message : null);
+  const units = initialData?.data?.units || [];
+  const totals = initialData?.data;
+  const error =
+    initialError ||
+    (initialData && !initialData.succeeded ? initialData.message : null);
 
   return (
     <div className='space-y-6'>
@@ -51,13 +54,11 @@ export function CorrespondencesSummary({
         onExport={onExport}
         loading={false}
       />
-       <Separator />
+      <Separator />
       {/* Filter */}
       <div className='flex justify-end'>
         <CorrespondencesSummaryFilter />
       </div>
-
-
 
       {/* Content */}
       {error && (
@@ -92,17 +93,16 @@ export function CorrespondencesSummary({
         </Card>
       )}
 
-       {/* Summary Stats */}
-       {!error && units.length > 0 && (
+      {/* Summary Stats */}
+      {!error && totals && (
         <Card>
           <CardContent className='pt-6'>
-            <div className='grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-7'>
+            <div className='grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8'>
               <div className='text-center'>
                 <div className='text-2xl font-bold'>
-                  {units.reduce(
-                    (sum, unit) => sum + (unit.totalCorrespondences || 0),
-                    0
-                  ).toLocaleString('en-US')}
+                  {(totals.totalAllCorrespondences || 0).toLocaleString(
+                    'en-US'
+                  )}
                 </div>
                 <div className='text-muted-foreground text-xs'>
                   إجمالي الكتب
@@ -110,24 +110,17 @@ export function CorrespondencesSummary({
               </div>
               <div className='text-center'>
                 <div className='text-2xl font-bold text-blue-600'>
-                  {units
-                    .reduce(
-                      (sum, unit) => sum + (unit.totalCorrespondencesPending || 0),
-                      0
-                    )
-                    .toLocaleString('en-US')}
+                  {(totals.totalAllCorrespondencesPending || 0).toLocaleString(
+                    'en-US'
+                  )}
                 </div>
                 <div className='text-muted-foreground text-xs'>معلقة</div>
               </div>
               <div className='text-center'>
                 <div className='text-2xl font-bold text-amber-600'>
-                  {units
-                    .reduce(
-                      (sum, unit) =>
-                        sum + (unit.totalCorrespondencesUnderProcessing || 0),
-                      0
-                    )
-                    .toLocaleString('en-US')}
+                  {(
+                    totals.totalAllCorrespondencesUnderProcessing || 0
+                  ).toLocaleString('en-US')}
                 </div>
                 <div className='text-muted-foreground text-xs'>
                   قيد المعالجة
@@ -135,36 +128,25 @@ export function CorrespondencesSummary({
               </div>
               <div className='text-center'>
                 <div className='text-2xl font-bold text-green-600'>
-                  {units
-                    .reduce(
-                      (sum, unit) => sum + (unit.totalCorrespondencesCompleted || 0),
-                      0
-                    )
-                    .toLocaleString('en-US')}
+                  {(
+                    totals.totalAllCorrespondencesCompleted || 0
+                  ).toLocaleString('en-US')}
                 </div>
                 <div className='text-muted-foreground text-xs'>مكتملة</div>
               </div>
               <div className='text-center'>
                 <div className='text-2xl font-bold text-red-600'>
-                  {units
-                    .reduce(
-                      (sum, unit) => sum + (unit.totalCorrespondencesRejected || 0),
-                      0
-                    )
-                    .toLocaleString('en-US')}
+                  {(totals.totalAllCorrespondencesRejected || 0).toLocaleString(
+                    'en-US'
+                  )}
                 </div>
                 <div className='text-muted-foreground text-xs'>مرفوضة</div>
               </div>
               <div className='text-center'>
                 <div className='text-2xl font-bold text-orange-600'>
-                  {units
-                    .reduce(
-                      (sum, unit) =>
-                        sum +
-                        (unit.totalCorrespondencesReturnedForModification || 0),
-                      0
-                    )
-                    .toLocaleString('en-US')}
+                  {(
+                    totals.totalAllCorrespondencesReturnedForModification || 0
+                  ).toLocaleString('en-US')}
                 </div>
                 <div className='text-muted-foreground text-xs'>
                   مرتجعة للتعديل
@@ -172,14 +154,19 @@ export function CorrespondencesSummary({
               </div>
               <div className='text-center'>
                 <div className='text-2xl font-bold text-purple-600'>
-                  {units
-                    .reduce(
-                      (sum, unit) => sum + (unit.totalCorrespondencesPostponed || 0),
-                      0
-                    )
-                    .toLocaleString('en-US')}
+                  {(
+                    totals.totalAllCorrespondencesPostponed || 0
+                  ).toLocaleString('en-US')}
                 </div>
                 <div className='text-muted-foreground text-xs'>مؤجلة</div>
+              </div>
+              <div className='text-center'>
+                <div className='text-2xl font-bold text-indigo-600'>
+                  {(
+                    totals.totalAllCorrespondencesForwarded || 0
+                  ).toLocaleString('en-US')}
+                </div>
+                <div className='text-muted-foreground text-xs'>محولة</div>
               </div>
             </div>
           </CardContent>
@@ -200,10 +187,6 @@ export function CorrespondencesSummary({
           ))}
         </div>
       )}
-
-     
     </div>
   );
 }
-
-

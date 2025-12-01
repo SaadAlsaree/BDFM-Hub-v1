@@ -429,8 +429,8 @@ namespace BDFM.API.Controllers.Correspondence
         /// </summary>
         [HttpGet]
         [ServiceFilter(typeof(LogActionArguments))]
-        [ProducesResponseType(typeof(Response<List<CorrespondencesSummaryVm>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Response<List<CorrespondencesSummaryVm>>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response<CorrespondencesSummaryAllVm>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<CorrespondencesSummaryAllVm>), StatusCodes.Status400BadRequest)]
         [Permission("Correspondence|GetSummary")]
         public async Task<ObjectResult> GetCorrespondencesSummaryByUnits([FromQuery] CorrespondencesSummaryQuery query)
         {

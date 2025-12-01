@@ -1,10 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQueryState } from 'nuqs';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import {
   Sheet,
   SheetClose,
@@ -15,20 +21,38 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet';
-import { FilterIcon, RotateCcw } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
+import { FilterIcon, RotateCcw, Check, ChevronsUpDown } from 'lucide-react';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { useQuery } from '@tanstack/react-query';
-import { useAuthApi } from '@/hooks/use-auth-api';
-import { organizationalService } from '@/features/organizational-unit/api/organizational.service';
-import { CorrespondenceTypeEnum, CorrespondenceTypeEnumDisplay } from '@/features/correspondence/types/register-incoming-external-mail';
+import { cn } from '@/lib/utils';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command';
+import { useSearchUnit } from '@/hooks/use-search-unit';
+import { IOrganizationalUnitDetails } from '@/features/organizational-unit/types/organizational';
+import {
+  CorrespondenceTypeEnum,
+  CorrespondenceTypeEnumDisplay
+} from '@/features/correspondence/types/register-incoming-external-mail';
 
 export function CorrespondencesSummaryFilter() {
   const router = useRouter();
-  const { authApiCall } = useAuthApi();
   const [isOpen, setIsOpen] = useState(false);
+  const [unitPopoverOpen, setUnitPopoverOpen] = useState<boolean>(false);
+  const [unitSearchValue, setUnitSearchValue] = useState('');
+  const [debouncedUnitSearch, setDebouncedUnitSearch] = useState('');
 
   const [unitId, setUnitId] = useQueryState('unitId');
   const [startDate, setStartDate] = useQueryState('startDate');
@@ -48,16 +72,25 @@ export function CorrespondencesSummaryFilter() {
     }
   );
 
-  // Fetch units list
-  const { data: unitsResponse } = useQuery({
-    queryKey: ['organizationalUnits'],
-    queryFn: async () =>
-      await authApiCall(() =>
-        organizationalService.getOrganizationalUnitListByIdClient(true)
-      )
+  // Debounce unit search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedUnitSearch(unitSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [unitSearchValue]);
+
+  // Fetch units list using search hook
+  const {
+    data: unitList,
+    isLoading: isUnitLoading,
+    error: unitError
+  } = useSearchUnit({
+    unit: debouncedUnitSearch
   });
 
-  const units = unitsResponse?.data?.items || [];
+  const units: IOrganizationalUnitDetails[] = unitList?.data || [];
 
   function onStartDateSelect(dateString: string) {
     if (dateString) {
@@ -75,8 +108,13 @@ export function CorrespondencesSummaryFilter() {
     }
   }
 
-  function onUnitSelect(selectedUnitId: string) {
-    setUnitId(selectedUnitId === 'all' ? null : selectedUnitId);
+  function onUnitSelect(selectedUnitId: string | null) {
+    setUnitId(selectedUnitId);
+    setUnitPopoverOpen(false);
+  }
+
+  function handleUnitSearch(searchText: string) {
+    setUnitSearchValue(searchText);
   }
 
   function onCorrespondenceTypeSelect(value: string) {
@@ -101,7 +139,11 @@ export function CorrespondencesSummaryFilter() {
   }
 
   const hasActiveFilters =
-    unitId || startDate || endDate || correspondenceType !== null || includeSubUnits;
+    unitId ||
+    startDate ||
+    endDate ||
+    correspondenceType !== null ||
+    includeSubUnits;
 
   const activeFiltersCount = [
     unitId,
@@ -164,19 +206,85 @@ export function CorrespondencesSummaryFilter() {
           {/* الوحدة التنظيمية */}
           <div className='space-y-3'>
             <label className='text-sm font-medium'>الجهة</label>
-            <Select value={unitId || 'all'} onValueChange={onUnitSelect}>
-              <SelectTrigger className='w-full'>
-                <SelectValue placeholder='اختر الجهة' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='all'>جميع الجهات</SelectItem>
-                {units.map((unit) => (
-                  <SelectItem key={unit.id} value={unit.id || ''}>
-                    {unit.unitName} {unit.unitCode && `(${unit.unitCode})`}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Popover
+              open={unitPopoverOpen}
+              onOpenChange={(open) => setUnitPopoverOpen(open)}
+            >
+              <PopoverTrigger asChild>
+                <Button
+                  variant='outline'
+                  role='combobox'
+                  className={cn(
+                    'w-full justify-between',
+                    !unitId && 'text-muted-foreground'
+                  )}
+                >
+                  {unitId
+                    ? units?.find(
+                        (unit: IOrganizationalUnitDetails) => unit.id === unitId
+                      )?.unitName || 'اختر الجهة'
+                    : 'جميع الجهات'}
+                  <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='w-[400px] p-0'>
+                <Command>
+                  <CommandInput
+                    placeholder='ابحث عن جهة...'
+                    value={unitSearchValue}
+                    onValueChange={handleUnitSearch}
+                  />
+                  <CommandList>
+                    <CommandEmpty>
+                      {isUnitLoading
+                        ? 'جاري البحث...'
+                        : unitError
+                          ? 'حدث خطأ في البحث'
+                          : 'لا توجد جهات'}
+                    </CommandEmpty>
+                    <CommandGroup>
+                      <CommandItem
+                        value='all'
+                        onSelect={() => onUnitSelect(null)}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            !unitId ? 'opacity-100' : 'opacity-0'
+                          )}
+                        />
+                        جميع الجهات
+                      </CommandItem>
+                      {units?.map((unit: IOrganizationalUnitDetails) => (
+                        <CommandItem
+                          value={unit.unitName}
+                          key={unit.id}
+                          onSelect={() => onUnitSelect(unit.id || null)}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              unit.id === unitId ? 'opacity-100' : 'opacity-0'
+                            )}
+                          />
+                          <div className='flex flex-col'>
+                            <h1 className='text-sm font-medium'>
+                              {unit?.unitName}
+                              {unit?.unitCode && ` (${unit.unitCode})`}
+                            </h1>
+                            {unit?.parentUnitName && (
+                              <p className='text-muted-foreground text-xs'>
+                                {unit?.parentUnitName}
+                              </p>
+                            )}
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* نوع المراسلة */}
@@ -191,11 +299,13 @@ export function CorrespondencesSummaryFilter() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value='all'>جميع الأنواع</SelectItem>
-                {Object.entries(CorrespondenceTypeEnumDisplay).map(([key, label]) => (
-                  <SelectItem key={key} value={key}>
-                    {label}
-                  </SelectItem>
-                ))}
+                {Object.entries(CorrespondenceTypeEnumDisplay).map(
+                  ([key, label]) => (
+                    <SelectItem key={key} value={key}>
+                      {label}
+                    </SelectItem>
+                  )
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -229,17 +339,28 @@ export function CorrespondencesSummaryFilter() {
                 )}
                 {startDate && (
                   <Badge variant='secondary' className='text-xs'>
-                    من: {format(new Date(startDate + 'T00:00:00'), 'dd/MM/yyyy', { locale: ar })}
+                    من:{' '}
+                    {format(new Date(startDate + 'T00:00:00'), 'dd/MM/yyyy', {
+                      locale: ar
+                    })}
                   </Badge>
                 )}
                 {endDate && (
                   <Badge variant='secondary' className='text-xs'>
-                    إلى: {format(new Date(endDate + 'T00:00:00'), 'dd/MM/yyyy', { locale: ar })}
+                    إلى:{' '}
+                    {format(new Date(endDate + 'T00:00:00'), 'dd/MM/yyyy', {
+                      locale: ar
+                    })}
                   </Badge>
                 )}
                 {correspondenceType !== null && (
                   <Badge variant='secondary' className='text-xs'>
-                    النوع: {CorrespondenceTypeEnumDisplay[correspondenceType as CorrespondenceTypeEnum]}
+                    النوع:{' '}
+                    {
+                      CorrespondenceTypeEnumDisplay[
+                        correspondenceType as CorrespondenceTypeEnum
+                      ]
+                    }
                   </Badge>
                 )}
                 {includeSubUnits && (

@@ -1,5 +1,21 @@
 ﻿namespace BDFM.Application.Features.Correspondences.Queries.CorrespondencesSummary;
 
+
+
+public class CorrespondencesSummaryAllVm
+{
+    public int TotalAllCorrespondences { get; set; }
+    public int TotalAllCorrespondencesPending { get; set; }
+    public int TotalAllCorrespondencesUnderProcessing { get; set; }
+    public int TotalAllCorrespondencesCompleted { get; set; }
+    public int TotalAllCorrespondencesRejected { get; set; }
+    public int TotalAllCorrespondencesReturnedForModification { get; set; }
+    public int TotalAllCorrespondencesPostponed { get; set; }
+    public int TotalAllCorrespondencesForwarded { get; set; }
+
+    public List<CorrespondencesSummaryVm> Units { get; set; } = new();
+}
+
 public class CorrespondencesSummaryVm
 {
     public Guid UnitId { get; set; }

@@ -24,6 +24,8 @@ export interface InboxList {
   subject: string;
   correspondenceType: CorrespondenceTypeEnum;
   correspondenceTypeName: string;
+  correspondenceStatusName?: string;
+  correspondenceStatus?: number;
   externalReferenceNumber: string;
   externalReferenceDate: string;
   mailNum: string;
@@ -157,11 +159,11 @@ export enum PersonalityLevelEnum {
 }
 
 export const PersonalityLevelEnumDisplay: Record<PersonalityLevelEnum, string> =
-  {
-    [PersonalityLevelEnum.General]: 'عام',
-    [PersonalityLevelEnum.Personal]: 'شخصي',
-    [PersonalityLevelEnum.ToBeOpenedByAddresseeOnly]: 'يفتح بالذات'
-  };
+{
+  [PersonalityLevelEnum.General]: 'عام',
+  [PersonalityLevelEnum.Personal]: 'شخصي',
+  [PersonalityLevelEnum.ToBeOpenedByAddresseeOnly]: 'يفتح بالذات'
+};
 
 export interface UpdateCorrespondenceStatusPayload {
   correspondenceId: string; // UUID

@@ -30,23 +30,20 @@ export const columns: ColumnDef<InboxList>[] = [
     cell: ({ cell, row }) => {
       const internalNumber = cell.getValue<string>();
       return (
-       
-          
-          <div className='flex flex-col'>
-             <div className='flex cursor-pointer items-center gap-2'>
-          <CellIcons data={row.original} />
+        <div className='flex flex-col'>
+          <div className='flex cursor-pointer items-center gap-2'>
+            <CellIcons data={row.original} />
             <Link
               href={`/correspondence/view/${row.original.correspondenceId}`}
               className='hover:text-primary/80 transition-colors duration-100'
             >
               {internalNumber || '-'}
             </Link>
-          
           </div>
-          <span className='text-sm mr-3 text-primary flex items-center gap-2'>
+          <span className='text-primary mr-3 flex items-center gap-2 text-sm'>
             <Building className='h-4 w-4' />
-              {row.original.createdByUnitName || '-'}
-            </span>
+            {row.original.createdByUnitName || '-'}
+          </span>
         </div>
       );
     },
@@ -374,14 +371,19 @@ export const columns: ColumnDef<InboxList>[] = [
     header: ({ column }: { column: Column<InboxList, unknown> }) => (
       <DataTableColumnHeader column={column} title='تاريخ الاستحقاق' />
     ),
-    cell: ({ cell }) => {
+    cell: ({ cell, row }) => {
       const date = cell.getValue<string>();
       const isOverdue = date && moment(date).isBefore(moment());
+      const correspondenceStatusName = row.original.correspondenceStatusName;
+      const shouldShowWarning =
+        isOverdue &&
+        (correspondenceStatusName === 'قيد المعالجة' ||
+          correspondenceStatusName === 'قيد الانتظار');
 
       return date ? (
-        <div className={isOverdue ? 'font-medium text-red-600' : ''}>
+        <div className={shouldShowWarning ? 'font-medium text-red-600' : ''}>
           {moment(date).format('YYYY-MM-DD')}
-          {isOverdue && <span className='ml-1'>⚠️</span>}
+          {shouldShowWarning && <span className='ml-1'>⚠️</span>}
         </div>
       ) : (
         <div>-</div>

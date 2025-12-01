@@ -18,7 +18,7 @@ export function DefaultPasswordWarning({
   return (
     <Card
       className={cn(
-        'border-primary/30 bg-card relative overflow-hidden shadow-sm',
+        'border-primary/30 bg-card relative w-full overflow-hidden shadow-sm',
         className
       )}
     >

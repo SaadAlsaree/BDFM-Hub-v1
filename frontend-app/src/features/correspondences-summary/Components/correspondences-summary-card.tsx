@@ -25,7 +25,10 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { UnitCorrespondenceSummary } from '../types/correspondences-summary';
-import { UnitType, UnitTypeDisplay } from '@/features/organizational-unit/types/organizational';
+import {
+  UnitType,
+  UnitTypeDisplay
+} from '@/features/organizational-unit/types/organizational';
 
 interface CorrespondencesSummaryCardProps {
   data: UnitCorrespondenceSummary;
@@ -45,7 +48,8 @@ export function CorrespondencesSummaryCard({
   const postponed = data.totalCorrespondencesPostponed || 0;
   const forwarded = data.totalCorrespondencesForwarded || 0;
 
-  const completionRate = total > 0 ? ((completed / total) * 100).toFixed(1) : '0';
+  const completionRate =
+    total > 0 ? ((completed / total) * 100).toFixed(1) : '0';
 
   function getStatusColor(rate: string) {
     const numRate = parseFloat(rate);
@@ -76,7 +80,7 @@ export function CorrespondencesSummaryCard({
   const stats = [
     {
       id: 'pending',
-      label: 'معلقة',
+      label: 'في الانتظار',
       value: pending,
       icon: Mail,
       color: 'text-blue-600'
@@ -132,8 +136,12 @@ export function CorrespondencesSummaryCard({
           <div className='flex-1'>
             <div className='flex items-center gap-2'>
               {data.unitType && (
-                <Badge variant={getUnitTypeColor(data.unitType) as any} size='sm'>
-                  {UnitTypeDisplay[data.unitType as UnitType] || data.unitTypeName}
+                <Badge
+                  variant={getUnitTypeColor(data.unitType) as any}
+                  size='sm'
+                >
+                  {UnitTypeDisplay[data.unitType as UnitType] ||
+                    data.unitTypeName}
                 </Badge>
               )}
               <CardTitle className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
@@ -155,7 +163,9 @@ export function CorrespondencesSummaryCard({
             <DropdownMenuContent align='end'>
               <DropdownMenuLabel>الإجراءات</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onClick}>عرض التفاصيل</DropdownMenuItem>
+              <DropdownMenuItem onClick={onClick}>
+                عرض التفاصيل
+              </DropdownMenuItem>
               <DropdownMenuItem>تصدير البيانات</DropdownMenuItem>
               <DropdownMenuItem>طباعة التقرير</DropdownMenuItem>
             </DropdownMenuContent>

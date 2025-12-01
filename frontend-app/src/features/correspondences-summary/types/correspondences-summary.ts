@@ -25,7 +25,19 @@ export interface UnitCorrespondenceSummary {
   totalCorrespondencesForwarded: number;
 }
 
-export type UnitCorrespondenceSummaryResponse = ApiResponse<UnitCorrespondenceSummary[]>;
+export interface CorrespondencesSummaryData {
+  totalAllCorrespondences: number;
+  totalAllCorrespondencesPending: number;
+  totalAllCorrespondencesUnderProcessing: number;
+  totalAllCorrespondencesCompleted: number;
+  totalAllCorrespondencesRejected: number;
+  totalAllCorrespondencesReturnedForModification: number;
+  totalAllCorrespondencesPostponed: number;
+  totalAllCorrespondencesForwarded: number;
+  units: UnitCorrespondenceSummary[];
+}
+
+export type UnitCorrespondenceSummaryResponse = ApiResponse<CorrespondencesSummaryData>;
 
 export interface UnitCorrespondenceSummaryQuery {
   unitId?: string; // GUID as string

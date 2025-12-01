@@ -1,6 +1,6 @@
 ﻿namespace BDFM.Application.Features.Correspondences.Queries.CorrespondencesSummary;
 
-public class CorrespondencesSummaryQuery : IRequest<Response<List<CorrespondencesSummaryVm>>>
+public class CorrespondencesSummaryQuery : IRequest<Response<CorrespondencesSummaryAllVm>>
 {
     public Guid? UnitId { get; set; }
     public DateOnly? StartDate { get; set; }
