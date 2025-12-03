@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { useState } from 'react';
 import { getAllTemplates } from '../templates/registry';
 
 interface TemplateSelectionProps {
@@ -23,6 +24,7 @@ export function TemplateSelection({
   compact = false
 }: TemplateSelectionCompactProps) {
   const templates = getAllTemplates();
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   if (compact) {
     return (
@@ -60,12 +62,22 @@ export function TemplateSelection({
               onClick={() => onTemplateSelect(template.id)}
             >
               <div className='relative h-16 w-12 flex-shrink-0 overflow-hidden rounded border bg-white'>
-                <Image
-                  src={template.thumbnail ?? ''}
-                  alt={template.name}
-                  fill
-                  className='object-cover'
-                />
+                {imageErrors[template.id] ? (
+                  <div className='flex h-full w-full items-center justify-center bg-gray-100 text-xs text-gray-400'>
+                    صورة
+                  </div>
+                ) : (
+                  <Image
+                    src={template.thumbnail ?? '/templates/183640.png'}
+                    alt={template.name}
+                    fill
+                    className='object-cover'
+                    unoptimized
+                    onError={() => {
+                      setImageErrors((prev) => ({ ...prev, [template.id]: true }));
+                    }}
+                  />
+                )}
               </div>
               <div className='min-w-0 flex-1'>
                 <h3 className='truncate text-sm font-medium'>
@@ -136,12 +148,22 @@ export function TemplateSelection({
           >
             <CardContent className='mt-6 p-2 md:p-6'>
               <div className='relative mb-2 aspect-[210/297] overflow-hidden rounded-lg border md:mb-4'>
-                <Image
-                  src={template.thumbnail ?? ''}
-                  alt={template.name}
-                  fill
-                  className='object-cover'
-                />
+                {imageErrors[template.id] ? (
+                  <div className='flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-400'>
+                    صورة غير متاحة
+                  </div>
+                ) : (
+                  <Image
+                    src={template.thumbnail ?? '/templates/183640.png'}
+                    alt={template.name}
+                    fill
+                    className='object-cover'
+                    unoptimized
+                    onError={() => {
+                      setImageErrors((prev) => ({ ...prev, [template.id]: true }));
+                    }}
+                  />
+                )}
               </div>
               <div className='space-y-0.5 md:space-y-2'>
                 <h3 className='line-clamp-1 text-sm font-semibold md:text-lg'>

@@ -1,180 +1,411 @@
-import { TResumeEditFormValues } from '../utils/form-schema';
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { createTw } from 'react-pdf-tailwind';
+'use client';
+import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Font
+} from '@react-pdf/renderer';
+import {
+  toArabicNumerals,
+  formatDateWithArabicNumerals
+} from '@/utils/arabic-numerals';
+import moment from 'moment';
 
-const tw = createTw({
-  theme: {
-    extend: {
-      colors: {
-        primary: '#2563eb',
-        secondary: '#1e40af',
-        accent: '#3b82f6',
-        muted: '#64748b'
-      }
+// Register Cairo Arabic fonts using local files
+const registerFonts = () => {
+  try {
+    console.log('Registering local Cairo fonts for OfficialDocument...');
+
+    // Register all Cairo font weights from local files
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-Regular.ttf',
+      fontWeight: 'normal'
+    });
+
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-Bold.ttf',
+      fontWeight: 'bold'
+    });
+
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-SemiBold.ttf',
+      fontWeight: 600
+    });
+
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-Medium.ttf',
+      fontWeight: 500
+    });
+
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-Light.ttf',
+      fontWeight: 300
+    });
+
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-ExtraLight.ttf',
+      fontWeight: 200
+    });
+
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-ExtraBold.ttf',
+      fontWeight: 800
+    });
+
+    Font.register({
+      family: 'Cairo',
+      src: '/fonts/Cairo-Black.ttf',
+      fontWeight: 900
+    });
+
+    console.log('Local Cairo fonts registered successfully');
+    return 'Cairo';
+  } catch (error) {
+    console.error('Error registering local Cairo fonts:', error);
+
+    // Fallback to system fonts
+    try {
+      Font.register({
+        family: 'SystemArabic',
+        src: 'Arial',
+        fontWeight: 'normal'
+      });
+
+      console.log('System Arabic fallback registered');
+      return 'SystemArabic';
+    } catch (fallbackError) {
+      console.error('System font registration failed:', fallbackError);
+      return 'Helvetica'; // Final system fallback
     }
+  }
+};
+
+// Register fonts and get the available font family
+const arabicFontFamily = registerFonts();
+
+// Create styles with the determined font family
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+    fontFamily: arabicFontFamily,
+    fontSize: 12,
+    border: '1px solid #ccc'
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5
+  },
+  headerLeft: {
+    width: '30%',
+    textAlign: 'left',
+    fontFamily: 'Helvetica' // Keep English text in Helvetica
+  },
+  headerCenter: {
+    width: '40%',
+    textAlign: 'center',
+    alignItems: 'center'
+  },
+  headerRight: {
+    width: '30%',
+    textAlign: 'right',
+    fontFamily: arabicFontFamily
+  },
+  emblem: {
+    width: 60,
+    height: 60,
+    alignSelf: 'center',
+    backgroundColor: '#f0f0f0',
+    border: '1px solid #ccc',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  divider: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#000',
+    borderBottomStyle: 'solid'
+    // marginVertical: 10
+  },
+  documentInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 15
+  },
+  documentInfoLeft: {
+    fontFamily: 'Helvetica'
+  },
+  documentInfoRight: {
+    alignItems: 'flex-end',
+    fontFamily: arabicFontFamily,
+    textAlign: 'right'
+  },
+  departmentList: {
+    width: '50%',
+    alignSelf: 'flex-end',
+    marginTop: 20
+  },
+  departmentItem: {
+    marginBottom: 3,
+    textAlign: 'right',
+    fontSize: 10,
+    fontFamily: arabicFontFamily
+  },
+  mainContent: {
+    marginTop: 10,
+    textAlign: 'right',
+    lineHeight: 1.8,
+    fontSize: 11,
+    fontFamily: arabicFontFamily
+  },
+  signature: {
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    width: '30%'
+  },
+  signatureText: {
+    textAlign: 'center',
+    marginBottom: 5,
+    // marginTop: ,
+    fontFamily: arabicFontFamily
+  },
+  pageNumber: {
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    fontSize: 14,
+    fontWeight: 'bold',
+    fontFamily: arabicFontFamily
+  },
+  centerText: {
+    textAlign: 'center',
+    alignSelf: 'center'
+  },
+  boldText: {
+    fontWeight: 'bold'
+  },
+  underlineText: {
+    textDecoration: 'underline'
+  },
+  arabicText: {
+    fontFamily: arabicFontFamily
+  },
+  englishText: {
+    fontFamily: 'Helvetica',
+    fontSize: 16,
+    marginBottom: 10,
+    marginTop: 10,
+    lineHeight: 2
+  },
+  // Enhanced styles for local Cairo font with more weight options
+  titleText: {
+    fontFamily: arabicFontFamily,
+    fontWeight: 800, // ExtraBold for main titles
+    fontSize: 18
+  },
+  subtitleText: {
+    fontFamily: arabicFontFamily,
+    fontWeight: 600, // SemiBold for subtitles
+    fontSize: 16
+  },
+  headingText: {
+    fontFamily: arabicFontFamily,
+    fontWeight: 500, // Medium for headings
+    fontSize: 16
+  },
+  bodyText: {
+    fontFamily: arabicFontFamily,
+    fontWeight: 'normal', // Regular for body text
+    fontSize: 12
+  },
+  lightText: {
+    fontFamily: arabicFontFamily,
+    fontWeight: 'normal', // Light for less important text
+    fontSize: 10
   }
 });
 
-type TResumeTemplateProps = {
-  formData: TResumeEditFormValues;
+type TemplateTwoProps = {
+  formData?: CorrespondenceDetails; // This can be customized based on your needs
+  attachments?: number;
 };
 
-type Item = {
-  name: string;
-};
-
-const BulletedList = ({ items }: { items: Item[] }) => (
-  <View>
-    {items.map((item, index) => (
-      <View
-        style={tw('flex flex-row flex-wrap items-center gap-1')}
-        key={index}
-      >
-        <Text style={tw('text-accent')}>•</Text>
-        <Text style={tw('text-sm')}>{item.name}</Text>
-      </View>
-    ))}
-  </View>
-);
-
-const HeaderSection = () => <View fixed style={tw('h-4 w-full bg-primary')} />;
-
-export default function ResumeTemplateTwo({ formData }: TResumeTemplateProps) {
-  console.log('Template Two Rendering with data:', formData);
+const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
   return (
     <Document>
-      <Page size='A4' style={tw('p-6')}>
-        <HeaderSection />
-
+      <Page size='A4' style={styles.page}>
         {/* Header Section */}
-        <View style={tw('mt-6 text-center mb-6')}>
-          <Text style={tw('text-3xl font-bold text-primary')}>
-            {formData.personal_details?.fname ?? 'First Name'}{' '}
-            {formData.personal_details?.lname ?? 'Last Name'}
-          </Text>
-          <View style={tw('flex flex-row justify-center gap-4 mt-2')}>
-            <Text style={tw('text-sm text-muted')}>
-              {formData.personal_details?.email ?? 'Email'}
+        <View style={styles.header}>
+          <View style={[styles.headerLeft, styles.englishText]}>
+            <Text style={[styles.boldText, { fontSize: 16 }]}>
+              Republic of Iraq
             </Text>
-            <Text style={tw('text-sm text-muted')}>
-              {formData.personal_details?.phone ?? 'Phone'}
+            <Text style={[styles.boldText, { fontSize: 16 }]}>I.N.S.S</Text>
+          </View>
+
+          <View style={styles.headerCenter}>
+            {/* <Text style={[styles.boldText, styles.arabicText, { fontSize: 12, marginBottom: 2 }]}>بسم الله الرحمن الرحيم</Text> */}
+            <View>
+              <Image src='/logoINSS.png' style={{ width: 90, height: 90 }} />
+            </View>
+          </View>
+
+          <View style={[styles.headerRight, styles.arabicText]}>
+            <Text style={[styles.boldText, { fontSize: 16 }]}>
+              جمهورية العراق
             </Text>
-            <Text style={tw('text-sm text-muted')}>
-              {formData.personal_details?.city ?? 'City'},{' '}
-              {formData.personal_details?.country ?? 'Country'}
+            <Text style={[styles.boldText, { fontSize: 16 }]}>
+              جهاز الأمن الوطني
+            </Text>
+            <Text
+              style={[
+                styles.lightText,
+                { marginTop: 5, fontSize: 14, textAlign: 'center' }
+              ]}
+            >
+             ع 12
             </Text>
           </View>
         </View>
 
-        {/* Summary Section */}
-        <View style={tw('mb-6')}>
-          <Text style={tw('text-lg font-bold text-primary mb-2')}>
-            Professional Summary
-          </Text>
-          <Text style={tw('text-sm')}>
-            {formData.personal_details?.summary ?? 'Summary'}
+        <View style={styles.divider} />
+
+        {/* Document Info */}
+        <View style={styles.documentInfo}>
+          <View style={styles.documentInfoLeft}>
+            <Text>No.: {formData?.mailNum}</Text>
+            <Text>Date: {formData?.mailDate}</Text>
+          </View>
+
+          <View style={styles.documentInfoRight}>
+            <Text style={styles.boldText}>
+              العدد :{' '}
+              {formData?.mailNum ? toArabicNumerals(formData.mailNum) : ''}
+            </Text>
+            <Text>
+              التاريخ :{' '}
+              {formData?.mailDate
+                ? formatDateWithArabicNumerals(formData.mailDate)
+                : ''}
+            </Text>
+          </View>
+        </View>
+
+        {/* Document Title */}
+        <View style={{ alignItems: 'center' }}>
+          {/* <Text style={[styles.titleText, styles.underlineText]}> {documentData.title} </Text> */}
+          {/* <Text style={[styles.subtitleText, { marginTop: 10 }]}>
+            الى/ {formData?.externalEntityName || '-'}
+          </Text> */}
+        </View>
+
+        {/* Departments List */}
+        {/* <View style={styles.departmentList}>
+               {documentData.departments.map((dept, index) => (
+                  <Text key={index} style={styles.departmentItem}>
+                     {dept}
+                  </Text>
+               ))}
+            </View> */}
+
+        {/* Subject Line */}
+        <View style={{ marginTop: 20, alignSelf: 'center' }}>
+          <Text style={[styles.headingText, styles.underlineText]}>
+            الموضوع/ {formData?.subject || '-'}
           </Text>
         </View>
 
-        {/* Two Column Layout */}
-        <View style={tw('flex flex-row')}>
-          {/* Left Column */}
-          <View style={tw('w-2/3 pr-4')}>
-            {/* Work Experience */}
-            <View style={tw('mb-6')}>
-              <Text style={tw('text-lg font-bold text-primary mb-2')}>
-                Work Experience
-              </Text>
-              <View style={tw('flex flex-col gap-4')}>
-                {formData?.jobs?.length &&
-                  formData?.jobs?.map((job, index) => (
-                    <View wrap={false} key={index}>
-                      <Text style={tw('font-bold')}>
-                        {job?.jobTitle ?? 'Job Title'}
-                      </Text>
-                      <Text style={tw('text-sm text-muted')}>
-                        {job?.employer ?? 'Employer'} |{' '}
-                        {job?.startDate ?? 'Start'} - {job?.endDate ?? 'End'}
-                      </Text>
-                      <Text style={tw('text-sm mt-1')}>
-                        {job?.description ?? ''}
-                      </Text>
-                    </View>
-                  ))}
-              </View>
-            </View>
-
-            {/* Education */}
-            <View style={tw('mb-6')}>
-              <Text style={tw('text-lg font-bold text-primary mb-2')}>
-                Education
-              </Text>
-              <View style={tw('flex flex-col gap-4')}>
-                {formData?.educations?.length &&
-                  formData?.educations?.map((edu, index) => (
-                    <View key={index}>
-                      <Text style={tw('font-bold')}>
-                        {edu?.degree ?? 'Degree'} in {edu?.field ?? 'Field'}
-                      </Text>
-                      <Text style={tw('text-sm text-muted')}>
-                        {edu?.school ?? 'School'} | {edu?.startDate ?? 'Start'}{' '}
-                        - {edu?.endDate ?? 'End'}
-                      </Text>
-                      <Text style={tw('text-sm mt-1')}>
-                        {edu?.description ?? ''}
-                      </Text>
-                    </View>
-                  ))}
-              </View>
-            </View>
-          </View>
-
-          {/* Right Column */}
-          <View style={tw('w-1/3 pl-4 border-l')}>
-            {/* Skills Section */}
-            <View style={tw('mb-6')}>
-              <Text style={tw('text-lg font-bold text-primary mb-2')}>
-                Skills
-              </Text>
-              <BulletedList
-                items={
-                  formData?.skills?.map((skill) => ({
-                    name: skill.skill_name
-                  })) ?? []
-                }
-              />
-            </View>
-
-            {/* Tools Section */}
-            <View style={tw('mb-6')}>
-              <Text style={tw('text-lg font-bold text-primary mb-2')}>
-                Tools
-              </Text>
-              <BulletedList
-                items={
-                  formData?.tools?.map((tool) => ({
-                    name: tool.tool_name
-                  })) ?? []
-                }
-              />
-            </View>
-
-            {/* Languages Section */}
-            <View style={tw('mb-6')}>
-              <Text style={tw('text-lg font-bold text-primary mb-2')}>
-                Languages
-              </Text>
-              <BulletedList
-                items={
-                  formData?.languages?.map((lang) => ({
-                    name: lang.lang_name
-                  })) ?? []
-                }
-              />
-            </View>
-          </View>
+        {/* Main Content */}
+        <View style={{ marginTop: 40, alignSelf: 'flex-end' }}>
+          <Text
+            style={{
+              fontSize: 12,
+              fontFamily: arabicFontFamily,
+              fontWeight: 'bold'
+            }}
+          >
+            ... تحية طيبة
+          </Text>
         </View>
+        <View style={styles.mainContent}>
+          <Text style={styles.bodyText}>{formData?.bodyText}</Text>
+        </View>
+
+        {/* Attachment */}
+        <View style={ {
+              position: 'absolute',
+              bottom: 150,
+              right: '5%',
+              // width: '30%'
+            }}>
+          <Text
+            style={{
+              fontSize: 10,
+              fontFamily: arabicFontFamily,
+              fontWeight: 'normal'
+            }}
+          >
+            {/* المرافقات : {attachments || 0} */}
+            -: نسخة منه الى 
+          </Text>
+        </View>
+
+        {/* Signature - Bottom of Page */}
+      
+        <View
+          style={[
+            styles.signature,
+            {
+              position: 'absolute',
+              bottom: 100,
+              left: '10%',
+              width: '30%'
+            }
+          ]}
+        >
+          <Text style={[styles.signatureText, styles.boldText]}>
+            مدير عام
+          </Text>
+          <Text style={styles.signatureText}>
+            الدائرة الادارية و مالية
+          </Text>
+          <Text style={styles.signatureText}>
+            {moment().format('YYYY')} /    /
+          </Text>
+        </View>
+
+        {/* Bottom Divider - End of Page */}
+        <View
+          style={[
+            styles.divider,
+            {
+              position: 'absolute',
+              bottom: 50,
+              left: 30,
+              right: 30
+            }
+          ]}
+        />
+
+        {/* Page Number */}
+        {/* <Text style={styles.pageNumber}>{documentData.pageNumber}</Text> */}
+
+        {/* Debug info - show which font is being used */}
+        {/* <Text style={{ position: 'absolute', bottom: 10, left: 30, fontSize: 8, color: '#999' }}>Font: {arabicFontFamily} (Local)</Text> */}
       </Page>
     </Document>
   );
-}
+};
+
+export default TemplateTwo;

@@ -93,6 +93,35 @@ const PdfRenderer = ({
     return `next-resume-${timestamp}.pdf`;
   }
 
+  const handlePrint = () => {
+    if (!render.value) return;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    iframe.src = render.value;
+
+    document.body.appendChild(iframe);
+
+    iframe.onload = () => {
+      try {
+        iframe.contentWindow?.print();
+      } catch (error) {
+        console.error('Error printing:', error);
+        // Fallback: open in new window
+        window.open(render.value || '', '_blank');
+      }
+      // Clean up after printing
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 1000);
+    };
+  };
+
   return (
     <div className='flex h-full flex-col'>
       <div className='flex-1 overflow-auto'>
@@ -191,25 +220,39 @@ const PdfRenderer = ({
             )}
           </div>
 
-          {/* Download Button - Always Visible */}
-          <Button
-            size='sm'
-            className='bg-primary hover:bg-primary/90'
-            disabled={!render.value || render.loading}
-            asChild={!!render.value && !render.loading}
-          >
-            {render.value && !render.loading ? (
-              <a href={render.value} download={generateDownloadFilename()}>
-                <Icons.arrowRight className='mr-2 h-4 w-4' />
-                تحميل PDF
-              </a>
-            ) : (
-              <>
-                <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
-                جاري التحضير...
-              </>
-            )}
-          </Button>
+          {/* Action Buttons */}
+          <div className='flex items-center gap-2'>
+            {/* Print Button */}
+            <Button
+              size='sm'
+              variant='outline'
+              onClick={handlePrint}
+              disabled={!render.value || render.loading}
+            >
+              <Icons.printer className='mr-2 h-4 w-4' />
+              طباعة
+            </Button>
+
+            {/* Download Button */}
+            <Button
+              size='sm'
+              className='bg-primary hover:bg-primary/90'
+              disabled={!render.value || render.loading}
+              asChild={!!render.value && !render.loading}
+            >
+              {render.value && !render.loading ? (
+                <a href={render.value} download={generateDownloadFilename()}>
+                  <Icons.arrowRight className='mr-2 h-4 w-4' />
+                  تحميل PDF
+                </a>
+              ) : (
+                <>
+                  <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+                  جاري التحضير...
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

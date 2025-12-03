@@ -48,6 +48,34 @@ export default function TemplatesView({ formData }: Props) {
     }
   }, [downloadUrl, selectedTemplate]);
 
+  const handlePrint = useCallback(() => {
+    if (!downloadUrl) return;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    iframe.src = downloadUrl;
+
+    document.body.appendChild(iframe);
+
+    iframe.onload = () => {
+      try {
+        iframe.contentWindow?.print();
+      } catch (error) {
+        // Fallback: open in new window
+        window.open(downloadUrl, '_blank');
+      }
+      // Clean up after printing
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 1000);
+    };
+  }, [downloadUrl]);
+
   const currentTemplateInfo = templates.find((t) => t.id === selectedTemplate);
 
   return (
@@ -73,16 +101,26 @@ export default function TemplatesView({ formData }: Props) {
                   </span>
                 </div>
               )}
-              <Button
-                size='sm'
-                variant='outline'
-                onClick={handleQuickDownload}
-                disabled={!downloadUrl}
-                className='mt-1'
-              >
-                <Icons.arrowRight className='mr-2 h-4 w-4' />
-                تحميل سريع
-              </Button>
+              <div className='mt-1 flex gap-2'>
+                <Button
+                  size='sm'
+                  variant='outline'
+                  onClick={handlePrint}
+                  disabled={!downloadUrl}
+                >
+                  <Icons.printer className='mr-2 h-4 w-4' />
+                  طباعة
+                </Button>
+                <Button
+                  size='sm'
+                  variant='outline'
+                  onClick={handleQuickDownload}
+                  disabled={!downloadUrl}
+                >
+                  <Icons.arrowRight className='mr-2 h-4 w-4' />
+                  تحميل سريع
+                </Button>
+              </div>
             </div>
           </div>
         </div>

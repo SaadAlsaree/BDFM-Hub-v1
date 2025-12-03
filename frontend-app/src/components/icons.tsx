@@ -20,6 +20,7 @@ import {
   IconDotsVertical,
   IconPizza,
   IconPlus,
+  IconPrinter,
   IconSettings,
   IconSun,
   IconTrash,
@@ -92,5 +93,6 @@ export const Icons = {
   caretDown: IconCaretDown,
   shieldCog: IconShieldCog,
   sparkles: IconSparkles,
-  orders: IconSortAscendingShapes
+  orders: IconSortAscendingShapes,
+  printer: IconPrinter
 };

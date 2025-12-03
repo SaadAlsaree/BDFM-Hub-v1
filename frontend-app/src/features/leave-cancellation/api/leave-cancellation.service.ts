@@ -2,7 +2,7 @@ import { axiosInstance } from '@/lib/axios';
 import { IResponse } from '@/types/response';
 import { LeaveCancellation } from '../types/leave-cancellation';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const leaveCancellationService = {
   async getLeaveCancellationsByRequestId(requestId: string) {
@@ -25,4 +25,3 @@ export const leaveCancellationService = {
     }
   }
 };
-

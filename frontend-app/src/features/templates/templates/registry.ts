@@ -1,5 +1,6 @@
 import { ComponentType } from 'react';
 import TemplateOne from './templateOne';
+import TemplateTwo from './templateTwo';
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 
 export type ResumeTemplateProps = {
@@ -22,14 +23,14 @@ const templateRegistry: Record<string, TemplateConfig> = {
     thumbnail: '/templates/183640.png',
     description: 'كتاب صادر خارجي من مكتب رئيس الجهاز',
     component: TemplateOne
+  },
+  'template-two': {
+    id: 'template-two',
+    name: 'نموذجة أمر أداري',
+    thumbnail: '/templates/a12.png',
+    description: ' الدائرة الادارية و مالية',
+    component: TemplateTwo
   }
-  // 'template-two': {
-  //   id: 'template-two',
-  //   name: 'Modern Clean',
-  //   thumbnail: '/templates/templatetwo.png',
-  //   description: 'Modern single-column design with clean typography',
-  //   component: TemplateTwo
-  // },
   // 'template-three': {
   //   id: 'template-three',
   //   name: 'Minimalist',
