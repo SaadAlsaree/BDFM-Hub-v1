@@ -274,7 +274,7 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
                 { marginTop: 5, fontSize: 14, textAlign: 'center' }
               ]}
             >
-             ع 12
+              ع 12
             </Text>
           </View>
         </View>
@@ -322,7 +322,7 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
         {/* Subject Line */}
         <View style={{ marginTop: 20, alignSelf: 'center' }}>
           <Text style={[styles.headingText, styles.underlineText]}>
-            الموضوع/ {formData?.subject || '-'}
+            أمر إداري
           </Text>
         </View>
 
@@ -343,7 +343,7 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
         </View>
 
         {/* Attachment */}
-        <View style={ {
+        {/* <View style={ {
               position: 'absolute',
               bottom: 150,
               right: '5%',
@@ -356,13 +356,13 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
               fontWeight: 'normal'
             }}
           >
-            {/* المرافقات : {attachments || 0} */}
+      
             -: نسخة منه الى 
           </Text>
-        </View>
+        </View> */}
 
         {/* Signature - Bottom of Page */}
-      
+
         <View
           style={[
             styles.signature,
@@ -374,14 +374,10 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
             }
           ]}
         >
-          <Text style={[styles.signatureText, styles.boldText]}>
-            مدير عام
-          </Text>
+          <Text style={[styles.signatureText, styles.boldText]}>مدير عام</Text>
+          <Text style={styles.signatureText}>الدائرة الادارية و مالية</Text>
           <Text style={styles.signatureText}>
-            الدائرة الادارية و مالية
-          </Text>
-          <Text style={styles.signatureText}>
-            {moment().format('YYYY')} /    /
+            {moment().format('YYYY')} / /
           </Text>
         </View>
 
