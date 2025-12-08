@@ -20,7 +20,7 @@ import {
 } from '../create-internalMail/types/internalMail';
 import { CreatePublicMailPayload } from '../create-public-mail/types/create-public-mail';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const correspondenceService = {
   // /Correspondence/CreateOutgoingInternalMail
@@ -700,7 +700,9 @@ export const correspondenceService = {
   },
 
   //BDFM/v1/api/Correspondence/GetPendingOrInProgressCorrespondences
-  async getPendingOrInProgressCorrespondences(searchParams?: Record<string, any>) {
+  async getPendingOrInProgressCorrespondences(
+    searchParams?: Record<string, any>
+  ) {
     try {
       const response = await axiosInstance.get(
         `${baseUrl}/Correspondence/GetPendingOrInProgressCorrespondences`,
@@ -708,13 +710,18 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting pending or in progress correspondences:', error);
+      console.error(
+        'Error getting pending or in progress correspondences:',
+        error
+      );
       return null;
     }
   },
 
   //BDFM/v1/api/Correspondence/GetMyPendingOrInProgressCorrespondences
-  async getMyPendingOrInProgressCorrespondences(searchParams?: Record<string, any>) {
+  async getMyPendingOrInProgressCorrespondences(
+    searchParams?: Record<string, any>
+  ) {
     try {
       const response = await axiosInstance.get(
         `${baseUrl}/Correspondence/GetMyPendingOrInProgressCorrespondences`,
@@ -722,10 +729,13 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting my pending or in progress correspondences:', error);
+      console.error(
+        'Error getting my pending or in progress correspondences:',
+        error
+      );
       return null;
     }
-  },
+  }
 
   //#endregion Not Completed Correspondences
 };

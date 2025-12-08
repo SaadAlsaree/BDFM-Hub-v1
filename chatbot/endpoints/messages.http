@@ -1,0 +1,245 @@
+### Variables
+@baseUrl = http://localhost:5000
+@conversationId = 69334cd96d6241e69ee49f44
+@modelName = deepseek-ocr:latest
+@stream = false
+@userId = 42212628-cddd-4d28-972f-8336492a9d99
+@username = saad alsaree
+@userLogin = 101313
+@fullName = saad alsaree
+@email = saad@mail.com
+@organizationalUnitId = a2e50645-97cb-41cf-8d23-6b669aea3bc6
+
+### Send Message - إرسال رسالة جديدة (نص فقط)
+POST {{baseUrl}}/api/conversations/{{conversationId}}/messages
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+مرحبا، كيف حالك؟
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="modelName"
+
+{{modelName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="stream"
+
+{{stream}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="id"
+
+{{userId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="username"
+
+{{username}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userLogin"
+
+{{userLogin}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fullName"
+
+{{fullName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+{{email}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="organizationalUnitId"
+
+{{organizationalUnitId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Send Message with Streaming - إرسال رسالة مع ستريمنج (غيّر @stream = true)
+POST {{baseUrl}}/api/conversations/{{conversationId}}/messages
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+مرحبا، كيف حالك؟
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="modelName"
+
+{{modelName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="stream"
+
+{{stream}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="id"
+
+{{userId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="username"
+
+{{username}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userLogin"
+
+{{userLogin}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fullName"
+
+{{fullName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+{{email}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="organizationalUnitId"
+
+{{organizationalUnitId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Send Message with Image - إرسال رسالة مع صورة
+POST {{baseUrl}}/api/conversations/{{conversationId}}/messages
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+ما هذا في الصورة؟
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="modelName"
+
+{{modelName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="stream"
+
+{{stream}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="id"
+
+{{userId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="username"
+
+{{username}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userLogin"
+
+{{userLogin}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fullName"
+
+{{fullName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+{{email}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="organizationalUnitId"
+
+{{organizationalUnitId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="attachments"; filename="image.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Send Message with Multiple Images - إرسال رسالة مع صور متعددة
+POST {{baseUrl}}/api/conversations/{{conversationId}}/messages
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+ما رأيك في هذه الصور؟
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="modelName"
+
+{{modelName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="stream"
+
+{{stream}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="id"
+
+{{userId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="username"
+
+{{username}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userLogin"
+
+{{userLogin}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fullName"
+
+{{fullName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+{{email}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="organizationalUnitId"
+
+{{organizationalUnitId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="attachments"; filename="image1.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/image1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="attachments"; filename="image2.png"
+Content-Type: image/png
+
+< ./path/to/your/image2.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Send Message with PDF - إرسال رسالة مع PDF
+POST {{baseUrl}}/api/conversations/{{conversationId}}/messages
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+ما رأيك في هذا الملف؟
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="modelName"
+
+{{modelName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="stream"
+
+{{stream}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="id"
+
+{{userId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="username"
+
+{{username}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userLogin"
+
+{{userLogin}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fullName"
+
+{{fullName}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+{{email}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="organizationalUnitId"
+
+{{organizationalUnitId}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="attachments"; filename="document.pdf"
+Content-Type: application/pdf
+
+< ./path/to/your/document.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get Messages - جلب رسائل محادثة محددة
+GET {{baseUrl}}/api/conversations/{{conversationId}}/messages?id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+

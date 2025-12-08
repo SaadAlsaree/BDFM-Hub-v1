@@ -1,0 +1,21 @@
+### Variables
+@baseUrl = http://localhost:5000
+@conversationId = 69334cd96d6241e69ee49f44
+@messageIndex = 0
+@attachmentIndex = 0
+@userId = 42212628-cddd-4d28-972f-8336492a9d99
+@username = saad alsaree
+@userLogin = 101313
+@fullName = saad alsaree
+@email = saad@mail.com
+@organizationalUnitId = a2e50645-97cb-41cf-8d23-6b669aea3bc6
+
+### Get Attachment - جلب مرفق محدد
+GET {{baseUrl}}/api/attachments/{{conversationId}}/{{messageIndex}}/{{attachmentIndex}}?id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+
+### Get Attachment (Message 1, Attachment 0)
+GET {{baseUrl}}/api/attachments/{{conversationId}}/1/0?id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+
+### Get Attachment (Message 0, Attachment 1)
+GET {{baseUrl}}/api/attachments/{{conversationId}}/0/1?id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+

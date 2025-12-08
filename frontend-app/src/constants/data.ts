@@ -334,12 +334,21 @@ export const navItems: NavItem[] = [
   },
 
   {
-    title: 'المساعد الذكي',
-    url: '/ai-assistant',
+    title: 'الأدوات الذكية (AI Tools)',
+    url: '/ai-tools',
     icon: 'sparkles',
     shortcut: ['a', 'i'],
     isActive: false,
-    requiredRoles: ['Correspondence', 'SuAdmin', 'User']
+    requiredRoles: ['Correspondence', 'SuAdmin', 'User'],
+    items: [
+      {
+        title: 'معالج OCR',
+        url: '/ai-tools/ocr',
+        icon: 'sparkles',
+        shortcut: ['a', 'i'],
+        requiredPermissions: ['AiTools|GetOCR', 'Access|All']
+      }
+    ]
   },
 
   {

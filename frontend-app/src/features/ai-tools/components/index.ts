@@ -1,0 +1,2 @@
+export { OCRProcessor } from './ocr-processor';
+

@@ -1,0 +1,66 @@
+### Variables
+@baseUrl = http://localhost:5000
+@conversationId = 69334cd96d6241e69ee49f44
+@userId = 42212628-cddd-4d28-972f-8336492a9d99
+@username = saad alsaree
+@userLogin = 101313
+@fullName = saad alsaree
+@email = saad@mail.com
+@organizationalUnitId = a2e50645-97cb-41cf-8d23-6b669aea3bc6
+
+### Get All Conversations - جلب كل محادثات المستخدم
+GET {{baseUrl}}/api/conversations?page=1&limit=10&id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+
+### Get All Conversations (Page 2)
+GET {{baseUrl}}/api/conversations?page=2&limit=10&id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+
+### Create Conversation - إنشاء محادثة جديدة (بدون modelName - اختياري)
+# @name createConversation
+POST {{baseUrl}}/api/conversations
+Content-Type: application/json
+
+{
+  "title": "محادثة جديدة",
+  "id": "{{userId}}",
+  "username": "{{username}}",
+  "userLogin": "{{userLogin}}",
+  "fullName": "{{fullName}}",
+  "email": "{{email}}",
+  "organizationalUnitId": "{{organizationalUnitId}}"
+}
+
+### Create Conversation (with optional modelName)
+POST {{baseUrl}}/api/conversations
+Content-Type: application/json
+
+{
+  "title": "محادثة حول الصور",
+  "modelName": "llava",
+  "id": "{{userId}}",
+  "username": "{{username}}",
+  "userLogin": "{{userLogin}}",
+  "fullName": "{{fullName}}",
+  "email": "{{email}}",
+  "organizationalUnitId": "{{organizationalUnitId}}"
+}
+
+### Get Conversation by ID - جلب محادثة محددة
+GET {{baseUrl}}/api/conversations/{{conversationId}}?id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+
+### Update Conversation Title - تحديث عنوان المحادثة
+PUT {{baseUrl}}/api/conversations/{{conversationId}}
+Content-Type: application/json
+
+{
+  "title": "عنوان جديد للمحادثة",
+  "id": "{{userId}}",
+  "username": "{{username}}",
+  "userLogin": "{{userLogin}}",
+  "fullName": "{{fullName}}",
+  "email": "{{email}}",
+  "organizationalUnitId": "{{organizationalUnitId}}"
+}
+
+### Delete Conversation - حذف محادثة
+DELETE {{baseUrl}}/api/conversations/{{conversationId}}?id={{userId}}&username={{username}}&userLogin={{userLogin}}&fullName={{fullName}}&email={{email}}&organizationalUnitId={{organizationalUnitId}}
+

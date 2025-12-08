@@ -3,7 +3,7 @@ import { IResponseList, IResponse } from '@/types/response';
 import { IRoleList, RolePermissionAssignmentDto } from '../types/role';
 import { IPermissionList } from '@/features/permissions/types/permission';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const rolePermissionService = {
   async updateRolePermissions(payload: RolePermissionAssignmentDto) {
