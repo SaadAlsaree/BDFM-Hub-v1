@@ -58,7 +58,7 @@ namespace BDFM.Domain.Entities.Core
         public virtual ICollection<CorrespondenceLink> ReferencedBy { get; set; } = new HashSet<CorrespondenceLink>();
         public virtual ICollection<UserCorrespondenceInteraction> UserCorrespondenceInteractions { get; set; } = new HashSet<UserCorrespondenceInteraction>();
         public virtual ICollection<CorrespondenceComment> Comments { get; set; } = new HashSet<CorrespondenceComment>();
-        public virtual ICollection<CorrespondenceTag> CorrespondenceTags { get; set; } = new HashSet<CorrespondenceTag>();
+        public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();
         public virtual ICollection<CorrespondenceTimeline> CorrespondenceTimelines { get; set; } = new HashSet<CorrespondenceTimeline>();
     }
 }

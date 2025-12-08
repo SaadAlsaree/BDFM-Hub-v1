@@ -66,6 +66,7 @@
     <Folder Include="Features\Correspondences\Queries\GetCorrespondenceFullHistory\" />
     <Folder Include="Features\Correspondences\Queries\GetOutgoingInternal\" />
     <Folder Include="Features\Correspondences\Queries\SearchCorrespondences\" />
+    <Folder Include="Features\CorrespondenceTags\Commands\" />
     <Folder Include="Features\MailFiles\Commands\CreateMailFile\" />
     <Folder Include="Features\MailFiles\Commands\UpdateMailFile\" />
     <Folder Include="Features\MailFiles\Queries\GetMailFileById\" />
@@ -96,7 +97,6 @@
     <Folder Include="Features\Security\Roles\Commands\UpdateRole\" />
     <Folder Include="Features\Security\Roles\Queries\GetRoleList\" />
     <Folder Include="Features\Security\Roles\Queries\GetRoleById\" />
-    <Folder Include="Features\Tags\Commands\" />
     <Folder Include="Features\Tags\Queries\" />
     <Folder Include="Features\Users\Commands\CreateUser\" />
     <Folder Include="Features\Users\Commands\ChangePassword\" />

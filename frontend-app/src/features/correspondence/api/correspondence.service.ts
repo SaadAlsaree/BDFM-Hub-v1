@@ -682,5 +682,50 @@ export const correspondenceService = {
       console.error('Error getting completed correspondences:', error);
       return null;
     }
-  }
+  },
+
+//#region Not Completed Correspondences
+    ///BDFM/v1/api/Correspondence/GetNotCompletedCorrespondences
+  async getNotCompletedCorrespondences(searchParams?: Record<string, any>) {
+    try {
+      const response = await axiosInstance.get(
+        `${baseUrl}/Correspondence/GetNotCompletedCorrespondences`,
+        { params: searchParams }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error getting not completed correspondences:', error);
+      return null;
+    }
+  },
+
+  //BDFM/v1/api/Correspondence/GetPendingOrInProgressCorrespondences
+  async getPendingOrInProgressCorrespondences(searchParams?: Record<string, any>) {
+    try {
+      const response = await axiosInstance.get(
+        `${baseUrl}/Correspondence/GetPendingOrInProgressCorrespondences`,
+        { params: searchParams }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error getting pending or in progress correspondences:', error);
+      return null;
+    }
+  },
+
+//BDFM/v1/api/Correspondence/GetMyPendingOrInProgressCorrespondences
+async getMyPendingOrInProgressCorrespondences(searchParams?: Record<string, any>) {
+    try {
+      const response = await axiosInstance.get(
+        `${baseUrl}/Correspondence/GetMyPendingOrInProgressCorrespondences`,
+        { params: searchParams }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error getting my pending or in progress correspondences:', error);
+      return null;
+    }
+  },
+
+  //#endregion Not Completed Correspondences
 };

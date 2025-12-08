@@ -105,7 +105,7 @@ public class SecureGetUserInboxHandler :
             var query = await ApplySecurityFilterAsync(_repository.Query(), cancellationToken);
 
             // 3. Apply user-specific filtering (from original handler)
-            query = query.ApplyFilter(request, _currentUserService.UserId);
+            query = query.ApplyFilterUserInbox(request, _currentUserService.UserId);
 
             // 4. Apply ordering
             var orderedQuery = OrderBy(query);

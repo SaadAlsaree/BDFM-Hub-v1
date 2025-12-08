@@ -102,7 +102,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetOutgoingInternal
             query = query.Where(c => c.CorrespondenceType == CorrespondenceTypeEnum.OutgoingInternal);
 
             // Apply filtering with current user context
-            query = query.ApplyFilter();
+            query = query.ApplyFilterOutgoingInternal(request);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

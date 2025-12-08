@@ -24,7 +24,7 @@ public class GetForwardedCorrespondenceQuery : IRequest<Response<PagedResult<Get
 
 public static class GetForwardedCorrespondenceQueryExtension
 {
-    public static IQueryable<Correspondence> ApplyFilter(this IQueryable<Correspondence> query, GetForwardedCorrespondenceQuery request, bool applyIsDeletedFilter = true)
+    public static IQueryable<Correspondence> ApplyFilterForwardedCorrespondence(this IQueryable<Correspondence> query, GetForwardedCorrespondenceQuery request, bool applyIsDeletedFilter = true)
     {
         var filteredQuery = query;
 

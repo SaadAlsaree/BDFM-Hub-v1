@@ -98,7 +98,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceInc
             var query = _repository.Query();
 
             // Apply filtering with current user context (filters by CorrespondenceType and IsDeleted)
-            query = query.ApplyFilterIncoming();
+            query = query.ApplyFilterIncoming(request);
 
             // Apply access control
             query = query.ApplyCorrespondenceAccessControl(

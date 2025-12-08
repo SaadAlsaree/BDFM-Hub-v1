@@ -11,7 +11,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.SearchCorrespondence
 
     public static class SearchCorrespondencesQueryExtensions
     {
-        public static IQueryable<Correspondence> ApplyFilter(this IQueryable<Correspondence> query, SearchCorrespondencesQuery request)
+        public static IQueryable<Correspondence> ApplyFilterSearchCorrespondences(this IQueryable<Correspondence> query, SearchCorrespondencesQuery request)
         {
             var filteredQuery = query.Where(x => !x.IsDeleted);
 

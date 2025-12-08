@@ -89,7 +89,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceOut
             var query = _repository.Query();
 
             // Filter for outgoing external correspondences only
-            query = query.Where(c => c.CorrespondenceType == CorrespondenceTypeEnum.OutgoingExternal);
+            query = query.ApplyFilterOutgoing(request);
 
             // Apply access control
             query = query.ApplyCorrespondenceAccessControl(

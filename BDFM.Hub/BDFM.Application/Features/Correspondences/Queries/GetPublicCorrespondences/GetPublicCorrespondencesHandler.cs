@@ -82,7 +82,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPublicCorresponde
             var query = _repository.Query();
 
             // Apply filtering with current user context
-            query = query.ApplyFilterPublic();
+            query = query.ApplyFilterPublic(request);
 
             // Apply date filtering if provided
             if (request.CreatedDate.HasValue)

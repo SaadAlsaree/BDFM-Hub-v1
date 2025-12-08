@@ -5,6 +5,11 @@ import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
 import { Badge } from '@/components/ui/badge';
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
   CorrespondenceDetails,
   CorrespondenceStatusEnum
 } from '../../types/correspondence-details';
@@ -90,12 +95,14 @@ export function MailHeader({
           </div>
         </div>
 
-        <div className='flex gap-2'>
+        <div className='flex gap-1'>
           {isLoading && (
             <div className='flex items-center justify-center'>
               <Spinner className='text-primary animate-spin' />
             </div>
           )}
+
+
 
           {(user?.id === data.createdByUserId ||
             hasAnyPermission(user as UserDto | null, [
@@ -104,7 +111,7 @@ export function MailHeader({
             data.workflowSteps?.length === 0 &&
             data.correspondenceType !== 0 && (
               <CustomWorkflowDialog correspondenceId={data.id}>
-                <Button variant='default'>إنشاء سير العمل مخصص</Button>
+                <Button variant='default'  size='sm'>إنشاء سير العمل مخصص</Button>
               </CustomWorkflowDialog>
             )}
           {(user?.organizationalUnit.unitCode === data.createdByUnitCode &&
@@ -119,7 +126,7 @@ export function MailHeader({
                   data.correspondenceType as CorrespondenceTypeEnum
                 }
               >
-                <Button variant='outline'>تحديث الحالة</Button>
+                <Button variant='outline'  size='sm'>تحديث الحالة</Button>
               </MailStatusDialog>
             </div>
           ))}
@@ -132,6 +139,8 @@ export function MailHeader({
                 <WorkflowStepFormDialog correspondenceId={data.id} />
               )}
           </div>
+          <Tooltip>
+          <TooltipTrigger asChild>
           <Button
             variant={isStarred ? 'default' : 'outline'}
             size='sm'
@@ -145,10 +154,15 @@ export function MailHeader({
                   : 'text-zinc-500 hover:text-yellow-500 dark:text-zinc-400'
               }`}
             />
-            {isStarred ? 'الكتاب متابع' : 'متابعة الكتاب'}
+           
           </Button>
-
+          </TooltipTrigger>
+          <TooltipContent>
+          <p>{isStarred ? 'الكتاب متابع' : 'متابعة الكتاب'}</p>
+          </TooltipContent>
+          </Tooltip>
           {data.isDraft && (
+            
             <Button
               variant='outline'
               size='sm'
@@ -168,10 +182,16 @@ export function MailHeader({
               'Correspondence|Print'
             ]) && (
               <Link href={`/correspondence/view/${data.id}/templates`}>
+                 <Tooltip>
+                 <TooltipTrigger asChild>
                 <Button variant='outline' size='sm'>
-                  <Printer className='h-4 w-4' />
-                  طباعة
-                </Button>
+                    <Printer className='h-4 w-4' />
+                    </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                    <p>طباعة</p>
+                    </TooltipContent>
+                    </Tooltip>
               </Link>
             )}
           </div>

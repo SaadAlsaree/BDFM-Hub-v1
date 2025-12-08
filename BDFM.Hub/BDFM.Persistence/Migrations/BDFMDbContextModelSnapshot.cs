@@ -2827,17 +2827,16 @@ namespace BDFM.Persistence.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Color")
-                        .HasMaxLength(7)
-                        .HasColumnType("character varying(7)");
+                    b.Property<Guid>("CorrespondenceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CorrespondenceId1")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -2846,25 +2845,20 @@ namespace BDFM.Persistence.Migrations
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
                     b.Property<DateTime?>("DoneProcdureDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<Guid?>("FromUnitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("FromUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsAll")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsPublic")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("IsSystemTag")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastUpdateAt")
                         .HasColumnType("timestamp with time zone");
@@ -2874,46 +2868,44 @@ namespace BDFM.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<Guid?>("OrganizationalUnitId")
-                        .HasColumnType("uuid");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UsageCount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
+                    b.Property<Guid>("ToPrimaryRecipientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ToPrimaryRecipientType")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Category")
-                        .HasDatabaseName("IX_Tags_Category");
+                    b.HasIndex("CorrespondenceId")
+                        .HasDatabaseName("IX_Tags_CorrespondenceId");
 
-                    b.HasIndex("CreatedByUserId");
+                    b.HasIndex("CorrespondenceId1");
+
+                    b.HasIndex("CreateAt");
+
+                    b.HasIndex("FromUnitId")
+                        .HasDatabaseName("IX_Tags_FromUnitId");
+
+                    b.HasIndex("FromUserId")
+                        .HasDatabaseName("IX_Tags_FromUserId");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("IsPublic")
-                        .HasDatabaseName("IX_Tags_IsPublic");
-
-                    b.HasIndex("IsSystemTag")
-                        .HasDatabaseName("IX_Tags_IsSystemTag");
 
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasDatabaseName("IX_Tags_Name")
                         .HasFilter("\"Name\" IS NOT NULL");
 
-                    b.HasIndex("OrganizationalUnitId");
-
                     b.HasIndex("StatusId");
 
-                    b.HasIndex("UsageCount")
-                        .HasDatabaseName("IX_Tags_UsageCount");
+                    b.HasIndex("ToPrimaryRecipientId")
+                        .HasDatabaseName("IX_Tags_ToPrimaryRecipientId");
 
                     b.ToTable("Tags", (string)null);
                 });
@@ -3978,7 +3970,7 @@ namespace BDFM.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("BDFM.Domain.Entities.Core.Correspondence", "Correspondence")
-                        .WithMany("CorrespondenceTags")
+                        .WithMany()
                         .HasForeignKey("CorrespondenceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -4077,19 +4069,29 @@ namespace BDFM.Persistence.Migrations
 
             modelBuilder.Entity("BDFM.Domain.Entities.Supporting.Tag", b =>
                 {
-                    b.HasOne("BDFM.Domain.Entities.Core.User", "CreatedByUser")
-                        .WithMany("CreatedTags")
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                    b.HasOne("BDFM.Domain.Entities.Core.Correspondence", "Correspondence")
+                        .WithMany()
+                        .HasForeignKey("CorrespondenceId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
-                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "OrganizationalUnit")
+                    b.HasOne("BDFM.Domain.Entities.Core.Correspondence", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("CorrespondenceId1");
+
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "FromUnit")
                         .WithMany("OrganizationalUnitTags")
-                        .HasForeignKey("OrganizationalUnitId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("FromUnitId");
 
-                    b.Navigation("CreatedByUser");
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "FromUser")
+                        .WithMany("UserTags")
+                        .HasForeignKey("FromUserId");
 
-                    b.Navigation("OrganizationalUnit");
+                    b.Navigation("Correspondence");
+
+                    b.Navigation("FromUnit");
+
+                    b.Navigation("FromUser");
                 });
 
             modelBuilder.Entity("BDFM.Domain.Entities.Supporting.UserCorrespondenceInteraction", b =>
@@ -4264,8 +4266,6 @@ namespace BDFM.Persistence.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("CorrespondenceTags");
-
                     b.Navigation("CorrespondenceTimelines");
 
                     b.Navigation("DraftVersions");
@@ -4281,6 +4281,8 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("ReferencesTo");
 
                     b.Navigation("RepliesToThis");
+
+                    b.Navigation("Tags");
 
                     b.Navigation("UserCorrespondenceInteractions");
 
@@ -4355,8 +4357,6 @@ namespace BDFM.Persistence.Migrations
 
                     b.Navigation("CreatedMailFiles");
 
-                    b.Navigation("CreatedTags");
-
                     b.Navigation("DelegationsGiven");
 
                     b.Navigation("DelegationsReceived");
@@ -4380,6 +4380,8 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("UserPermissions");
 
                     b.Navigation("UserRoles");
+
+                    b.Navigation("UserTags");
                 });
 
             modelBuilder.Entity("BDFM.Domain.Entities.Security.Permission", b =>

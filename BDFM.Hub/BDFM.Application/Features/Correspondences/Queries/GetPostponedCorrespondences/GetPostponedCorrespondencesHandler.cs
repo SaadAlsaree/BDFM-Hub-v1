@@ -94,7 +94,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespo
                 hierarchicalUnitIds);
 
             // Apply filtering with current user context for postponed correspondences
-            query = query.ApplyFilterPostponed(_currentUserService.UserId);
+            query = query.ApplyFilterPostponed(_currentUserService.UserId, request);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

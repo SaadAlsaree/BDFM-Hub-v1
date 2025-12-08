@@ -13,7 +13,7 @@ import Unauthorized from '@/components/auth/unauthorized';
 import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
-  title: 'الكتب المفضلة'
+  title: 'الكتب المتابعة'
 };
 
 // Force dynamic rendering since we use getServerSession which requires headers
@@ -51,7 +51,7 @@ const FavoriteCorrespondencePage = async (
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>
         <div className='flex items-start justify-between'>
-          <Heading title='الكتب المفضلة' description='إدارة الكتب المفضلة' />
+          <Heading title='الكتب المتابعة' description='إدارة الكتب المتابعة' />
         </div>
         <Separator />
 

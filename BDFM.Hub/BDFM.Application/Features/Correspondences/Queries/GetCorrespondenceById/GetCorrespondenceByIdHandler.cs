@@ -3,6 +3,7 @@ using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Features.Utility.BaseUtility.Query.GetById;
 using BDFM.Domain.Entities.Core;
 using BDFM.Application.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceById
 {
@@ -176,6 +177,36 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
                 Notes = y.Notes,
             }).ToList(),
 
+            Tags = x.Tags.Select(t => new TagInfoDto
+            {
+                TagId = t.Id,
+                TagName = t.Name ?? string.Empty,
+                Category = t.Category,
+                CategoryName = t.Category.GetDisplayName(),
+                IsAll = t.IsAll,
+                FromUserId = t.FromUserId,
+                FromUser = t.FromUser != null ? new UserDetailVm
+                {
+                    Id = t.FromUser.Id,
+                    Username = t.FromUser.Username,
+                    UserLogin = t.FromUser.UserLogin,
+                    OrganizationalUnitId = t.FromUser.OrganizationalUnitId ?? Guid.Empty,
+                    OrganizationalUnitName = t.FromUser.OrganizationalUnit != null ? t.FromUser.OrganizationalUnit.UnitName : string.Empty,
+                    OrganizationalUnitCode = t.FromUser.OrganizationalUnit != null ? t.FromUser.OrganizationalUnit.UnitCode : string.Empty,
+                } : null,
+                FromUnitId = t.FromUnitId,
+                FromUnit = t.FromUnit != null ? new OrganizationalUnitDetailVm
+                {
+                    UnitName = t.FromUnit.UnitName,
+                    UnitCode = t.FromUnit.UnitCode,
+                    UnitDescription = t.FromUnit.UnitDescription,
+                } : null,
+                ToPrimaryRecipientType = t.ToPrimaryRecipientType,
+                ToPrimaryRecipientTypeName = t.ToPrimaryRecipientType.GetDisplayName(),
+                ToPrimaryRecipientId = t.ToPrimaryRecipientId,
+                ToPrimaryRecipientName = string.Empty, // Will be populated after query
+            }).ToList(),
+
         };
 
         public async Task<Response<CorrespondenceDetailVm>> Handle(GetCorrespondenceByIdQuery request, CancellationToken cancellationToken)
@@ -211,6 +242,14 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
 
             // Apply the ID predicate
             query = query.Where(IdPredicate(request));
+
+            // Include Tags with their navigation properties
+            query = query
+                .Include(x => x.Tags)
+                    .ThenInclude(t => t.FromUser!)
+                        .ThenInclude(u => u.OrganizationalUnit!)
+                .Include(x => x.Tags)
+                    .ThenInclude(t => t.FromUnit!);
 
             // Get the correspondence with initial data
             var correspondence = await query
@@ -254,6 +293,34 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
                     if (unit != null)
                     {
                         workflowStep.ToPrimaryRecipientName = unit.UnitName;
+                    }
+                }
+            }
+
+            // Populate recipient information for each tag
+            foreach (var tag in correspondence.Tags)
+            {
+                if (tag.ToPrimaryRecipientType == RecipientTypeEnum.User)
+                {
+                    var user = await _userRepository.Find(
+                        u => u.Id == tag.ToPrimaryRecipientId,
+                        include: query => query.Include(u => u.OrganizationalUnit!),
+                        cancellationToken: cancellationToken);
+
+                    if (user != null)
+                    {
+                        tag.ToPrimaryRecipientName = user.Username;
+                    }
+                }
+                else if (tag.ToPrimaryRecipientType == RecipientTypeEnum.Unit)
+                {
+                    var unit = await _unitRepository.Find(
+                        u => u.Id == tag.ToPrimaryRecipientId,
+                        cancellationToken: cancellationToken);
+
+                    if (unit != null)
+                    {
+                        tag.ToPrimaryRecipientName = unit.UnitName;
                     }
                 }
             }

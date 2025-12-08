@@ -99,7 +99,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetLateBooks
                 {
                     _logger.LogDebug("User {UserId} has ViewAll permission - showing all late correspondence", _currentUserService.UserId);
                     // User can see all correspondence - apply only the basic filters
-                    query = query.ApplyFilter(request);
+                    query = query.ApplyFilterLateBooks(request);
                 }
                 else
                 {

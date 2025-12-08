@@ -96,7 +96,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetProcessing
                 hierarchicalUnitIds);
 
             // Apply filtering
-            query = query.ApplyFilter(request, _currentUserService.UserId);
+            query = query.ApplyFilterProcessing(request, _currentUserService.UserId);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

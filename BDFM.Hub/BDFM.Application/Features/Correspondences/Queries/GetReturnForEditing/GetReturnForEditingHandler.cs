@@ -96,7 +96,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing
                 hierarchicalUnitIds);
 
             // Apply filtering
-            query = query.ApplyFilter(request, _currentUserService.UserId);
+            query = query.ApplyFilterReturnForEditing(request, _currentUserService.UserId);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

@@ -181,7 +181,7 @@ export function WorkflowStepFormDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {trigger || (
-          <Button variant='outline' className='w-full'>
+          <Button variant='outline' className='w-full'  size='sm'>
             <Plus className='h-4 w-4' />
             إنشاء أجراء تحويل جديدة
           </Button>

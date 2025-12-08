@@ -98,7 +98,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetSigningList
                 hierarchicalUnitIds);
 
             // Apply filtering with current user context
-            query = query.ApplyFilter(request);
+            query = query.ApplyFilterSigningList(request);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

@@ -1,5 +1,6 @@
 using BDFM.Domain.Common;
 using BDFM.Domain.Entities.Core;
+using BDFM.Domain.Enums;
 
 namespace BDFM.Domain.Entities.Supporting
 {
@@ -11,15 +12,20 @@ namespace BDFM.Domain.Entities.Supporting
 
         public string? Name { get; set; } = string.Empty;
 
+        public TagCategoryEnum Category { get; set; } = TagCategoryEnum.General;
+
         public bool IsAll { get; set; } = false;
 
         // For user-specific private tags
-        public Guid? ForUserId { get; set; }
-        public virtual User? User { get; set; }
+         public Guid? FromUserId { get; set; }
+        public virtual User? FromUser { get; set; }
 
-        // For organizational unit specific tags
-        public Guid? ForOrganizationalUnitId { get; set; }
-        public virtual OrganizationalUnit? OrganizationalUnit { get; set; }
+        public Guid? FromUnitId { get; set; }
+        public virtual OrganizationalUnit? FromUnit { get; set; }
+
+        public RecipientTypeEnum ToPrimaryRecipientType { get; set; }
+
+        public Guid ToPrimaryRecipientId { get; set; }
 
 
         // Navigation Properties

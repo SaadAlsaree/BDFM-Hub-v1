@@ -99,7 +99,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUrgentBooks
                 {
                     _logger.LogDebug("User {UserId} has ViewAll permission - showing all urgent correspondence", _currentUserService.UserId);
                     // User can see all correspondence - apply only the basic filters
-                    query = query.ApplyFilter(request);
+                    query = query.ApplyFilterUrgentBooks(request);
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUrgentBooks
                     ));
 
                     // Apply additional filters from the request (skip IsDeleted since we already applied it)
-                    query = query.ApplyFilter(request);
+                    query = query.ApplyFilterUrgentBooks(request);
                 }
 
                 // Apply ordering

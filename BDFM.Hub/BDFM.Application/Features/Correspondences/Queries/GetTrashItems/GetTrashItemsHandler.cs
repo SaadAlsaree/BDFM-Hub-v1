@@ -98,7 +98,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetTrashItems
                 hierarchicalUnitIds);
 
             // Apply filtering with current user context
-            query = query.ApplyFilter(request, _currentUserService.UserId);
+            query = query.ApplyFilterTrashItems(request, _currentUserService.UserId);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

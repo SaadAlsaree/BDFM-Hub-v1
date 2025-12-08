@@ -35,7 +35,6 @@ import {
 } from '../../types/register-incoming-external-mail';
 import { useAuthApi } from '@/hooks/use-auth-api';
 import { useState, useMemo, useEffect } from 'react';
-// services
 import { correspondenceService } from '../../api/correspondence.service';
 import { useRouter } from 'next/navigation';
 import { CorrespondenceTypeEnumNames } from '@/features/customWorkflow/types/customWorkflow';
@@ -75,94 +74,32 @@ const MailStatusDialog = ({
 
   const { user } = useCurrentUser();
 
-  // دالة لتحديد الحالات المتاحة بناءً على الحالة الحالية
+  // دالة لتحديد الحالات المتاحة - عرض جميع الحالات بدون قيود
   const getAvailableStatuses = useMemo(() => {
     let allStatuses = Object.entries(CorrespondenceStatusEnumArabicMap);
 
-    // Remove 'Signed' option from the global statuses list for non-Managers so
-    // it cannot be returned by any branch below. This centralizes the role
-    // gating and prevents accidental exposure of Signed via specific case logic.
+    // Remove 'PendingReferral' option from the global statuses list for non-Managers
     if (!hasAnyRole(user as UserDto, ['Manager'])) {
       allStatuses = allStatuses.filter(
         ([key]) => parseInt(key) !== CorrespondenceStatusEnum.PendingReferral
       );
     }
 
-    // إذا لم تكن هناك حالة حالية (كتاب جديد)، اعرض جميع الحالات
-    if (!currentStatus) return allStatuses;
+    // عرض جميع الحالات المتاحة بدون أي قيود
+    return allStatuses;
+  }, [user]);
 
-    // تحديد التسلسل المنطقي للحالات
-    switch (currentStatus) {
-      case CorrespondenceStatusEnum.PendingReferral: // قيد الانتظار (2)
-        // يمكن الانتقال إلى أي حالة
-        return allStatuses;
-
-      case CorrespondenceStatusEnum.UnderProcessing: // قيد المعالجة (3)
-        // لا يمكن العودة إلى قيد الانتظار
-        return allStatuses.filter(
-          ([key]) => parseInt(key) !== CorrespondenceStatusEnum.PendingReferral
-        );
-
-      case CorrespondenceStatusEnum.Postponed:
-        // لا يمكن العودة إلى قيد الانتظار
-        return allStatuses.filter(
-          ([key]) => parseInt(key) !== CorrespondenceStatusEnum.PendingReferral
-        );
-
-      case CorrespondenceStatusEnum.UnderProcessing: // قيد الموافقة (4)
-        // لا يمكن العودة إلى (قيد الانتظار، قيد المعالجة)
-        return allStatuses.filter(([key]) => {
-          const statusValue = parseInt(key) as CorrespondenceStatusEnum;
-          return ![
-            CorrespondenceStatusEnum.PendingReferral,
-            CorrespondenceStatusEnum.UnderProcessing
-          ].includes(statusValue);
-        });
-
-      case CorrespondenceStatusEnum.Completed: // موافق (5)
-        // لا يمكن العودة إلى الحالات السابقة
-        return allStatuses.filter(([key]) => {
-          const statusValue = parseInt(key) as CorrespondenceStatusEnum;
-          return ![
-            CorrespondenceStatusEnum.PendingReferral,
-            CorrespondenceStatusEnum.UnderProcessing
-          ].includes(statusValue);
-        });
-
-      case CorrespondenceStatusEnum.ReturnedForModification: // إرجاع للتعديل (11)
-        // للحالات النهائية، يمكن الانتقال فقط بين الحالات النهائية
-        return allStatuses.filter(([key]) => {
-          const statusValue = parseInt(key) as CorrespondenceStatusEnum;
-          return [
-            CorrespondenceStatusEnum.Completed,
-            CorrespondenceStatusEnum.ReturnedForModification,
-            CorrespondenceStatusEnum.Postponed
-          ].includes(statusValue);
-        });
-
-      default:
-        // للحالات غير المعروفة، اعرض جميع الحالات
-        return allStatuses;
-    }
-  }, [currentStatus, user]);
-
-  // تحديث الحالة المختارة عند تغيير الحالة الحالية أو الحالات المتاحة
+  // تحديث الحالة المختارة عند فتح الحوار
   useEffect(() => {
-    const availableStatusValues = getAvailableStatuses.map(
-      ([key]) => parseInt(key) as CorrespondenceStatusEnum
-    );
-
-    // إذا كانت الحالة المختارة حالياً غير متاحة في القائمة الجديدة
-    if (status && !availableStatusValues.includes(status)) {
-      if (availableStatusValues.length > 0) {
-        // اختيار أول حالة متاحة
-        setStatus(availableStatusValues[0]);
-      }
-    } else if (!status) {
-      // إذا لم تكن هناك حالة مختارة، اختر الحالة الحالية
-      setStatus(currentStatus);
+    if (isOpen) {
+      // إعادة تعيين الحالة عند فتح الحوار
+      setStatus(currentStatus || undefined);
+    } else {
+      // إعادة تعيين عند إغلاق الحوار
+      setStatus(currentStatus || undefined);
+      setReason('');
     }
-  }, [currentStatus, status, getAvailableStatuses, user]);
+  }, [isOpen, currentStatus]);
 
   // دالة للتحقق من تغيير نوع الكتاب من Draft إلى نوع آخر
   const handleCorrespondenceTypeChange = (newType: CorrespondenceTypeEnum) => {
@@ -194,10 +131,10 @@ const MailStatusDialog = ({
   };
 
   const onSubmit = async () => {
-    if (!status || status === currentStatus) {
+    if (!status) {
       toast({
         title: 'تنبيه',
-        description: 'لم يتم تغيير الحالة',
+        description: 'يرجى اختيار حالة',
         variant: 'default'
       });
       return;
@@ -233,7 +170,6 @@ const MailStatusDialog = ({
         });
       }
     } catch (error) {
-      // console.error('Error updating correspondence status:', error);
       toast({
         title: 'خطأ',
         description: 'حدث خطأ أثناء تحديث حالة الكتاب',
@@ -253,7 +189,7 @@ const MailStatusDialog = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild disabled={!currentStatus}>
+        <DialogTrigger asChild>
           {children}
         </DialogTrigger>
         <DialogContent className='sm:max-w-[425px]' from='bottom'>
@@ -263,11 +199,6 @@ const MailStatusDialog = ({
               قم بتحديث حالة الكتاب وإدخال سبب التغيير
             </DialogDescription>
           </DialogHeader>
-          {!currentStatus && (
-            <div className='py-4 text-center text-red-600'>
-              لا يمكن تحديث الحالة - الحالة الحالية غير متوفرة
-            </div>
-          )}
           <div className='grid gap-4 py-4'>
             <div className='grid gap-2'>
               <Label htmlFor='status'>الحالة الجديدة</Label>
@@ -276,7 +207,6 @@ const MailStatusDialog = ({
                 onValueChange={(value) =>
                   setStatus(Number(value) as CorrespondenceStatusEnum)
                 }
-                disabled={!currentStatus}
               >
                 <SelectTrigger className='w-full'>
                   <SelectValue placeholder='اختر الحالة الجديدة' />
@@ -326,7 +256,6 @@ const MailStatusDialog = ({
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 className='min-h-[100px]'
-                disabled={!currentStatus}
               />
             </div>
           </div>
@@ -334,11 +263,15 @@ const MailStatusDialog = ({
             <Button
               variant='outline'
               onClick={onCancel}
-              disabled={isLoading || !currentStatus}
+              disabled={isLoading}
             >
               إلغاء
             </Button>
-            <Button onClick={onSubmit} disabled={isLoading || !currentStatus}>
+            <Button
+              type='button'
+              onClick={onSubmit}
+              disabled={isLoading || !status}
+            >
               {isLoading ? 'جاري التحديث...' : 'تحديث'}
             </Button>
           </div>

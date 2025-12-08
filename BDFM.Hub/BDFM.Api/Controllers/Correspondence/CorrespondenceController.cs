@@ -37,6 +37,9 @@ using BDFM.Application.Features.Correspondences.Queries.GetProcessing;
 using BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing;
 using BDFM.Application.Features.Correspondences.Queries.GetCompleted;
 using BDFM.Application.Features.Correspondences.Queries.GetForwardedCorrespondence;
+using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceAnyWorkflowNotCompleted;
+using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceNotCompleted;
+using BDFM.Application.Features.Correspondences.Queries.GetMyPendingOrInProgressCorrespondences;
 
 namespace BDFM.API.Controllers.Correspondence
 {
@@ -496,6 +499,45 @@ namespace BDFM.API.Controllers.Correspondence
         [ProducesResponseType(typeof(Response<PagedResult<GetForwardedCorrespondenceVm>>), StatusCodes.Status400BadRequest)]
         [Permission("Correspondence|GetForwardedCorrespondence")]
         public async Task<ObjectResult> GetForwardedCorrespondence([FromQuery] GetForwardedCorrespondenceQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets correspondences that contain WorkflowSteps with Status = Pending or InProgress
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceWorkflowNotCompletedVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceWorkflowNotCompletedVm>>), StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|View")]
+        public async Task<ObjectResult> GetPendingOrInProgressCorrespondences([FromQuery] GetCorrespondenceAnyWorkflowNotCompletedQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets correspondences with Status = PendingReferral or UnderProcessing
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceNotCompletedVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceNotCompletedVm>>), StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|View")]
+        public async Task<ObjectResult> GetNotCompletedCorrespondences([FromQuery] GetCorrespondenceNotCompletedQuery query)
+        {
+            return await Okey(() => _mediator.Send(query));
+        }
+
+        /// <summary>
+        /// Gets correspondences that contain WorkflowSteps directed to the current user or their unit with Status = Pending or InProgress
+        /// </summary>
+        [HttpGet]
+        [ServiceFilter(typeof(LogActionArguments))]
+        [ProducesResponseType(typeof(Response<PagedResult<MyPendingOrInProgressCorrespondencesVm>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<PagedResult<MyPendingOrInProgressCorrespondencesVm>>), StatusCodes.Status400BadRequest)]
+        [Permission("Correspondence|GetUserInbox")]
+        public async Task<ObjectResult> GetMyPendingOrInProgressCorrespondences([FromQuery] GetMyPendingOrInProgressCorrespondencesQuery query)
         {
             return await Okey(() => _mediator.Send(query));
         }

@@ -55,7 +55,9 @@ export const searchParams = {
   triggeringUnitId: parseAsString,
   triggeringLeaveType: parseAsInteger,
   isEnabled: parseAsBoolean,
-
+  maileDate: parseAsString,
+  category: parseAsInteger,
+  date: parseAsString
   // advanced filter
   // filters: getFiltersStateParser().withDefault([]),
   // joinOperator: parseAsStringEnum(['and', 'or']).withDefault('and')

@@ -1,6 +1,10 @@
 
-using BDFM.Application.Features.CorrespondenceTags.Commands.ApplyTag;
-using BDFM.Application.Features.CorrespondenceTags.Queries.GetCorrespondenceTags;
+using BDFM.Application.Features.CorrespondenceTags.Queries.GetCorrespondencesWithTags;
+using BDFM.Application.Features.Tags.Commands.CreateArrayTags;
+using BDFM.Application.Features.Tags.Commands.CreateTag;
+using BDFM.Application.Features.Tags.Commands.SoftDeleteTag;
+using BDFM.Application.Features.Tags.Commands.UpdateTag;
+using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
 using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
 
 namespace BDFM.Api.Controllers;
@@ -20,79 +24,73 @@ public class TagController : Base<TagController>
         _mediator = mediator;
     }
 
-
-
-    /// <summary>
-    /// Changes the status of a tag
-    /// </summary>
-    [HttpPatch("ChangeStatus")]
-    [ServiceFilter(typeof(LogActionArguments))]
-    [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Response<bool>>> ChangeStatus([FromBody] ChangeStatusCommand<Guid> command)
-    {
-        command.TableName = TableNames.Tags;
-        return await Okey(() => _mediator.Send(command));
-    }
+    #region Tag CRUD Operations
 
     /// <summary>
-    /// Deletes a tag (soft delete)
-    /// </summary>
-    [HttpDelete("{id}")]
-    [ServiceFilter(typeof(LogActionArguments))]
-    // [Permission(MetaPermission = "Admin")] // Commented due to accessibility issue
-    [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Response<bool>>> DeleteTag([FromRoute] Guid id)
-    {
-        return await Okey(() => _mediator.Send(new DeleteRecordCommand<Guid> { Id = id, TableName = TableNames.Tags }));
-    }
-
-
-
-    /// <summary>
-    /// Applies a tag to a correspondence
+    /// Creates a new tag
     /// </summary>
     [HttpPost]
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Response<bool>>> ApplyTagToCorrespondence([FromBody] ApplyTagCommand command)
+    public async Task<ActionResult<Response<bool>>> CreateTag([FromBody] CreateTagCommand command)
     {
         return await Okey(() => _mediator.Send(command));
     }
 
     /// <summary>
-    /// Removes a tag from a correspondence
+    /// Updates an existing tag
     /// </summary>
-    [HttpDelete("{correspondenceId}/{tagId}")]
+    [HttpPut]
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Response<bool>>> RemoveTagFromCorrespondence([FromRoute] Guid correspondenceId, [FromRoute] Guid tagId, [FromQuery] Guid userId)
+    public async Task<ActionResult<Response<bool>>> UpdateTag([FromBody] UpdateTagCommand command)
     {
-        return await Okey(() => _mediator.Send(new DeleteRecordCommand<Guid>
-        {
-            Id = correspondenceId, // This would need a custom handler
-            TableName = TableNames.CorrespondenceTags
-        }));
+        return await Okey(() => _mediator.Send(command));
     }
 
     /// <summary>
-    /// Gets all tags for a specific correspondence
+    /// Soft deletes a tag
     /// </summary>
-    [HttpGet("{correspondenceId}")]
+    [HttpDelete("SoftDelete/{id}")]
     [ServiceFilter(typeof(LogActionArguments))]
-    [ProducesResponseType(typeof(Response<IEnumerable<CorrespondenceTagViewModel>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Response<IEnumerable<CorrespondenceTagViewModel>>>> GetCorrespondenceTags([FromRoute] Guid correspondenceId, [FromQuery] Guid? userId = null, [FromQuery] bool includePrivateTags = false)
+    public async Task<ActionResult<Response<bool>>> SoftDeleteTag([FromRoute] Guid id)
     {
-        var query = new GetCorrespondenceTagsQuery
-        {
-            CorrespondenceId = correspondenceId,
-            UserId = userId,
-            IncludePrivateTags = includePrivateTags
-        };
+        return await Okey(() => _mediator.Send(new SoftDeleteTagCommand { Id = id }));
+    }
+
+    /// <summary>
+    /// Creates an array of tags
+    /// </summary>
+    [HttpPost]
+    [ServiceFilter(typeof(LogActionArguments))]
+    [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Response<bool>>> CreateArrayTags([FromBody] CreateArrayTagsCommand command)
+    {
+        return await Okey(() => _mediator.Send(command));
+    }
+
+    #endregion
+
+    #region Tag Queries
+
+    /// <summary>
+    /// Gets all correspondences that contain tags accessible to the current user
+    /// Filters based on Tag.IsAll, Tag.ForUserId, and Tag.ForOrganizationalUnitId
+    /// </summary>
+    [HttpGet]
+    [ServiceFilter(typeof(LogActionArguments))]
+    [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceWithTagsVm>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Response<PagedResult<CorrespondenceWithTagsVm>>>> GetCorrespondencesWithTags([FromQuery] GetCorrespondencesWithTagsQuery query)
+    {
         return await Okey(() => _mediator.Send(query));
     }
+
+    #endregion
+
 }

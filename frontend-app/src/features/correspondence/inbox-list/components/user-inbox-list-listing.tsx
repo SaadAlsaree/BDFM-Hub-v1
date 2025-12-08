@@ -11,6 +11,7 @@ export default async function UserInboxListListing() {
   const receivedDate = searchParamsCache.get('receivedDate');
   const priorityLevel = searchParamsCache.get('priorityLevel');
   const secrecyLevel = searchParamsCache.get('secrecyLevel');
+  const maileDate = searchParamsCache.get('maileDate');
   const dueDate = searchParamsCache.get('dueDate');
   const fileNumber = searchParamsCache.get('fileNumber');
   const correspondenceType = searchParamsCache.get('correspondenceType');
@@ -25,6 +26,7 @@ export default async function UserInboxListListing() {
     ...(receivedDate && { receivedDate }),
     ...(priorityLevel && { priorityLevel }),
     ...(secrecyLevel && { secrecyLevel }),
+    ...(maileDate && { maileDate }),
     ...(dueDate && { dueDate }),
     ...(fileNumber && { fileNumber }),
     ...(correspondenceType && { correspondenceType }),

@@ -31,10 +31,7 @@ namespace BDFM.Persistence.Configurations.Supporting
                 .HasDefaultValue(0);
 
             // Relationships
-            builder.HasOne(ct => ct.Correspondence)
-               .WithMany(c => c.CorrespondenceTags)
-               .HasForeignKey(ct => ct.CorrespondenceId)
-               .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.HasOne(ct => ct.Tag)
                 .WithMany(t => t.CorrespondenceTags)

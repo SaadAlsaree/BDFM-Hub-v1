@@ -21,21 +21,30 @@ export const ordersNavItems: NavItem[] = [
         url: '/leave-workflow',
         icon: 'ellipsis',
         shortcut: ['l', 'w'],
-        requiredPermissions: ['LeaveWorkflow|GetLeaveWorkflowList', 'Access|All']
+        requiredPermissions: [
+          'LeaveWorkflow|GetLeaveWorkflowList',
+          'Access|All'
+        ]
       },
       {
         title: 'سجل أرصدة الإجازات',
         url: '/leave-balance',
         icon: 'ellipsis',
         shortcut: ['l', 'b'],
-        requiredPermissions: ['LeaveBalance|GetLeaveBalanceHistory', 'Access|All']
+        requiredPermissions: [
+          'LeaveBalance|GetLeaveBalanceHistory',
+          'Access|All'
+        ]
       },
       {
         title: 'قوالب خطوات مسار العمل',
         url: '/leave-workflow-step-template',
         icon: 'ellipsis',
         shortcut: ['l', 't'],
-        requiredPermissions: ['LeaveWorkflowStepTemplate|GetLeaveWorkflowStepTemplatesByWorkflowId', 'Access|All']
+        requiredPermissions: [
+          'LeaveWorkflowStepTemplate|GetLeaveWorkflowStepTemplatesByWorkflowId',
+          'Access|All'
+        ]
       }
     ]
   }
@@ -48,7 +57,7 @@ export const presidentNavItems: NavItem[] = [
     icon: 'inbox',
     shortcut: ['p', 'p'],
     isActive: false,
-    requiredRoles: ['President', 'SuAdmin'],
+    requiredRoles: ['President', 'SuAdmin']
   }
 ];
 
@@ -109,14 +118,14 @@ export const navItems: NavItem[] = [
         shortcut: ['t', 't'],
         requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
-      {
-        title: 'الكتب الموجهة إليك',
-        url: '/correspondence/forwarded-books',
-        icon: 'send',
-        shortcut: ['o', 'o'],
-        isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
-      },
+      // {
+      //   title: 'الكتب الموجهة إليك',
+      //   url: '/correspondence/forwarded-books',
+      //   icon: 'send',
+      //   shortcut: ['o', 'o'],
+      //   isActive: false,
+      //   requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      // },
       {
         title: 'وارد داخلي',
         url: '/correspondence/incoming-internal-book-list',
@@ -157,14 +166,14 @@ export const navItems: NavItem[] = [
         isActive: false,
         requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
-      {
-        title: 'الكتب المتأخرة',
-        url: '/correspondence/late-books',
-        icon: 'send',
-        shortcut: ['l', 'l'],
-        isActive: false,
-        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
-      },
+      // {
+      //   title: 'الكتب المتأخرة',
+      //   url: '/correspondence/late-books',
+      //   icon: 'send',
+      //   shortcut: ['l', 'l'],
+      //   isActive: false,
+      //   requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      // },
       {
         title: 'الكتب المستعجلة',
         url: '/correspondence/urgent-books',
@@ -182,6 +191,33 @@ export const navItems: NavItem[] = [
         requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       }
     ] // No child items
+  },
+
+  {
+    title: 'الأعمامات',
+    url: '/public-book',
+    icon: 'note',
+    shortcut: ['o', 'o'],
+    isActive: false,
+    requiredRoles: ['Correspondence', 'SuAdmin'],
+    items: [
+      {
+        title: 'جميع الأعمامات',
+        url: '/public-book',
+        icon: 'note',
+        shortcut: ['o', 'o'],
+        isActive: false,
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'صوره عنه ',
+        url: '/copy-of',
+        icon: 'note',
+        shortcut: ['o', 'o'],
+        isActive: false,
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      }
+    ]
   },
 
   {
@@ -252,12 +288,41 @@ export const navItems: NavItem[] = [
     requiredRoles: ['Tracking', 'SuAdmin'],
     items: [
       {
-        title: 'بحث متقدم',
-        url: '/advanced-search',
+        title: 'الكتب الموجهة إليك',
+        url: '/correspondence/forwarded-books',
         icon: 'ellipsis',
-        shortcut: ['s', 's'],
-        requiredPermissions: ['Tracking|Search', 'Access|All']
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
       },
+      {
+        title: 'الكتب المتابعة',
+        url: '/correspondence/favorite',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'الكتب في الانتظار أو قيد التنفيذ',
+        url: '/correspondence/pending-or-in-progress',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'موجهة إليي غير مكتملة',
+        url: '/correspondence/my-pending-or-in-progress',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+      {
+        title: 'الكتب غير المكتملة',
+        url: '/correspondence/not-completed',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|GetUserInbox', 'Access|All']
+      },
+
       {
         title: 'الكتب المتأخرة',
         url: '/late-books',

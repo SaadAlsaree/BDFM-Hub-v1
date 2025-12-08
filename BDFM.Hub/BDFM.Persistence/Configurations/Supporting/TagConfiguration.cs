@@ -28,13 +28,14 @@ namespace BDFM.Persistence.Configurations.Supporting
                 .HasForeignKey(ct => ct.TagId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(t => t.User)
+            builder.HasOne(t => t.FromUser)
                 .WithMany(u => u.UserTags)
-                .HasForeignKey(t => t.ForUserId);
+                .HasForeignKey(t => t.FromUserId);
 
-            builder.HasOne(t => t.OrganizationalUnit)
+            builder.HasOne(t => t.FromUnit)
                 .WithMany(ou => ou.OrganizationalUnitTags)
-                .HasForeignKey(t => t.ForOrganizationalUnitId);
+                .HasForeignKey(t => t.FromUnitId);
+
 
 
             // Indexes
@@ -42,14 +43,17 @@ namespace BDFM.Persistence.Configurations.Supporting
                 .IsUnique()
                 .HasDatabaseName("IX_Tags_Name");
 
-            builder.HasIndex(t => t.ForUserId)
-                .HasDatabaseName("IX_Tags_ForUserId");
+            builder.HasIndex(t => t.FromUserId)
+                .HasDatabaseName("IX_Tags_FromUserId");
 
-            builder.HasIndex(t => t.ForOrganizationalUnitId)
-                .HasDatabaseName("IX_Tags_ForOrganizationalUnitId");
+            builder.HasIndex(t => t.FromUnitId)
+                .HasDatabaseName("IX_Tags_FromUnitId");
 
             builder.HasIndex(t => t.CorrespondenceId)
                 .HasDatabaseName("IX_Tags_CorrespondenceId");
+                
+            builder.HasIndex(t => t.ToPrimaryRecipientId)
+                .HasDatabaseName("IX_Tags_ToPrimaryRecipientId");
         }
     }
 }

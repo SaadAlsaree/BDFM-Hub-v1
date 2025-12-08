@@ -42,6 +42,23 @@ export interface CorrespondenceDetails {
   userCorrespondenceInteraction: UserCorrespondenceInteraction;
   deletedAt: string;
   ocrText: string;
+  tags: CorrespondenceTagDetail[];
+}
+
+export interface CorrespondenceTagDetail {
+  tagId: string;
+  tagName: string;
+  category: number;
+  categoryName: string;
+  isAll: boolean;
+  fromUserId: string;
+  fromUser: UserInfo;
+  fromUnitId: string;
+  fromUnit: OrganizationalUnit;
+  toPrimaryRecipientType: number;
+  toPrimaryRecipientTypeName: string;
+  toPrimaryRecipientId: string;
+  toPrimaryRecipientName: string;
 }
 
 // TypeScript enum equivalent of CorrespondenceStatusEnum

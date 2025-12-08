@@ -141,7 +141,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
                     hierarchicalUnitIds);
 
                 // Apply additional filters from the request (skip IsDeleted since we already applied it)
-                query = query.ApplyFilter(request, _currentUserService.UserId, applyIsDeletedFilter: false);
+                query = query.ApplyFilterUserInbox(request, _currentUserService.UserId, applyIsDeletedFilter: false);
 
                 // Apply ordering
                 var orderedQuery = OrderBy(query);

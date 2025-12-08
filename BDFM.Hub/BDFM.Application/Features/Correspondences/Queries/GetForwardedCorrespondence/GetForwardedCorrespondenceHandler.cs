@@ -105,7 +105,7 @@ internal class GetForwardedCorrespondenceHandler : GetAllWithCountHandler<Corres
             )));
 
             // Apply additional filters from the request
-            query = query.ApplyFilter(request, applyIsDeletedFilter: false);
+            query = query.ApplyFilterForwardedCorrespondence(request, applyIsDeletedFilter: false);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

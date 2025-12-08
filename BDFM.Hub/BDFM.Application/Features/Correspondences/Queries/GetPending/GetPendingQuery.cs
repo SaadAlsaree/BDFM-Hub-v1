@@ -8,14 +8,32 @@ public class GetPendingQuery : IRequest<Response<PagedResult<PendingItemVm>>>, I
     // Pagination parameters
     public int Page { get; set; } = 1;
     public byte PageSize { get; set; } = 10;
+    public DateOnly? MailDate { get; set; }
+    public string? SearchTerm { get; set; }
+    public string? MailNum { get; set; }
 }
 
 public static class GetPendingQueryExtensions
 {
-    public static IQueryable<Correspondence> ApplyFilter(this IQueryable<Correspondence> query, GetPendingQuery request, Guid currentUserId)
+    public static IQueryable<Correspondence> ApplyFilterPending(this IQueryable<Correspondence> query, GetPendingQuery request, Guid currentUserId)
     {
         // Pending correspondences are those not deleted, not draft and with active statuses
         var filteredQuery = query.Where(x => !x.IsDeleted && x.IsDraft == false && (x.Status == CorrespondenceStatusEnum.PendingReferral));
+
+        if (!string.IsNullOrEmpty(request.SearchTerm))
+        {
+            filteredQuery = filteredQuery.Where(x => x.Subject.Contains(request.SearchTerm) || x.BodyText!.Contains(request.SearchTerm));
+        }
+
+        if (!string.IsNullOrEmpty(request.MailNum))
+        {
+            filteredQuery = filteredQuery.Where(x => x.MailNum.Contains(request.MailNum));
+        }
+
+        if (request.MailDate.HasValue)
+        {
+            filteredQuery = filteredQuery.Where(x => x.MailDate >= request.MailDate.Value);
+        }
 
         return filteredQuery;
     }

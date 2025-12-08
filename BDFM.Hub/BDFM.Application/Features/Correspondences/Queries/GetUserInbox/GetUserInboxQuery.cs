@@ -24,7 +24,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserInbox
     // Extension method for filtering
     public static class GetUserInboxQueryExtensions
     {
-        public static IQueryable<Correspondence> ApplyFilter(this IQueryable<Correspondence> query, GetUserInboxQuery request, Guid currentUserId, bool applyIsDeletedFilter = true)
+        public static IQueryable<Correspondence> ApplyFilterUserInbox(this IQueryable<Correspondence> query, GetUserInboxQuery request, Guid currentUserId, bool applyIsDeletedFilter = true)
         {
             var filteredQuery = query;
 

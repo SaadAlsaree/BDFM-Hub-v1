@@ -55,6 +55,9 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
         public List<LinkedCorrespondenceInfoVm> ReferencesToCorrespondences { get; set; } = new List<LinkedCorrespondenceInfoVm>();
         public List<LinkedCorrespondenceInfoVm> ReferencedByCorrespondences { get; set; } = new List<LinkedCorrespondenceInfoVm>();
 
+        // Tags
+        public List<TagInfoDto> Tags { get; set; } = new List<TagInfoDto>();
+
         // Additional user-specific interactions
         public bool IsStarredByCurrentUser { get; set; }
         public DateTime? PostponedUntil { get; set; }
@@ -207,4 +210,23 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
         public DateTime CreateAt { get; set; }
 
     }
+    public class TagInfoDto
+    {
+        public Guid TagId { get; set; }
+        public string TagName { get; set; } = string.Empty;
+        public TagCategoryEnum Category { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
+        public bool IsAll { get; set; }
+        public Guid? FromUserId { get; set; }
+        public UserDetailVm? FromUser { get; set; }
+        public Guid? FromUnitId { get; set; }
+        public OrganizationalUnitDetailVm? FromUnit { get; set; }
+        public RecipientTypeEnum ToPrimaryRecipientType { get; set; }
+        public string ToPrimaryRecipientTypeName { get; set; } = string.Empty;
+
+        public Guid ToPrimaryRecipientId { get; set; }
+        public string ToPrimaryRecipientName { get; set; } = string.Empty;
+
+    }
+
 }

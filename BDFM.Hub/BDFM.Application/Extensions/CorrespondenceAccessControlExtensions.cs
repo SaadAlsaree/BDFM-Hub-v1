@@ -11,9 +11,9 @@ public static class CorrespondenceAccessControlExtensions
 {
     /// <summary>
     /// Applies the correspondence access control rules based on:
-    /// 1. Users in the same unit can view all correspondence created in that unit OR forwarded to that unit via WorkflowSteps
-    /// 2. Users can view correspondence forwarded to them personally via WorkflowSteps (IsActive only)
-    /// 3. Users can view correspondence forwarded to their specific unit (not parent/child units) via WorkflowSteps (IsActive only)
+    /// 1. Users in the same unit can view all correspondence created in that unit OR forwarded to that unit via WorkflowSteps or Tags
+    /// 2. Users can view correspondence forwarded to them personally via WorkflowSteps (IsActive only) or Tags
+    /// 3. Users can view correspondence forwarded to their specific unit (not parent/child units) via WorkflowSteps (IsActive only) or Tags
     /// 4. System administrators and managers can view all correspondence in their unit + submodules hierarchically
     /// 5. Creators can always view their own correspondence
     /// </summary>
@@ -28,8 +28,8 @@ public static class CorrespondenceAccessControlExtensions
         {
             // SuAdmin/Manager can see:
             // 1. All correspondence in their unit + sub-units hierarchically
-            // 2. Correspondence forwarded to them personally via WorkflowSteps (from any unit)
-            // 3. Correspondence forwarded to their unit hierarchy via WorkflowSteps (from any unit)
+            // 2. Correspondence forwarded to them personally via WorkflowSteps (from any unit) or Tags
+            // 3. Correspondence forwarded to their unit hierarchy via WorkflowSteps (from any unit) or Tags
             return query.Where(c =>
                 // Rule 1: Creator always sees their correspondence
                 c.CreateBy == currentUserId ||
@@ -48,6 +48,17 @@ public static class CorrespondenceAccessControlExtensions
                     // Case B: Forwarded to any unit in their hierarchy (from any unit)
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
                      hierarchicalUnitIds.Contains(ws.ToPrimaryRecipientId))
+                )) ||
+
+                // Rule 4: Tag-based access - correspondence with tags directed to them or their units
+                c.Tags.Any(t => (
+                    // Case A: Tag directed to them personally
+                    (t.ToPrimaryRecipientType == RecipientTypeEnum.User &&
+                     t.ToPrimaryRecipientId == currentUserId) ||
+
+                    // Case B: Tag directed to any unit in their hierarchy
+                    (t.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
+                     hierarchicalUnitIds.Contains(t.ToPrimaryRecipientId))
                 ))
             );
         }
@@ -78,6 +89,19 @@ public static class CorrespondenceAccessControlExtensions
                     // Users in parent/child units cannot see it unless it's transferred to them too
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
                      ws.ToPrimaryRecipientId == userUnitIdValue)
+                )) ||
+
+                // Rule 4: Tag-based access - users can see correspondence with tags directed to them
+                c.Tags.Any(t => (
+                    // Case A: Tag directed to this specific user personally
+                    (t.ToPrimaryRecipientType == RecipientTypeEnum.User &&
+                     t.ToPrimaryRecipientId == currentUserId) ||
+
+                    // Case B: Tag directed to user's EXACT unit (not parent or child units)
+                    // If tag is directed to unit A, only users in unit A can see it
+                    // Users in parent/child units cannot see it unless tag is directed to them too
+                    (t.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
+                     t.ToPrimaryRecipientId == userUnitIdValue)
                 ))
             );
         }

@@ -52,7 +52,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.SearchCorrespondence
                 isSuAdminOrManager,
                 hierarchicalUnitIds);
 
-            query = query.ApplyFilter(request);
+            query = query.ApplyFilterSearchCorrespondences(request);
 
             var correspondences = query.ToList();
 

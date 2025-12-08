@@ -99,7 +99,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetIncomingInternal
                 hierarchicalUnitIds);
 
             // Filter for incoming internal correspondences only
-            query = query.Where(c => c.CorrespondenceType == CorrespondenceTypeEnum.IncomingInternal);
+            query = query.ApplyFilterIncomingInternal(request);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);

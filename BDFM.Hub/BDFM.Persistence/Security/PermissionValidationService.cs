@@ -520,8 +520,8 @@ public class PermissionValidationService : IPermissionValidationService
             // Get user's accessible unit IDs (including hierarchy)
             var accessibleUnitIds = await GetAccessibleUnitIdsAsync(cancellationToken);
 
-            // Optimized single query to check all access paths
-            var hasAccess = await _workflowStepRepository.Query()
+            // Check workflow step access
+            var hasWorkflowAccess = await _workflowStepRepository.Query()
                 .Where(ws => ws.CorrespondenceId == correspondenceId)
                 .AnyAsync(ws =>
                     // 1. Primary recipient is the user
@@ -537,10 +537,26 @@ public class PermissionValidationService : IPermissionValidationService
                     ws.Interactions.Any(wsi => wsi.InteractingUserId == currentUserId),
                     cancellationToken);
 
-            _logger.LogDebug("User {UserId} access to correspondence {CorrespondenceId}: {HasAccess}",
-                currentUserId, correspondenceId, hasAccess);
+            if (hasWorkflowAccess)
+            {
+                _logger.LogDebug("User {UserId} has workflow access to correspondence {CorrespondenceId}", currentUserId, correspondenceId);
+                return true;
+            }
 
-            return hasAccess;
+            // Check tag-based access - correspondence with tags directed to user or their units
+            var hasTagAccess = await _correspondenceRepository.Query()
+                .Where(c => c.Id == correspondenceId)
+                .AnyAsync(c => c.Tags.Any(t =>
+                    // Tag directed to the user personally
+                    (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && t.ToPrimaryRecipientId == currentUserId) ||
+                    // Tag directed to a unit the user has access to
+                    (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(t.ToPrimaryRecipientId))
+                ), cancellationToken);
+
+            _logger.LogDebug("User {UserId} access to correspondence {CorrespondenceId}: Workflow={HasWorkflowAccess}, Tag={HasTagAccess}",
+                currentUserId, correspondenceId, hasWorkflowAccess, hasTagAccess);
+
+            return hasTagAccess;
         }
         catch (Exception ex)
         {
@@ -721,7 +737,13 @@ public class PermissionValidationService : IPermissionValidationService
             if (typeof(T) == typeof(Correspondence))
             {
                 var correspondenceQuery = query as IQueryable<Correspondence>;
-                var filteredQuery = correspondenceQuery!.Where(c =>
+                if (correspondenceQuery == null)
+                {
+                    _logger.LogWarning("Failed to cast query to IQueryable<Correspondence>");
+                    return query.Where(x => false); // Return empty result
+                }
+
+                var filteredQuery = correspondenceQuery.Where(c =>
                     // User is the creator
                     c.CreateBy == currentUserId ||
                     // User is involved in WorkflowSteps
@@ -737,10 +759,17 @@ public class PermissionValidationService : IPermissionValidationService
                         ) ||
                         // User has WorkflowStepInteraction access (forwarded within module)
                         ws.Interactions.Any(wsi => wsi.InteractingUserId == currentUserId)
+                    ) ||
+                    // User has access through Tags
+                    c.Tags.Any(t =>
+                        // Tag directed to the user personally
+                        (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && t.ToPrimaryRecipientId == currentUserId) ||
+                        // Tag directed to a unit the user has access to
+                        (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIdsList.Contains(t.ToPrimaryRecipientId))
                     )
                 );
 
-                return filteredQuery as IQueryable<T>;
+                return (IQueryable<T>)filteredQuery;
             }
 
             _logger.LogWarning("ApplyWorkflowAccessFilterAsync called with unsupported type {TypeName}", typeof(T).Name);

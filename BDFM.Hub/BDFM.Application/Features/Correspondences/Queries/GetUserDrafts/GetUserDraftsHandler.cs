@@ -98,7 +98,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetUserDrafts
                 hierarchicalUnitIds);
 
             // Apply filtering
-            query = query.ApplyFilter(request, _currentUserService.UserId);
+            query = query.ApplyFilterUserDrafts(request, _currentUserService.UserId);
 
             // Apply ordering
             var orderedQuery = OrderBy(query);
