@@ -20,7 +20,7 @@ import {
 } from '../create-internalMail/types/internalMail';
 import { CreatePublicMailPayload } from '../create-public-mail/types/create-public-mail';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
 
 export const correspondenceService = {
   // /Correspondence/CreateOutgoingInternalMail
@@ -684,8 +684,8 @@ export const correspondenceService = {
     }
   },
 
-//#region Not Completed Correspondences
-    ///BDFM/v1/api/Correspondence/GetNotCompletedCorrespondences
+  //#region Not Completed Correspondences
+  ///BDFM/v1/api/Correspondence/GetNotCompletedCorrespondences
   async getNotCompletedCorrespondences(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
@@ -713,8 +713,8 @@ export const correspondenceService = {
     }
   },
 
-//BDFM/v1/api/Correspondence/GetMyPendingOrInProgressCorrespondences
-async getMyPendingOrInProgressCorrespondences(searchParams?: Record<string, any>) {
+  //BDFM/v1/api/Correspondence/GetMyPendingOrInProgressCorrespondences
+  async getMyPendingOrInProgressCorrespondences(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
         `${baseUrl}/Correspondence/GetMyPendingOrInProgressCorrespondences`,

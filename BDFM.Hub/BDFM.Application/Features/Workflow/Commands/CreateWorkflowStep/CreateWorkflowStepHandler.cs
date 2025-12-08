@@ -68,6 +68,7 @@ namespace BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep
                 DueDate = request.DueDate.HasValue ? DateTime.SpecifyKind(request.DueDate.Value, DateTimeKind.Utc) : null,
                 IsTimeSensitive = request.IsTimeSensitive,
                 Status = request.Status,
+                IsActive = true,
                 // Sequence will be set below (max existing + 1)
                 InstructionText = request.InstructionText,
                 ActionType = request.ActionType,
