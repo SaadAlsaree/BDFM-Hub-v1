@@ -54,10 +54,71 @@ export const presidentNavItems: NavItem[] = [
   {
     title: 'ملخص الكتب',
     url: '/correspondences-summary',
-    icon: 'inbox',
+    icon: 'dashboard',
     shortcut: ['p', 'p'],
     isActive: false,
     requiredRoles: ['President', 'SuAdmin']
+  },
+  {
+    title: 'الكتب',
+    url: '/president',
+    icon: 'inbox',
+    shortcut: ['p', 'p'],
+    isActive: false,
+    requiredRoles: ['President', 'SuAdmin'],
+    items: [
+      {
+        title: 'جميع الكتب',
+        url: '/president/correspondence',
+        icon: 'inbox',
+        shortcut: ['p', 'p'],
+        isActive: false,
+        requiredPermissions: ['Correspondence|President', 'Access|All']
+      },
+      {
+        title: 'الكتب الموجهة إليك',
+        url: '/president/forwarded-books',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|President', 'Access|All']
+      },
+      {
+        title: 'الكتب المتابعة',
+        url: '/president/favorite',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|President', 'Access|All']
+      },
+      {
+        title: 'الكتب في الانتظار أو قيد التنفيذ',
+        url: '/president/pending-or-in-progress',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|President', 'Access|All']
+      },
+      {
+        title: 'موجهة إليي غير مكتملة',
+        url: '/president/my-pending-or-in-progress',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|President', 'Access|All']
+      },
+      {
+        title: 'الكتب غير المكتملة',
+        url: '/president/not-completed',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|President', 'Access|All']
+      },
+
+      {
+        title: 'الكتب المتأخرة',
+        url: '/president/late-books',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Tracking|President', 'Access|All']
+      }
+    ]
   }
 ];
 

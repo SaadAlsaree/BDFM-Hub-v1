@@ -34,7 +34,8 @@ const CorrespondenceTagsTable = <TData, TValue>({
         fileId: false,
         fileNumber: false,
         externalReferenceNumber: false,
-        dueDate: false
+        dueDate: false,
+        correspondenceStatus: false
       }
     }
   });

@@ -36,16 +36,16 @@ export const columns: ColumnDef<TaggedCorrespondenceItem>[] = [
           <div className='flex cursor-pointer items-center gap-2'>
             <CellIcons data={row.original} />
             <Link
-              href={`/correspondence/view/${row.original.correspondenceId}`}
+              href={`/public-book/${row.original.correspondenceId}/view`}
               className='hover:text-primary/80 transition-colors duration-100'
             >
               {internalNumber || '-'}
             </Link>
           </div>
-          <span className='text-primary mr-3 flex items-center gap-2 text-sm'>
+          {/* <span className='text-primary mr-3 flex items-center gap-2 text-sm'>
             <Building className='h-4 w-4' />
             {row.original.createdByUnitName || '-'}
-          </span>
+          </span> */}
         </div>
       );
     },
@@ -368,7 +368,7 @@ export const columns: ColumnDef<TaggedCorrespondenceItem>[] = [
       column
     }: {
       column: Column<TaggedCorrespondenceItem, unknown>;
-    }) => <DataTableColumnHeader column={column} title='تاريخ الاستلام' />,
+    }) => <DataTableColumnHeader column={column} title='تاريخ الإنشاء' />,
     cell: ({ cell }) => {
       const date = cell.getValue<string>();
       return date ? (

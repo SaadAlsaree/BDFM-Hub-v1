@@ -7,8 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+  TooltipTrigger
+} from '@/components/ui/tooltip';
 import {
   CorrespondenceDetails,
   CorrespondenceStatusEnum
@@ -78,7 +78,7 @@ export function MailHeader({
           />
           <div className='flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-300'>
             <Building className='h-4 w-4' />
-            <span>{data.externalEntityName || ''}</span>
+            <span>{data.createdByUnitName || ''}</span>
             {data.createdByUserName && (
               <>
                 <Separator orientation='vertical' className='h-4' />
@@ -102,8 +102,6 @@ export function MailHeader({
             </div>
           )}
 
-
-
           {(user?.id === data.createdByUserId ||
             hasAnyPermission(user as UserDto | null, [
               'Correspondence|WorkflowStep'
@@ -111,11 +109,12 @@ export function MailHeader({
             data.workflowSteps?.length === 0 &&
             data.correspondenceType !== 0 && (
               <CustomWorkflowDialog correspondenceId={data.id}>
-                <Button variant='default'  size='sm'>إنشاء سير العمل مخصص</Button>
+                <Button variant='default' size='sm'>
+                  إنشاء سير العمل مخصص
+                </Button>
               </CustomWorkflowDialog>
             )}
-          {(user?.organizationalUnit.unitCode === data.createdByUnitCode &&
-      (
+          {user?.organizationalUnit.unitCode === data.createdByUnitCode && (
             <div>
               <MailStatusDialog
                 correspondenceId={data.id}
@@ -126,10 +125,12 @@ export function MailHeader({
                   data.correspondenceType as CorrespondenceTypeEnum
                 }
               >
-                <Button variant='outline'  size='sm'>تحديث الحالة</Button>
+                <Button variant='outline' size='sm'>
+                  تحديث الحالة
+                </Button>
               </MailStatusDialog>
             </div>
-          ))}
+          )}
           <div>
             {(user?.id === data.createdByUserId ||
               hasAnyPermission(user as UserDto | null, [
@@ -140,29 +141,27 @@ export function MailHeader({
               )}
           </div>
           <Tooltip>
-          <TooltipTrigger asChild>
-          <Button
-            variant={isStarred ? 'default' : 'outline'}
-            size='sm'
-            onClick={onToggleStar}
-            disabled={loading}
-          >
-            <Star
-              className={`h-4 w-4 ${
-                isStarred
-                  ? 'fill-current text-yellow-500'
-                  : 'text-zinc-500 hover:text-yellow-500 dark:text-zinc-400'
-              }`}
-            />
-           
-          </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-          <p>{isStarred ? 'الكتاب متابع' : 'متابعة الكتاب'}</p>
-          </TooltipContent>
+            <TooltipTrigger asChild>
+              <Button
+                variant={isStarred ? 'default' : 'outline'}
+                size='sm'
+                onClick={onToggleStar}
+                disabled={loading}
+              >
+                <Star
+                  className={`h-4 w-4 ${
+                    isStarred
+                      ? 'fill-current text-yellow-500'
+                      : 'text-zinc-500 hover:text-yellow-500 dark:text-zinc-400'
+                  }`}
+                />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{isStarred ? 'الكتاب متابع' : 'متابعة الكتاب'}</p>
+            </TooltipContent>
           </Tooltip>
           {data.isDraft && (
-            
             <Button
               variant='outline'
               size='sm'
@@ -182,16 +181,16 @@ export function MailHeader({
               'Correspondence|Print'
             ]) && (
               <Link href={`/correspondence/view/${data.id}/templates`}>
-                 <Tooltip>
-                 <TooltipTrigger asChild>
-                <Button variant='outline' size='sm'>
-                    <Printer className='h-4 w-4' />
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant='outline' size='sm'>
+                      <Printer className='h-4 w-4' />
                     </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
+                  </TooltipTrigger>
+                  <TooltipContent>
                     <p>طباعة</p>
-                    </TooltipContent>
-                    </Tooltip>
+                  </TooltipContent>
+                </Tooltip>
               </Link>
             )}
           </div>

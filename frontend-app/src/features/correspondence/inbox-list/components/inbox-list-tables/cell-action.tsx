@@ -122,16 +122,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>الإجراءات</DropdownMenuLabel>
 
-          <DropdownMenuItem onClick={() => onCopy(data.correspondenceId || '')}>
-            <Copy className='mr-2 h-4 w-4' />
-            نسخ معرف الكتاب
-          </DropdownMenuItem>
-
-          <DropdownMenuItem onClick={onEdit}>
-            <Edit className='mr-2 h-4 w-4' />
-            تعديل
-          </DropdownMenuItem>
-
           <DropdownMenuSeparator />
 
           <DropdownMenuItem onClick={onToggleStar} disabled={loading}>

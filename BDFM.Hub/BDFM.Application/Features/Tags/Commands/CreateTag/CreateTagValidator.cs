@@ -11,8 +11,6 @@ public class CreateTagCommandValidator : AbstractValidator<CreateTagCommand>
 
             .MaximumLength(255).WithMessage("{PropertyName} must not exceed 255 characters.");
 
-        RuleFor(p => p.ToPrimaryRecipientId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
 
     }
 }

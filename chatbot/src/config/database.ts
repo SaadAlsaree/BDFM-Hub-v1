@@ -5,7 +5,7 @@ import mongoose from "mongoose";
  */
 export const connectDatabase = async (): Promise<void> => {
   try {
-    let mongoUri = process.env.MONGODB_URI;
+    let mongoUri = process.env.MONGODB_URI || "mongodb://localhost:27017/ollama-chatbot";
 
     if (!mongoUri) {
       throw new Error("MONGODB_URI غير موجود في متغيرات البيئة");
@@ -34,12 +34,12 @@ export const connectDatabase = async (): Promise<void> => {
     // معالجة أخطاء الاتصال
     mongoose.connection.on("error", (err) => {
       console.error("❌ خطأ في اتصال MongoDB:", err);
-      
+
       // رسائل خطأ أوضح
       if (err.message.includes("authentication")) {
         console.error(
           "💡 تلميح: تأكد من إضافة username و password في MONGODB_URI:\n" +
-            "   MONGODB_URI=mongodb://username:password@localhost:27017/ollama-chatbot"
+          "   MONGODB_URI=mongodb://username:password@localhost:27017/ollama-chatbot"
         );
       }
     });
@@ -56,21 +56,21 @@ export const connectDatabase = async (): Promise<void> => {
     });
   } catch (error) {
     console.error("❌ فشل الاتصال بقاعدة البيانات:", error);
-    
+
     // رسائل خطأ أوضح
     if (error instanceof Error) {
       if (error.message.includes("authentication") || error.message.includes("Authentication")) {
         console.error(
           "\n💡 حل مشكلة Authentication:\n" +
-            "   1. تأكد من صحة username و password في MONGODB_URI\n" +
-            "   2. إذا كان المستخدم root، جرب إضافة authSource=admin:\n" +
-            "      MONGODB_URI=mongodb://admin:AdminSaad@localhost:27017/ollama-chatbot?authSource=admin\n" +
-            "   3. أو استخدم database admin للاتصال:\n" +
-            "      MONGODB_URI=mongodb://admin:AdminSaad@localhost:27017/admin"
+          "   1. تأكد من صحة username و password في MONGODB_URI\n" +
+          "   2. إذا كان المستخدم root، جرب إضافة authSource=admin:\n" +
+          "      MONGODB_URI=mongodb://admin:AdminSaad@localhost:27017/ollama-chatbot?authSource=admin\n" +
+          "   3. أو استخدم database admin للاتصال:\n" +
+          "      MONGODB_URI=mongodb://admin:AdminSaad@localhost:27017/admin"
         );
       }
     }
-    
+
     process.exit(1);
   }
 };

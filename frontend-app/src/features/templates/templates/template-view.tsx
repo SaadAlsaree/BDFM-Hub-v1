@@ -462,7 +462,7 @@ const TemplateView = (props: TemplateViewProps) => {
   }, [pdfData]);
 
   return (
-    <div className='w-full'>
+    <div className='w-fit rounded-lg bg-white p-4'>
       {error && (
         <div className='flex h-64 items-center justify-center'>
           <div className='text-center'>
