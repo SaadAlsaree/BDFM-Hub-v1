@@ -120,6 +120,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetMyPendingOrInProg
                     // For ViewAll users, show all correspondence with pending/in-progress workflow steps (regardless of recipient)
                     query = query.Where(c => !c.IsDeleted && 
                         c.WorkflowSteps.Any(ws => 
+                        ws.IsActive &&
                             (ws.Status == WorkflowStepStatus.Pending || ws.Status == WorkflowStepStatus.InProgress)
                         ));
                     
@@ -141,6 +142,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetMyPendingOrInProg
                     // Filter correspondences that have WorkflowSteps directed to the current user or their unit
                     // AND these WorkflowSteps must have Status = Pending or InProgress
                     query = query.Where(c => !c.IsDeleted && c.WorkflowSteps.Any(ws => 
+                        ws.IsActive &&
                         (ws.Status == WorkflowStepStatus.Pending || ws.Status == WorkflowStepStatus.InProgress) &&
                         (
                             // Case A: Forwarded to current user personally

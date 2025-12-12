@@ -112,13 +112,14 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceAny
 
                     // 4. Apply workflow-based access control
                     // Standard users can only see correspondence from their own unit via workflow steps
-                    query = query.Where(c => !c.IsDeleted && (
+                    query = query.Where(c => !c.IsDeleted &&  (
                         // User created the correspondence (creators can see their own correspondence regardless of workflow)
                         c.CreateBy == _currentUserService.UserId ||
 
                         // For correspondence NOT created by the user, check workflow participation
                         (c.CreateBy != _currentUserService.UserId &&
                          c.WorkflowSteps.Any(ws =>
+                         ws.IsActive &&
                             // Primary recipient is the user
                             (ws.ToPrimaryRecipientType == RecipientTypeEnum.User && ws.ToPrimaryRecipientId == _currentUserService.UserId) ||
 

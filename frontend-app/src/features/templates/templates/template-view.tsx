@@ -23,6 +23,7 @@ import {
 import React from 'react';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
+import { Card } from '@/components/ui/card';
 
 // Configure PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -462,7 +463,7 @@ const TemplateView = (props: TemplateViewProps) => {
   }, [pdfData]);
 
   return (
-    <div className='w-fit rounded-lg bg-white p-4'>
+    <div className='w-fit'>
       {error && (
         <div className='flex h-64 items-center justify-center'>
           <div className='text-center'>

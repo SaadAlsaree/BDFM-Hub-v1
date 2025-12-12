@@ -118,6 +118,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetLateBooks
                         // For correspondence NOT created by the user, check workflow participation
                         (c.CreateBy != _currentUserService.UserId &&
                          c.WorkflowSteps.Any(ws =>
+                         ws.IsActive &&
                             // Primary recipient is the user
                             (ws.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && ws.ToPrimaryRecipientId == _currentUserService.UserId) ||
 

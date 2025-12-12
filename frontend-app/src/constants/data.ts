@@ -291,11 +291,54 @@ export const navItems: NavItem[] = [
     items: [
       {
         title: 'جميع الكتب',
-        url: '/manager',
+        url: '/manager/correspondence',
         icon: 'inbox',
         shortcut: ['p', 'p'],
         isActive: false,
         requiredPermissions: ['Correspondence|Manager', 'Access|All']
+      },
+      {
+        title: 'الكتب الموجهة إليك',
+        url: '/manager/forwarded-books',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
+      },
+      {
+        title: 'الكتب المتابعة',
+        url: '/manager/favorite',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
+      },
+      {
+        title: 'الكتب في الانتظار أو قيد التنفيذ',
+        url: '/manager/pending-or-in-progress',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
+      },
+      {
+        title: 'موجهة إليي غير مكتملة',
+        url: '/manager/my-pending-or-in-progress',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
+      },
+      {
+        title: 'الكتب غير المكتملة',
+        url: '/manager/not-completed',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Correspondence|Manager', 'Access|All']
+      },
+
+      {
+        title: 'الكتب المتأخرة',
+        url: '/manager/late-books',
+        icon: 'ellipsis',
+        shortcut: ['t', 't'],
+        requiredPermissions: ['Tracking|Manager', 'Access|All']
       },
       {
         title: 'الكتب غير المقروئة',
@@ -321,15 +364,6 @@ export const navItems: NavItem[] = [
         isActive: false,
         requiredPermissions: ['Correspondence|Manager', 'Access|All']
       },
-      {
-        title: 'البريد المميز',
-        url: '/manager/favorite',
-        icon: 'star',
-        shortcut: ['f', 'f'],
-        isActive: false,
-        requiredPermissions: ['Correspondence|Manager', 'Access|All']
-      },
-
       {
         title: 'البريد المؤجل',
         url: '/manager/deferred',

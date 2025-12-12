@@ -347,7 +347,7 @@ export const columns: ColumnDef<InboxList>[] = [
     id: 'receivedDate',
     accessorKey: 'receivedDate',
     header: ({ column }: { column: Column<InboxList, unknown> }) => (
-      <DataTableColumnHeader column={column} title='تاريخ الاستلام' />
+      <DataTableColumnHeader column={column} title='تاريخ الانشاء' />
     ),
     cell: ({ cell }) => {
       const date = cell.getValue<string>();
@@ -358,9 +358,9 @@ export const columns: ColumnDef<InboxList>[] = [
       );
     },
     meta: {
-      label: 'تاريخ الاستلام',
+      label: 'تاريخ الانشاء',
       variant: 'date',
-      placeholder: 'ابحث في تاريخ الاستلام...',
+      placeholder: 'ابحث في تاريخ الانشاء...',
       icon: Clock
     },
     enableColumnFilter: true
