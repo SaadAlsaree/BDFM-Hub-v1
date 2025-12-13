@@ -14,7 +14,7 @@ namespace BDFM.Domain.Entities.Supporting
 
         public TagCategoryEnum Category { get; set; } = TagCategoryEnum.General;
 
-        public bool IsAll { get; set; } = false;
+        public bool? IsAll { get; set; } = false;
 
         // For user-specific private tags
          public Guid? FromUserId { get; set; }
@@ -23,9 +23,9 @@ namespace BDFM.Domain.Entities.Supporting
         public Guid? FromUnitId { get; set; }
         public virtual OrganizationalUnit? FromUnit { get; set; }
 
-        public RecipientTypeEnum ToPrimaryRecipientType { get; set; }
+        public RecipientTypeEnum? ToPrimaryRecipientType { get; set; }
 
-        public Guid ToPrimaryRecipientId { get; set; }
+        public Guid? ToPrimaryRecipientId { get; set; }
 
 
         // Navigation Properties

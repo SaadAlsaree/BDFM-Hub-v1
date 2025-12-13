@@ -17,10 +17,8 @@ namespace BDFM.Persistence.Configurations.Supporting
             // Navigation Properties
             // Note: Tag can have a direct relationship with Correspondence (for legacy/specific tags)
             // OR through CorrespondenceTag (many-to-many relationship)
-            builder.HasOne(t => t.Correspondence)
-                .WithMany()
-                .HasForeignKey(t => t.CorrespondenceId)
-                .OnDelete(DeleteBehavior.SetNull);
+            // The relationship with Correspondence is configured in CorrespondenceConfiguration.cs
+            // to avoid conflicts and ensure proper navigation property mapping
 
             // Many-to-many relationship through CorrespondenceTag is configured in CorrespondenceTagConfiguration
             builder.HasMany(t => t.CorrespondenceTags)
@@ -39,21 +37,18 @@ namespace BDFM.Persistence.Configurations.Supporting
 
 
             // Indexes
-            builder.HasIndex(t => t.Name)
-                .IsUnique()
-                .HasDatabaseName("IX_Tags_Name");
+            // Note: Unique index on Name is configured in BDFMDbContext.cs to avoid duplication
+            // The unique index should allow multiple tags with the same name for different correspondences
+            // If a unique constraint is needed, it should be on a composite key (Name, CorrespondenceId, etc.)
 
             builder.HasIndex(t => t.FromUserId)
                 .HasDatabaseName("IX_Tags_FromUserId");
 
             builder.HasIndex(t => t.FromUnitId)
                 .HasDatabaseName("IX_Tags_FromUnitId");
-
+            
             builder.HasIndex(t => t.CorrespondenceId)
                 .HasDatabaseName("IX_Tags_CorrespondenceId");
-                
-            builder.HasIndex(t => t.ToPrimaryRecipientId)
-                .HasDatabaseName("IX_Tags_ToPrimaryRecipientId");
         }
     }
 }

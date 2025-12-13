@@ -25,11 +25,11 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPublicCorresponde
             CorrespondenceId = x.Id,
             Subject = x.Subject,
             PriorityLevel = x.PriorityLevel,
-            PriorityLevelName = x.PriorityLevel.GetDisplayName(),
+            PriorityLevelName = string.Empty, // Will be set after materialization
             SecrecyLevel = x.SecrecyLevel,
-            SecrecyLevelName = x.SecrecyLevel.GetDisplayName(),
+            SecrecyLevelName = string.Empty, // Will be set after materialization
             CorrespondenceType = x.CorrespondenceType,
-            CorrespondenceTypeName = x.CorrespondenceType.GetDisplayName(),
+            CorrespondenceTypeName = string.Empty, // Will be set after materialization
             WorkflowStepId = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.Id).FirstOrDefault(),
             MailNum = x.MailNum,
             MailDate = x.MailDate,
@@ -42,7 +42,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPublicCorresponde
             FileNumber = x.MailFile != null ? x.MailFile.FileNumber : null,
             DueDate = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.DueDate).FirstOrDefault(),
             Status = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.Status).FirstOrDefault(),
-            WorkflowStepStatusName = x.WorkflowSteps.Where(y => y.DueDate.HasValue).Select(y => y.Status.GetDisplayName()).FirstOrDefault() ?? string.Empty,
+            WorkflowStepStatusName = string.Empty, // Will be set after materialization
 
             // Unit information from workflow step
             UnitId = x.WorkflowSteps.Where(y => y.DueDate.HasValue && y.ToPrimaryRecipientType == RecipientTypeEnum.Unit)
@@ -145,6 +145,15 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetPublicCorresponde
 
             if (!result.Any())
                 return ErrorsMessage.NotFoundData.ToErrorMessage<PagedResult<GetPublicCorrespondencesVm>>(null!);
+
+            // Set display names after materialization to avoid EF Core translation issues
+            result.ForEach(x =>
+            {
+                x.PriorityLevelName = x.PriorityLevel.GetDisplayName();
+                x.SecrecyLevelName = x.SecrecyLevel.GetDisplayName();
+                x.CorrespondenceTypeName = x.CorrespondenceType.GetDisplayName();
+                x.WorkflowStepStatusName = x.Status.GetDisplayName();
+            });
 
             var pagedResult = new PagedResult<GetPublicCorrespondencesVm>
             {

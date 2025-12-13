@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
 import { AlertModal } from '@/components/modal/alert-modal';
-import { ForwardedCorrespondenceItem } from '../../types/forwarded-correspondence';
+import { ForwardedCorrespondenceItem } from '@/features/forwarded-correspondence/types/forwarded-correspondence';
 
 interface CellActionProps {
   data: ForwardedCorrespondenceItem;

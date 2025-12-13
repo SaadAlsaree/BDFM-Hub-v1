@@ -24,7 +24,8 @@ import {
   Flag,
   Eye,
   Trash2,
-  Printer
+  Printer,
+  Plus
 } from 'lucide-react';
 import MailStatusDialog from '../mail-status-dialog';
 import Link from 'next/link';
@@ -34,6 +35,8 @@ import { UserDto } from '@/utils/auth/auth';
 import { Spinner } from '@/components/spinner';
 import { CorrespondenceTypeEnum } from '@/features/correspondence/types/register-incoming-external-mail';
 import CustomWorkflowDialog from '../custom-workflow-dialog';
+import { MentionDialogForm } from '@/features/correspondence-tags/components/mention-dialog-form';
+import { PublicDialogForm } from '@/features/correspondence-tags/components/public-dialog-form';
 
 interface MailHeaderProps {
   data: CorrespondenceDetails;
@@ -94,104 +97,113 @@ export function MailHeader({
             )}
           </div>
         </div>
-
-        <div className='flex gap-1'>
-          {isLoading && (
-            <div className='flex items-center justify-center'>
-              <Spinner className='text-primary animate-spin' />
-            </div>
-          )}
-
-          {(user?.id === data.createdByUserId ||
-            hasAnyPermission(user as UserDto | null, [
-              'Correspondence|WorkflowStep'
-            ])) &&
-            data.workflowSteps?.length === 0 &&
-            data.correspondenceType !== 0 && (
-              <CustomWorkflowDialog correspondenceId={data.id}>
-                <Button variant='default' size='sm'>
-                  إنشاء سير العمل مخصص
-                </Button>
-              </CustomWorkflowDialog>
+        <div className='flex flex-col gap-2'>
+          <div className='flex gap-1'>
+            {isLoading && (
+              <div className='flex items-center justify-center'>
+                <Spinner className='text-primary animate-spin' />
+              </div>
             )}
-          {user?.organizationalUnit.unitCode === data.createdByUnitCode && (
-            <div>
-              <MailStatusDialog
-                correspondenceId={data.id}
-                currentStatus={
-                  data.correspondenceStatus as CorrespondenceStatusEnum
-                }
-                correspondenceType={
-                  data.correspondenceType as CorrespondenceTypeEnum
-                }
-              >
-                <Button variant='outline' size='sm'>
-                  تحديث الحالة
-                </Button>
-              </MailStatusDialog>
-            </div>
-          )}
-          <div>
+
             {(user?.id === data.createdByUserId ||
               hasAnyPermission(user as UserDto | null, [
                 'Correspondence|WorkflowStep'
               ])) &&
+              data.workflowSteps?.length === 0 &&
               data.correspondenceType !== 0 && (
-                <WorkflowStepFormDialog correspondenceId={data.id} />
+                <CustomWorkflowDialog correspondenceId={data.id}>
+                  <Button variant='default' size='sm'>
+                    إنشاء سير العمل مخصص
+                  </Button>
+                </CustomWorkflowDialog>
               )}
-          </div>
-          <Tooltip>
-            <TooltipTrigger asChild>
+            {user?.organizationalUnit.unitCode === data.createdByUnitCode && (
+              <div>
+                <MailStatusDialog
+                  correspondenceId={data.id}
+                  currentStatus={
+                    data.correspondenceStatus as CorrespondenceStatusEnum
+                  }
+                  correspondenceType={
+                    data.correspondenceType as CorrespondenceTypeEnum
+                  }
+                >
+                  <Button variant='outline' size='sm'>
+                    تحديث الحالة
+                  </Button>
+                </MailStatusDialog>
+              </div>
+            )}
+            <div>
+              {(user?.id === data.createdByUserId ||
+                hasAnyPermission(user as UserDto | null, [
+                  'Correspondence|WorkflowStep'
+                ])) &&
+                data.correspondenceType !== 0 && (
+                  <WorkflowStepFormDialog correspondenceId={data.id} />
+                )}
+            </div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant={isStarred ? 'default' : 'outline'}
+                  size='sm'
+                  onClick={onToggleStar}
+                  disabled={loading}
+                >
+                  <Star
+                    className={`h-4 w-4 ${
+                      isStarred
+                        ? 'fill-current text-yellow-500'
+                        : 'text-zinc-500 hover:text-yellow-500 dark:text-zinc-400'
+                    }`}
+                  />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{isStarred ? 'الكتاب متابع' : 'متابعة الكتاب'}</p>
+              </TooltipContent>
+            </Tooltip>
+            {data.isDraft && (
               <Button
-                variant={isStarred ? 'default' : 'outline'}
+                variant='outline'
                 size='sm'
-                onClick={onToggleStar}
+                onClick={onIsTrashed}
                 disabled={loading}
               >
-                <Star
-                  className={`h-4 w-4 ${
-                    isStarred
-                      ? 'fill-current text-yellow-500'
-                      : 'text-zinc-500 hover:text-yellow-500 dark:text-zinc-400'
+                <Trash2
+                  className={`ml-2 h-4 w-4 ${
+                    isTrashed ? 'text-red-500' : 'text-gray-500'
                   }`}
                 />
+                {isTrashed ? 'إرجاع الكتاب' : 'نقل الكتابة إلى المهملات'}
               </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{isStarred ? 'الكتاب متابع' : 'متابعة الكتاب'}</p>
-            </TooltipContent>
-          </Tooltip>
-          {data.isDraft && (
-            <Button
-              variant='outline'
-              size='sm'
-              onClick={onIsTrashed}
-              disabled={loading}
-            >
-              <Trash2
-                className={`ml-2 h-4 w-4 ${
-                  isTrashed ? 'text-red-500' : 'text-gray-500'
-                }`}
-              />
-              {isTrashed ? 'إرجاع الكتاب' : 'نقل الكتابة إلى المهملات'}
-            </Button>
-          )}
-          <div>
-            {hasAnyPermission(user as UserDto | null, [
-              'Correspondence|Print'
-            ]) && (
-              <Link href={`/correspondence/view/${data.id}/templates`}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant='outline' size='sm'>
-                      <Printer className='h-4 w-4' />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>طباعة</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Link>
+            )}
+            <div>
+              {hasAnyPermission(user as UserDto | null, [
+                'Correspondence|Print'
+              ]) && (
+                <Link href={`/correspondence/view/${data.id}/templates`}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant='outline' size='sm'>
+                        <Printer className='h-4 w-4' />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>طباعة</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Link>
+              )}
+            </div>
+          </div>
+          <div className='flex items-center justify-end gap-2'>
+            {data.correspondenceType !== CorrespondenceTypeEnum.Public && (
+              <MentionDialogForm correspondenceItem={data} />
+            )}
+            {data.correspondenceType === CorrespondenceTypeEnum.Public && (
+              <PublicDialogForm correspondenceItem={data} />
             )}
           </div>
         </div>

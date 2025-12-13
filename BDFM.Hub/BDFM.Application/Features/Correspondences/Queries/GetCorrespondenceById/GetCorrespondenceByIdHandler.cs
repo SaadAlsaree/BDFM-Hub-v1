@@ -183,7 +183,7 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
                 TagName = t.Name ?? string.Empty,
                 Category = t.Category,
                 CategoryName = t.Category.GetDisplayName(),
-                IsAll = t.IsAll,
+                IsAll = t.IsAll ?? false,
                 FromUserId = t.FromUserId,
                 FromUser = t.FromUser != null ? new UserDetailVm
                 {
@@ -201,9 +201,9 @@ namespace BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceByI
                     UnitCode = t.FromUnit.UnitCode,
                     UnitDescription = t.FromUnit.UnitDescription,
                 } : null,
-                ToPrimaryRecipientType = t.ToPrimaryRecipientType,
-                ToPrimaryRecipientTypeName = t.ToPrimaryRecipientType.GetDisplayName(),
-                ToPrimaryRecipientId = t.ToPrimaryRecipientId,
+                ToPrimaryRecipientType = t.ToPrimaryRecipientType ?? RecipientTypeEnum.User,
+                ToPrimaryRecipientTypeName = (t.ToPrimaryRecipientType ?? RecipientTypeEnum.User).GetDisplayName(),
+                ToPrimaryRecipientId = t.ToPrimaryRecipientId ?? Guid.Empty,
                 ToPrimaryRecipientName = string.Empty, // Will be populated after query
             }).ToList(),
 

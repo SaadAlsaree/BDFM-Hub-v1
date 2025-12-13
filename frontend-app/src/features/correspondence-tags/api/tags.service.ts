@@ -1,5 +1,5 @@
 import { axiosClient, axiosInstance } from '@/lib/axios';
-import { CorrespondenceTag } from '../types/tags';
+import { CorrespondenceTag, CorrespondenceTagsRequest } from '../types/tags';
 import { IResponse, IResponseList } from '@/types/response';
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 
@@ -93,6 +93,27 @@ export const tagsService = {
       return response.data as IResponseList<CorrespondenceDetails>;
     } catch (error) {
       console.error('Error getting correspondences with tags:', error);
+      return null;
+    }
+  },
+
+  ////BDFM/v1/api/Tag/CreateArrayTags
+  async createArrayTags(payload: CorrespondenceTagsRequest) {
+    try {
+      const response = await axiosClient.post(
+        `${baseUrl}/Tag/CreateArrayTags`,
+        payload
+      );
+      if (response.status >= 400) {
+        console.error(
+          'Error creating correspondence tags:',
+          response.statusText
+        );
+        return null;
+      }
+      return response.data as IResponse<boolean>;
+    } catch (error) {
+      console.error('Error creating correspondence tags:', error);
       return null;
     }
   }

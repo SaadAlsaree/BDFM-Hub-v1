@@ -343,23 +343,42 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
         </View>
 
         {/* Attachment */}
-        {/* <View style={ {
-              position: 'absolute',
-              bottom: 150,
-              right: '5%',
-              // width: '30%'
-            }}>
-          <Text
+        {formData?.tags.some((tag) => tag.category === 2) && (
+          <View
             style={{
-              fontSize: 10,
-              fontFamily: arabicFontFamily,
-              fontWeight: 'normal'
+              position: 'absolute',
+              bottom: 100,
+              right: '5%',
+              alignItems: 'flex-end',
+              textAlign: 'right'
+              // width: '30%'
             }}
           >
-      
-            -: نسخة منه الى 
-          </Text>
-        </View> */}
+            <Text
+              style={{
+                fontSize: 10,
+                fontFamily: arabicFontFamily,
+                fontWeight: 'normal',
+                textAlign: 'right'
+              }}
+            >
+              -: صورة منه الى
+            </Text>
+            {formData?.tags?.map((tag, index) => (
+              <Text
+                key={index}
+                style={{
+                  fontSize: 8,
+                  fontFamily: arabicFontFamily,
+                  fontWeight: 'normal',
+                  textAlign: 'right'
+                }}
+              >
+                {tag.toPrimaryRecipientName} •
+              </Text>
+            ))}
+          </View>
+        )}
 
         {/* Signature - Bottom of Page */}
 
@@ -368,7 +387,7 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
             styles.signature,
             {
               position: 'absolute',
-              bottom: 100,
+              bottom: 200,
               left: '10%',
               width: '30%'
             }
@@ -377,7 +396,7 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
           <Text style={[styles.signatureText, styles.boldText]}>مدير عام</Text>
           <Text style={styles.signatureText}>الدائرة الادارية و مالية</Text>
           <Text style={styles.signatureText}>
-            {moment().format('YYYY')} / /
+            {moment().format('YYYY')} /{'   '}/
           </Text>
         </View>
 

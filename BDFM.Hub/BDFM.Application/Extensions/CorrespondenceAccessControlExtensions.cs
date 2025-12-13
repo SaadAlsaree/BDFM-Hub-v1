@@ -53,12 +53,13 @@ public static class CorrespondenceAccessControlExtensions
                 // Rule 4: Tag-based access - correspondence with tags directed to them or their units
                 c.Tags.Any(t => (
                     // Case A: Tag directed to them personally
+                    t.IsAll == true ||
                     (t.ToPrimaryRecipientType == RecipientTypeEnum.User &&
                      t.ToPrimaryRecipientId == currentUserId) ||
 
                     // Case B: Tag directed to any unit in their hierarchy
                     (t.ToPrimaryRecipientType == RecipientTypeEnum.Unit &&
-                     hierarchicalUnitIds.Contains(t.ToPrimaryRecipientId))
+                     hierarchicalUnitIds.Contains(t.ToPrimaryRecipientId ?? Guid.Empty))
                 ))
             );
         }
@@ -94,6 +95,7 @@ public static class CorrespondenceAccessControlExtensions
                 // Rule 4: Tag-based access - users can see correspondence with tags directed to them
                 c.Tags.Any(t => (
                     // Case A: Tag directed to this specific user personally
+                    t.IsAll == true ||
                     (t.ToPrimaryRecipientType == RecipientTypeEnum.User &&
                      t.ToPrimaryRecipientId == currentUserId) ||
 

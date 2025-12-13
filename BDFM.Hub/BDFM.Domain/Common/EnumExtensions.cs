@@ -36,10 +36,14 @@ public static class EnumExtensions
     }
     public static string GetDisplayName(this Enum enumValue)
     {
-        return enumValue.GetType()
-                        .GetMember(enumValue.ToString())[0]
-                        .GetCustomAttribute<DisplayAttribute>()
-                        ?.GetName()!;
+        var type = enumValue.GetType();
+        var name = enumValue.ToString();
+        var members = type.GetMember(name);
+        if (members.Length == 0)
+            return name;
+        
+        var displayAttribute = members[0].GetCustomAttribute<DisplayAttribute>();
+        return displayAttribute?.GetName() ?? name;
     }
     public static string GetDisplayNameSafe(this Enum enumValue)
     {

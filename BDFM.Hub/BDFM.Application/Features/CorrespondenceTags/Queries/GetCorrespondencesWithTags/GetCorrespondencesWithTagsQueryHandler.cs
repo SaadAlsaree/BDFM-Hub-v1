@@ -113,7 +113,7 @@ public class GetCorrespondencesWithTagsQueryHandler :
             // Get accessible correspondence IDs from tags
             var accessibleCorrespondenceIds = await _tagRepository.Query()
                 .Where(t => !t.IsDeleted && (
-                    t.IsAll ||
+                    t.IsAll == true ||
                     (t.ToPrimaryRecipientType == RecipientTypeEnum.User && 
                      t.ToPrimaryRecipientId == currentUserId) ||
                     (t.ToPrimaryRecipientType == RecipientTypeEnum.Unit && 
@@ -209,7 +209,7 @@ public class GetCorrespondencesWithTagsQueryHandler :
                         TagName = t.Name ?? string.Empty,
                         Category = t.Category,
                         CategoryName = t.Category.GetDisplayName(),
-                        IsAll = t.IsAll,
+                        IsAll = t.IsAll ?? false,
                         FromUserId = t.FromUserId,
                         FromUser = t.FromUser != null ? new UserDetailVm
                         {
@@ -227,9 +227,9 @@ public class GetCorrespondencesWithTagsQueryHandler :
                             UnitCode = t.FromUnit.UnitCode,
                             UnitDescription = t.FromUnit.UnitDescription,
                         } : null,
-                        ToPrimaryRecipientType = t.ToPrimaryRecipientType,
-                        ToPrimaryRecipientTypeName = t.ToPrimaryRecipientType.GetDisplayName(),
-                        ToPrimaryRecipientId = t.ToPrimaryRecipientId,
+                        ToPrimaryRecipientType = t.ToPrimaryRecipientType ?? RecipientTypeEnum.Unit,
+                        ToPrimaryRecipientTypeName = (t.ToPrimaryRecipientType ?? RecipientTypeEnum.Unit).GetDisplayName(),
+                        ToPrimaryRecipientId = t.ToPrimaryRecipientId ?? Guid.Empty,
                         ToPrimaryRecipientName = string.Empty, // Will be populated after query
                     }
                 })

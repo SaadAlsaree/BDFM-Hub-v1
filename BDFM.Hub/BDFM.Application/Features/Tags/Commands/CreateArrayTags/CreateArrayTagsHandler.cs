@@ -62,7 +62,7 @@ public class CreateArrayTagsHandler : IRequestHandler<CreateArrayTagsCommand, Re
                 t => t.CorrespondenceId == request.CorrespondenceId &&
                      t.Name == dataItem.Name &&
                      t.Category == dataItem.Category &&
-                     t.IsAll == dataItem.IsAll &&
+                     t.IsAll == request.IsAll &&
                      t.FromUserId == _currentUserService.UserId &&
                      t.FromUnitId == _currentUserService.OrganizationalUnitId &&
                      t.ToPrimaryRecipientId == dataItem.ToPrimaryRecipientId &&
@@ -83,7 +83,7 @@ public class CreateArrayTagsHandler : IRequestHandler<CreateArrayTagsCommand, Re
                 CorrespondenceId = request.CorrespondenceId,
                 Name = dataItem.Name,
                 Category = dataItem.Category,
-                IsAll = dataItem.IsAll,
+                IsAll = request.IsAll,
                 FromUserId = _currentUserService.UserId,
                 FromUnitId = _currentUserService.OrganizationalUnitId,
                 ToPrimaryRecipientId = dataItem.ToPrimaryRecipientId,
@@ -126,12 +126,12 @@ public class CreateArrayTagsHandler : IRequestHandler<CreateArrayTagsCommand, Re
                 var recipientKey = (tag.ToPrimaryRecipientType, tag.ToPrimaryRecipientId);
 
                 // Avoid duplicate notifications for the same recipient
-                if (processedRecipients.Contains(recipientKey))
+                if (processedRecipients.Contains((tag.ToPrimaryRecipientType ?? RecipientTypeEnum.User, tag.ToPrimaryRecipientId ?? Guid.Empty)))
                 {
                     continue;
                 }
 
-                processedRecipients.Add(recipientKey);
+                processedRecipients.Add((tag.ToPrimaryRecipientType ?? RecipientTypeEnum.User, tag.ToPrimaryRecipientId ?? Guid.Empty));
 
                 var message = $"تم إضافة تحويل '{tag.Name}' للكتاب: {correspondence.MailNum}";
 
@@ -139,7 +139,7 @@ public class CreateArrayTagsHandler : IRequestHandler<CreateArrayTagsCommand, Re
                 {
                     // Create persistent notification for user
                     await _notificationService.CreateNotificationAsync(
-                        tag.ToPrimaryRecipientId,
+                        tag.ToPrimaryRecipientId ?? Guid.Empty,
                         message,
                         NotificationTypeEnum.StatusUpdate,
                         request.CorrespondenceId,
@@ -162,7 +162,7 @@ public class CreateArrayTagsHandler : IRequestHandler<CreateArrayTagsCommand, Re
                     {
                         // Create module notifications for unit
                         await _notificationService.CreateModuleNotificationsAsync(
-                            tag.ToPrimaryRecipientId,
+                            tag.ToPrimaryRecipientId ?? Guid.Empty,
                             message,
                             NotificationTypeEnum.StatusUpdate,
                             request.CorrespondenceId,

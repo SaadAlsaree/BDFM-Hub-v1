@@ -25,6 +25,7 @@ export interface CorrespondenceTagItem {
 
 export interface CorrespondenceTagsRequest {
   correspondenceId: string;
+  isAll?: boolean;
   data: CorrespondenceTagItem[];
 }
 

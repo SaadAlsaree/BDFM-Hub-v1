@@ -550,7 +550,7 @@ public class PermissionValidationService : IPermissionValidationService
                     // Tag directed to the user personally
                     (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && t.ToPrimaryRecipientId == currentUserId) ||
                     // Tag directed to a unit the user has access to
-                    (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(t.ToPrimaryRecipientId))
+                    (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIds.Contains(t.ToPrimaryRecipientId ?? Guid.Empty))
                 ), cancellationToken);
 
             _logger.LogDebug("User {UserId} access to correspondence {CorrespondenceId}: Workflow={HasWorkflowAccess}, Tag={HasTagAccess}",
@@ -765,7 +765,7 @@ public class PermissionValidationService : IPermissionValidationService
                         // Tag directed to the user personally
                         (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.User && t.ToPrimaryRecipientId == currentUserId) ||
                         // Tag directed to a unit the user has access to
-                        (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIdsList.Contains(t.ToPrimaryRecipientId))
+                        (t.ToPrimaryRecipientType == Domain.Enums.RecipientTypeEnum.Unit && accessibleUnitIdsList.Contains(t.ToPrimaryRecipientId ?? Guid.Empty))
                     )
                 );
 

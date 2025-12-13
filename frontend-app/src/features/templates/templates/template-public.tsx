@@ -363,7 +363,8 @@ const TemplatePublicRenderer = ({ formData }: TemplatePublicProps) => {
             position: 'absolute',
             bottom: 100,
             textAlign: 'right',
-            right: 30
+            right: 30,
+            alignItems: 'flex-end'
             // width: '30%'
           }}
         >
@@ -371,7 +372,8 @@ const TemplatePublicRenderer = ({ formData }: TemplatePublicProps) => {
             style={{
               fontSize: 10,
               fontFamily: arabicFontFamily,
-              fontWeight: 'normal'
+              fontWeight: 'normal',
+              textAlign: 'right'
             }}
           >
             -: صورة منه الى
@@ -382,7 +384,8 @@ const TemplatePublicRenderer = ({ formData }: TemplatePublicProps) => {
               style={{
                 fontSize: 8,
                 fontFamily: arabicFontFamily,
-                fontWeight: 'normal'
+                fontWeight: 'normal',
+                textAlign: 'right'
               }}
             >
               {tag.toPrimaryRecipientName} •

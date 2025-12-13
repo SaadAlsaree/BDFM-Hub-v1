@@ -6,7 +6,7 @@ import { useAuthApi } from '@/hooks/use-auth-api';
 import { correspondenceService } from '@/features/correspondence/api/correspondence.service';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { ForwardedCorrespondenceItem } from '../../types/forwarded-correspondence';
+import { ForwardedCorrespondenceItem } from '@/features/forwarded-correspondence/types/forwarded-correspondence';
 
 interface CellIconsProps {
   data: ForwardedCorrespondenceItem;
