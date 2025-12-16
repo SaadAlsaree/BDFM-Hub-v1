@@ -25,40 +25,63 @@ namespace BDFM.API.Middleware
             }
         }
 
-        private Task ConvertException(HttpContext context, Exception exception)
+        private async Task ConvertException(HttpContext context, Exception exception)
         {
-            HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
-
-            context.Response.ContentType = "application/json";
-
-            var result = string.Empty;
-
-            switch (exception)
+            // If response has already started, we cannot modify headers or status code
+            if (context.Response.HasStarted)
             {
-                case ValidationException validationException:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    result = System.Text.Json.JsonSerializer.Serialize(validationException.ValdationErrors);
-                    break;
-                case BadRequestException badRequestException:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    result = badRequestException.Message;
-                    break;
-                case NotFoundException:
-                    httpStatusCode = HttpStatusCode.NotFound;
-                    break;
-                case Exception:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    break;
+                Log.Error(exception, "An error occurred but response has already started. Exception: {ExceptionMessage}", exception.Message);
+                return;
             }
 
-            context.Response.StatusCode = (int)httpStatusCode;
-
-            if (result == string.Empty)
+            try
             {
-                result = System.Text.Json.JsonSerializer.Serialize(new { error = exception.Message });
-            }
+                HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
 
-            return context.Response.WriteAsync(result);
+                context.Response.ContentType = "application/json";
+
+                var result = string.Empty;
+
+                switch (exception)
+                {
+                    case ValidationException validationException:
+                        httpStatusCode = HttpStatusCode.BadRequest;
+                        result = System.Text.Json.JsonSerializer.Serialize(validationException.ValdationErrors);
+                        break;
+                    case BadRequestException badRequestException:
+                        httpStatusCode = HttpStatusCode.BadRequest;
+                        result = badRequestException.Message;
+                        break;
+                    case NotFoundException:
+                        httpStatusCode = HttpStatusCode.NotFound;
+                        break;
+                    case Exception:
+                        httpStatusCode = HttpStatusCode.BadRequest;
+                        break;
+                }
+
+                // Double-check before setting status code in case response started between checks
+                if (!context.Response.HasStarted)
+                {
+                    context.Response.StatusCode = (int)httpStatusCode;
+                }
+
+                if (result == string.Empty)
+                {
+                    result = System.Text.Json.JsonSerializer.Serialize(new { error = exception.Message });
+                }
+
+                // Only write if response hasn't started
+                if (!context.Response.HasStarted)
+                {
+                    await context.Response.WriteAsync(result);
+                }
+            }
+            catch (InvalidOperationException ex) when (ex.Message.Contains("response has already started") || ex.Message.Contains("Headers are read-only"))
+            {
+                // Response started during our processing, just log it
+                Log.Error(exception, "An error occurred but response started during exception handling. Original Exception: {ExceptionMessage}", exception.Message);
+            }
         }
 
 

@@ -8,7 +8,7 @@ import {
   ICommentDelete
 } from '@/features/comments/types/comments';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const commentService = {
   // /Comments/GetCommentsListByCorrespondenceId/{correspondenceId}/correspondence

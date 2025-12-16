@@ -77,6 +77,20 @@ export const UpdateWorkflowStepStatusSchema = z.object({
   notes: z.string().optional()
 });
 
+// simpler schema for update status dialog (status only)
+export const UpdateStatusDialogSchema = z.object({
+  workflowStepId: z.string().min(1, 'Workflow step ID is required'),
+  status: z.nativeEnum(WorkflowStepStatus, {
+    required_error: 'Status is required',
+    invalid_type_error: 'Invalid status'
+  }),
+  internalActionType: z.nativeEnum(InternalActionTypeEnum, {
+    required_error: 'Internal action type is required',
+    invalid_type_error: 'Invalid internal action type'
+  }),
+  actionDescription: z.string().min(1, 'Action description is required')
+});
+
 export const WorkflowStepBulkInsertSchema = z.object({
   correspondenceId: z.string().min(1, 'Correspondence ID is required'),
   workflowSteps: z
@@ -96,4 +110,7 @@ export type WorkflowStepBulkInsertFormData = z.infer<
 >;
 export type UpdateWorkflowStepStatusFormData = z.infer<
   typeof UpdateWorkflowStepStatusSchema
+>;
+export type UpdateStatusDialogFormData = z.infer<
+  typeof UpdateStatusDialogSchema
 >;

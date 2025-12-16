@@ -60,6 +60,14 @@ export const presidentNavItems: NavItem[] = [
     requiredRoles: ['President', 'SuAdmin']
   },
   {
+    title: 'إحصائيات خطوات سير العمل',
+    url: '/workflow-statistics',
+    icon: 'dashboard',
+    shortcut: ['p', 'p'],
+    isActive: false,
+    requiredRoles: ['President', 'SuAdmin']
+  },
+  {
     title: 'الكتب',
     url: '/president',
     icon: 'inbox',

@@ -4,6 +4,7 @@ using BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep;
 using BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps;
 using BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction;
 using BDFM.Application.Features.Workflow.Commands.UpdateWorkflowStepStatus;
+using BDFM.Application.Features.Workflow.Queries.GetWorkflowStepsStatisticsByUnit;
 
 namespace BDFM.Api.Controllers;
 
@@ -110,5 +111,18 @@ public class WorkflowController : Base<WorkflowController>
     public async Task<ActionResult<Response<bool>>> UpdateStatus([FromBody] UpdateWorkflowStepStatusCommand command)
     {
         return await Okey(() => _mediator.Send(command));
+    }
+
+    /// <summary>
+    /// Gets workflow steps statistics for a specific unit or all units if UnitId is not specified
+    /// </summary>
+    [HttpGet]
+    [ServiceFilter(typeof(LogActionArguments))]
+    [ProducesResponseType(typeof(Response<WorkflowStepsStatisticsAllVm>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Permission("Workflow|GetStatistics")]
+    public async Task<ActionResult<Response<WorkflowStepsStatisticsAllVm>>> GetWorkflowStepsStatisticsByUnit([FromQuery] GetWorkflowStepsStatisticsByUnitQuery query)
+    {
+        return await Okey(() => _mediator.Send(query));
     }
 }

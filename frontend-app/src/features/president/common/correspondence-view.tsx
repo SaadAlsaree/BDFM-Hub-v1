@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 import { Heading } from '@/components/ui/heading';
 import { Building, User } from 'lucide-react';
@@ -11,12 +11,29 @@ import CorrespondenceTemplate from './components/correspondence-template';
 import WorkflowView from './components/workflow-view';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { correspondenceService } from '@/features/correspondence/api/correspondence.service';
+import { useAuthApi } from '@/hooks/use-auth-api';
 
 interface Props {
   data: CorrespondenceDetails;
 }
 const CorrespondenceView = (props: Props) => {
   const { data } = props;
+  const { authApiCall } = useAuthApi();
+
+  const isRead = data?.userCorrespondenceInteraction?.isRead;
+
+  // Mark correspondence as read when component mounts if it's unread
+  const readMailByUserHandler = useCallback(async () => {
+    if (isRead === false) {
+      await authApiCall(() => correspondenceService.isRead(true, data.id!));
+    }
+  }, [isRead, data.id, authApiCall]);
+
+  useEffect(() => {
+    readMailByUserHandler();
+  }, [readMailByUserHandler]);
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex justify-between'>
