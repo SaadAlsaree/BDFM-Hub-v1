@@ -42,6 +42,7 @@ public static class CorrespondenceAccessControlExtensions
                 // Rule 3: Workflow-based access - correspondence forwarded to them or their units
                 c.WorkflowSteps.Any(ws => ws.IsActive && (
                     // Case A: Forwarded to them personally (from any unit)
+                    ws.IsActive == true &&
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.User &&
                      ws.ToPrimaryRecipientId == currentUserId) ||
 
@@ -82,6 +83,8 @@ public static class CorrespondenceAccessControlExtensions
                 // Rule 3: Workflow-based access - users can see correspondence transferred to them
                 c.WorkflowSteps.Any(ws => ws.IsActive && (
                     // Case A: Transferred to this specific user personally
+                    ws.IsActive == true &&
+
                     (ws.ToPrimaryRecipientType == RecipientTypeEnum.User &&
                      ws.ToPrimaryRecipientId == currentUserId) ||
 
