@@ -22,11 +22,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
-import { InboxList } from '@/features/correspondence/types/register-incoming-external-mail';
+import { TaggedCorrespondenceItem } from '../../types/tags';
 import { AlertModal } from '@/components/modal/alert-modal';
 
 interface CellActionProps {
-  data: InboxList;
+  data: TaggedCorrespondenceItem;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

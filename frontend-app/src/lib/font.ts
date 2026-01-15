@@ -5,7 +5,8 @@ import {
   Inter,
   Mulish,
   Noto_Sans_Mono,
-  Cairo
+  Cairo,
+  Noto_Naskh_Arabic
 } from 'next/font/google';
 
 import { cn } from '@/lib/utils';

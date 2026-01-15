@@ -34,7 +34,7 @@ export const columns: ColumnDef<TaggedCorrespondenceItem>[] = [
       return (
         <div className='flex flex-col'>
           <div className='flex cursor-pointer items-center gap-2'>
-            <CellIcons data={row.original} />
+            <CellIcons data={row.original} /> 
             <Link
               href={`/public-book/${row.original.correspondenceId}/view`}
               className='hover:text-primary/80 transition-colors duration-100'

@@ -75,7 +75,9 @@ export default async function RootLayout({
             >
               <Providers activeThemeValue={activeThemeValue as string}>
                 <Toaster />
+         
                 {children}
+                      
               </Providers>
             </ThemeProvider>
           </QueryClientProvider>

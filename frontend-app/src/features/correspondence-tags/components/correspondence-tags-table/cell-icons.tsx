@@ -2,6 +2,7 @@ import { Mail, MailOpen, Star, Clock, BellRing, BellOff } from 'lucide-react';
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { InboxList } from '@/features/correspondence/types/register-incoming-external-mail';
+import { TaggedCorrespondenceItem } from '../../types/tags';
 import { Button } from '@/components/ui/button';
 import { useAuthApi } from '@/hooks/use-auth-api';
 import { correspondenceService } from '@/features/correspondence/api/correspondence.service';
@@ -9,7 +10,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 interface CellIconsProps {
-  data: InboxList;
+  data: InboxList | TaggedCorrespondenceItem;
 }
 
 const CellIcons = ({ data }: CellIconsProps) => {

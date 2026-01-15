@@ -18,12 +18,26 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
-import { CalendarIcon } from 'lucide-react';
+import {
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  RefreshCcw,
+  Loader2
+} from 'lucide-react';
 import {
   Popover,
   PopoverContent,
@@ -32,7 +46,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { createOutgoingInternalSchema } from './utils/create-outgoing-internal';
@@ -57,7 +71,9 @@ import { useRouter } from 'next/navigation';
 import { useAuthApi } from '@/hooks/use-auth-api';
 import { useSession } from 'next-auth/react';
 import { correspondenceService } from '../api/correspondence.service';
+
 import CorrespondenceSearch from '@/components/correspondence-search';
+import { CorrespondenceTemplatesList } from '@/features/correspondence-templates/types/correspondence-templates';
 
 type OutgoingInternalFormValues = z.infer<typeof createOutgoingInternalSchema>;
 
@@ -65,12 +81,14 @@ interface CreateOutgoingInternalFormProps {
   onSuccess?: (outgoingInternalId: string) => void;
   onCancel?: () => void;
   initialData?: Partial<OutgoingInternalFormValues>;
+  correspondenceTemplates: CorrespondenceTemplatesList[];
 }
 
 const CreateOutgoingInternalForm = ({
   onSuccess,
   onCancel,
-  initialData
+  initialData,
+  correspondenceTemplates
 }: CreateOutgoingInternalFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   // selectedMailFile is used in handleMailFileSelect to track the selected mail file
@@ -80,6 +98,13 @@ const CreateOutgoingInternalForm = ({
   const [selectedBookNum, setSelectedBookNum] = useState<InboxList | null>(
     null
   );
+  
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+  const [isRotating, setIsRotating] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+
   const router = useRouter();
   const { data: session } = useSession();
   const { authApiCall } = useAuthApi();
@@ -113,12 +138,69 @@ const CreateOutgoingInternalForm = ({
     setSelectedBookNum(bookNum);
     if (bookNum?.correspondenceId) {
       form.setValue('subject', bookNum.subject);
-      form.setValue('bodyText', bookNum.subject);
+      form.setValue('bodyText', bookNum.bodyText || '');
       form.setValue('linkMailId', bookNum.correspondenceId);
     } else {
       form.setValue('linkMailId', '');
     }
   };
+
+  const handleTemplateSelect = (template: CorrespondenceTemplatesList) => {
+    setValue(template.id);
+    setOpen(false);
+    form.setValue('bodyText', template.bodyText || '');
+    form.setValue('subject', template.subject);
+  };
+
+  const handleClearTemplate = () => {
+    setIsRotating(true);
+    setValue('');
+    setSearchValue('');
+    setIsSearching(false);
+    form.setValue('bodyText', '');
+    form.setValue('subject', '');
+
+    // Clear search param from URL
+    const params = new URLSearchParams(window.location.search);
+    params.delete('searchText');
+    const newUrl = params.toString()
+      ? `?${params.toString()}`
+      : window.location.pathname;
+    router.push(newUrl);
+
+    setTimeout(() => setIsRotating(false), 1000);
+  };
+
+  // Search function that updates URL to trigger server-side search
+  const handleSearch = useCallback(
+    (searchText: string) => {
+      setSearchValue(searchText);
+
+      // Show loading immediately when user types
+      if (searchText.trim()) {
+        setIsSearching(true);
+      } else {
+        setIsSearching(false);
+      }
+
+      // Debounce the search to avoid too many requests
+      const timeoutId = setTimeout(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (searchText.trim()) {
+          params.set('searchText', searchText);
+        } else {
+          params.delete('searchText');
+        }
+        router.push(`?${params.toString()}`);
+
+        // Hide loading after navigation
+        setTimeout(() => setIsSearching(false), 100);
+      }, 300);
+
+      return () => clearTimeout(timeoutId);
+    },
+    [router]
+  );
 
   const onSubmit = async (data: OutgoingInternalFormValues) => {
     setIsSubmitting(true);
@@ -171,14 +253,81 @@ const CreateOutgoingInternalForm = ({
 
   return (
     <div className='space-y-6'>
-      <div>
-        <h3 className='text-right text-lg font-medium'>
-          إنشاء كتاب صادر داخلي
-        </h3>
-        <p className='text-muted-foreground text-right text-sm'>
-          قم بإدخال بيانات الكتاب الصادر الداخلي
-        </p>
-      </div>
+      <div className='flex items-center justify-between gap-2'>
+        <div>
+          <h3 className='text-right text-lg font-medium'>
+            إنشاء كتاب صادر داخلي
+          </h3>
+          <p className='text-muted-foreground text-right text-sm'>
+            قم بإدخال بيانات الكتاب الصادر الداخلي
+          </p>
+        </div>
+        <div className='flex items-center gap-2'>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant='outline'
+              role='combobox'
+              aria-expanded={open}
+              className='w-[250px] justify-between'
+            >
+              {value
+                ? correspondenceTemplates.find(
+                    (template) => template.id === value
+                  )?.templateName
+                : 'حدد نموذج...'}
+              <ChevronsUpDown className='opacity-50' />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className='w-[250px] p-0'>
+            <Command>
+              <div className='relative'>
+                <CommandInput
+                  placeholder='بحث عن نموذج...'
+                  className='h-9'
+                  value={searchValue}
+                  onValueChange={handleSearch}
+                />
+                {isSearching && (
+                  <Loader2 className='text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 animate-spin' />
+                )}
+              </div>
+              <CommandList>
+                <CommandEmpty>
+                  {isSearching ? 'جاري البحث...' : 'لا توجد نماذج'}
+                </CommandEmpty>
+                <CommandGroup>
+                  {correspondenceTemplates.map((template) => (
+                    <CommandItem
+                      key={template.id}
+                      value={template.templateName}
+                      onSelect={(currentValue) => {
+                        setValue(currentValue === value ? '' : currentValue);
+                        setOpen(false);
+                        handleTemplateSelect(template);
+                      }}
+                    >
+                      {template.templateName}
+                      <Check
+                        className={cn(
+                          'ml-auto',
+                          value === template.id ? 'opacity-100' : 'opacity-0'
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+
+        <Button variant='outline' size='icon' onClick={handleClearTemplate}>
+          <RefreshCcw
+            className={`h-4 w-4 ${isRotating ? 'animate-spin-once' : ''}`}
+          />
+        </Button>
+      </div></div>
       <Separator />
 
       {/* Mail File Search Section */}
@@ -343,7 +492,7 @@ const CreateOutgoingInternalForm = ({
                   </FormLabel>
                   <Select
                     dir='rtl'
-                    onValueChange={(value) => field.onChange(Number(value))}
+                    onValueChange={(value: string) => field.onChange(Number(value))}
                     defaultValue={field.value?.toString()}
                   >
                     <FormControl className='w-full'>
@@ -377,7 +526,7 @@ const CreateOutgoingInternalForm = ({
                   </FormLabel>
                   <Select
                     dir='rtl'
-                    onValueChange={(value) => field.onChange(Number(value))}
+                    onValueChange={(value: string) => field.onChange(Number(value))}
                     defaultValue={field.value?.toString()}
                   >
                     <FormControl className='w-full'>
@@ -411,7 +560,7 @@ const CreateOutgoingInternalForm = ({
                   </FormLabel>
                   <Select
                     dir='rtl'
-                    onValueChange={(value) => field.onChange(Number(value))}
+                    onValueChange={(value: string) => field.onChange(Number(value))}
                     defaultValue={field.value?.toString()}
                   >
                     <FormControl className='w-full'>

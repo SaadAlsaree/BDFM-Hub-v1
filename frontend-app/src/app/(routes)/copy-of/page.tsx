@@ -37,6 +37,7 @@ const CopyOfPage = async (props: CopyOfPageProps) => {
   if (!hasRole && !hasPermission) {
     return <Unauthorized />;
   }
+  
 
   if (user.isDefaultPassword === true) {
     return (

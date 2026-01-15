@@ -28,6 +28,7 @@ export interface InboxList {
   correspondenceStatus?: number;
   externalReferenceNumber: string;
   externalReferenceDate: string;
+  bodyText: string;
   mailNum: string;
   mailDate: string;
   priorityLevel: number;

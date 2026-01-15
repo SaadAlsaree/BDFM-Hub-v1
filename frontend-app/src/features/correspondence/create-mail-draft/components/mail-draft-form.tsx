@@ -499,7 +499,7 @@ const MailDraftForm = ({
                   </FormLabel>
                   <Select
                     dir='rtl'
-                    onValueChange={(value) => field.onChange(Number(value))}
+                    onValueChange={(value: string) => field.onChange(Number(value))}
                     defaultValue={field.value?.toString()}
                   >
                     <FormControl className='w-full'>
@@ -533,7 +533,7 @@ const MailDraftForm = ({
                   </FormLabel>
                   <Select
                     dir='rtl'
-                    onValueChange={(value) => field.onChange(Number(value))}
+                    onValueChange={(value: string) => field.onChange(Number(value))}
                     defaultValue={field.value?.toString()}
                   >
                     <FormControl className='w-full'>
@@ -567,7 +567,7 @@ const MailDraftForm = ({
                   </FormLabel>
                   <Select
                     dir='rtl'
-                    onValueChange={(value) => field.onChange(Number(value))}
+                    onValueChange={(value: string) => field.onChange(Number(value))}
                     defaultValue={field.value?.toString()}
                   >
                     <FormControl className='w-full'>

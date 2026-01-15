@@ -1,6 +1,7 @@
 import KBar from '@/components/kbar';
 import AppSidebar from '@/components/layout/app-sidebar';
 import Header from '@/components/layout/header';
+import { AnnouncementBanner, AnnouncementProvider } from '@/components/layout/announcement-banner';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { SessionValidator } from '@/components/auth/session-validator';
 import type { Metadata } from 'next';
@@ -22,15 +23,18 @@ export default async function DashboardLayout({
   return (
     <SessionValidator>
       <KBar>
-        <SidebarProvider defaultOpen={defaultOpen}>
-          <AppSidebar />
-          <SidebarInset>
-            <Header />
-            {/* page main content */}
-            {children}
-            {/* page main content ends */}
-          </SidebarInset>
-        </SidebarProvider>
+        <AnnouncementProvider>
+          <SidebarProvider defaultOpen={defaultOpen}>
+            <AppSidebar />
+            <SidebarInset>
+              <Header />
+              <AnnouncementBanner />
+              {/* page main content */}
+              {children}
+              {/* page main content ends */}
+            </SidebarInset>
+          </SidebarProvider>
+        </AnnouncementProvider>
       </KBar>
     </SessionValidator>
   );

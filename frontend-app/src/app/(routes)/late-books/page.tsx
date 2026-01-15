@@ -31,7 +31,7 @@ const LateBooksPage = async (props: Props) => {
 
   const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
 
-  if (!hasRole && !hasPermission) {
+  if (!hasRole || !hasPermission) {
     return <Unauthorized />;
   }
 
