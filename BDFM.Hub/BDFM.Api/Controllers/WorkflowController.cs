@@ -5,6 +5,7 @@ using BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps;
 using BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction;
 using BDFM.Application.Features.Workflow.Commands.UpdateWorkflowStepStatus;
 using BDFM.Application.Features.Workflow.Queries.GetWorkflowStepsStatisticsByUnit;
+using BDFM.Application.Features.Workflow.Queries.GetDelayedStepsReport;
 
 namespace BDFM.Api.Controllers;
 
@@ -124,5 +125,17 @@ public class WorkflowController : Base<WorkflowController>
     public async Task<ActionResult<Response<WorkflowStepsStatisticsAllVm>>> GetWorkflowStepsStatisticsByUnit([FromQuery] GetWorkflowStepsStatisticsByUnitQuery query)
     {
         return await Okey(() => _mediator.Send(query));
+    }
+
+    /// <summary>
+    /// Gets a report of delayed workflow steps
+    /// </summary>
+    [HttpGet]
+    [ServiceFilter(typeof(LogActionArguments))]
+    [ProducesResponseType(typeof(Response<List<DelayedStepReportDto>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Response<List<DelayedStepReportDto>>>> GetDelayedStepsReport([FromQuery] GetDelayedStepsReportQuery query)
+    {
+        return await Okey<List<DelayedStepReportDto>>(() => _mediator.Send(query));
     }
 }
