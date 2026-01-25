@@ -6,6 +6,7 @@ using BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction;
 using BDFM.Application.Features.Workflow.Commands.UpdateWorkflowStepStatus;
 using BDFM.Application.Features.Workflow.Queries.GetWorkflowStepsStatisticsByUnit;
 using BDFM.Application.Features.Workflow.Queries.GetDelayedStepsReport;
+using BDFM.Application.Contracts.Infrastructure;
 
 namespace BDFM.Api.Controllers;
 
@@ -17,11 +18,13 @@ namespace BDFM.Api.Controllers;
 public class WorkflowController : Base<WorkflowController>
 {
     private readonly IMediator _mediator;
+    private readonly IPdfService _pdfService;
 
-    public WorkflowController(ILogger<WorkflowController> logger, IMediator mediator)
+    public WorkflowController(ILogger<WorkflowController> logger, IMediator mediator, IPdfService pdfService)
         : base(logger)
     {
         _mediator = mediator;
+        _pdfService = pdfService;
     }
 
     /// <summary>
@@ -137,5 +140,22 @@ public class WorkflowController : Base<WorkflowController>
     public async Task<ActionResult<Response<List<DelayedStepReportDto>>>> GetDelayedStepsReport([FromQuery] GetDelayedStepsReportQuery query)
     {
         return await Okey<List<DelayedStepReportDto>>(() => _mediator.Send(query));
+    }
+
+    /// <summary>
+    /// Downloads a PDF report of delayed workflow steps
+    /// </summary>
+    [HttpGet]
+    [ServiceFilter(typeof(LogActionArguments))]
+    [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
+    public async Task<IActionResult> DownloadDelayedStepsReport([FromQuery] GetDelayedStepsReportQuery query)
+    {
+        var response = await _mediator.Send(query);
+        if (response.Succeeded && response.Data != null)
+        {
+            var pdfBytes = _pdfService.GenerateDelayedStepsReport(response.Data);
+            return File(pdfBytes, "application/pdf", $"DelayedStepsReport_{DateTime.Now:yyyyMMdd}.pdf");
+        }
+        return BadRequest(response.Message);
     }
 }
