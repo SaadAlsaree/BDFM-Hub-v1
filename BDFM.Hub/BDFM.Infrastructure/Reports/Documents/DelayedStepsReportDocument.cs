@@ -1,5 +1,4 @@
 using BDFM.Application.Features.Workflow.Queries.GetDelayedStepsReport;
-using BDFM.Domain.Enums;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -43,7 +42,7 @@ public class DelayedStepsReportDocument : IDocument
         {
             row.RelativeItem().Column(col =>
             {
-                col.Item().Text("تقرير المتابعة - المعاملات المتأخرة")
+                col.Item().Text("تقرير المتابعة - الاجرائات المتأخرة")
                     .FontSize(24)
                     .SemiBold()
                     .FontColor(Colors.Blue.Medium);
@@ -72,7 +71,7 @@ public class DelayedStepsReportDocument : IDocument
                 var totalDelayed = _model.Sum(x => x.DelayedStepsCount);
                 var totalAssignees = _model.Count;
 
-                row.RelativeItem().Element(e => SummaryCard(e, "إجمالي المعاملات المتأخرة", totalDelayed.ToString(), Colors.Red.Medium));
+                row.RelativeItem().Element(e => SummaryCard(e, "إجمالي الاجرائات المتأخرة", totalDelayed.ToString(), Colors.Red.Medium));
                 row.ConstantItem(20);
                 row.RelativeItem().Element(e => SummaryCard(e, "إجمالي المسؤولين المتأخرين", totalAssignees.ToString(), Colors.Orange.Medium));
             });
@@ -88,7 +87,7 @@ public class DelayedStepsReportDocument : IDocument
                     innerCol.Item().Background(Colors.Grey.Lighten4).Padding(8).Row(row =>
                     {
                         row.RelativeItem().Text(assignee.AssigneeName).FontSize(14).SemiBold();
-                        row.ConstantItem(100).AlignLeft().Text($"{assignee.DelayedStepsCount} معاملة متأخرة").FontSize(11).FontColor(Colors.Grey.Medium);
+                        row.ConstantItem(100).AlignLeft().Text($"{assignee.DelayedStepsCount} اجراء متأخر").FontSize(11).FontColor(Colors.Grey.Medium);
                     });
 
                     // Steps Table
@@ -108,7 +107,7 @@ public class DelayedStepsReportDocument : IDocument
                         table.Header(header =>
                         {
                             header.Cell().Element(HeaderStyle).Text("#");
-                            header.Cell().Element(HeaderStyle).Text("رقم القيد");
+                            header.Cell().Element(HeaderStyle).Text("رقم الكتاب");
                             header.Cell().Element(HeaderStyle).Text("الموضوع");
                             header.Cell().Element(HeaderStyle).Text("الخطوة / التعليمات");
                             header.Cell().Element(HeaderStyle).Text("تاريخ الاستحقاق");
