@@ -65,5 +65,6 @@ namespace BDFM.Domain.Entities.Core
         public virtual ICollection<LeaveCancellation> LeaveCancellations { get; set; } = new HashSet<LeaveCancellation>();
         public virtual ICollection<LeaveBalanceHistory> LeaveBalanceHistories { get; set; } = new HashSet<LeaveBalanceHistory>();
 
+        public virtual ICollection<Announcement> Announcements { get; set; } = new HashSet<Announcement>();
     }
 }

@@ -40,6 +40,8 @@
     <Folder Include="Features\Administration\ExternalEntities\" />
     <Folder Include="Features\Administration\SystemIntegrations\" />
     <Folder Include="Features\Administration\Templates\" />
+    <Folder Include="Features\AnnouncementFeature\Commands\" />
+    <Folder Include="Features\AnnouncementFeature\Queries\" />
     <Folder Include="Features\Attachments\Queries\GetAttachmentsList\" />
     <Folder Include="Features\Attachments\Queries\GetAttachmentById\" />
     <Folder Include="Features\Attachments\Queries\GetAttachmentsListByPrimaryTableId\" />

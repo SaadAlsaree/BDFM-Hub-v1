@@ -81,7 +81,7 @@ src/
 
 ## Getting Started
 
-> [!NOTE]  
+> [!NOTE]
 > We are using **Next 15** with **React 19**, follow these steps:
 
 Clone the repo:
@@ -101,4 +101,74 @@ You should now be able to access the application at http://cm-back.inss.local:30
 > [!WARNING]
 > After cloning or forking the repository, be cautious when pulling or syncing with the latest changes, as this may result in breaking conflicts.
 
-Cheers! 🥂
+{
+
+    id: '1',
+
+    title: 'نظام الكتب الرسمية',
+
+    description: 'إدارة وتتبع الكتب الرسمية والمراسلات الإدارية بكل سهولة وأمان.',
+
+    variant: 'info',
+
+    username: 'سعد ناظم جابر',
+
+    organization: 'مديرية الذكاء الاصطناعي',
+
+    createdAt: '2026-01-12',
+
+},
+
+{
+
+    id: '2',
+
+    title: 'الإشعارات الفورية',
+
+    description: 'وصول تنبيهات فورية عند استلام كتب جديدة أو تحديث حالة الكتب الحالية.',
+
+    variant: 'warning',
+
+    username: 'سعد ناظم جابر',
+
+    organization: 'مديرية الذكاء الاصطناعي',
+
+    createdAt: '2026-01-12',
+
+},
+
+{
+
+    id: '3',
+
+    title: 'البحث المتقدم',
+
+    description: 'إمكانية البحث في الأرشيف والكتب بسرعة البرق باستخدام تقنيات بحث متطورة.',
+
+    variant: 'info',
+
+    username: 'سعد ناظم جابر',
+
+    organization: 'مديرية الذكاء الاصطناعي',
+
+    createdAt: '2026-01-12',
+
+},
+
+{
+
+    id: '4',
+
+    title: 'واجهة مستخدم حديثة',
+
+    description: 'تصميم عصري وسلس يوفر تجربة مستخدم متميزة وتفاعلية.',
+
+    variant: 'success',
+
+    username: 'سعد ناظم جابر',
+
+    organization: 'مديرية الذكاء الاصطناعي',
+
+    createdAt: '2026-01-12',
+
+}

@@ -1,5 +1,4 @@
-﻿using BDFM.Application.Contracts.AI;
-using BDFM.Application.Contracts.Identity;
+﻿using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Helper;
 using BDFM.Application.Services;
 using BDFM.Domain.Entities.Core;
@@ -15,14 +14,13 @@ public class CreatePublicMailHandler : IRequestHandler<CreatePublicMailCommand, 
     private readonly IBaseRepository<User> _userRepository;
     //private readonly IRAGService _ragService;
 
-    public CreatePublicMailHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IAuditTrailService auditTrailService, IRAGService rAGService, IMailNumberGenerator mailNumberGenerator, IBaseRepository<User> userRepository)
+    public CreatePublicMailHandler(IBaseRepository<Correspondence> repository, ICurrentUserService currentUserService, IAuditTrailService auditTrailService, IMailNumberGenerator mailNumberGenerator, IBaseRepository<User> userRepository)
     {
         _repository = repository;
         _currentUserService = currentUserService;
         _auditTrailService = auditTrailService;
         _mailNumberGenerator = mailNumberGenerator;
         _userRepository = userRepository;
-        //_ragService = rAGService;
     }
 
     public async Task<Response<Guid>> Handle(CreatePublicMailCommand request, CancellationToken cancellationToken)

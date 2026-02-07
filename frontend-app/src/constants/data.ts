@@ -125,6 +125,13 @@ export const presidentNavItems: NavItem[] = [
         icon: 'ellipsis',
         shortcut: ['t', 't'],
         requiredPermissions: ['Tracking|President', 'Access|All']
+      },
+      {
+        title: 'إدارة الإعلانات',
+        url: '/announcements',
+        icon: 'ellipsis',
+        shortcut: ['r', 'r'],
+        requiredPermissions: ['President|GetAnnouncements', 'Access|All']
       }
     ]
   }
@@ -576,6 +583,13 @@ export const navItems: NavItem[] = [
         icon: 'ellipsis',
         shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetCustomWorkflows', 'Access|All']
+      },
+      {
+        title: 'إدارة الإعلانات',
+        url: '/announcements',
+        icon: 'ellipsis',
+        shortcut: ['r', 'r'],
+        requiredPermissions: ['Settings|GetAnnouncements', 'Access|All']
       }
       // {
       //   title: 'إدارة أذونات الكتب الخارجية',

@@ -1,5 +1,4 @@
-﻿using BDFM.Application.Contracts.AI;
-using BDFM.Application.Contracts.Identity;
+﻿using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Helper;
 using BDFM.Application.Services;
 using BDFM.Domain.Entities.Core;
@@ -23,7 +22,6 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateIncomingInter
             ICurrentUserService currentUserService,
             IBaseRepository<User> userRepository,
             IAuditTrailService auditTrailService,
-            IRAGService ragService,
             IMailNumberGenerator mailNumberGenerator)
         {
             _correspondencRepository = correspondencRepository;

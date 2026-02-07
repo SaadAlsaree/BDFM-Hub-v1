@@ -37,3 +37,15 @@ export const defaultWorkflowStepsStatisticsQuery: WorkflowStepsStatisticsQuery =
     startDate: undefined,
     endDate: undefined
   };
+
+export interface IDelayedStepsReportQuery {
+  organizationalUnitId?: string;
+  includeUsers?: boolean;
+  includeUnits?: boolean;
+}
+
+export const defaultDelayedStepsReportQuery: IDelayedStepsReportQuery = {
+  organizationalUnitId: undefined,
+  includeUsers: true,
+  includeUnits: true
+};

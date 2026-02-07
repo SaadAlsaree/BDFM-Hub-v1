@@ -1,5 +1,4 @@
 ﻿
-using BDFM.Application.Contracts.AI;
 using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Helper;
 using BDFM.Application.Services;
@@ -24,7 +23,6 @@ namespace BDFM.Application.Features.Correspondences.Commands.CreateOutgoingInter
             IBaseRepository<CorrespondenceLink> correspondencLinkRepository,
             ICurrentUserService currentUserService,
             IAuditTrailService auditTrailService,
-            IRAGService ragService,
             IMailNumberGenerator mailNumberGenerator,
             IBaseRepository<User> userRepository)
         {

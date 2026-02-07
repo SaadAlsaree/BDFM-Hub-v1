@@ -1,4 +1,3 @@
-using BDFM.Application.Contracts.AI;
 using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Contracts.SignalR;
 using BDFM.Application.Helper;

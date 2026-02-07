@@ -56,6 +56,7 @@ namespace BDFM.Persistence
         public DbSet<SystemTagTemplate> SystemTagTemplates { get; set; }
         public DbSet<UserCorrespondenceInteraction> UserCorrespondenceInteractions { get; set; }
         public DbSet<CorrespondenceComment> CorrespondenceComments { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
         #endregion
 
         #region Configuration Entities

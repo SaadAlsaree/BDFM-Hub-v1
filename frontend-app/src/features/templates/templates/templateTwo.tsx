@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     fontFamily: arabicFontFamily
   },
   mainContent: {
-    marginTop: 10,
+    marginTop: 30,
     textAlign: 'right',
     lineHeight: 1.8,
     fontSize: 11,
@@ -327,7 +327,7 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
         </View>
 
         {/* Main Content */}
-        <View style={{ marginTop: 40, alignSelf: 'flex-end' }}>
+        {/* <View style={{ marginTop: 40, alignSelf: 'flex-end' }}>
           <Text
             style={{
               fontSize: 12,
@@ -337,7 +337,7 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
           >
             ... تحية طيبة
           </Text>
-        </View>
+        </View> */}
         <View style={styles.mainContent}>
           <Text style={styles.bodyText}>{formData?.bodyText}</Text>
         </View>

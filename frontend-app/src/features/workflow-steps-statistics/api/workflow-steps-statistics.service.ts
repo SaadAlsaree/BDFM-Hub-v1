@@ -1,5 +1,6 @@
 import { axiosInstance } from '@/lib/axios';
 import {
+  IDelayedStepsReportQuery,
   WorkflowStepsStatisticsQuery,
   WorkflowStepsStatisticsResponse
 } from '../types/workflow-steps-statistics';
@@ -15,6 +16,22 @@ export const workflowStepsStatisticsService = {
         { params: query }
       );
       return response.data as WorkflowStepsStatisticsResponse;
+    } catch (error) {
+      console.error('Error getting workflow steps statistics by unit:', error);
+      return null;
+    }
+  },
+  ///BDFM/v1/api/Workflow/DownloadDelayedStepsReport
+  async downloadDelayedStepsReport(query?: IDelayedStepsReportQuery) {
+    try {
+      const response = await axiosInstance.get(
+        `${baseUrl}/Workflow/DownloadDelayedStepsReport`,
+        { 
+          params: query,
+          responseType: 'blob'
+        }
+      );
+      return response.data; // return file
     } catch (error) {
       console.error('Error getting workflow steps statistics by unit:', error);
       return null;

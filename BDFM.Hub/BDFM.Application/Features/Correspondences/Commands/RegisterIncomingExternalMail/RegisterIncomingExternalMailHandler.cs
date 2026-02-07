@@ -1,4 +1,3 @@
-using BDFM.Application.Contracts.AI;
 using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Contracts.SignalR;
 using BDFM.Application.Helper;
@@ -35,7 +34,6 @@ namespace BDFM.Application.Features.Correspondences.Commands.RegisterIncomingExt
             ICorrespondenceNotificationService notificationService,
             ILogger<RegisterIncomingExternalMailHandler> logger,
             IAuditTrailService auditTrailService,
-            IRAGService ragService,
             IMailNumberGenerator mailNumberGenerator)
         {
             _correspondenceRepository = correspondenceRepository;

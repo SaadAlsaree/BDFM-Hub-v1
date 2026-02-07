@@ -2185,6 +2185,86 @@ namespace BDFM.Persistence.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Supporting.Announcement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DoneProcdureDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LastUpdateBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OrganizationalUnitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Variant")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EndDate");
+
+                    b.HasIndex("IsActive");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("OrganizationalUnitId");
+
+                    b.HasIndex("StartDate");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Announcements");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Supporting.CorrespondenceComment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3919,6 +3999,25 @@ namespace BDFM.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BDFM.Domain.Entities.Supporting.Announcement", b =>
+                {
+                    b.HasOne("BDFM.Domain.Entities.Core.OrganizationalUnit", "OrganizationalUnit")
+                        .WithMany("Announcements")
+                        .HasForeignKey("OrganizationalUnitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BDFM.Domain.Entities.Core.User", "User")
+                        .WithMany("Announcements")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OrganizationalUnit");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BDFM.Domain.Entities.Supporting.CorrespondenceComment", b =>
                 {
                     b.HasOne("BDFM.Domain.Entities.Core.Correspondence", "Correspondence")
@@ -4301,6 +4400,8 @@ namespace BDFM.Persistence.Migrations
 
             modelBuilder.Entity("BDFM.Domain.Entities.Core.OrganizationalUnit", b =>
                 {
+                    b.Navigation("Announcements");
+
                     b.Navigation("ChildUnits");
 
                     b.Navigation("CorrespondenceTemplates");
@@ -4325,6 +4426,8 @@ namespace BDFM.Persistence.Migrations
             modelBuilder.Entity("BDFM.Domain.Entities.Core.User", b =>
                 {
                     b.Navigation("AddedRelatedPriorities");
+
+                    b.Navigation("Announcements");
 
                     b.Navigation("AppliedCorrespondenceTags");
 

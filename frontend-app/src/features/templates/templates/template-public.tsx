@@ -342,7 +342,7 @@ const TemplatePublicRenderer = ({ formData }: TemplatePublicProps) => {
         </PDFView>
 
         {/* Main Content */}
-        <PDFView style={{ marginTop: 40, alignSelf: 'flex-end' }}>
+        {/* <PDFView style={{ marginTop: 40, alignSelf: 'flex-end' }}>
           <PDFText
             style={{
               fontSize: 12,
@@ -352,7 +352,7 @@ const TemplatePublicRenderer = ({ formData }: TemplatePublicProps) => {
           >
             ... تحية طيبة
           </PDFText>
-        </PDFView>
+        </PDFView> */}
         <PDFView style={styles.mainContent}>
           <PDFText style={styles.bodyText}>{formData?.bodyText}</PDFText>
         </PDFView>
@@ -450,6 +450,8 @@ const TemplatePublic = (props: TemplatePublicProps) => {
   const [error, setError] = React.useState<string | null>(null);
 
   const generatePDF = React.useCallback(async () => {
+    if (!props.formData) return;
+
     try {
       setIsGenerating(true);
       setError(null);

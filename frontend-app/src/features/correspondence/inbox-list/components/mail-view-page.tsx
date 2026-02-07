@@ -347,7 +347,7 @@ export default function MailViewPage({ data }: Props) {
 
         <div className='flex gap-2'>
           {(data.isDraft ||
-            data.correspondenceStatus == 11 ||
+            data.correspondenceStatus == 5 ||
             data.correspondenceType === 0) && (
             <Button
               onClick={() =>

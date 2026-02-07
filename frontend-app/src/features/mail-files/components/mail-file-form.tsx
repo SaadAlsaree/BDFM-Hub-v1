@@ -45,7 +45,7 @@ export default function MailFileForm({
 }: MailFileFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const {} = useAuthApi(); // Auth API hook for future use if needed
+  const {authApiCall} = useAuthApi(); // Auth API hook for future use if needed
 
   // initial values
   const defaultValues = initialData

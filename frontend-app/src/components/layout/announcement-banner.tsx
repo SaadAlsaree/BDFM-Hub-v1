@@ -11,6 +11,9 @@ import {
   MarqueeItem,
 } from '@/components/ui/marquee';
 
+import { useActiveAnnouncements } from '@/features/announcements/api/use-announcements';
+import { formatDateWithArabicNumerals } from '@/utils/arabic-numerals';
+
 interface AnnouncementBannerProps {
   /**
    * The announcement message to display
@@ -29,50 +32,6 @@ interface AnnouncementBannerProps {
    */
   className?: string;
 }
-
-const features = [
-  {
-    id: '1',
-    title: 'نظام الكتب الرسمية',
-    description: 'إدارة وتتبع الكتب الرسمية والمراسلات الإدارية بكل سهولة وأمان.',
-    variant: 'info', 
-    username: 'سعد ناظم جابر',
-    organization: 'مديرية الذكاء الاصطناعي',
-    createdAt: '2026-01-12',
-    
-  },
- 
-  {
-    id: '2',
-    title: 'الإشعارات الفورية',
-    description: 'وصول تنبيهات فورية عند استلام كتب جديدة أو تحديث حالة الكتب الحالية.',
-    variant: 'warning',
-    username: 'سعد ناظم جابر',
-    organization: 'مديرية الذكاء الاصطناعي',
-    createdAt: '2026-01-12',
-    
-  },
-  {
-    id: '3',
-    title: 'البحث المتقدم',
-    description: 'إمكانية البحث في الأرشيف والكتب بسرعة البرق باستخدام تقنيات بحث متطورة.',
-    variant: 'info',
-    username: 'سعد ناظم جابر',
-    organization: 'مديرية الذكاء الاصطناعي',
-    createdAt: '2026-01-12',
-    
-  },
-  {
-    id: '4',
-    title: 'واجهة مستخدم حديثة',
-    description: 'تصميم عصري وسلس يوفر تجربة مستخدم متميزة وتفاعلية.',
-    variant: 'success',
-    username: 'سعد ناظم جابر',
-    organization: 'مديرية الذكاء الاصطناعي',
-    createdAt: '2026-01-12',
-    
-  }
-];
 
 interface AnnouncementContextType {
   isVisible: boolean;
@@ -140,6 +99,7 @@ export function AnnouncementBanner({
   className,
 }: Omit<AnnouncementBannerProps, 'storageKey' | 'message' | 'variant'>) {
   const { isVisible, toggleVisibility, isClient } = useAnnouncement();
+  const { data: announcementData, isLoading } = useActiveAnnouncements({page:1,pageSize:100});
 
   const handleClose = () => {
     toggleVisibility();
@@ -147,6 +107,12 @@ export function AnnouncementBanner({
 
   // Don't render on server to avoid hydration mismatch
   if (!isClient) {
+    return null;
+  }
+
+  const announcements = announcementData?.data?.items || [];
+
+  if (!isLoading && announcements.length === 0) {
     return null;
   }
 
@@ -166,59 +132,66 @@ export function AnnouncementBanner({
         <div className=" w-full flex items-center justify-between gap-4">
           {/* Icon and Marquee */}
           <div className="flex flex-1 items-center gap-3 overflow-hidden">
-            <Marquee dir="rtl" className="py-2">
-              <MarqueeContent>
-                {features.map((feature) => (
-                  <MarqueeItem key={feature.id} asChild>
-                    <div className={cn(
-                      "flex w-[700px] flex-col gap-2 rounded-lg border p-4 shadow-md hover:shadow-lg hover:border-primary/50 transition-all duration-200",
-                      itemStyles[feature.variant as keyof typeof itemStyles]
-                    )}>
-                      {/* Header: Title */}
-                      <div className="flex items-start gap-2 pb-2 border-b border-current/10">
-                        <IconInfoCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                        <div className="flex-1">
-                          <h3 className="text-sm font-bold leading-tight">
-                            {feature.title}
-                          </h3>
+            {isLoading ? (
+              <div className="flex w-full items-center justify-center py-4">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                <span className="mr-2 text-xs opacity-70">جاري تحميل الإعلانات...</span>
+              </div>
+            ) : (
+              <Marquee dir="rtl" className="py-2">
+                <MarqueeContent>
+                  {announcements.map((announcement) => (
+                    <MarqueeItem key={announcement.id} asChild>
+                      <div className={cn(
+                        "flex w-[700px] flex-col gap-2 rounded-lg border p-4 shadow-md hover:shadow-lg hover:border-primary/50 transition-all duration-200",
+                        itemStyles[(announcement.variant as 'info' | 'warning' | 'success') || 'info']
+                      )}>
+                        {/* Header: Title */}
+                        <div className="flex items-start gap-2 pb-2 border-b border-current/10">
+                          <IconInfoCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1">
+                            <h3 className="text-sm font-bold leading-tight">
+                              {announcement.title}
+                            </h3>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Description */}
-                      <p className="line-clamp-2 text-xs leading-relaxed opacity-90">
-                        {feature.description}
-                      </p>
+                        {/* Description */}
+                        <p className="line-clamp-2 text-xs leading-relaxed opacity-90">
+                          {announcement.description}
+                        </p>
 
-                      {/* Metadata Footer */}
-                      <div className="flex flex-row items-center justify-between gap-2 pt-2 border-t border-current/10 text-[10px] opacity-75">
-                        {/* User & Organization */}
-                        <div className="flex items-center gap-3 flex-1 min-w-0">
-                          {/* User */}
-                          <div className="flex items-center gap-1.5">
-                            <IconUser className="h-3 w-3 flex-shrink-0" />
-                            <span className="font-medium truncate">{feature.username}</span>
+                        {/* Metadata Footer */}
+                        <div className="flex flex-row items-center justify-between gap-2 pt-2 border-t border-current/10 text-[10px] opacity-75">
+                          {/* User & Organization */}
+                          <div className="flex items-center gap-3 flex-1 min-w-0">
+                            {/* User */}
+                            <div className="flex items-center gap-1.5">
+                              <IconUser className="h-3 w-3 flex-shrink-0" />
+                              <span className="font-medium truncate">{announcement.userFullName}</span>
+                            </div>
+                            
+                            {/* Organization */}
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <IconBuilding className="h-3 w-3 flex-shrink-0" />
+                              <span className="truncate">{announcement.unitName}</span>
+                            </div>
                           </div>
                           
-                          {/* Organization */}
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <IconBuilding className="h-3 w-3 flex-shrink-0" />
-                            <span className="truncate">{feature.organization}</span>
+                          {/* Date */}
+                          <div className="flex items-center gap-1.5 flex-shrink-0">
+                            <IconCalendar className="h-3 w-3 flex-shrink-0" />
+                            <span dir="ltr">{formatDateWithArabicNumerals(announcement.createAt)}</span>
                           </div>
                         </div>
-                        
-                        {/* Date */}
-                        <div className="flex items-center gap-1.5 flex-shrink-0">
-                          <IconCalendar className="h-3 w-3 flex-shrink-0" />
-                          <span dir="ltr">{feature.createdAt}</span>
-                        </div>
                       </div>
-                    </div>
-                  </MarqueeItem>
-                ))}
-              </MarqueeContent>
-              <MarqueeEdge side="left" className="w-12 bg-gradient-to-r from-background to-transparent" />
-              <MarqueeEdge side="right" className="w-12 bg-gradient-to-l from-background to-transparent" />
-            </Marquee>
+                    </MarqueeItem>
+                  ))}
+                </MarqueeContent>
+                <MarqueeEdge side="left" className="w-12 bg-gradient-to-r from-background to-transparent" />
+                <MarqueeEdge side="right" className="w-12 bg-gradient-to-l from-background to-transparent" />
+              </Marquee>
+            )}
           </div>
 
           {/* Close Button */}

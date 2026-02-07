@@ -42,5 +42,7 @@ namespace BDFM.Domain.Entities.Core
 
         // Leave Request Navigation Properties
         public virtual ICollection<LeaveRequest> LeaveRequests { get; set; } = new HashSet<LeaveRequest>();
+
+        public virtual ICollection<Announcement> Announcements { get; set; } = new HashSet<Announcement>();
     }
 }

@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     fontFamily: arabicFontFamily
   },
   mainContent: {
-    marginTop: 10,
+    marginTop: 30,
     textAlign: 'right',
     lineHeight: 1.8,
     fontSize: 11,
@@ -326,7 +326,7 @@ const OfficialDocument = ({ formData, attachments }: OfficialDocumentProps) => {
         </View>
 
         {/* Main Content */}
-        <View style={{ marginTop: 40, alignSelf: 'flex-end' }}>
+        {/* <View style={{ marginTop: 40, alignSelf: 'flex-end' }}>
           <Text
             style={{
               fontSize: 12,
@@ -336,7 +336,7 @@ const OfficialDocument = ({ formData, attachments }: OfficialDocumentProps) => {
           >
             ... تحية طيبة
           </Text>
-        </View>
+        </View> */}
         <View style={styles.mainContent}>
           <Text style={styles.bodyText}>{formData?.bodyText}</Text>
         </View>

@@ -1,4 +1,3 @@
-using BDFM.Application.Contracts.AI;
 using BDFM.Application.Exceptions;
 using BDFM.Application.Helper;
 using BDFM.Application.Services;
@@ -23,7 +22,6 @@ namespace BDFM.Application.Features.Correspondences.Commands.RegisterOutgoingExt
             IBaseRepository<MailFile> mailFileRepository,
             IBaseRepository<User> userRepository,
             IAuditTrailService auditTrailService,
-            IRAGService ragService,
             IMailNumberGenerator mailNumberGenerator)
         {
             _correspondenceRepository = correspondenceRepository;
