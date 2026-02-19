@@ -6,7 +6,8 @@ import {
   UserPayloadDto,
   ChangePasswordRequest,
   ResetPasswordRequest,
-  ChangeStatus
+  ChangeStatus,
+  ImportFromCsvResponse
 } from '@/features/users/types/user';
 
 const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
@@ -262,6 +263,31 @@ export const userService = {
       return response.data;
     } catch (error) {
       // console.error(`Exception searching user with term "${term}":`, error);
+      return null;
+    }
+  },
+
+  async importFromCsv(file: File) {
+    try {
+      const formData = new FormData();
+      formData.append('File', file);
+
+      const response = await axiosClient.post(
+        `${baseUrl}/User/ImportFromCsv`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      if (response.status >= 400) {
+        return null;
+      }
+
+      return (response.data as IResponse<ImportFromCsvResponse>) || null;
+    } catch (error) {
       return null;
     }
   }

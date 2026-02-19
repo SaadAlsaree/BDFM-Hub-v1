@@ -4,6 +4,7 @@ import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
 import UserListingPage from '@/features/users/components/user-listing';
+import UserImportCsvButton from '@/features/users/components/user-import-csv-button';
 import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
 import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
@@ -56,12 +57,15 @@ export default async function Page(props: pageProps) {
             title='المستخدمين'
             description='إدارة المستخدمين ووصولاتهم'
           />
-          <Link
-            href='/users/new'
-            className={cn(buttonVariants(), 'text-xs md:text-sm')}
-          >
-            <IconPlus className='mr-2 h-4 w-4' /> إضافة مستخدم جديد
-          </Link>
+          <div className='flex items-center gap-2'>
+            <UserImportCsvButton />
+            <Link
+              href='/users/new'
+              className={cn(buttonVariants(), 'text-xs md:text-sm')}
+            >
+              <IconPlus className='mr-2 h-4 w-4' /> إضافة مستخدم جديد
+            </Link>
+          </div>
         </div>
         <Separator />
         <Suspense

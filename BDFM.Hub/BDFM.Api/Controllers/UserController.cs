@@ -1,5 +1,6 @@
 using BDFM.Application.Features.Users.Commands.ChangePassword;
 using BDFM.Application.Features.Users.Commands.CreateUser;
+using BDFM.Application.Features.Users.Commands.InportFromCsv;
 using BDFM.Application.Features.Users.Commands.ResetPassword;
 using BDFM.Application.Features.Users.Commands.UpdateUser;
 using BDFM.Application.Features.Users.Commands.UpdateUserRoles;
@@ -169,5 +170,16 @@ public class UserController : Base<UserController>
     }
 
 
+    /// <summary>
+    /// Imports users from a CSV file
+    /// </summary>
+    [HttpPost]
+    [ServiceFilter(typeof(LogActionArguments))]
+    [ProducesResponseType(typeof(Response<ImportFromCsvResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Response<ImportFromCsvResponse>>> ImportFromCsv([FromForm] ImportFromCsvCommand command)
+    {
+        return await Okey(() => _mediator.Send(command));
+    }
 
 }

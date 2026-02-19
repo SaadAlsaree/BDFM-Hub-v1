@@ -135,3 +135,10 @@ export interface RemoveUserPermissionDto {
   userId: string;
   permissionId: string;
 }
+
+export interface ImportFromCsvResponse {
+  totalRows: number;
+  successCount: number;
+  failedCount: number;
+  errors: string[];
+}
