@@ -1,7 +1,8 @@
 using BDFM.Application.Features.Dashboard.Queries.GetBacklogDetails;
 using BDFM.Application.Features.Dashboard.Queries.GetCorrespondenceMetrics;
-using BDFM.Application.Features.Dashboard.Queries.GetDashboardOverview;
 using BDFM.Application.Features.Dashboard.Queries.GetDailyPerformanceSummary;
+using BDFM.Application.Features.Dashboard.Queries.GetDashboardOverview;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -9,7 +10,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Dashboard")]
-[Permission]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 public class DashboardController : Base<DashboardController>
 {
     private readonly IMediator _mediator;

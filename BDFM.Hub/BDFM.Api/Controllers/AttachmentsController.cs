@@ -1,10 +1,12 @@
+using BDFM.Api.Attributes;
+using BDFM.Application.Contracts.Identity;
 using BDFM.Application.Features.Attachments.Commands.CreateAttachments;
-using BDFM.Application.Features.Attachments.Commands.UpdateAttachments;
 using BDFM.Application.Features.Attachments.Commands.DeleteAttachments;
+using BDFM.Application.Features.Attachments.Commands.UpdateAttachments;
 using BDFM.Application.Features.Attachments.Queries.GetAttachmentById;
 using BDFM.Application.Features.Attachments.Queries.GetAttachmentsList;
 using BDFM.Application.Features.Attachments.Queries.GetAttachmentsListByPrimaryTableId;
-using BDFM.Api.Attributes;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -13,16 +15,19 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Attachments")]
-[SkipAntiXssValidation] // Skip XSS validation for file upload operations
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class AttachmentsController : Base<AttachmentsController>
 {
     private readonly IMediator _mediator;
+    private readonly ICurrentUserService _currentUserService;
 
-    public AttachmentsController(ILogger<AttachmentsController> logger, IMediator mediator)
+    public AttachmentsController(ILogger<AttachmentsController> logger, IMediator mediator, ICurrentUserService currentUserService)
         : base(logger)
     {
         _mediator = mediator;
+        _currentUserService = currentUserService;
     }
 
     /// <summary>
@@ -117,6 +122,8 @@ public class AttachmentsController : Base<AttachmentsController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DownloadAttachment([FromRoute] Guid id)
     {
@@ -126,6 +133,31 @@ public class AttachmentsController : Base<AttachmentsController>
             return BadRequest(result);
 
         var attachment = result.Data;
+        
+        // Security: Verify user has permission to access this attachment
+        // This prevents IDOR (Insecure Direct Object Reference) attacks
+        var currentUserId = _currentUserService.UserId;
+        var userUnitId = _currentUserService.OrganizationalUnitId;
+        var userRoles = _currentUserService.GetRoles();
+        
+        // Allow download if:
+        // 1. User is the attachment creator
+        // 2. User has SuAdmin or President role
+        // 3. Attachment belongs to correspondence in user's unit and user has Manager role
+        var isCreator = attachment.CreateBy == currentUserId;
+        var isAdmin = userRoles.Contains("SuAdmin") || userRoles.Contains("President");
+        var isManagerInUnit = userRoles.Contains("Manager") && 
+                                 userUnitId.HasValue && 
+                                 attachment.PrimaryTableId.HasValue && 
+                                 attachment.PrimaryTableId == userUnitId.Value;
+        
+        var canAccess = isCreator || isAdmin || isManagerInUnit;
+        
+        if (!canAccess)
+        {
+            return Forbid();
+        }
+        
         var fileBytes = Convert.FromBase64String(attachment.FileBase64);
 
         return File(fileBytes,

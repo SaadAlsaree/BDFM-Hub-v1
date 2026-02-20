@@ -4,6 +4,7 @@ using BDFM.Application.Features.CustomWorkflows.Commands.SoftDeleteCustomWorkflo
 using BDFM.Application.Features.CustomWorkflows.Commands.UpdateCustomWorkflow;
 using BDFM.Application.Features.CustomWorkflows.Queries.GetCustomWorkflowById;
 using BDFM.Application.Features.CustomWorkflows.Queries.GetCustomWorkflowList;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -11,6 +12,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("CustomWorkflows")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class CustomWorkflowsController : Base<CustomWorkflowsController>
 {

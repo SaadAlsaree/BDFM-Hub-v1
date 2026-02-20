@@ -3,6 +3,7 @@ using BDFM.Application.Features.Security.Permissions.Commands.DeletePermission;
 using BDFM.Application.Features.Security.Permissions.Commands.UpdatePermission;
 using BDFM.Application.Features.Security.Permissions.Queries.GetPermissionById;
 using BDFM.Application.Features.Security.Permissions.Queries.GetPermissionList;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -10,6 +11,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Permissions")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "SuAdmin, President, Admin")]
 //[Permission]
 public class PermissionController : Base<PermissionController>
 {

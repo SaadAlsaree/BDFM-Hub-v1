@@ -3,6 +3,7 @@ using BDFM.Application.Features.WorkflowTodo.Commands.DeleteWorkflowTodo;
 using BDFM.Application.Features.WorkflowTodo.Commands.UpdateStatusWorkflowTodo;
 using BDFM.Application.Features.WorkflowTodo.Commands.UpdateWorkflowTodo;
 using BDFM.Application.Features.WorkflowTodo.Queries.GetWorkflowTodoByWorkflowId;
+using Microsoft.AspNetCore.RateLimiting;
 
 
 namespace BDFM.Api.Controllers;
@@ -11,7 +12,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("WorkflowTodo")]
-//[Authorize(Policy = "Auth")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 public class WorkflowTodoController : Base<WorkflowTodoController>
 {
     private readonly IMediator _mediator;

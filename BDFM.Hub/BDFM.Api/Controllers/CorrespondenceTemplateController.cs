@@ -4,6 +4,7 @@ using BDFM.Application.Features.Administration.Templates.Commands.UpdateCorrespo
 using BDFM.Application.Features.Administration.Templates.Queries.GetCorrespondenceTemplateById;
 using BDFM.Application.Features.Administration.Templates.Queries.GetCorrespondenceTemplateList;
 using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
+using Microsoft.AspNetCore.RateLimiting;
 
 
 namespace BDFM.Api.Controllers;
@@ -12,6 +13,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("CorrespondenceTemplates")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class CorrespondenceTemplateController : Base<CorrespondenceTemplateController>
 {

@@ -4,6 +4,7 @@ using BDFM.Application.Features.Security.Delegations.Commands.UpdateDelegation;
 using BDFM.Application.Features.Security.Delegations.Queries;
 using BDFM.Application.Features.Security.Delegations.Queries.GetDelegationById;
 using BDFM.Application.Features.Security.Delegations.Queries.GetDelegationList;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -11,6 +12,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Delegations")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class DelegationController : Base<DelegationController>
 {

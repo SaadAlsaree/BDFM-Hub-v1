@@ -1,10 +1,14 @@
-﻿using BDFM.Application.Contract.Identity;
+using BDFM.Api.Attributes;
+using BDFM.Application.Contract.Identity;
 using BDFM.Application.Models.Authentication;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [FixedWindowRateLimit] // Apply strict rate limiting to prevent brute force
+    [EnableRateLimiting("fixed")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;

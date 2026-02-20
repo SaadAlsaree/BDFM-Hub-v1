@@ -2,6 +2,7 @@ using BDFM.Application.Features.Security.UserPermissions.Commands.AssignPermissi
 using BDFM.Application.Features.Security.UserPermissions.Commands.CreateUserPermissions;
 using BDFM.Application.Features.Security.UserPermissions.Commands.RemovePermissionFromUser;
 using BDFM.Application.Features.Security.UserPermissions.Queries.GetPermissionsByUserId;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -9,7 +10,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("UserPermissions")]
-[Permission]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "SuAdmin, President, Admin")]
 public class UserPermissionController : Base<UserPermissionController>
 {
     private readonly IMediator _mediator;

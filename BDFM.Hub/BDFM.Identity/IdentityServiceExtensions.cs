@@ -82,6 +82,27 @@ namespace BDFM.Identity
                         }
                     };
                 });
+            services.AddAuthorization(cfg =>
+                {
+                    cfg.AddPolicy("SuAdmin", policy => policy.RequireClaim("role", "SuAdmin"));
+                    cfg.AddPolicy("Correspondence", policy => policy.RequireClaim("role", "Correspondence"));
+                    cfg.AddPolicy("Admin", policy => policy.RequireClaim("role", "Admin"));
+                    cfg.AddPolicy("Tracking", policy => policy.RequireClaim("role", "Tracking"));
+                    cfg.AddPolicy("FileManagement", policy => policy.RequireClaim("role", "FileManagement"));
+                    cfg.AddPolicy("Settings", policy => policy.RequireClaim("role", "Settings"));
+                    cfg.AddPolicy("Reports", policy => policy.RequireClaim("role", "Reports"));
+                    cfg.AddPolicy("Security", policy => policy.RequireClaim("role", "Security"));
+                    cfg.AddPolicy("Reports", policy => policy.RequireClaim("role", "Reports"));
+                    cfg.AddPolicy("Support", policy => policy.RequireClaim("role", "Support"));
+                    cfg.AddPolicy("User", policy => policy.RequireClaim("role", "User"));
+                    cfg.AddPolicy("Manager", policy => policy.RequireClaim("role", "Manager"));
+                    cfg.AddPolicy("President", policy => policy.RequireClaim("role", "President"));
+                    cfg.AddPolicy("Orders", policy => policy.RequireClaim("role", "Orders"));
+                    cfg.AddPolicy("Vacation", policy => policy.RequireClaim("role", "Vacation"));
+                    // Added Auth policy for generic authenticated access
+                    cfg.AddPolicy("Auth", policy => policy.RequireAuthenticatedUser());
+                }
+                );
         }
     }
 }

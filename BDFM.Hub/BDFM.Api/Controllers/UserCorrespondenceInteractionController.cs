@@ -3,6 +3,7 @@ using BDFM.Application.Features.UserCorrespondenceInteractionFeatures.IsPostpone
 using BDFM.Application.Features.UserCorrespondenceInteractionFeatures.IsRead;
 using BDFM.Application.Features.UserCorrespondenceInteractionFeatures.IsStarred;
 using BDFM.Application.Features.UserCorrespondenceInteractionFeatures.ReceiveNotifications;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers
 {
@@ -11,6 +12,8 @@ namespace BDFM.Api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Tags("UserCorrespondenceInteraction")]
+    [EnableRateLimiting("per-user")]
+    [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
     //[Permission]
 
     public class UserCorrespondenceInteractionController : Base<UserCorrespondenceInteractionController>

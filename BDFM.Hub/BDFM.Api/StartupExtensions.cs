@@ -1,5 +1,7 @@
-﻿using BDFM.Application.Hubs;
+using BDFM.Application.Hubs;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Text.Json;
+using System.Threading.RateLimiting;
 
 namespace BDFM.Api;
 
@@ -38,14 +40,59 @@ public static class StartupExtensions
         builder.Services.AddControllers();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddCors(options =>
+        // Add Rate Limiter
+        builder.Services.AddRateLimiter(cfg =>
         {
-            options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            options.AddPolicy("AllowSpecificOrigin", builder =>
-                builder.WithOrigins("http://cm.inss.local:3000", "http://localhost:3000", "http://192.168.25.34:3000", "http://cm.inss.local", "http://192.168.25.207:3000")
-                       .AllowAnyHeader()
-                       .AllowAnyMethod()
-                       .AllowCredentials());
+            cfg.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            cfg.AddFixedWindowLimiter(policyName: "fixed", options =>
+            {
+                options.PermitLimit = 5;
+                options.Window = TimeSpan.FromMinutes(1);
+
+            });
+
+            cfg.AddPolicy("per-user", httpContext =>
+            {
+                // Check multiple claim types for user ID since MapInboundClaims=false
+                var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                             httpContext.User.FindFirstValue("sub") ??
+                             httpContext.User.FindFirstValue("uid") ??
+                             httpContext.User.FindFirstValue("id");
+
+                if (!string.IsNullOrWhiteSpace(userId))
+                {
+                    return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
+                    {
+                        TokenLimit = 50,
+                        TokensPerPeriod = 25,
+                        ReplenishmentPeriod = TimeSpan.FromMinutes(1)
+                    });
+                }
+
+                return RateLimitPartition.GetFixedWindowLimiter("anonymous", _ => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 5,
+                    Window = TimeSpan.FromMinutes(1)
+                });
+            });
+        });
+
+        // Register anti-forgery services
+        builder.Services.AddAntiforgery();
+
+        // Register CORS policy
+        builder.Services.AddCors(option =>
+            option.AddPolicy("AllowSpecificOrigin", policy =>
+            policy.WithOrigins("http://localhost:3000", "http://cm.inss.local:3000", "http://cm.inss.local") // Add your Flutter app URL here
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+      )
+  );
+
+        // Register rate limit filter globally
+        builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<Helpers.RateLimitFilter>();
         });
 
         return builder.Build();
@@ -70,11 +117,18 @@ public static class StartupExtensions
 
         app.UseAuthentication();
 
+
         app.UseCustomExceptionHandler();
 
         app.UseCors("AllowSpecificOrigin");
 
         app.UseAuthorization();
+
+        // Add anti-forgery middleware
+        app.UseAntiforgery();
+
+        // Rate limiting should be after authentication/authorization so we can identify the user
+        app.UseRateLimiter();
 
         app.MapControllers();
 

@@ -3,6 +3,7 @@ using BDFM.Application.Features.CustomWorkflowSteps.Commands.DeteleCustomWorkflo
 using BDFM.Application.Features.CustomWorkflowSteps.Commands.UpdateCustomWorkflowStep;
 using BDFM.Application.Features.CustomWorkflowSteps.Queries.GetCustomWorkflowStepById;
 using BDFM.Application.Features.CustomWorkflowSteps.Queries.GetCustomWorkflowStepList;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -10,6 +11,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("CustomWorkflowSteps")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class CustomWorkflowStepsController : Base<CustomWorkflowStepsController>
 {

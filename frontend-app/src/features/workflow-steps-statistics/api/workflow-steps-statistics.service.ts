@@ -5,7 +5,8 @@ import {
   WorkflowStepsStatisticsResponse
 } from '../types/workflow-steps-statistics';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl =
+  process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
 
 export const workflowStepsStatisticsService = {
   ///BDFM/v1/api/Workflow/GetWorkflowStepsStatisticsByUnit
@@ -26,7 +27,7 @@ export const workflowStepsStatisticsService = {
     try {
       const response = await axiosInstance.get(
         `${baseUrl}/Workflow/DownloadDelayedStepsReport`,
-        { 
+        {
           params: query,
           responseType: 'blob'
         }

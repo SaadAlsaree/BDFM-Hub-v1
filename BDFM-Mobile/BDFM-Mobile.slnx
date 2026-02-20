@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="BDFM-Mobile.csproj">
-    <Deploy Solution="Debug|*" />
-  </Project>
-</Solution>

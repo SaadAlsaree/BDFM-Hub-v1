@@ -6,93 +6,18 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
-  Font
+  Image
 } from '@react-pdf/renderer';
 import {
-  toArabicNumerals,
-  formatDateWithArabicNumerals
-} from '@/utils/arabic-numerals';
+  processNumberForRTLArabic,
+  formatDateForRTL
+} from '@/utils/arabic-text-processor';
+import { registerFonts, ARABIC_FONT_FAMILY } from '../utils/register-fonts';
 import moment from 'moment';
 
-// Register Cairo Arabic fonts using local files
-const registerFonts = () => {
-  try {
-    console.log('Registering local Cairo fonts for OfficialDocument...');
-
-    // Register all Cairo font weights from local files
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-Regular.ttf',
-      fontWeight: 'normal'
-    });
-
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-Bold.ttf',
-      fontWeight: 'bold'
-    });
-
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-SemiBold.ttf',
-      fontWeight: 600
-    });
-
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-Medium.ttf',
-      fontWeight: 500
-    });
-
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-Light.ttf',
-      fontWeight: 300
-    });
-
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-ExtraLight.ttf',
-      fontWeight: 200
-    });
-
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-ExtraBold.ttf',
-      fontWeight: 800
-    });
-
-    Font.register({
-      family: 'Cairo',
-      src: '/fonts/Cairo-Black.ttf',
-      fontWeight: 900
-    });
-
-    console.log('Local Cairo fonts registered successfully');
-    return 'Cairo';
-  } catch (error) {
-    console.error('Error registering local Cairo fonts:', error);
-
-    // Fallback to system fonts
-    try {
-      Font.register({
-        family: 'SystemArabic',
-        src: 'Arial',
-        fontWeight: 'normal'
-      });
-
-      console.log('System Arabic fallback registered');
-      return 'SystemArabic';
-    } catch (fallbackError) {
-      console.error('System font registration failed:', fallbackError);
-      return 'Helvetica'; // Final system fallback
-    }
-  }
-};
-
-// Register fonts and get the available font family
-const arabicFontFamily = registerFonts();
+// Register fonts
+registerFonts();
+const arabicFontFamily = ARABIC_FONT_FAMILY;
 
 // Create styles with the determined font family
 const styles = StyleSheet.create({
@@ -291,12 +216,12 @@ const TemplateTwo = ({ formData, attachments }: TemplateTwoProps) => {
           <View style={styles.documentInfoRight}>
             <Text style={styles.boldText}>
               العدد :{' '}
-              {formData?.mailNum ? toArabicNumerals(formData.mailNum) : ''}
+              {formData?.mailNum ? processNumberForRTLArabic(formData.mailNum) : ''}
             </Text>
             <Text>
               التاريخ :{' '}
               {formData?.mailDate
-                ? formatDateWithArabicNumerals(formData.mailDate)
+                ? formatDateForRTL(formData.mailDate)
                 : ''}
             </Text>
           </View>

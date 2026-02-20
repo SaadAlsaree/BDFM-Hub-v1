@@ -14,15 +14,25 @@ using BDFM.Application.Features.Correspondences.Commands.RestoreCorrespondenceFr
 using BDFM.Application.Features.Correspondences.Commands.ToggleStarCorrespondence;
 using BDFM.Application.Features.Correspondences.Commands.UnpostponeCorrespondence;
 using BDFM.Application.Features.Correspondences.Commands.UpdateCorrespondenceContent;
+using BDFM.Application.Features.Correspondences.Queries.CorrespondencesSummary;
+using BDFM.Application.Features.Correspondences.Queries.GetCompleted;
+using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceAnyWorkflowNotCompleted;
 using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceById;
 using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceIncoming;
+using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceNotCompleted;
 using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceOutgoing;
+using BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary;
+using BDFM.Application.Features.Correspondences.Queries.GetForwardedCorrespondence;
 using BDFM.Application.Features.Correspondences.Queries.GetIncomingInternal;
 using BDFM.Application.Features.Correspondences.Queries.GetLateBooks;
 using BDFM.Application.Features.Correspondences.Queries.GetLinkedCorrespondences;
+using BDFM.Application.Features.Correspondences.Queries.GetMyPendingOrInProgressCorrespondences;
 using BDFM.Application.Features.Correspondences.Queries.GetOutgoingInternal;
+using BDFM.Application.Features.Correspondences.Queries.GetPending;
 using BDFM.Application.Features.Correspondences.Queries.GetPostponedCorrespondences;
+using BDFM.Application.Features.Correspondences.Queries.GetProcessing;
 using BDFM.Application.Features.Correspondences.Queries.GetPublicCorrespondences;
+using BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing;
 using BDFM.Application.Features.Correspondences.Queries.GetSigningList;
 using BDFM.Application.Features.Correspondences.Queries.GetStarredCorrespondences;
 using BDFM.Application.Features.Correspondences.Queries.GetTrashItems;
@@ -30,16 +40,7 @@ using BDFM.Application.Features.Correspondences.Queries.GetUrgentBooks;
 using BDFM.Application.Features.Correspondences.Queries.GetUserDrafts;
 using BDFM.Application.Features.Correspondences.Queries.GetUserInbox;
 using BDFM.Application.Features.Correspondences.Queries.SearchCorrespondences;
-using BDFM.Application.Features.Correspondences.Queries.GetCorrespondencesSummary;
-using BDFM.Application.Features.Correspondences.Queries.CorrespondencesSummary;
-using BDFM.Application.Features.Correspondences.Queries.GetPending;
-using BDFM.Application.Features.Correspondences.Queries.GetProcessing;
-using BDFM.Application.Features.Correspondences.Queries.GetReturnForEditing;
-using BDFM.Application.Features.Correspondences.Queries.GetCompleted;
-using BDFM.Application.Features.Correspondences.Queries.GetForwardedCorrespondence;
-using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceAnyWorkflowNotCompleted;
-using BDFM.Application.Features.Correspondences.Queries.GetCorrespondenceNotCompleted;
-using BDFM.Application.Features.Correspondences.Queries.GetMyPendingOrInProgressCorrespondences;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.API.Controllers.Correspondence
 {
@@ -47,6 +48,8 @@ namespace BDFM.API.Controllers.Correspondence
     [ApiController]
     [Produces("application/json")]
     [Tags("Correspondence")]
+    [EnableRateLimiting("per-user")]
+    [Authorize(Roles = "Correspondence, SuAdmin")]
     public class CorrespondenceController : Base<CorrespondenceController>
     {
         private readonly IMediator _mediator;

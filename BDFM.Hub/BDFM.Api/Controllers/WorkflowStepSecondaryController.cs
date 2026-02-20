@@ -2,6 +2,7 @@ using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
 using BDFM.Application.Features.WorkflowStepSecondary.Commands.CreateWorkflowStepSecondary;
 using BDFM.Application.Features.WorkflowStepSecondary.Commands.UpdateWorkflowStepSecondary;
 using BDFM.Application.Features.WorkflowStepSecondary.Queries.GetWorkflowStepSecondaryByStepId;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -9,6 +10,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("WorkflowStepSecondary")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class WorkflowStepSecondaryController : Base<WorkflowStepSecondaryController>
 {

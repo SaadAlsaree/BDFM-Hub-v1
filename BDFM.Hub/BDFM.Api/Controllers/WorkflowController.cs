@@ -1,12 +1,13 @@
+using BDFM.Application.Contracts.Infrastructure;
 using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
 using BDFM.Application.Features.Workflow.Commands.CompleteWorkflowStep;
-using BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep;
 using BDFM.Application.Features.Workflow.Commands.CreateBulkWorkflowSteps;
+using BDFM.Application.Features.Workflow.Commands.CreateWorkflowStep;
 using BDFM.Application.Features.Workflow.Commands.LogRecipientInternalAction;
 using BDFM.Application.Features.Workflow.Commands.UpdateWorkflowStepStatus;
-using BDFM.Application.Features.Workflow.Queries.GetWorkflowStepsStatisticsByUnit;
 using BDFM.Application.Features.Workflow.Queries.GetDelayedStepsReport;
-using BDFM.Application.Contracts.Infrastructure;
+using BDFM.Application.Features.Workflow.Queries.GetWorkflowStepsStatisticsByUnit;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -14,6 +15,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Workflow")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class WorkflowController : Base<WorkflowController>
 {

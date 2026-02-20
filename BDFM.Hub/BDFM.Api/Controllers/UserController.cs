@@ -9,6 +9,7 @@ using BDFM.Application.Features.Users.Queries.GetAllUsers;
 using BDFM.Application.Features.Users.Queries.GetMe;
 using BDFM.Application.Features.Users.Queries.GetUserById;
 using BDFM.Application.Features.Users.Queries.SearchUser;
+using Microsoft.AspNetCore.RateLimiting;
 
 
 
@@ -19,6 +20,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Users")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "SuAdmin, President, Admin")]
 //[Permission]
 public class UserController : Base<UserController>
 {

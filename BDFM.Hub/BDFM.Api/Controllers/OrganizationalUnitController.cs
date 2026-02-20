@@ -7,6 +7,7 @@ using BDFM.Application.Features.OrganizationalUnits.Queries.GetOrganizationalUni
 using BDFM.Application.Features.OrganizationalUnits.Queries.GetOrganizationalUnitListById;
 using BDFM.Application.Features.OrganizationalUnits.Queries.GetOrganizationalUnitTree;
 using BDFM.Application.Features.OrganizationalUnits.Queries.SearchOrganizationalUnit;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -14,6 +15,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("OrganizationalUnits")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class OrganizationalUnitController : Base<OrganizationalUnitController>
 {

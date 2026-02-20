@@ -5,6 +5,7 @@ using BDFM.Application.Features.MailFiles.Queries.GetMailFileContents;
 using BDFM.Application.Features.MailFiles.Queries.GetMailFileList;
 using BDFM.Application.Features.MailFiles.Queries.SearchMailFIles;
 using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -12,6 +13,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("MailFiles")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class MailFileController : Base<MailFileController>
 {

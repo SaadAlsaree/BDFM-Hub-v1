@@ -1,8 +1,5 @@
-﻿using BDFM.Api.Attributes;
+using BDFM.Api.Attributes;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using System.Net;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace BDFM.API.Middleware
 {
@@ -96,9 +93,9 @@ namespace BDFM.API.Middleware
             {
                 _error = new ErrorResponse
                 {
-                    Description = "Error from Anti Xss Middleware",
-                    Message = "https://c.tenor.com/IWlyeP1ut98AAAAC/social-distancing-fuck-off-bitch.gif",
-                    ErrorCode = 500
+                    Description = "Security validation failed",
+                    Message = "Invalid input detected. Please check your request and try again.",
+                    ErrorCode = 400
                 };
             }
 

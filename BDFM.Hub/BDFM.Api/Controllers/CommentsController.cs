@@ -5,6 +5,7 @@ using BDFM.Application.Features.Comments.Queries.GetCommentsList;
 using BDFM.Application.Features.Comments.Queries.GetCommentsListByCorrespondenceId;
 using BDFM.Application.Features.Comments.Queries.SearchComments;
 using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -12,6 +13,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Comments")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class CommentsController : Base<CommentsController>
 {

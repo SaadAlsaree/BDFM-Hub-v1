@@ -10,6 +10,7 @@ using BDFM.Application.Features.LeaveRequests.Queries.GetAllLeaveRequests;
 using BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestById;
 using BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestsByEmployeeId;
 using BDFM.Application.Features.LeaveRequests.Queries.GetLeaveRequestsByStatus;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -17,6 +18,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("LeaveRequests")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 public class LeaveRequestsController : Base<LeaveRequestsController>
 {
     private readonly IMediator _mediator;

@@ -2,6 +2,7 @@
 using BDFM.Application.Features.Administration.Templates.Commands.UpdateCorrespondenceTemplate;
 using BDFM.Application.Features.Administration.Templates.Queries.GetCorrespondenceTemplateById;
 using BDFM.Application.Features.Administration.Templates.Queries.GetCorrespondenceTemplateList;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers
 {
@@ -9,7 +10,8 @@ namespace BDFM.Api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Tags("Templates")]
-    //[Authorize(Policy = "Auth")]
+    [EnableRateLimiting("per-user")]
+    [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
     //[Permission]
     public class TemplatesController : Base<AuditLogController>
     {

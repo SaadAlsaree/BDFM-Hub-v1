@@ -4,6 +4,7 @@ using BDFM.Application.Features.Administration.ExternalEntities.Commands.UpdateE
 using BDFM.Application.Features.Administration.ExternalEntities.Queries.GetExternalEntityById;
 using BDFM.Application.Features.Administration.ExternalEntities.Queries.GetExternalEntityList;
 using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -11,6 +12,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("ExternalEntities")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 //[Permission]
 public class ExternalEntityController : Base<ExternalEntityController>
 {

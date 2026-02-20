@@ -3,6 +3,7 @@ using BDFM.Application.Features.Security.UserRoles.Commands.CreateUserRoles;
 using BDFM.Application.Features.Security.UserRoles.Commands.RemoveRoleFromUser;
 using BDFM.Application.Features.Security.UserRoles.Queries.GetRolesByUserId;
 using BDFM.Application.Features.Security.UserRoles.Queries.GetUsersByRoleId;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -10,6 +11,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("UserRoles")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "SuAdmin, President, Admin")]
 //[Permission]
 public class UserRoleController : Base<UserRoleController>
 {

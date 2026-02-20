@@ -1,6 +1,0 @@
-### Variables
-@baseUrl = http://localhost:5005
-
-### Health Check - فحص حالة السيرفر
-GET {{baseUrl}}/health
-

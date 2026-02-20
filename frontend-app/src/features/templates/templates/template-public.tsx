@@ -16,9 +16,9 @@ import {
   pdfjs
 } from 'react-pdf';
 import {
-  toArabicNumerals,
-  formatDateWithArabicNumerals
-} from '@/utils/arabic-numerals';
+  processNumberForRTLArabic,
+  formatDateForRTL
+} from '@/utils/arabic-text-processor';
 import React from 'react';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -306,12 +306,12 @@ const TemplatePublicRenderer = ({ formData }: TemplatePublicProps) => {
           <PDFView style={styles.documentInfoRight}>
             <PDFText style={styles.boldText}>
               العدد :{' '}
-              {formData?.mailNum ? toArabicNumerals(formData.mailNum) : ''}
+              {formData?.mailNum ? processNumberForRTLArabic(formData.mailNum) : ''}
             </PDFText>
             <PDFText>
               التاريخ :{' '}
               {formData?.mailDate
-                ? formatDateWithArabicNumerals(formData.mailDate)
+                ? formatDateForRTL(formData.mailDate)
                 : ''}
             </PDFText>
           </PDFView>
@@ -411,7 +411,7 @@ const TemplatePublicRenderer = ({ formData }: TemplatePublicProps) => {
             {formData?.createdByUnitName}
           </PDFText>
           <PDFText style={styles.signatureText}>
-            {formatDateWithArabicNumerals(formData?.mailDate || '')}
+            {formatDateForRTL(formData?.mailDate || '')}
           </PDFText>
         </PDFView>
 

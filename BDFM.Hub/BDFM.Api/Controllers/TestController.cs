@@ -1,10 +1,11 @@
+using BDFM.Api.Attributes;
 using BDFM.Application.Contracts.SignalR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BDFM.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [DisableRateLimit] // Disable rate limiting for testing endpoints
     public class TestController : ControllerBase
     {
         private readonly ICorrespondenceNotificationService _notificationService;

@@ -1,7 +1,8 @@
 using BDFM.Application.Features.Security.AuditLogs.Queries.GetAuditLogById;
 using BDFM.Application.Features.Security.AuditLogs.Queries.GetAuditLogList;
-using BDFM.Application.Features.Security.AuditLogs.Queries.GetCorrespondenceAuditTrail;
 using BDFM.Application.Features.Security.AuditLogs.Queries.GetCorrespondenceAuditStatistics;
+using BDFM.Application.Features.Security.AuditLogs.Queries.GetCorrespondenceAuditTrail;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -9,7 +10,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("AuditLogs")]
-//[Authorize(Policy = "Auth")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "SuAdmin, President")]
 //[Permission]
 public class AuditLogController : Base<AuditLogController>
 {

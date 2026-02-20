@@ -4,8 +4,7 @@ using BDFM.Application.Features.Tags.Commands.CreateArrayTags;
 using BDFM.Application.Features.Tags.Commands.CreateTag;
 using BDFM.Application.Features.Tags.Commands.SoftDeleteTag;
 using BDFM.Application.Features.Tags.Commands.UpdateTag;
-using BDFM.Application.Features.Utility.BaseUtility.Query.GetAll;
-using BDFM.Application.Features.Utility.Services.Commands.DeleteRecord;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -13,7 +12,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Tags")]
-[Permission]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 public class TagController : Base<TagController>
 {
     private readonly IMediator _mediator;

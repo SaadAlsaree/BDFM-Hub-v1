@@ -4,6 +4,7 @@ using BDFM.Application.Features.AnnouncementFeature.Commands.UpdateAnnouncement;
 using BDFM.Application.Features.AnnouncementFeature.Queries.GetActiveAnnouncements;
 using BDFM.Application.Features.AnnouncementFeature.Queries.GetAnnouncementById;
 using BDFM.Application.Features.AnnouncementFeature.Queries.GetAnnouncements;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -11,6 +12,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Announcements")]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 public class AnnouncementController : Base<AnnouncementController>
 {
     private readonly IMediator _mediator;

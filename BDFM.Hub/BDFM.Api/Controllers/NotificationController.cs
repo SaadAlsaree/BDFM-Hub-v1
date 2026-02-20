@@ -3,6 +3,7 @@
 using BDFM.Application.Features.Notifications.Commands.MarkAllNotificationsAsRead;
 using BDFM.Application.Features.Notifications.Commands.MarkNotificationAsRead;
 using BDFM.Application.Features.Notifications.Queries.GetUserNotifications;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
 
@@ -10,7 +11,8 @@ namespace BDFM.Api.Controllers;
 [ApiController]
 [Produces("application/json")]
 [Tags("Notifications")]
-[Permission]
+[EnableRateLimiting("per-user")]
+[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
 public class NotificationController : Base<NotificationController>
 {
     private readonly IMediator _mediator;
