@@ -1,4 +1,4 @@
-import { axiosInstance } from '@/lib/axios';
+import { axiosClient, axiosInstance } from '@/lib/axios';
 import {
   IDelayedStepsReportQuery,
   WorkflowStepsStatisticsQuery,
@@ -24,7 +24,7 @@ export const workflowStepsStatisticsService = {
   ///BDFM/v1/api/Workflow/DownloadDelayedStepsReport
   async downloadDelayedStepsReport(query?: IDelayedStepsReportQuery) {
     try {
-      const response = await axiosInstance.get(
+      const response = await axiosClient.get(
         `${baseUrl}/Workflow/DownloadDelayedStepsReport`,
         {
           params: query,
