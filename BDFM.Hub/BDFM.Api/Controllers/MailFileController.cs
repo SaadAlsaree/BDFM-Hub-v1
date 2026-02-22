@@ -14,7 +14,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("MailFiles")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 //[Permission]
 public class MailFileController : Base<MailFileController>
 {

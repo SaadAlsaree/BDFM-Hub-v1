@@ -13,7 +13,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("Announcements")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 public class AnnouncementController : Base<AnnouncementController>
 {
     private readonly IMediator _mediator;

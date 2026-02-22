@@ -11,7 +11,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("Dashboard")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 public class DashboardController : Base<DashboardController>
 {
     private readonly IMediator _mediator;

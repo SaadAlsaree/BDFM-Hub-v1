@@ -16,7 +16,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("OrganizationalUnits")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 //[Permission]
 public class OrganizationalUnitController : Base<OrganizationalUnitController>
 {

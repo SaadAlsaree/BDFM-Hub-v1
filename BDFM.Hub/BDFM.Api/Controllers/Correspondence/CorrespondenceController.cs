@@ -49,7 +49,8 @@ namespace BDFM.API.Controllers.Correspondence
     [Produces("application/json")]
     [Tags("Correspondence")]
     [EnableRateLimiting("per-user")]
-    [Authorize(Roles = "Correspondence, SuAdmin")]
+    [Authorize]
+    // [Authorize(Roles = "Correspondence, SuAdmin")]
     public class CorrespondenceController : Base<CorrespondenceController>
     {
         private readonly IMediator _mediator;

@@ -11,7 +11,8 @@ namespace BDFM.Api.Controllers
     [Produces("application/json")]
     [Tags("Templates")]
     [EnableRateLimiting("per-user")]
-    [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+    // [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+     [Authorize]
     //[Permission]
     public class TemplatesController : Base<AuditLogController>
     {

@@ -12,7 +12,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("Permissions")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "SuAdmin, President, Admin")]
+// [Authorize(Roles = "SuAdmin, President, Admin")]
+ [Authorize]
 //[Permission]
 public class PermissionController : Base<PermissionController>
 {

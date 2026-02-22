@@ -13,7 +13,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("WorkflowTodo")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 public class WorkflowTodoController : Base<WorkflowTodoController>
 {
     private readonly IMediator _mediator;

@@ -11,7 +11,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("AuditLogs")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "SuAdmin, President")]
+// [Authorize(Roles = "SuAdmin, President")]
+ [Authorize]
 //[Permission]
 public class AuditLogController : Base<AuditLogController>
 {

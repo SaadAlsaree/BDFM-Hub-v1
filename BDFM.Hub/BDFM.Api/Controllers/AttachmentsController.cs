@@ -16,7 +16,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("Attachments")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 //[Permission]
 public class AttachmentsController : Base<AttachmentsController>
 {

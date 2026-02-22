@@ -19,7 +19,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("LeaveRequests")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 public class LeaveRequestsController : Base<LeaveRequestsController>
 {
     private readonly IMediator _mediator;

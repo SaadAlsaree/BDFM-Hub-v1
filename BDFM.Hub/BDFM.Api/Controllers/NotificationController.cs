@@ -12,7 +12,8 @@ namespace BDFM.Api.Controllers;
 [Produces("application/json")]
 [Tags("Notifications")]
 [EnableRateLimiting("per-user")]
-[Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+// [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
+ [Authorize]
 public class NotificationController : Base<NotificationController>
 {
     private readonly IMediator _mediator;

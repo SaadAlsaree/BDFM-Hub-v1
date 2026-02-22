@@ -46,7 +46,7 @@ public static class StartupExtensions
             cfg.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             cfg.AddFixedWindowLimiter(policyName: "fixed", options =>
             {
-                options.PermitLimit = 5;
+                options.PermitLimit = 100;
                 options.Window = TimeSpan.FromMinutes(1);
 
             });
@@ -83,7 +83,7 @@ public static class StartupExtensions
         // Register CORS policy
         builder.Services.AddCors(option =>
             option.AddPolicy("AllowSpecificOrigin", policy =>
-            policy.WithOrigins("http://localhost:3000", "http://cm.inss.local:3000", "http://cm.inss.local") // Add your Flutter app URL here
+            policy.WithOrigins("http://localhost:3000", "http://cm.inss.local:3000", "http://cm.inss.local", "https://cm.inss.local:3000", "https://cm.inss.local") // Add your Flutter app URL here
                 .AllowAnyHeader()
                 .AllowAnyMethod()
       )
