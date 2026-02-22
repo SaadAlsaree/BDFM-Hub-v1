@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   headerLeft: {
     width: '30%',
     textAlign: 'left',
-    fontFamily: 'Helvetica' // Keep English text in Helvetica
+    fontFamily: arabicFontFamily // Use Cairo for English text
   },
   headerCenter: {
     width: '40%',
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginVertical: 15
   },
   documentInfoLeft: {
-    fontFamily: 'Helvetica'
+    fontFamily: arabicFontFamily
   },
   documentInfoRight: {
     alignItems: 'flex-end',
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     fontFamily: arabicFontFamily
   },
   englishText: {
-    fontFamily: 'Helvetica',
+    fontFamily: arabicFontFamily,
     fontSize: 16,
     marginBottom: 10,
     marginTop: 10,

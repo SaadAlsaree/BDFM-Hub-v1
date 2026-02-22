@@ -2,9 +2,18 @@ import { TResumeEditFormValues } from '../utils/form-schema';
 import { Document, Page, Text, View } from '@react-pdf/renderer';
 import { createTw } from 'react-pdf-tailwind';
 
+import { registerFonts, ARABIC_FONT_FAMILY } from '../utils/register-fonts';
+
+// Register fonts
+registerFonts();
+const arabicFontFamily = ARABIC_FONT_FAMILY;
+
 const tw = createTw({
   theme: {
     extend: {
+      fontFamily: {
+        sans: [arabicFontFamily]
+      },
       colors: {
         primary: '#1a1a1a',
         secondary: '#4a4a4a',
@@ -41,7 +50,7 @@ export default function TemplateFour({ formData }: TResumeTemplateProps) {
 
   return (
     <Document>
-      <Page size='A4' style={tw('p-10')}>
+      <Page size='A4' style={[tw('p-10'), { fontFamily: arabicFontFamily }]}>
         {/* Header - Always show */}
         <View style={tw('mb-6 text-center')}>
           <Text style={tw('text-3xl font-bold mb-2')}>

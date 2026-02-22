@@ -1,46 +1,20 @@
 import { Font } from '@react-pdf/renderer';
 
 /**
- * Register Arabic fonts for PDF rendering.
+ * Register Cairo font for PDF rendering.
  *
- * Uses Noto Naskh Arabic as the primary font because it has
- * excellent OpenType support and works well with @react-pdf/renderer
- * for Arabic character shaping, ligatures, and BiDi text.
- *
- * Cairo is registered as a secondary font family if needed.
+ * Cairo is used as the primary font for both Arabic and English text
+ * to ensure consistent branding and excellent Arabic character support.
  */
 
 let fontsRegistered = false;
 
 export function registerFonts(): string {
   // Prevent duplicate registration
-  if (fontsRegistered) return 'NotoNaskhArabic';
+  if (fontsRegistered) return 'Cairo';
 
   try {
-    // Primary: Noto Naskh Arabic - best compatibility with @react-pdf/renderer
-    Font.register({
-      family: 'NotoNaskhArabic',
-      fonts: [
-        {
-          src: '/fonts/NotoNaskhArabic-Regular.ttf',
-          fontWeight: 'normal',
-        },
-        {
-          src: '/fonts/NotoNaskhArabic-Medium.ttf',
-          fontWeight: 500,
-        },
-        {
-          src: '/fonts/NotoNaskhArabic-SemiBold.ttf',
-          fontWeight: 600,
-        },
-        {
-          src: '/fonts/NotoNaskhArabic-Bold.ttf',
-          fontWeight: 'bold',
-        },
-      ],
-    });
-
-    // Secondary: Cairo (keep as fallback)
+    // Register Cairo (primary font)
     Font.register({
       family: 'Cairo',
       fonts: [
@@ -75,13 +49,13 @@ export function registerFonts(): string {
     Font.registerHyphenationCallback((word) => [word]);
 
     fontsRegistered = true;
-    console.log('Arabic fonts registered successfully (NotoNaskhArabic + Cairo)');
-    return 'NotoNaskhArabic';
+    console.log('Cairo font registered successfully for PDF rendering');
+    return 'Cairo';
   } catch (error) {
-    console.error('Error registering Arabic fonts:', error);
+    console.error('Error registering Cairo font:', error);
     return 'Helvetica';
   }
 }
 
-// The primary Arabic font family name
-export const ARABIC_FONT_FAMILY = 'NotoNaskhArabic';
+// The primary font family name
+export const ARABIC_FONT_FAMILY = 'Cairo';

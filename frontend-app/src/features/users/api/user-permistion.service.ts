@@ -7,8 +7,7 @@ import {
   RemoveUserPermissionDto
 } from '../types/user';
 
-const baseUrl =
-  process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
 
 export const userPermissionService = {
   // /UserPermission/AssignPermissionsToUser

@@ -8,8 +8,7 @@ import {
   AnnouncementDto
 } from '../types/announcements';
 
-const baseUrl =
-  process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
 
 export const announcementsService = {
   async getAnnouncements(query: IAnnouncementListQuery) {

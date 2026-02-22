@@ -6,8 +6,7 @@ import {
   IPermissionPayload
 } from '@/features/permissions/types/permission';
 
-const baseUrl =
-  process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
 
 export const permissionService = {
   async getPermissions(query?: Record<string, any>) {
