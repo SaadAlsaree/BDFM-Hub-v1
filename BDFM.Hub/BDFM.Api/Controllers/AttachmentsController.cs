@@ -17,7 +17,7 @@ namespace BDFM.Api.Controllers;
 [Tags("Attachments")]
 [EnableRateLimiting("per-user")]
 // [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
- [Authorize]
+[Authorize]
 //[Permission]
 public class AttachmentsController : Base<AttachmentsController>
 {
@@ -134,31 +134,31 @@ public class AttachmentsController : Base<AttachmentsController>
             return BadRequest(result);
 
         var attachment = result.Data;
-        
+
         // Security: Verify user has permission to access this attachment
         // This prevents IDOR (Insecure Direct Object Reference) attacks
         var currentUserId = _currentUserService.UserId;
         var userUnitId = _currentUserService.OrganizationalUnitId;
         var userRoles = _currentUserService.GetRoles();
-        
+
         // Allow download if:
         // 1. User is the attachment creator
         // 2. User has SuAdmin or President role
         // 3. Attachment belongs to correspondence in user's unit and user has Manager role
         var isCreator = attachment.CreateBy == currentUserId;
-        var isAdmin = userRoles.Contains("SuAdmin") || userRoles.Contains("President");
-        var isManagerInUnit = userRoles.Contains("Manager") && 
-                                 userUnitId.HasValue && 
-                                 attachment.PrimaryTableId.HasValue && 
+        var isAdmin = userRoles.Contains("SuAdmin") || userRoles.Contains("President") || userRoles.Contains("Correspondence");
+        var isManagerInUnit = userRoles.Contains("Manager") &&
+                                 userUnitId.HasValue &&
+                                 attachment.PrimaryTableId.HasValue &&
                                  attachment.PrimaryTableId == userUnitId.Value;
-        
+
         var canAccess = isCreator || isAdmin || isManagerInUnit;
-        
+
         if (!canAccess)
         {
             return Forbid();
         }
-        
+
         var fileBytes = Convert.FromBase64String(attachment.FileBase64);
 
         return File(fileBytes,

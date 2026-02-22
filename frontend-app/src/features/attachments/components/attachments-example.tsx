@@ -36,7 +36,7 @@ const AttachmentsExample = ({
     queryKey: ['attachments', queryParams],
     queryFn: async () =>
       await authApiCall(() =>
-        attachmentService.getAttachmentByPrimaryTableId(queryParams)
+        attachmentService.getAttachmentByPrimaryTableIdClient(queryParams)
       ),
     enabled: !!primaryTableId // Only fetch if we have a primary table ID
   });

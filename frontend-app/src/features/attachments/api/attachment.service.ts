@@ -187,5 +187,22 @@ export const attachmentService = {
       // console.error('Error fetching attachment by primary table id:', error);
       return null;
     }
+  },
+
+  async getAttachmentByPrimaryTableIdClient(query: Record<string, any>) {
+    try {
+      const response = await axiosClient.get(
+        `${baseUrl}/Attachments/GetAttachmentsByTable`,
+        { params: query }
+      );
+      if (response.status >= 400) {
+        // console.error('Error fetching attachment by primary table id:', response.statusText);
+        return null;
+      }
+      return (response.data as IResponseList<FileAttachmentList>) || null;
+    } catch (error) {
+      // console.error('Error fetching attachment by primary table id:', error);
+      return null;
+    }
   }
 };
