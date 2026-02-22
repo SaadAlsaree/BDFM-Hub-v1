@@ -63,9 +63,11 @@ public static class StartupExtensions
                 {
                     return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
                     {
-                        TokenLimit = 100,
+                        TokenLimit = 200,
                         TokensPerPeriod = 25,
-                        ReplenishmentPeriod = TimeSpan.FromMinutes(1)
+                        ReplenishmentPeriod = TimeSpan.FromMinutes(1),
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        QueueLimit = 5
                     });
                 }
 

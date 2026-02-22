@@ -12,7 +12,7 @@ namespace BDFM.Api.Controllers
     [Tags("Templates")]
     [EnableRateLimiting("per-user")]
     // [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
-     [Authorize]
+    [Authorize(Roles = "Admin")]
     //[Permission]
     public class TemplatesController : Base<AuditLogController>
     {

@@ -22,7 +22,6 @@ namespace BDFM.Api.Controllers;
 [Tags("Users")]
 [EnableRateLimiting("per-user")]
 // [Authorize(Roles = "SuAdmin, President, Admin")]
- [Authorize]
 //[Permission]
 public class UserController : Base<UserController>
 {
@@ -43,6 +42,7 @@ public class UserController : Base<UserController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<bool>>> CreateUser([FromBody] CreateUserCommand command)
     {
         return await Okey(() => _mediator.Send(command));
@@ -55,6 +55,7 @@ public class UserController : Base<UserController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<bool>>> UpdateUser([FromBody] UpdateUserCommand command)
     {
         return await Okey(() => _mediator.Send(command));
@@ -64,6 +65,7 @@ public class UserController : Base<UserController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<bool>>> ChangeStatus([FromBody] ChangeStatusCommand<Guid> command)
     {
         command.TableName = TableNames.Users;
@@ -105,6 +107,7 @@ public class UserController : Base<UserController>
     //[Permission(MetaPermission = "Admin")]
     [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<bool>>> UpdateUserRoles([FromBody] UpdateUserRolesCommand command)
     {
         return await Okey(() => _mediator.Send(command));
@@ -118,6 +121,7 @@ public class UserController : Base<UserController>
     //[Permission(MetaPermission = "Admin")]
     [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<bool>>> UpdateUserStatus([FromBody] UpdateUserStatusCommand command)
     {
         return await Okey(() => _mediator.Send(command));
@@ -142,6 +146,7 @@ public class UserController : Base<UserController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<PagedResult<UserListViewModel>>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<PagedResult<UserListViewModel>>>> GetAllUsers([FromQuery] GetAllUsersQuery query)
     {
         return await Okey(() => _mediator.Send(query));
@@ -168,6 +173,7 @@ public class UserController : Base<UserController>
     [HttpGet]
     [ProducesResponseType(typeof(Response<GetMeVm>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<IEnumerable<SearchUserVm>>>> SearchUser([FromQuery] SearchUserQuery query)
     {
         return await Okey(() => _mediator.Send(query));
@@ -181,6 +187,7 @@ public class UserController : Base<UserController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<ImportFromCsvResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Response<ImportFromCsvResponse>>> ImportFromCsv([FromForm] ImportFromCsvCommand command)
     {
         return await Okey(() => _mediator.Send(command));

@@ -18,4 +18,10 @@
     <ProjectReference Include="..\BDFM.Persistence\BDFM.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Reports\Fonts\Cairo-VariableFont_slnt,wght.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

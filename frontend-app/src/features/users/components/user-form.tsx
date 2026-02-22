@@ -150,11 +150,9 @@ export default function UserForm({
           ...data,
           roleIds: data.roleIds?.map((role) => role.value)
         };
-        // const response = await authApiCall(() =>
-        const response = await userService.updateUser(
-          UserToUpdate as UserPayloadDto
+        const response = await authApiCall(() =>
+          userService.updateUser(UserToUpdate as UserPayloadDto)
         );
-        // );
         if (response?.succeeded) {
           toast.success('تم تحديث المستخدم بنجاح!');
           router.push('/users');

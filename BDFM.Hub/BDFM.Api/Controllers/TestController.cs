@@ -6,6 +6,7 @@ namespace BDFM.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [DisableRateLimit] // Disable rate limiting for testing endpoints
+    [Authorize(Roles = "Admin")]
     public class TestController : ControllerBase
     {
         private readonly ICorrespondenceNotificationService _notificationService;

@@ -24,8 +24,7 @@ public class DelayedStepsReportDocument : IDocument
                 page.Margin(1, Unit.Centimetre);
                 page.PageColor(Colors.White);
 
-                // Note: Ensure an Arabic font like "Amiri", "Almarai", or "Arial" is installed and registered.
-                page.DefaultTextStyle(x => x.FontSize(10).FontFamily(Fonts.Arial));
+                page.DefaultTextStyle(x => x.FontSize(10).FontFamily("Cairo"));
 
                 // Set layout to Right-To-Left for Arabic
                 page.ContentFromRightToLeft();

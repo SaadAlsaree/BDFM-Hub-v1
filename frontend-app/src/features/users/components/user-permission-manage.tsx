@@ -21,6 +21,7 @@ import { IPermissionList } from '@/features/permissions/types/permission';
 import { userPermissionService } from '../api/user-permistion.service';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useAuthApi } from '@/hooks/use-auth-api';
 
 type UserPermissionManageProps = {
   userId: string;
@@ -46,6 +47,7 @@ const UserPermissionManage = ({
   );
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
+  const { authApiCall } = useAuthApi();
 
   // Check if a permission is currently assigned to the user
   const isPermissionAssigned = useCallback(
@@ -98,9 +100,9 @@ const UserPermissionManage = ({
         permissionIds
       };
 
-      const response = await userPermissionService.assignUserPermissions(
-        assignUserPermissionsDto
-      );
+      const response = await authApiCall(async () => {
+        return userPermissionService.assignUserPermissions(assignUserPermissionsDto);
+      });
 
       if (response?.succeeded) {
         const updatedPermissions = permissions

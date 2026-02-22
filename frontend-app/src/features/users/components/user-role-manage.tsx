@@ -17,6 +17,7 @@ import { UserRole, AssignUserRolesDto } from '../types/user';
 import { userRoleService } from '../api/userRole.service';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useAuthApi } from '@/hooks/use-auth-api';
 
 type UserRoleManageProps = {
   userId: string;
@@ -38,6 +39,7 @@ const UserRoleManage = ({
   );
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
+  const { authApiCall } = useAuthApi();
 
   // Check if a role is currently assigned to the user
   const isRoleAssigned = useCallback(
@@ -83,8 +85,9 @@ const UserRoleManage = ({
         roleIds
       };
 
-      const response =
-        await userRoleService.updateUserRoles(assignUserRolesDto);
+      const response = await authApiCall(async () => {
+        return userRoleService.updateUserRoles(assignUserRolesDto);
+      });
 
       if (response?.succeeded) {
         const updatedRoles = roles.filter(

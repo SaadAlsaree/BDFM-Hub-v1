@@ -12,7 +12,7 @@ namespace BDFM.Api.Controllers;
 [Tags("UserPermissions")]
 [EnableRateLimiting("per-user")]
 // [Authorize(Roles = "SuAdmin, President, Admin")]
- [Authorize]
+[Authorize(Roles = "Admin")]
 public class UserPermissionController : Base<UserPermissionController>
 {
     private readonly IMediator _mediator;
