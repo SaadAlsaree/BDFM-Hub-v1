@@ -17,7 +17,7 @@ namespace BDFM.Api.Controllers;
 [Tags("OrganizationalUnits")]
 [EnableRateLimiting("per-user")]
 // [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
-[Authorize(Roles = "Admin")]
+[Authorize]
 //[Permission]
 public class OrganizationalUnitController : Base<OrganizationalUnitController>
 {
