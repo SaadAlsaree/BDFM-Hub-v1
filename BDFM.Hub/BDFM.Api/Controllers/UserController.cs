@@ -146,7 +146,7 @@ public class UserController : Base<UserController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<PagedResult<UserListViewModel>>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<ActionResult<Response<PagedResult<UserListViewModel>>>> GetAllUsers([FromQuery] GetAllUsersQuery query)
     {
         return await Okey(() => _mediator.Send(query));
