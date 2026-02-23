@@ -193,4 +193,18 @@ public class UserController : Base<UserController>
         return await Okey(() => _mediator.Send(command));
     }
 
+    /// <summary>
+    /// Gets the users per entity report as a PDF
+    /// </summary>
+    [HttpGet("Report/PerEntity")]
+    [ServiceFilter(typeof(LogActionArguments))]
+    [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetUsersPerEntityReport()
+    {
+        var pdfBytes = await _mediator.Send(new BDFM.Application.Features.Users.Queries.GetUsersPerEntityReport.GetUsersPerEntityReportQuery());
+        return File(pdfBytes, "application/pdf", "UsersPerEntityReport.pdf");
+    }
+
 }
