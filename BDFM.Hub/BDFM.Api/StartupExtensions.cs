@@ -63,8 +63,8 @@ public static class StartupExtensions
                 {
                     return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
                     {
-                        TokenLimit = 200,
-                        TokensPerPeriod = 25,
+                        TokenLimit = 300,
+                        TokensPerPeriod = 200,
                         ReplenishmentPeriod = TimeSpan.FromMinutes(1),
                         QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                         QueueLimit = 5
@@ -73,7 +73,7 @@ public static class StartupExtensions
 
                 return RateLimitPartition.GetFixedWindowLimiter("anonymous", _ => new FixedWindowRateLimiterOptions
                 {
-                    PermitLimit = 5,
+                    PermitLimit = 50,
                     Window = TimeSpan.FromMinutes(1)
                 });
             });
@@ -85,7 +85,13 @@ public static class StartupExtensions
         // Register CORS policy
         builder.Services.AddCors(option =>
             option.AddPolicy("AllowSpecificOrigin", policy =>
-            policy.WithOrigins("http://localhost:3000", "http://cm.inss.local:3000", "http://cm.inss.local", "https://cm.inss.local:3000", "https://cm.inss.local") // Add your Flutter app URL here
+            policy.WithOrigins(
+                "http://localhost:3000", 
+                "http://cm.inss.local:3000", 
+                "http://cm.inss.local", 
+                "https://cm.inss.local:3000", 
+                "https://cm.inss.local",
+                "http://10.42.10.26:3000")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
       )
