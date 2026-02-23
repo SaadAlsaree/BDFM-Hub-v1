@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace BDFM.Application.Features.Users.Queries.GetUsersPerEntityReport
 {
+    public class UsersPerEntityReportResultDto
+    {
+        public int TotalUniqueUsersCount { get; set; }
+        public List<UsersPerEntityReportDto> Entities { get; set; } = new List<UsersPerEntityReportDto>();
+    }
+
     public class UsersPerEntityReportDto
     {
         public string EntityName { get; set; } = string.Empty;

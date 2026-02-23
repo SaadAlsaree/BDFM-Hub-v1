@@ -30,7 +30,7 @@ public class QuestPdfService : IPdfService
         return document.GeneratePdf();
     }
 
-    public byte[] GenerateUsersPerEntityReport(List<UsersPerEntityReportDto> data)
+    public byte[] GenerateUsersPerEntityReport(UsersPerEntityReportResultDto data)
     {
         var document = new UsersPerEntityReportDocument(data);
         return document.GeneratePdf();

@@ -69,7 +69,13 @@ namespace BDFM.Application.Features.Users.Queries.GetUsersPerEntityReport
                 });
             }
 
-            return _pdfService.GenerateUsersPerEntityReport(reportData);
+            var resultDto = new UsersPerEntityReportResultDto
+            {
+                Entities = reportData,
+                TotalUniqueUsersCount = reportData.SelectMany(x => x.Users).Select(u => u.Username).Distinct().Count()
+            };
+
+            return _pdfService.GenerateUsersPerEntityReport(resultDto);
         }
 
         private List<Guid> GetDescendantIds(Guid parentId, List<OrganizationalUnit> allUnits)

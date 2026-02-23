@@ -9,9 +9,9 @@ namespace BDFM.Infrastructure.Reports.Documents;
 
 public class UsersPerEntityReportDocument : IDocument
 {
-    private readonly List<UsersPerEntityReportDto> _model;
+    private readonly UsersPerEntityReportResultDto _model;
 
-    public UsersPerEntityReportDocument(List<UsersPerEntityReportDto> model)
+    public UsersPerEntityReportDocument(UsersPerEntityReportResultDto model)
     {
         _model = model;
     }
@@ -66,12 +66,11 @@ public class UsersPerEntityReportDocument : IDocument
             // Summary
             column.Item().Row(row =>
             {
-                var totalUsers = _model.Sum(x => x.UsersCount);
-                row.RelativeItem().Element(e => SummaryCard(e, "إجمالي عدد المستخدمين", totalUsers.ToString(), Colors.Blue.Darken2));
+                row.RelativeItem().Element(e => SummaryCard(e, "إجمالي عدد المستخدمين", _model.TotalUniqueUsersCount.ToString(), Colors.Blue.Darken2));
             });
 
             // Grouped by Entity
-            foreach (var entity in _model)
+            foreach (var entity in _model.Entities)
             {
                 column.Item().Column(innerCol =>
                 {

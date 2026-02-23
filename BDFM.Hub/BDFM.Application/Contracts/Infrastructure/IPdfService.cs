@@ -6,6 +6,6 @@ namespace BDFM.Application.Contracts.Infrastructure;
 public interface IPdfService
 {
     byte[] GenerateDelayedStepsReport(List<DelayedStepReportDto> data);
-    byte[] GenerateUsersPerEntityReport(List<UsersPerEntityReportDto> data);
+    byte[] GenerateUsersPerEntityReport(UsersPerEntityReportResultDto data);
 }
 
