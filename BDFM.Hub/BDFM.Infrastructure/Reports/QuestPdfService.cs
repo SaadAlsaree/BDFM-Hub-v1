@@ -1,6 +1,7 @@
 using System.IO;
 using BDFM.Application.Contracts.Infrastructure;
 using BDFM.Application.Features.Workflow.Queries.GetDelayedStepsReport;
+using BDFM.Application.Features.Users.Queries.GetUsersPerEntityReport;
 using BDFM.Infrastructure.Reports.Documents;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
@@ -26,6 +27,12 @@ public class QuestPdfService : IPdfService
     public byte[] GenerateDelayedStepsReport(List<DelayedStepReportDto> data)
     {
         var document = new DelayedStepsReportDocument(data);
+        return document.GeneratePdf();
+    }
+
+    public byte[] GenerateUsersPerEntityReport(List<UsersPerEntityReportDto> data)
+    {
+        var document = new UsersPerEntityReportDocument(data);
         return document.GeneratePdf();
     }
 }
