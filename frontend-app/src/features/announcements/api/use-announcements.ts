@@ -13,7 +13,7 @@ export function useActiveAnnouncements(query: IAnnouncementListQuery = {}) {
     queryKey: ['announcements', 'active', query],
     queryFn: async () => {
       return await authApiCall(
-        async () => await announcementsService.getActiveAnnouncements(query)
+        async () => await announcementsService.getActiveAnnouncementsClient(query)
       );
     },
     staleTime: 60 * 1000

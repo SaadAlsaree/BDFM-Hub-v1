@@ -8,7 +8,7 @@ import {
   AnnouncementDto
 } from '../types/announcements';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const announcementsService = {
   async getAnnouncements(query: IAnnouncementListQuery) {
@@ -44,6 +44,24 @@ export const announcementsService = {
       return null;
     }
   },
+
+    async getActiveAnnouncementsClient(query: IAnnouncementListQuery) {
+    try {
+      const response = await axiosClient.get(
+        `${baseUrl}/Announcement/GetActiveAnnouncements`,
+        { params: query }
+      );
+
+      if (response.status >= 400) {
+        return null;
+      }
+
+      return (response.data as IResponseList<IAnnouncementList>) || null;
+    } catch (error) {
+      return null;
+    }
+  },
+
 
   async getAnnouncementById(id: string) {
     try {

@@ -3,7 +3,7 @@ import { CorrespondenceTag, CorrespondenceTagsRequest } from '../types/tags';
 import { IResponse, IResponseList } from '@/types/response';
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const tagsService = {
   ///BDFM/v1/api/Tag/CreateTag

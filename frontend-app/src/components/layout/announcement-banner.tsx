@@ -13,6 +13,7 @@ import {
 
 import { useActiveAnnouncements } from '@/features/announcements/api/use-announcements';
 import { formatDateWithArabicNumerals } from '@/utils/arabic-numerals';
+import { IAnnouncementList } from '@/features/announcements/types/announcements';
 
 interface AnnouncementBannerProps {
   /**
@@ -110,7 +111,16 @@ export function AnnouncementBanner({
     return null;
   }
 
-  const announcements = announcementData?.data?.items || [];
+  const getAnnouncementsSafely = (data: any) => {
+    if (!data) return [];
+    if (Array.isArray(data)) return data;
+    if (Array.isArray(data.data)) return data.data;
+    if (Array.isArray(data.items)) return data.items;
+    if (data.data?.items && Array.isArray(data.data.items)) return data.data.items;
+    return [];
+  };
+
+  const announcements: IAnnouncementList[] = getAnnouncementsSafely(announcementData);
 
   if (!isLoading && announcements.length === 0) {
     return null;
@@ -120,7 +130,7 @@ export function AnnouncementBanner({
     <div
       className={cn(
         'transition-all duration-300 ease-in-out overflow-hidden',
-        isVisible ? 'max-h-50 opacity-100' : 'max-h-0 opacity-0'
+        isVisible ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
       )}
     >
       <div
@@ -157,7 +167,7 @@ export function AnnouncementBanner({
                         </div>
 
                         {/* Description */}
-                        <p className="line-clamp-2 text-xs leading-relaxed opacity-90">
+                        <p className="line-clamp-2 text-xs font-semibold leading-relaxed opacity-90">
                           {announcement.description}
                         </p>
 
