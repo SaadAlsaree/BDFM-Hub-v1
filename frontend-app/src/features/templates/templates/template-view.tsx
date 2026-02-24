@@ -1,509 +1,146 @@
-'use client';
+﻿'use client';
+
+import React from 'react';
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 import {
-  Document,
-  Page,
-  Text as PDFText,
-  View as PDFView,
-  StyleSheet,
-  Image as PDFImage,
-  Font
-} from '@react-pdf/renderer';
-import { pdf } from '@react-pdf/renderer';
-import {
-  Document as ReactPDFDocument,
-  Page as ReactPDFPage,
-  pdfjs
-} from 'react-pdf';
-
-import {
-  processNumberForRTLArabic,
-  formatDateForRTL
+  formatDateForRTL,
+  processNumberForRTLArabic
 } from '@/utils/arabic-text-processor';
-import React from 'react';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/esm/Page/TextLayer.css';
-import { Card } from '@/components/ui/card';
+import styles from './template-view-print.module.css';
 
-// Configure PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-).toString();
+const MOJIBAKE_PATTERN = /[\u00D8\u00D9\u00C3\u00C2]/;
+const ARABIC_CHAR_PATTERN = /[\u0600-\u06FF]/;
 
-import { registerFonts, ARABIC_FONT_FAMILY } from '../utils/register-fonts';
+function decodeLatin1ToUtf8(input: string): string {
+  const bytes = new Uint8Array(
+    Array.from(input, (char) => char.charCodeAt(0) & 0xff)
+  );
+  return new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+}
 
-// Register fonts and get the available font family
-registerFonts();
-const arabicFontFamily = ARABIC_FONT_FAMILY;
+function normalizeArabicText(input?: string | null): string {
+  if (!input) return '';
+  if (!MOJIBAKE_PATTERN.test(input)) return input;
 
-// Create styles with the determined font family
-const styles = StyleSheet.create({
-  page: {
-    padding: 30,
-    fontFamily: arabicFontFamily,
-    fontSize: 12
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5
-  },
-  headerLeft: {
-    width: '30%',
-    textAlign: 'left',
-    fontFamily: arabicFontFamily
-  },
-  headerCenter: {
-    width: '40%',
-    textAlign: 'center',
-    alignItems: 'center'
-  },
-  headerRight: {
-    width: '30%',
-    textAlign: 'right',
-    fontFamily: arabicFontFamily
-  },
-  emblem: {
-    width: 60,
-    height: 60,
-    alignSelf: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  divider: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#000',
-    borderBottomStyle: 'solid'
-    // marginVertical: 10
-  },
-  documentInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 15
-  },
-  documentInfoLeft: {
-    fontFamily: arabicFontFamily
-  },
-  documentInfoRight: {
-    alignItems: 'flex-end',
-    fontFamily: arabicFontFamily,
-    textAlign: 'right'
-  },
-  departmentList: {
-    width: '50%',
-    alignSelf: 'flex-end',
-    marginTop: 20
-  },
-  departmentItem: {
-    marginBottom: 3,
-    textAlign: 'right',
-    fontSize: 10,
-    fontFamily: arabicFontFamily
-  },
-  mainContent: {
-    marginTop: 20,
-    textAlign: 'right',
-    lineHeight: 1.8,
-    fontSize: 11,
-    fontFamily: arabicFontFamily
-  },
-  signature: {
-    marginTop: 10,
-    alignSelf: 'flex-start',
-    width: '30%'
-  },
-  signatureText: {
-    textAlign: 'center',
-    marginBottom: 5,
-    // marginTop: ,
-    fontFamily: arabicFontFamily
-  },
-  pageNumber: {
-    position: 'absolute',
-    bottom: 30,
-    right: 30,
-    fontSize: 14,
-    fontWeight: 'bold',
-    fontFamily: arabicFontFamily
-  },
-  centerText: {
-    textAlign: 'center',
-    alignSelf: 'center'
-  },
-  boldText: {
-    fontWeight: 'bold'
-  },
-  underlineText: {
-    textDecoration: 'underline'
-  },
-  arabicText: {
-    fontFamily: arabicFontFamily
-  },
-  englishText: {
-    fontFamily: arabicFontFamily,
-    fontSize: 16,
-    marginBottom: 10,
-    marginTop: 10,
-    lineHeight: 2
-  },
-  // Enhanced styles for local Cairo font with more weight options
-  titleText: {
-    fontFamily: arabicFontFamily,
-    fontWeight: 800, // ExtraBold for main titles
-    fontSize: 18
-  },
-  subtitleText: {
-    fontFamily: arabicFontFamily,
-    fontWeight: 600, // SemiBold for subtitles
-    fontSize: 16
-  },
-  headingText: {
-    fontFamily: arabicFontFamily,
-    fontWeight: 500, // Medium for headings
-    fontSize: 16
-  },
-  bodyText: {
-    fontFamily: arabicFontFamily,
-    fontWeight: 'normal', // Regular for body text
-    fontSize: 12
-  },
-  lightText: {
-    fontFamily: arabicFontFamily,
-    fontWeight: 300, // Light for less important text
-    fontSize: 10
+  try {
+    const decoded = decodeLatin1ToUtf8(input);
+    return ARABIC_CHAR_PATTERN.test(decoded) ? decoded : input;
+  } catch {
+    return input;
   }
-});
+}
 
 type TemplateViewProps = {
-  formData?: CorrespondenceDetails; // This can be customized based on your needs
+  formData?: CorrespondenceDetails;
   unitName?: string;
   attachments?: number;
 };
 
-const TemplateViewRenderer = ({
-  formData,
-  attachments,
-  unitName
-}: TemplateViewProps) => {
-  return (
-    <Document>
-      <Page size='A4' style={styles.page}>
-        {/* Header Section */}
-        <PDFView style={styles.header}>
-          <PDFView style={[styles.headerLeft, styles.englishText]}>
-            <PDFText style={[styles.boldText, { fontSize: 16 }]}>
-              Republic of Iraq
-            </PDFText>
-            <PDFText style={[styles.boldText, { fontSize: 16 }]}>
-              I.N.S.S
-            </PDFText>
-          </PDFView>
+const TemplateViewRenderer = React.forwardRef<HTMLDivElement, TemplateViewProps>(
+  ({ formData }, ref) => {
+    const safeFormData = React.useMemo(() => {
+      if (!formData) return undefined;
 
-          <PDFView style={styles.headerCenter}>
-            {/* <PDFText style={[styles.boldText, styles.arabicText, { fontSize: 12, marginBottom: 2 }]}>بسم الله الرحمن الرحيم</PDFText> */}
-            <PDFView>
-              <PDFImage src='/logoINSS.png' style={{ width: 90, height: 90 }} />
-            </PDFView>
-          </PDFView>
+      return {
+        ...formData,
+        bodyText: normalizeArabicText(formData.bodyText),
+        subject: normalizeArabicText(formData.subject),
+        externalEntityName: normalizeArabicText(formData.externalEntityName)
+      };
+    }, [formData]);
 
-          <PDFView style={[styles.headerRight, styles.arabicText]}>
-            <PDFText style={[styles.boldText, { fontSize: 16 }]}>
-              جمهورية العراق
-            </PDFText>
-            <PDFText style={[styles.boldText, { fontSize: 16 }]}>
-              جهاز الأمن الوطني
-            </PDFText>
-            <PDFText
-              style={[
-                styles.lightText,
-                { marginTop: 5, fontSize: 14, textAlign: 'center' }
-              ]}
-            >
-              {formData?.externalEntityName}
-            </PDFText>
-          </PDFView>
-        </PDFView>
-
-        <PDFView style={styles.divider} />
-
-        {/* Document Info */}
-        <PDFView style={styles.documentInfo}>
-          <PDFView style={styles.documentInfoLeft}>
-            <PDFText>No.: {formData?.mailNum}</PDFText>
-            <PDFText>Date: {formData?.mailDate}</PDFText>
-          </PDFView>
-
-          <PDFView style={styles.documentInfoRight}>
-            <PDFText style={styles.boldText}>
-              العدد :{' '}
-              {formData?.mailNum ? processNumberForRTLArabic(formData.mailNum) : ''}
-            </PDFText>
-            <PDFText>
-              التاريخ :{' '}
-              {formData?.mailDate
-                ? formatDateForRTL(formData.mailDate)
-                : ''}
-            </PDFText>
-          </PDFView>
-        </PDFView>
-
-        {/* Document Title */}
-        <PDFView style={{ alignItems: 'center' }}>
-          {/* <PDFText style={[styles.titleText, styles.underlineText]}> {documentData.title} </PDFText> */}
-          {/* <PDFText style={[styles.subtitleText, { marginTop: 10 }]}>
-            الى/ {unitName || '-'}
-          </PDFText> */}
-        </PDFView>
-
-        {/* Departments List */}
-        {/* <View style={styles.departmentList}>
-               {documentData.departments.map((dept, index) => (
-                  <Text key={index} style={styles.departmentItem}>
-                     {dept}
-                  </Text>
-               ))}
-            </View> */}
-
-        {/* Subject Line */}
-        <PDFView style={{ marginTop: 20, alignSelf: 'center' }}>
-          <PDFText style={[styles.headingText, styles.underlineText]}>
-            الموضوع/ {formData?.subject || '-'}
-          </PDFText>
-        </PDFView>
-
-        {/* Main Content */}
-        {/* <PDFView style={{ marginTop: 40, alignSelf: 'flex-end' }}>
-          <PDFText
-            style={{
-              fontSize: 12,
-              fontFamily: arabicFontFamily,
-              fontWeight: 'bold'
-            }}
-          >
-            ... تحية طيبة
-          </PDFText>
-        </PDFView> */}
-        <PDFView style={styles.mainContent}>
-          <PDFText style={styles.bodyText}>{formData?.bodyText}</PDFText>
-        </PDFView>
-
-        {/* Attachment */}
-        <PDFView style={{ marginTop: 20, alignSelf: 'flex-end' }}>
-          <PDFText
-            style={[
-              styles.bodyText,
-              { marginTop: 30, fontSize: 10, textDecoration: 'underline' }
-            ]}
-          >
-            {/* المرافقات : {attachments || 0} */}
-          </PDFText>
-        </PDFView>
-
-        {/* Signature */}
-        {/* <PDFView style={[styles.signature, { marginTop: 100 }]}>
-          <PDFText style={[styles.signatureText, styles.boldText]}>
-            {unitName || '-'}
-          </PDFText>
-          <PDFText style={styles.signatureText}>
-            السيد مدير {unitName || '-'}{' '}
-          </PDFText>
-          <PDFText style={styles.signatureText}>
-            {formatDateWithArabicNumerals(new Date())}
-          </PDFText>
-        </PDFView> */}
-
-        {/* Page Number */}
-        {/* <Text style={styles.pageNumber}>{documentData.pageNumber}</Text> */}
-
-        {/* Debug info - show which font is being used */}
-        {/* <Text style={{ position: 'absolute', bottom: 10, left: 30, fontSize: 8, color: '#999' }}>Font: {arabicFontFamily} (Local)</Text> */}
-      </Page>
-    </Document>
-  );
-};
-
-// PDF Document Component for rendering
-const PDFDocument = (props: TemplateViewProps) => {
-  return <TemplateViewRenderer {...props} />;
-};
-
-// Main component that displays content only without toolbar or print functionality
-const TemplateView = (props: TemplateViewProps) => {
-  const [pdfData, setPdfData] = React.useState<string | null>(null);
-  const [isGenerating, setIsGenerating] = React.useState(false);
-  const [numPages, setNumPages] = React.useState<number>(0);
-  const [pageNumber, setPageNumber] = React.useState<number>(1);
-  const [error, setError] = React.useState<string | null>(null);
-
-  const generatePDF = async () => {
-    if (!props.formData) return;
-
-    try {
-      setIsGenerating(true);
-      setError(null);
-
-      // Clear previous PDF data
-      if (pdfData) {
-        URL.revokeObjectURL(pdfData);
-        setPdfData(null);
-      }
-
-      const blob = await pdf(<PDFDocument {...props} />).toBlob();
-
-      // Validate blob
-      if (!blob || blob.size === 0) {
-        throw new Error('Generated PDF blob is empty');
-      }
-
-      const url = URL.createObjectURL(blob);
-      setPdfData(url);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      setError(
-        `فشل في إنشاء ملف PDF: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`
-      );
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setError(null);
-  };
-
-  const onDocumentLoadError = (error: Error) => {
-    console.error('Error loading PDF:', error);
-    setError(`فشل في تحميل ملف PDF: ${error.message || 'خطأ غير معروف'}`);
-  };
-
-  React.useEffect(() => {
-    generatePDF();
-  }, [props]);
-
-  React.useEffect(() => {
-    // Cleanup URL when component unmounts or pdfData changes
-    return () => {
-      if (pdfData && typeof pdfData === 'string') {
-        URL.revokeObjectURL(pdfData);
-      }
-    };
-  }, [pdfData]);
-
-  return (
-    <div className='w-fit'>
-      {error && (
-        <div className='flex h-64 items-center justify-center'>
-          <div className='text-center'>
-            <div className='mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
-              <svg
-                className='h-6 w-6 text-red-600'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.232 15.5c-.77.833.192 2.5 1.732 2.5z'
-                />
-              </svg>
+    return (
+      <div ref={ref} className={styles.templatePrintRoot} dir='ltr'>
+        <div className={styles.templatePage}>
+          <header className={styles.templateHeader}>
+            <div className={styles.templateHeaderLeft} dir='ltr'>
+              <p className={styles.templateEnTitle}>Republic of Iraq</p>
+              <p className={styles.templateEnTitle}>I.N.S.S</p>
             </div>
-            <p className='text-red-600'>{error}</p>
-            <button
-              onClick={generatePDF}
-              className='mt-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
-            >
-              إعادة المحاولة
-            </button>
-          </div>
-        </div>
-      )}
 
-      {pdfData && !error && (
-        <div className='pdf-preview rounded border bg-white'>
-          <div className='flex flex-col items-center'>
-            <ReactPDFDocument
-              file={pdfData}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              options={{
-                cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
-                cMapPacked: true,
-                standardFontDataUrl:
-                  'https://unpkg.com/pdfjs-dist@3.11.174/standard_fonts/'
-              }}
-              loading={
-                <div className='flex h-64 items-center justify-center'>
-                  <div className='text-center'>
-                    <div className='mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-500'></div>
-                    <p>جاري تحميل المحتوى...</p>
-                  </div>
-                </div>
-              }
-              error={
-                <div className='flex h-64 items-center justify-center'>
-                  <div className='text-center'>
-                    <div className='mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
-                      <svg
-                        className='h-6 w-6 text-red-600'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth={2}
-                          d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.232 15.5c-.77.833.192 2.5 1.732 2.5z'
-                        />
-                      </svg>
-                    </div>
-                    <p className='text-red-600'>فشل في تحميل ملف PDF</p>
-                    <button
-                      onClick={generatePDF}
-                      className='mt-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
-                    >
-                      إعادة المحاولة
-                    </button>
-                  </div>
-                </div>
-              }
-            >
-              {Array.from(new Array(numPages), (el, index) => (
-                <ReactPDFPage
-                  key={`page_${index + 1}`}
-                  pageNumber={index + 1}
-                  width={Math.min(800, window?.innerWidth * 0.8 || 800)}
-                  className='mb-4 shadow-lg'
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                />
-              ))}
-            </ReactPDFDocument>
+            <div className={styles.templateHeaderCenter}>
+              <img
+                src='/logoINSS.png'
+                alt='INSS Logo'
+                className={styles.templateLogo}
+              />
+            </div>
 
-            {numPages > 1 && (
-              <div className='mt-4 flex items-center gap-4 text-sm text-gray-600'>
-                <span>
-                  الصفحة {numPages} من {numPages}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+            <div className={styles.templateHeaderRight}>
+              <p className={styles.templateArTitle}>جمهورية العراق</p>
+              <p className={styles.templateArTitle}>جهاز الأمن الوطني</p>
+              {/* <p className={styles.templateArSubtitle}>
+                {safeFormData?.externalEntityName || '-'}
+              </p> */}
+            </div>
+          </header>
 
-      {isGenerating && !error && (
-        <div className='flex h-64 items-center justify-center'>
-          <div className='text-center'>
-            <div className='mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-500'></div>
-            <p>جاري تحميل المحتوى...</p>
-          </div>
+          <div className={styles.templateDivider} />
+
+          <section className={styles.templateDocInfo}>
+            <div className={styles.templateDocInfoLeft} dir='ltr'>
+              <p>No.: {formData?.mailNum || '-'}</p>
+              <p>Date: {formData?.mailDate || '-'}</p>
+            </div>
+            <div className={styles.templateDocInfoRight}>
+              <p>
+                العدد :{' '}
+                {formData?.mailNum ? processNumberForRTLArabic(formData.mailNum) : '-'}
+              </p>
+              <p>
+                التاريخ : {formData?.mailDate ? formatDateForRTL(formData.mailDate) : '-'}
+              </p>
+            </div>
+          </section>
+
+          <section className={styles.templateSubject}>
+            <p>الموضوع/ {safeFormData?.subject || '-'}</p>
+          </section>
+
+          <section dir='rtl' className={styles.templateBody}>
+            {safeFormData?.bodyText || '-'}
+          </section>
         </div>
-      )}
+      </div>
+    );
+  }
+);
+
+TemplateViewRenderer.displayName = 'TemplateViewRenderer';
+
+const PDFDocument = (props: TemplateViewProps) => (
+  <TemplateViewRenderer {...props} />
+);
+
+const TemplateView = (props: TemplateViewProps) => {
+  const preventDefault = React.useCallback((event: React.SyntheticEvent) => {
+    event.preventDefault();
+  }, []);
+
+  const preventCopyShortcuts = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        ['c', 'x', 'v', 'a'].includes(event.key.toLowerCase())
+      ) {
+        event.preventDefault();
+      }
+    },
+    []
+  );
+
+  return (
+    <div
+      className={styles.templateViewShell}
+      onCopy={preventDefault}
+      onCut={preventDefault}
+      onPaste={preventDefault}
+      onContextMenu={preventDefault}
+      onDragStart={preventDefault}
+      onSelect={preventDefault}
+      onKeyDown={preventCopyShortcuts}
+    >
+      <TemplateViewRenderer {...props} />
     </div>
   );
 };

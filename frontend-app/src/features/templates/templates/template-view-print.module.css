@@ -1,0 +1,140 @@
+@font-face {
+  font-family: 'Cairo';
+  src: url('/fonts/Cairo-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cairo';
+  src: url('/fonts/Cairo-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+.templateViewShell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.templateViewShell * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.templatePrintRoot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.templatePage {
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  color: #111827;
+  padding: 12mm;
+  box-sizing: border-box;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+  font-family: Cairo, 'Noto Naskh Arabic', sans-serif;
+  font-size: 12pt;
+  line-height: 1.95;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+.templateHeader {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 8px;
+}
+
+.templateHeaderLeft {
+  text-align: left;
+  line-height: 1.4;
+}
+
+.templateHeaderCenter {
+  display: flex;
+  justify-content: center;
+}
+
+.templateHeaderRight {
+  text-align: right;
+  line-height: 1.6;
+}
+
+.templateLogo {
+  width: 105px;
+  height: 105px;
+  object-fit: contain;
+}
+
+.templateEnTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: 14pt;
+}
+
+.templateArTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: 14pt;
+}
+
+.templateArSubtitle {
+  margin: 6px 0 0;
+  font-size: 12pt;
+}
+
+.templateDivider {
+  margin-top: 8px;
+  border-bottom: 2px solid #111827;
+}
+
+.templateDocInfo {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.templateDocInfoLeft {
+  text-align: left;
+}
+
+.templateDocInfoRight {
+  text-align: right;
+}
+
+.templateDocInfoLeft p,
+.templateDocInfoRight p {
+  margin: 0;
+}
+
+.templateSubject {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13pt;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.templateSubject p {
+  margin: 0;
+}
+
+.templateBody {
+  margin-top: 22px;
+  text-align: right;
+  white-space: pre-wrap;
+  line-height: 2;
+  min-height: 160px;
+}
