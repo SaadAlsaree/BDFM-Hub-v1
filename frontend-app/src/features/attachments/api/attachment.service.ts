@@ -8,7 +8,7 @@ import {
   FileAttachmentQuery
 } from '@/features/attachments/types/attachment';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const attachmentService = {
   async getAttachmentList(query: FileAttachmentQuery) {
@@ -169,6 +169,25 @@ export const attachmentService = {
     } catch (error) {
       // console.error('Error downloading attachment:', error);
       return null;
+    }
+  },
+
+  async downloadAttachmentClient(id: string) {
+    try {
+      // console.log('axiosClient.get URL:', `${baseUrl}/Attachments/DownloadAttachment/${id}/download`);
+      const response = await axiosClient.get(
+        `${baseUrl}/Attachments/DownloadAttachment/${id}/download`,
+        { responseType: 'blob' }
+      );
+      // console.log('axiosClient response status:', response.status);
+      if (response.status >= 400) {
+        // console.error('Error downloading attachment:', response.statusText);
+        return null;
+      }
+      return response.data as Blob;
+    } catch (error) {
+      // console.error('Axios error descending from downloadAttachmentClient:', error);
+      throw error; // Let the hook catch it so we can see the toast
     }
   },
 

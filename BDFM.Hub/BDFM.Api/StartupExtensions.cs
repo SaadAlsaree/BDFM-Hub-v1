@@ -46,7 +46,7 @@ public static class StartupExtensions
             cfg.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             cfg.AddFixedWindowLimiter(policyName: "fixed", options =>
             {
-                options.PermitLimit = 100;
+                options.PermitLimit = 10;
                 options.Window = TimeSpan.FromMinutes(1);
 
             });
@@ -63,17 +63,17 @@ public static class StartupExtensions
                 {
                     return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
                     {
-                        TokenLimit = 300,
-                        TokensPerPeriod = 200,
+                        TokenLimit = 50,
+                        TokensPerPeriod = 50,
                         ReplenishmentPeriod = TimeSpan.FromMinutes(1),
                         QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                        QueueLimit = 5
+                        //QueueLimit = 5
                     });
                 }
 
                 return RateLimitPartition.GetFixedWindowLimiter("anonymous", _ => new FixedWindowRateLimiterOptions
                 {
-                    PermitLimit = 50,
+                    PermitLimit = 10,
                     Window = TimeSpan.FromMinutes(1)
                 });
             });
@@ -86,10 +86,10 @@ public static class StartupExtensions
         builder.Services.AddCors(option =>
             option.AddPolicy("AllowSpecificOrigin", policy =>
             policy.WithOrigins(
-                "http://localhost:3000", 
-                "http://cm.inss.local:3000", 
-                "http://cm.inss.local", 
-                "https://cm.inss.local:3000", 
+                "http://localhost:3000",
+                "http://cm.inss.local:3000",
+                "http://cm.inss.local",
+                "https://cm.inss.local:3000",
                 "https://cm.inss.local",
                 "http://10.42.10.26:3000")
                 .AllowAnyHeader()

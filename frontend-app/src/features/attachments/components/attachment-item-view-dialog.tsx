@@ -36,6 +36,7 @@ import {
   isAudioFile,
   getMimeTypeFromExtension,
   downloadFileFromBase64,
+  downloadFileFromBlob,
   printFileFromBase64
 } from '@/lib/file-utils';
 import { format } from 'date-fns';
@@ -122,16 +123,13 @@ const AttachmentItemViewDialog = ({ attachmentId, isOpen, onClose }: Props) => {
   const onDownload = async () => {
     try {
       const response = await authApiCall(() =>
-        attachmentService.downloadAttachment(attachmentId)
+        attachmentService.downloadAttachmentClient(attachmentId)
       );
 
-      if (response?.data && attachmentData) {
-        const extension = attachmentData.fileExtension || '';
-        const mimeType = getMimeTypeFromExtension(extension);
-        downloadFileFromBase64(
-          response.data,
-          attachmentData.fileName || 'download',
-          mimeType
+      if (response instanceof Blob && attachmentData) {
+        downloadFileFromBlob(
+          response,
+          attachmentData.fileName || 'download'
         );
 
         toast({
@@ -397,7 +395,7 @@ const AttachmentItemViewDialog = ({ attachmentId, isOpen, onClose }: Props) => {
   if (isLoading) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className='max-h-[100vh] max-w-6xl'>
+        <DialogContent className='max-h-screen max-w-6xl'>
           <div className='flex h-96 items-center justify-center'>
             <Loader2 className='h-8 w-8 animate-spin' />
           </div>
@@ -409,7 +407,7 @@ const AttachmentItemViewDialog = ({ attachmentId, isOpen, onClose }: Props) => {
   if (error || !attachmentData) {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className='max-h-[100vh] max-w-6xl'>
+        <DialogContent className='max-h-screen max-w-6xl'>
           <div className='text-muted-foreground flex flex-col items-center justify-center py-8'>
             <FileText className='mb-4 h-16 w-16' />
             <h3 className='mb-2 text-lg font-semibold'>فشل تحميل الملف</h3>
@@ -424,7 +422,7 @@ const AttachmentItemViewDialog = ({ attachmentId, isOpen, onClose }: Props) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='max-h-[100vh] w-[680px]'>
+      <DialogContent className='max-h-screen w-[680px]'>
         <DialogHeader className='p-6 pb-0'>
           <div className='flex items-start justify-between'>
             <div className='min-w-0 flex-1'>

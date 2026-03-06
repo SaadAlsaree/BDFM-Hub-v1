@@ -20,7 +20,7 @@ import {
 } from '../create-internalMail/types/internalMail';
 import { CreatePublicMailPayload } from '../create-public-mail/types/create-public-mail';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const correspondenceService = {
   // /Correspondence/CreateOutgoingInternalMail
@@ -523,7 +523,7 @@ export const correspondenceService = {
       );
       return response.data as IResponse<boolean>;
     } catch (error) {
-      console.error('Error changing correspondence status:', error);
+      // console.error('Error changing correspondence status:', error);
       return null;
     }
   },
@@ -621,7 +621,7 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting correspondences summary client:', error);
+      // console.error('Error getting correspondences summary client:', error);
       return null;
     }
   },
@@ -637,7 +637,7 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting pending correspondences:', error);
+      // console.error('Error getting pending correspondences:', error);
       return null;
     }
   },
@@ -651,7 +651,7 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting processing correspondences:', error);
+      // console.error('Error getting processing correspondences:', error);
       return null;
     }
   },
@@ -665,7 +665,7 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting return for editing correspondences:', error);
+      // console.error('Error getting return for editing correspondences:', error);
       return null;
     }
   },
@@ -679,7 +679,7 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting completed correspondences:', error);
+      // console.error('Error getting completed correspondences:', error);
       return null;
     }
   },
@@ -694,7 +694,7 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error('Error getting not completed correspondences:', error);
+      // console.error('Error getting not completed correspondences:', error);
       return null;
     }
   },
@@ -710,10 +710,10 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error(
+      /* console.error(
         'Error getting pending or in progress correspondences:',
         error
-      );
+      ); */
       return null;
     }
   },
@@ -729,10 +729,10 @@ export const correspondenceService = {
       );
       return response.data;
     } catch (error) {
-      console.error(
+      /* console.error(
         'Error getting my pending or in progress correspondences:',
         error
-      );
+      ); */
       return null;
     }
   }

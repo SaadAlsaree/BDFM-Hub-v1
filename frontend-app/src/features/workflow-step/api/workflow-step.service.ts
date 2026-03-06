@@ -7,7 +7,7 @@ import {
   WorkflowStepBulkInsert
 } from '../types/workflow-step';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const workflowStepService = {
   ///Workflow/CreateWorkflowStep
@@ -75,7 +75,7 @@ export const workflowStepService = {
       );
       if (response.status >= 400) {
         // eslint-disable-next-line no-console
-        console.error('Error completing workflow step:', response.statusText);
+        // console.error('Error completing workflow step:', response.statusText);
         return {
           succeeded: false,
           data: false,
@@ -95,7 +95,7 @@ export const workflowStepService = {
       );
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('Error completing workflow step:', error);
+      // console.error('Error completing workflow step:', error);
       return {
         succeeded: false,
         data: false,

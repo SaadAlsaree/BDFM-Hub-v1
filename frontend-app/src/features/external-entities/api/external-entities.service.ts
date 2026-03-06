@@ -7,7 +7,7 @@ import {
   IExternalEntityQuery
 } from '@/features/external-entities/types/external-entities';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const externalEntitiesService = {
   async getExternalEntities(query: IExternalEntityQuery) {
@@ -74,10 +74,10 @@ export const externalEntitiesService = {
       );
       return response.data as IResponse<boolean>;
     } catch (error: any) {
-      console.error('Exception creating external entity:', {
+      /* console.error('Exception creating external entity:', {
         message: error?.message || 'Unknown error',
         status: error?.response?.status || 'No status'
-      });
+      }); */
       return {
         succeeded: false,
         data: false,
@@ -108,10 +108,10 @@ export const externalEntitiesService = {
       );
       return response.data as IResponse<boolean>;
     } catch (error: any) {
-      console.error(`Exception updating external entity ${entity.id}:`, {
+      /* console.error(`Exception updating external entity ${entity.id}:`, {
         message: error?.message || 'Unknown error',
         status: error?.response?.status || 'No status'
-      });
+      }); */
       return {
         succeeded: false,
         data: false,
@@ -148,10 +148,10 @@ export const externalEntitiesService = {
       );
       return response.data as IResponse<boolean>;
     } catch (error: any) {
-      console.error(`Exception updating status for external entity ${id}:`, {
+      /* console.error(`Exception updating status for external entity ${id}:`, {
         message: error?.message || 'Unknown error',
         status: error?.response?.status || 'No status'
-      });
+      }); */
       return {
         succeeded: false,
         data: false,

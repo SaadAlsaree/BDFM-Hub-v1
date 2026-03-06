@@ -17,7 +17,7 @@ namespace BDFM.Api.Controllers;
 [Tags("Workflow")]
 [EnableRateLimiting("per-user")]
 // [Authorize(Roles = "Correspondence, SuAdmin, User, Manager, President")]
- [Authorize]
+[Authorize]
 //[Permission]
 public class WorkflowController : Base<WorkflowController>
 {
@@ -128,7 +128,7 @@ public class WorkflowController : Base<WorkflowController>
     [ServiceFilter(typeof(LogActionArguments))]
     [ProducesResponseType(typeof(Response<WorkflowStepsStatisticsAllVm>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [Permission("Workflow|GetStatistics")]
+    //[Permission("Workflow|GetStatistics")]
     public async Task<ActionResult<Response<WorkflowStepsStatisticsAllVm>>> GetWorkflowStepsStatisticsByUnit([FromQuery] GetWorkflowStepsStatisticsByUnitQuery query)
     {
         return await Okey(() => _mediator.Send(query));

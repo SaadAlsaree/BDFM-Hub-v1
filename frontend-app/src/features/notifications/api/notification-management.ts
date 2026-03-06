@@ -1,7 +1,7 @@
 import { axiosClient } from '@/lib/axios';
 import { IResponse } from '@/types/response';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const notificationManagementApi = {
   /**
@@ -19,7 +19,7 @@ export const notificationManagementApi = {
 
       return response.data?.succeeded || false;
     } catch (error) {
-      console.error('Error marking notification as read:', error);
+      // console.error('Error marking notification as read:', error);
       return false;
     }
   },
@@ -36,7 +36,7 @@ export const notificationManagementApi = {
 
       return response.data?.succeeded || false;
     } catch (error) {
-      console.error('Error marking all notifications as read:', error);
+      // console.error('Error marking all notifications as read:', error);
       return false;
     }
   },
@@ -57,7 +57,7 @@ export const notificationManagementApi = {
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching notifications:', error);
+      // console.error('Error fetching notifications:', error);
       return null;
     }
   },
@@ -82,7 +82,7 @@ export const notificationManagementApi = {
 
       return response.data?.succeeded || false;
     } catch (error) {
-      console.error('Error setting correspondence notifications:', error);
+      // console.error('Error setting correspondence notifications:', error);
       return false;
     }
   },
@@ -98,7 +98,7 @@ export const notificationManagementApi = {
 
       return response.data?.data || 0;
     } catch (error) {
-      console.error('Error fetching unread count:', error);
+      // console.error('Error fetching unread count:', error);
       return 0;
     }
   },
@@ -115,7 +115,7 @@ export const notificationManagementApi = {
 
       return response.data?.succeeded || false;
     } catch (error) {
-      console.error('Error deleting notification:', error);
+      // console.error('Error deleting notification:', error);
       return false;
     }
   }

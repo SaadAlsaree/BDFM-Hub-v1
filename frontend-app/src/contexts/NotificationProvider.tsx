@@ -89,10 +89,10 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleCorrespondenceAssignedToModule = useCallback(
     (data: Parameters<SignalREvents['CorrespondenceAssignedToModule']>[0]) => {
-      console.log(
+      /* console.log(
         '🔔 [NotificationProvider] Correspondence assigned to module:',
         data
-      );
+      ); */
 
       // Play sound
       playNotificationSound();
@@ -122,10 +122,10 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
         SignalREvents['CorrespondenceStatusChangedWithNotification']
       >[0]
     ) => {
-      console.log(
+      /* console.log(
         '🔔 [NotificationProvider] Correspondence status changed:',
         data
-      );
+      ); */
 
       // Play sound
       playNotificationSound();
@@ -153,7 +153,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleWorkflowStepCreated = useCallback(
     (data: Parameters<SignalREvents['WorkflowStepCreated']>[0]) => {
-      console.log('🔔 [NotificationProvider] Workflow step created:', data);
+      // console.log('🔔 [NotificationProvider] Workflow step created:', data);
 
       // Play sound
       playNotificationSound();
@@ -181,10 +181,10 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleWorkflowStepStatusChanged = useCallback(
     (data: Parameters<SignalREvents['WorkflowStepStatusChanged']>[0]) => {
-      console.log(
+      /* console.log(
         '🔔 [NotificationProvider] Workflow step status changed:',
         data
-      );
+      ); */
 
       // Play sound
       playNotificationSound();
@@ -212,7 +212,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleCorrespondenceCreated = useCallback(
     (data: Parameters<SignalREvents['CorrespondenceCreated']>[0]) => {
-      console.log('🔔 [NotificationProvider] Correspondence created:', data);
+      // console.log('🔔 [NotificationProvider] Correspondence created:', data);
 
       // Play sound for new correspondence
       playNotificationSound();
@@ -229,7 +229,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleCorrespondenceUpdated = useCallback(
     (data: Parameters<SignalREvents['CorrespondenceUpdated']>[0]) => {
-      console.log('🔔 [NotificationProvider] Correspondence updated:', data);
+      // console.log('🔔 [NotificationProvider] Correspondence updated:', data);
 
       // Refresh specific correspondence
       queryClient.invalidateQueries({
@@ -245,7 +245,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleInboxUpdated = useCallback(
     (data: Parameters<SignalREvents['InboxUpdated']>[0]) => {
-      console.log('🔔 [NotificationProvider] Inbox updated:', data);
+      // console.log('🔔 [NotificationProvider] Inbox updated:', data);
 
       // Refresh inbox and notification counts
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
@@ -259,7 +259,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleWorkflowStepCompleted = useCallback(
     (data: Parameters<SignalREvents['WorkflowStepCompleted']>[0]) => {
-      console.log('🔔 [NotificationProvider] Workflow step completed:', data);
+      // console.log('🔔 [NotificationProvider] Workflow step completed:', data);
 
       // Play sound
       playNotificationSound();
@@ -279,7 +279,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   const handleWorkflowStepAssigned = useCallback(
     (data: Parameters<SignalREvents['WorkflowStepAssigned']>[0]) => {
-      console.log('🔔 [NotificationProvider] Workflow step assigned:', data);
+      // console.log('🔔 [NotificationProvider] Workflow step assigned:', data);
 
       // Play sound
       playNotificationSound();
@@ -305,7 +305,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    * Register all event handlers
    */
   const registerEventHandlers = useCallback(() => {
-    console.log('🔔 [NotificationProvider] Registering event handlers...');
+    // console.log('🔔 [NotificationProvider] Registering event handlers...');
 
     // Store handlers in ref to allow cleanup
     const handlers: Partial<SignalREvents> = {
@@ -328,10 +328,10 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
       eventHandlersRef.current.set(typedEventName, handler);
     });
 
-    console.log(
+    /* console.log(
       '🔔 [NotificationProvider] Event handlers registered:',
       Object.keys(handlers)
-    );
+    ); */
   }, [
     handleCorrespondenceAssignedToModule,
     handleCorrespondenceStatusChanged,
@@ -349,14 +349,14 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    * Unregister all event handlers
    */
   const unregisterEventHandlers = useCallback(() => {
-    console.log('🔔 [NotificationProvider] Unregistering event handlers...');
+    // console.log('🔔 [NotificationProvider] Unregistering event handlers...');
 
     eventHandlersRef.current.forEach((handler, eventName) => {
       offNotificationEvent(eventName, handler);
     });
 
     eventHandlersRef.current.clear();
-    console.log('🔔 [NotificationProvider] Event handlers unregistered');
+    // console.log('🔔 [NotificationProvider] Event handlers unregistered');
   }, [offNotificationEvent]);
 
   /**
@@ -365,17 +365,17 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
    */
   useEffect(() => {
     if (isConnected) {
-      console.log(
+      /* console.log(
         '🔔 [NotificationProvider] Connected - registering event handlers'
-      );
+      ); */
       registerEventHandlers();
 
       // Refresh notifications when connection is established
       refreshNotifications();
     } else {
-      console.log(
+      /* console.log(
         '🔔 [NotificationProvider] Disconnected - unregistering event handlers'
-      );
+      ); */
       unregisterEventHandlers();
     }
 

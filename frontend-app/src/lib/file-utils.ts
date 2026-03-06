@@ -136,6 +136,22 @@ export function downloadFileFromBase64(
 }
 
 /**
+ * Download file from Blob
+ * @param blob - The file Blob
+ * @param filename - Desired filename
+ */
+export function downloadFileFromBlob(blob: Blob, filename: string): void {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+/**
  * Generate a safe filename by removing special characters
  * @param filename - Original filename
  * @returns Safe filename
@@ -203,33 +219,32 @@ export function getMimeTypeFromExtension(extension: string): string {
 }
 
 /**
- * Print file from base64 string
- * @param base64 - Base64 encoded file content
+ * Print file from Blob
+ * @param blob - The file Blob
  * @param filename - File name
- * @param mimeType - MIME type of the file
  * @param extension - File extension
  * @returns Promise that resolves when print dialog is shown
  */
-export async function printFileFromBase64(
-  base64: string,
+export async function printFileFromBlob(
+  blob: Blob,
   filename: string,
-  mimeType: string,
   extension: string
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     try {
-      // Convert base64 to blob
-      const byteCharacters = atob(base64);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      // Ensure the blob has the correct MIME type, otherwise the browser might
+      // treat it as an octet-stream and download it instead of displaying it
+      // in the iframe/window for printing.
+      let mimeType = getMimeTypeFromExtension(extension);
+      if (blob.type && blob.type !== 'application/octet-stream' && blob.type !== 'application/json') {
+        mimeType = blob.type;
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: mimeType });
-      const blobUrl = URL.createObjectURL(blob);
+      
+      const typedBlob = new Blob([blob], { type: mimeType });
+      const blobUrl = URL.createObjectURL(typedBlob);
 
       // Handle PDF files
-      if (extension.toLowerCase() === '.pdf') {
+      if (extension.toLowerCase() === '.pdf' || extension.toLowerCase() === 'pdf') {
         const iframe = document.createElement('iframe');
         iframe.style.position = 'fixed';
         iframe.style.right = '0';
@@ -241,31 +256,33 @@ export async function printFileFromBase64(
         
         document.body.appendChild(iframe);
         
-        iframe.onload = () => {
-          setTimeout(() => {
-            try {
-              iframe.contentWindow?.focus();
-              iframe.contentWindow?.print();
-              
-              // Clean up after printing
-              setTimeout(() => {
-                document.body.removeChild(iframe);
-                URL.revokeObjectURL(blobUrl);
-                resolve();
-              }, 1000);
-            } catch (error) {
+        // iframe.onload does not fire reliably for PDFs in modern browsers (plugin document)
+        // so we use a reasonable timeout to wait for the PDF to load before calling print()
+        setTimeout(() => {
+          try {
+            iframe.contentWindow?.focus();
+            iframe.contentWindow?.print();
+            
+            // Clean up after printing
+            setTimeout(() => {
               document.body.removeChild(iframe);
               URL.revokeObjectURL(blobUrl);
-              reject(error);
+              resolve();
+            }, 2000); // give sufficient time for print dialog to manifest
+          } catch (error) {
+            console.error('Iframe print failed, falling back to window.open:', error);
+            document.body.removeChild(iframe);
+            
+            // Fallback for strict browsers
+            const win = window.open(blobUrl, '_blank');
+            if (win) {
+              win.focus();
+              resolve();
+            } else {
+              reject(new Error('Failed to print PDF. Please allow popups.'));
             }
-          }, 250);
-        };
-        
-        iframe.onerror = () => {
-          document.body.removeChild(iframe);
-          URL.revokeObjectURL(blobUrl);
-          reject(new Error('Failed to load PDF for printing'));
-        };
+          }
+        }, 1500);
         
         return;
       }
@@ -381,4 +398,34 @@ export async function printFileFromBase64(
       reject(error);
     }
   });
+}
+
+/**
+ * Print file from base64 string
+ * @param base64 - Base64 encoded file content
+ * @param filename - File name
+ * @param mimeType - MIME type of the file
+ * @param extension - File extension
+ * @returns Promise that resolves when print dialog is shown
+ */
+export async function printFileFromBase64(
+  base64: string,
+  filename: string,
+  mimeType: string,
+  extension: string
+): Promise<void> {
+  try {
+    // Convert base64 to blob
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: mimeType });
+    
+    return printFileFromBlob(blob, filename, extension);
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }

@@ -71,9 +71,9 @@ export class NotificationSignalR {
       .withUrl(hubUrl, {
         accessTokenFactory: () => {
           if (!this.accessToken) {
-            console.warn(
-              '🔔 [SignalR] Access token not available for SignalR connection'
-            );
+            // console.warn(
+            //   '🔔 [SignalR] Access token not available for SignalR connection'
+            // );
             return '';
           }
           return this.accessToken;
@@ -129,27 +129,27 @@ export class NotificationSignalR {
           try {
             this.connection?.off(eventName);
           } catch (error) {
-            console.warn(
-              `🔔 [SignalR] Error removing listener for ${eventName}:`,
-              error
-            );
+            // console.warn(
+            //   `🔔 [SignalR] Error removing listener for ${eventName}:`,
+            //   error
+            // );
           }
         });
 
         // Stop the connection if it's not already disconnected
         if (this.connection.state !== HubConnectionState.Disconnected) {
           this.connection.stop().catch((error) => {
-            console.warn(
-              '🔔 [SignalR] Error stopping connection during cleanup:',
-              error
-            );
+            // console.warn(
+            //   '🔔 [SignalR] Error stopping connection during cleanup:',
+            //   error
+            // );
           });
         }
       } catch (error) {
-        console.error(
-          '🔔 [SignalR] Error cleaning up SignalR connection:',
-          error
-        );
+        // console.error(
+        //   '🔔 [SignalR] Error cleaning up SignalR connection:',
+        //   error
+        // );
       } finally {
         // Ensure connection is set to null after cleanup
         this.connection = null;
@@ -159,12 +159,12 @@ export class NotificationSignalR {
 
   private validateConnection(): boolean {
     if (!this.connection) {
-      console.error('🔔 [SignalR] Connection is null - cannot proceed');
+      // console.error('🔔 [SignalR] Connection is null - cannot proceed');
       return false;
     }
 
     if (this.isDisposed) {
-      console.error('🔔 [SignalR] Instance is disposed - cannot proceed');
+      // console.error('🔔 [SignalR] Instance is disposed - cannot proceed');
       return false;
     }
 
@@ -351,7 +351,7 @@ export class NotificationSignalR {
     const negotiateUrl = `${hubUrl}/negotiate`;
 
     try {
-      console.log('🔔 [SignalR] Testing endpoint availability:', negotiateUrl);
+      // console.log('🔔 [SignalR] Testing endpoint availability:', negotiateUrl);
 
       const response = await fetch(negotiateUrl, {
         method: 'POST',
@@ -366,7 +366,7 @@ export class NotificationSignalR {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      console.log('🔔 [SignalR] Endpoint is available and responding');
+      // console.log('🔔 [SignalR] Endpoint is available and responding');
     } catch (error) {
       // console.error('🔔 [SignalR] Endpoint test failed:', error);
       throw new Error(

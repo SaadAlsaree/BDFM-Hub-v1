@@ -24,6 +24,7 @@ import {
   isAudioFile,
   getMimeTypeFromExtension,
   downloadFileFromBase64,
+  downloadFileFromBlob,
   printFileFromBase64
 } from '@/lib/file-utils';
 import { format } from 'date-fns';
@@ -103,16 +104,13 @@ const AttachmentViewPage = ({ attachmentId, initialData }: Props) => {
   const onDownload = async () => {
     try {
       const response = await authApiCall(() =>
-        attachmentService.downloadAttachment(attachmentId)
+        attachmentService.downloadAttachmentClient(attachmentId)
       );
 
-      if (response?.data && attachmentData) {
-        const extension = attachmentData.fileExtension || '';
-        const mimeType = getMimeTypeFromExtension(extension);
-        downloadFileFromBase64(
-          response.data,
-          attachmentData.fileName || 'download',
-          mimeType
+      if (response instanceof Blob && attachmentData) {
+        downloadFileFromBlob(
+          response,
+          attachmentData.fileName || 'download'
         );
 
         toast({

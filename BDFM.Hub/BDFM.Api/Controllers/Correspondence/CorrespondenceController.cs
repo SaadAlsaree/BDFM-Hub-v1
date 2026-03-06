@@ -49,8 +49,8 @@ namespace BDFM.API.Controllers.Correspondence
     [Produces("application/json")]
     [Tags("Correspondence")]
     [EnableRateLimiting("per-user")]
-    [Authorize]
-    // [Authorize(Roles = "Correspondence, SuAdmin")]
+    //[Authorize]
+    [Authorize(Roles = "Correspondence")]
     public class CorrespondenceController : Base<CorrespondenceController>
     {
         private readonly IMediator _mediator;
@@ -77,7 +77,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|CreateOutgoingInternalMail")]
+        //[Permission("Correspondence|CreateOutgoingInternalMail")]
         public async Task<ObjectResult> CreateOutgoingInternalMail([FromBody] CreateOutgoingInternalCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -87,7 +87,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|CreateIncomingInternalMail")]
+        //[Permission("Correspondence|CreateIncomingInternalMail")]
         public async Task<ObjectResult> CreateIncomingInternalMail([FromBody] CreateIncomingInternalCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -98,7 +98,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|RegisterIncomingExternalMail")]
+        //[Permission("Correspondence|RegisterIncomingExternalMail")]
         public async Task<ObjectResult> RegisterIncomingExternalMail([FromBody] RegisterIncomingExternalMailCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -108,7 +108,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|RegisterOutgoingExternalMail")]
+        //[Permission("Correspondence|RegisterOutgoingExternalMail")]
         public async Task<ObjectResult> RegisterOutgoingExternalMail([FromBody] RegisterOutgoingExternalMailCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -118,7 +118,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<Guid>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|CreateOutgoingExternalMailDraft")]
+        //[Permission("Correspondence|CreateOutgoingExternalMailDraft")]
         public async Task<ObjectResult> CreateMailDraft([FromBody] CreateMailDraftCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -128,7 +128,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|UpdateCorrespondenceContent")]
+        //[Permission("Correspondence|UpdateCorrespondenceContent")]
         public async Task<ObjectResult> UpdateCorrespondenceContent([FromBody] UpdateCorrespondenceContentCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -140,7 +140,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|RemoveAttachment")]
+        //[Permission("Correspondence|RemoveAttachment")]
         public async Task<ObjectResult> RemoveAttachment([FromBody] RemoveAttachmentCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -150,7 +150,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|LinkCorrespondences")]
+        //[Permission("Correspondence|LinkCorrespondences")]
         public async Task<ObjectResult> LinkCorrespondences([FromBody] LinkCorrespondencesCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -162,7 +162,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|ChangeCorrespondenceStatus")]
+        //[Permission("Correspondence|ChangeCorrespondenceStatus")]
         public async Task<ObjectResult> ChangeCorrespondenceStatus([FromBody] ChangeCorrespondenceStatusCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -172,7 +172,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|ToggleStar")]
+        //[Permission("Correspondence|ToggleStar")]
         public async Task<ObjectResult> ToggleStarCorrespondence([FromBody] ToggleStarCorrespondenceCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -182,7 +182,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|PostponeCorrespondence")]
+        //[Permission("Correspondence|PostponeCorrespondence")]
         public async Task<ObjectResult> PostponeCorrespondence([FromBody] PostponeCorrespondenceCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -192,7 +192,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|UnpostponeCorrespondence")]
+        //[Permission("Correspondence|UnpostponeCorrespondence")]
         public async Task<ObjectResult> UnpostponeCorrespondence([FromBody] UnpostponeCorrespondenceCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -202,7 +202,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|MoveToTrash")]
+        //[Permission("Correspondence|MoveToTrash")]
         public async Task<ObjectResult> MoveToTrash([FromBody] MoveCorrespondenceToTrashCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -212,7 +212,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|RestoreFromTrash")]
+        //[Permission("Correspondence|RestoreFromTrash")]
         public async Task<ObjectResult> RestoreFromTrash([FromBody] RestoreCorrespondenceFromTrashCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -222,7 +222,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|PermanentlyDelete")]
+        //[Permission("Correspondence|PermanentlyDelete")]
         public async Task<ObjectResult> PermanentlyDelete([FromBody] PermanentlyDeleteCorrespondenceCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -232,7 +232,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|CreatePublicMail")]
+        //[Permission("Correspondence|CreatePublicMail")]
         public async Task<ObjectResult> CreatePublicCorrespondence([FromBody] CreatePublicMailCommand command)
         {
             return await Okey(() => _mediator.Send(command));
@@ -252,7 +252,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<InboxItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<InboxItemVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetUserInbox")]
+        //[Permission("Correspondence|GetUserInbox")]
         public async Task<ObjectResult> GetUserInbox([FromQuery] GetUserInboxQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -262,7 +262,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<OutgoingInternalVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<OutgoingInternalVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetUserInbox")]
+        //[Permission("Correspondence|GetUserInbox")]
         public async Task<ObjectResult> GetOutgoingInternal([FromQuery] GetOutgoingInternalQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -272,7 +272,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<IncomingInternalVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<IncomingInternalVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetUserInbox")]
+        //[Permission("Correspondence|GetUserInbox")]
         public async Task<ObjectResult> GetIncomingInternal([FromQuery] GetIncomingInternalQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -284,7 +284,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<TrashItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<TrashItemVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetUserInbox")]
+        //[Permission("Correspondence|GetUserInbox")]
         public async Task<ObjectResult> GetTrashItems([FromQuery] GetTrashItemsQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -295,7 +295,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<StarredItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<StarredItemVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetStarredItems([FromQuery] GetUserIsStarredQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -306,7 +306,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<GetCorrespondenceOutgoingVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<GetCorrespondenceOutgoingVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetCorrespondenceOutgoing([FromQuery] GetCorrespondenceOutgoingQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -317,7 +317,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<GetCorrespondenceIncomingVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<GetCorrespondenceIncomingVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetCorrespondenceIncming([FromQuery] GetCorrespondenceIncomingQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -327,7 +327,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<GetSigningListVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<GetSigningListVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetSigningList([FromQuery] GetSigningListQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -338,7 +338,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<GetPostponedCorrespondencesVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<GetPostponedCorrespondencesVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetPostponedCorrespondences([FromQuery] GetPostponedCorrespondencesQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -348,7 +348,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<CorrespondenceDetailVm>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<CorrespondenceDetailVm>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetById([FromQuery] Guid id)
         {
             return await Okey(() => _mediator.Send(new GetCorrespondenceByIdQuery { Id = id }));
@@ -359,7 +359,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<List<LinkedCorrespondenceVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<List<LinkedCorrespondenceVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|ViewLinkedItems")]
+        //[Permission("Correspondence|ViewLinkedItems")]
         public async Task<ObjectResult> GetLinkedCorrespondences([FromQuery] Guid correspondenceId)
         {
             return await Okey(() => _mediator.Send(new GetLinkedCorrespondencesQuery { CorrespondenceId = correspondenceId }));
@@ -371,7 +371,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<List<DraftItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<List<DraftItemVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetUserDrafts([FromQuery] GetUserDraftsQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -394,7 +394,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<GetLateBooksVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<GetLateBooksVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetLateBooks([FromQuery] GetLateBooksQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -404,7 +404,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<UrgentBooksVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<UrgentBooksVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetUrgentBooks([FromQuery] GetUrgentBooksQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -414,7 +414,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<GetPublicCorrespondencesVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<GetPublicCorrespondencesVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetPublicMails([FromQuery] GetPublicCorrespondencesQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -425,7 +425,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<GetCorrespondencesSummaryVm>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<GetCorrespondencesSummaryVm>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetSummary")]
+        //[Permission("Correspondence|GetSummary")]
         public async Task<ObjectResult> GetCorrespondencesSummary([FromQuery] GetCorrespondencesSummaryCommand query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -438,7 +438,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<CorrespondencesSummaryAllVm>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<CorrespondencesSummaryAllVm>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetSummary")]
+        //[Permission("Correspondence|GetSummary")]
         public async Task<ObjectResult> GetCorrespondencesSummaryByUnits([FromQuery] CorrespondencesSummaryQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -449,7 +449,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<PendingItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<IActionResult> GetPending([FromQuery] GetPendingQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -462,7 +462,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<ProcessingItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<IActionResult> GetProcessing([FromQuery] GetProcessingQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -475,7 +475,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<ReturnForEditingItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<IActionResult> GetReturnForEditing([FromQuery] GetReturnForEditingQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -488,7 +488,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<CompletedItemVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<IActionResult> GetCompleted([FromQuery] GetCompletedQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -501,7 +501,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<GetForwardedCorrespondenceVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<GetForwardedCorrespondenceVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetForwardedCorrespondence")]
+        //[Permission("Correspondence|GetForwardedCorrespondence")]
         public async Task<ObjectResult> GetForwardedCorrespondence([FromQuery] GetForwardedCorrespondenceQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -514,7 +514,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceWorkflowNotCompletedVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceWorkflowNotCompletedVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetPendingOrInProgressCorrespondences([FromQuery] GetCorrespondenceAnyWorkflowNotCompletedQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -527,7 +527,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceNotCompletedVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<CorrespondenceNotCompletedVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|View")]
+        //[Permission("Correspondence|View")]
         public async Task<ObjectResult> GetNotCompletedCorrespondences([FromQuery] GetCorrespondenceNotCompletedQuery query)
         {
             return await Okey(() => _mediator.Send(query));
@@ -540,7 +540,7 @@ namespace BDFM.API.Controllers.Correspondence
         [ServiceFilter(typeof(LogActionArguments))]
         [ProducesResponseType(typeof(Response<PagedResult<MyPendingOrInProgressCorrespondencesVm>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Response<PagedResult<MyPendingOrInProgressCorrespondencesVm>>), StatusCodes.Status400BadRequest)]
-        [Permission("Correspondence|GetUserInbox")]
+        //[Permission("Correspondence|GetUserInbox")]
         public async Task<ObjectResult> GetMyPendingOrInProgressCorrespondences([FromQuery] GetMyPendingOrInProgressCorrespondencesQuery query)
         {
             return await Okey(() => _mediator.Send(query));

@@ -25,7 +25,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useAuthApi } from '@/hooks/use-auth-api';
 import { attachmentService } from '../api/attachment.service';
-import { downloadFileFromBase64 } from '@/lib/file-utils';
+import { downloadFileFromBase64, downloadFileFromBlob, printFileFromBlob } from '@/lib/file-utils';
 import { useToast } from '@/components/ui/use-toast';
 
 interface AttachmentsListProps {
@@ -118,6 +118,7 @@ const AttachmentsList = ({
   }, [attachments, searchQuery, selectedType, sortBy, sortOrder]);
 
   const onDownloadAttachment = async (attachment: FileAttachmentList) => {
+    console.log('Initiating download for attachment:', attachment.id);
     if (!attachment.id) {
       toast({
         title: 'Error',
@@ -128,43 +129,87 @@ const AttachmentsList = ({
     }
 
     try {
+      console.log('Calling API to download attachment...');
       const response = await authApiCall(() =>
-        attachmentService.downloadAttachment(attachment.id!)
+        attachmentService.downloadAttachmentClient(attachment.id!)
       );
+      
+      console.log('Download API response type:', typeof response);
 
-      if (response?.data) {
-        downloadFileFromBase64(
-          response.data,
-          attachment.fileName || 'download',
-          'application/octet-stream'
+      if (response instanceof Blob) {
+        console.log('File blob found, initiating browser download... size:', response.size);
+        downloadFileFromBlob(
+          response,
+          attachment.fileName || 'download'
         );
         toast({
           title: 'Success',
           description: 'File downloaded successfully'
         });
       } else {
+        console.log('No valid blob found in response. Response was:', response);
         toast({
           title: 'Error',
-          description: 'Failed to download file',
+          description: 'No file data received from server',
           variant: 'destructive'
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Download error:', error);
       toast({
         title: 'Error',
-        description: 'Failed to download file',
+        description: error.message || 'Failed to download file',
         variant: 'destructive'
       });
     }
   };
 
   const onPrintAttachment = async (attachment: FileAttachmentList) => {
-    // Implement print functionality
-    toast({
-      title: 'Print',
-      description: `Print functionality for ${attachment.fileName}`
-    });
+    console.log('Initiating print for attachment:', attachment.id);
+    if (!attachment.id) {
+      toast({
+        title: 'Error',
+        description: 'Attachment ID is missing',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    try {
+      console.log('Calling API to download attachment for printing...', attachment.id);
+      const response = await authApiCall(() =>
+        attachmentService.downloadAttachmentClient(attachment.id!)
+      );
+      
+      console.log('Print API response type:', typeof response, response instanceof Blob);
+
+      if (response instanceof Blob) {
+        toast({
+          title: 'جاري التجهيز',
+          description: 'جاري تجهيز الملف للطباعة...'
+        });
+        console.log('File blob found, initiating print... size:', response.size);
+        await printFileFromBlob(
+          response,
+          attachment.fileName || 'print',
+          attachment.fileExtension || ''
+        );
+        console.log('Print dialog should be open now');
+      } else {
+        toast({
+          title: 'Error',
+          description: 'No file data received for printing',
+          variant: 'destructive'
+        });
+      }
+    } catch (error: any) {
+      console.error('Print error:', error);
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to print file',
+        variant: 'destructive'
+      });
+    }
   };
 
   const toggleSort = (newSortBy: SortBy) => {
@@ -204,12 +249,12 @@ const AttachmentsList = ({
             {filteredAndSortedAttachments.length}
           </Badge>
         </div>
-        {onDownloadAll && (
+        {/* {onDownloadAll && (
           <Button onClick={onDownloadAll} variant='outline' size='sm'>
             <Download className='mr-2 h-4 w-4' />
             تحميل الكل
           </Button>
-        )}
+        )} */}
       </div>
 
       {/* Search and Filters */}

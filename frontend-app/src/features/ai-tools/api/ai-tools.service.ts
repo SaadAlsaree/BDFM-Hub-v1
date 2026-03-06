@@ -28,7 +28,7 @@ chatbotClient.interceptors.request.use(
         config.headers.Authorization = `Bearer ${session.accessToken}`;
       }
     } catch (error) {
-      console.error('Error getting session for chatbot client:', error);
+      // console.error('Error getting session for chatbot client:', error);
     }
     return config;
   },
@@ -64,13 +64,13 @@ export const ocrService = {
       );
 
       if (response.status >= 400) {
-        console.error('Error performing OCR:', response.statusText);
+        // console.error('Error performing OCR:', response.statusText);
         return null;
       }
 
       return response.data;
     } catch (error: any) {
-      console.error('Error performing OCR:', error);
+      // console.error('Error performing OCR:', error);
 
       // معالجة الأخطاء من API
       if (error.response?.data) {
@@ -96,13 +96,13 @@ export const ocrService = {
       );
 
       if (response.status >= 400) {
-        console.error('Error performing OCR:', response.statusText);
+        // console.error('Error performing OCR:', response.statusText);
         return null;
       }
 
       return response.data;
     } catch (error: any) {
-      console.error('Error performing OCR:', error);
+      // console.error('Error performing OCR:', error);
 
       // معالجة الأخطاء من API - إرجاع تفاصيل الخطأ
       if (error.response?.data) {
@@ -210,7 +210,7 @@ export const ocrService = {
                 throw new Error(data.error);
               }
             } catch (parseError) {
-              console.warn('Error parsing SSE chunk:', parseError);
+              // console.warn('Error parsing SSE chunk:', parseError);
             }
           }
         }
@@ -220,7 +220,7 @@ export const ocrService = {
         onComplete(fullText);
       }
     } catch (error: any) {
-      console.error('Error in OCR streaming:', error);
+        // console.error('Error in OCR streaming:', error);
       if (onError) {
         onError(error instanceof Error ? error : new Error(String(error)));
       }

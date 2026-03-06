@@ -3,7 +3,7 @@ import { CorrespondenceTag, CorrespondenceTagsRequest } from '../types/tags';
 import { IResponse, IResponseList } from '@/types/response';
 import { CorrespondenceDetails } from '@/features/correspondence/inbox-list/types/correspondence-details';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const tagsService = {
   ///BDFM/v1/api/Tag/CreateTag
@@ -14,12 +14,12 @@ export const tagsService = {
         payload
       );
       if (response.status >= 400) {
-        console.error('Error creating tag:', response.statusText);
+        // console.error('Error creating tag:', response.statusText);
         return null;
       }
       return response.data as IResponse<boolean>;
     } catch (error) {
-      console.error('Error creating tag:', error);
+      // console.error('Error creating tag:', error);
       return null;
     }
   },
@@ -32,12 +32,12 @@ export const tagsService = {
         payload
       );
       if (response.status >= 400) {
-        console.error('Error updating tag:', response.statusText);
+        // console.error('Error updating tag:', response.statusText);
         return null;
       }
       return response.data as IResponse<boolean>;
     } catch (error) {
-      console.error('Error updating tag:', error);
+      // console.error('Error updating tag:', error);
       return null;
     }
   },
@@ -49,12 +49,12 @@ export const tagsService = {
         `${baseUrl}/Tag/SoftDeleteTag/SoftDelete/${id}`
       );
       if (response.status >= 400) {
-        console.error('Error soft deleting tag:', response.statusText);
+        // console.error('Error soft deleting tag:', response.statusText);
         return null;
       }
       return response.data as IResponse<boolean>;
     } catch (error) {
-      console.error('Error soft deleting tag:', error);
+      // console.error('Error soft deleting tag:', error);
       return null;
     }
   },
@@ -66,12 +66,12 @@ export const tagsService = {
         params: query
       });
       if (response.status >= 400) {
-        console.error('Error getting tag list:', response.statusText);
+        // console.error('Error getting tag list:', response.statusText);
         return null;
       }
       return response.data as IResponse<boolean>;
     } catch (error) {
-      console.error('Error getting tag list:', error);
+      // console.error('Error getting tag list:', error);
       return null;
     }
   },
@@ -84,15 +84,15 @@ export const tagsService = {
         { params: query }
       );
       if (response.status >= 400) {
-        console.error(
+        /* console.error(
           'Error getting correspondences with tags:',
           response.statusText
-        );
+        ); */
         return null;
       }
       return response.data as IResponseList<CorrespondenceDetails>;
     } catch (error) {
-      console.error('Error getting correspondences with tags:', error);
+      // console.error('Error getting correspondences with tags:', error);
       return null;
     }
   },
@@ -105,15 +105,15 @@ export const tagsService = {
         payload
       );
       if (response.status >= 400) {
-        console.error(
+        /* console.error(
           'Error creating correspondence tags:',
           response.statusText
-        );
+        ); */
         return null;
       }
       return response.data as IResponse<boolean>;
     } catch (error) {
-      console.error('Error creating correspondence tags:', error);
+      // console.error('Error creating correspondence tags:', error);
       return null;
     }
   }

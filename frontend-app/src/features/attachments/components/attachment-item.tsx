@@ -88,17 +88,23 @@ const AttachmentItem = ({
   const FileIcon = getFileIcon(attachment.fileExtension);
   const fileTypeColor = getFileTypeColor(attachment.fileExtension);
 
-  const onViewAttachment = () => {
+  const onViewAttachment = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (attachment.id) {
       window.open(`/attachments/${attachment.id}`, '_blank');
     }
   };
 
-  const onDownloadAttachment = () => {
+  const onDownloadAttachment = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     onDownload?.(attachment);
   };
 
-  const onPrintAttachment = () => {
+  const onPrintAttachment = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     onPrint?.(attachment);
   };
 

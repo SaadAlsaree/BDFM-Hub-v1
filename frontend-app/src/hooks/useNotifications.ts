@@ -156,7 +156,7 @@ export function useNotifications(
       }
     },
     onError: (error) => {
-      console.error('Error marking notification as read:', error);
+      // console.error('Error marking notification as read:', error);
       toast.error('Failed to mark notification as read');
     }
   });
@@ -196,7 +196,7 @@ export function useNotifications(
       }
     },
     onError: (error) => {
-      console.error('Error marking all notifications as read:', error);
+      // console.error('Error marking all notifications as read:', error);
       toast.error('Failed to mark all notifications as read');
     }
   });
@@ -299,7 +299,7 @@ export function useNotifications(
         // Debounced cache invalidation
         debouncedInvalidateNotifications();
       } catch (error) {
-        console.error('Error handling new notification:', error);
+        // console.error('Error handling new notification:', error);
       }
     },
     [
@@ -318,9 +318,9 @@ export function useNotifications(
   useEffect(() => {
     // Skip if global listeners are being handled elsewhere
     if (options.skipGlobalListeners) {
-      console.log(
-        '🔔 [useNotifications] Skipping event listeners - using global listeners'
-      );
+      // console.log(
+      //   '🔔 [useNotifications] Skipping event listeners - using global listeners'
+      // );
       return;
     }
 
@@ -332,10 +332,10 @@ export function useNotifications(
     // console.debug('Setting up SignalR notification event listeners');
 
     const correspondenceAssignedHandler = (data: any) => {
-      console.log(
-        '🔔 [useNotifications] Received CorrespondenceAssignedToModule event:',
-        JSON.stringify(data, null, 2)
-      );
+      // console.log(
+      //   '🔔 [useNotifications] Received CorrespondenceAssignedToModule event:',
+      //   JSON.stringify(data, null, 2)
+      // );
       handleNewNotification({
         message: data.message || `تم تحويل الكتاب لوحدتك: ${data.moduleName}`,
         notificationType: NotificationType.NewMail,
@@ -346,10 +346,10 @@ export function useNotifications(
     };
 
     const statusChangedHandler = (data: any) => {
-      console.log(
-        '🔔 [useNotifications] Received CorrespondenceStatusChangedWithNotification event:',
-        JSON.stringify(data, null, 2)
-      );
+      // console.log(
+      //   '🔔 [useNotifications] Received CorrespondenceStatusChangedWithNotification event:',
+      //   JSON.stringify(data, null, 2)
+      // );
       handleNewNotification({
         message: data.message || `تم تحديث حالة الكتاب إلى ${data.newStatus}`,
         notificationType: NotificationType.StatusUpdate,
@@ -359,10 +359,10 @@ export function useNotifications(
     };
 
     const workflowStepHandler = (data: any) => {
-      console.log(
-        '🔔 [useNotifications] Received WorkflowStepCreated event:',
-        JSON.stringify(data, null, 2)
-      );
+      // console.log(
+      //   '🔔 [useNotifications] Received WorkflowStepCreated event:',
+      //   JSON.stringify(data, null, 2)
+      // );
       handleNewNotification({
         message: data.message || 'تم إنشاء خطوة عمل جديدة',
         notificationType: NotificationType.WorkflowAssignment,
@@ -373,10 +373,10 @@ export function useNotifications(
     };
 
     const workflowAssignedHandler = (data: any) => {
-      console.log(
-        '🔔 [useNotifications] Received WorkflowStepAssigned event:',
-        JSON.stringify(data, null, 2)
-      );
+      // console.log(
+      //   '🔔 [useNotifications] Received WorkflowStepAssigned event:',
+      //   JSON.stringify(data, null, 2)
+      // );
       handleNewNotification({
         message: 'تم تعيين خطوة عمل جديدة لك',
         notificationType: NotificationType.WorkflowAssignment,
@@ -387,7 +387,7 @@ export function useNotifications(
     };
 
     // Register handlers
-    console.log('🔔 [useNotifications] Registering SignalR event handlers');
+    // console.log('🔔 [useNotifications] Registering SignalR event handlers');
     onNotificationEvent(
       'CorrespondenceAssignedToModule',
       correspondenceAssignedHandler
@@ -435,7 +435,7 @@ export function useNotifications(
       try {
         await markAsReadMutation.mutateAsync(id);
       } catch (error) {
-        console.error('Error marking notification as read:', error);
+        // console.error('Error marking notification as read:', error);
       }
     },
     [markAsReadMutation]
@@ -445,7 +445,7 @@ export function useNotifications(
     try {
       await markAllAsReadMutation.mutateAsync();
     } catch (error) {
-      console.error('Error marking all notifications as read:', error);
+      // console.error('Error marking all notifications as read:', error);
     }
   }, [markAllAsReadMutation]);
 
@@ -453,7 +453,7 @@ export function useNotifications(
     try {
       await Promise.all([refetch(), refetchUnreadCount()]);
     } catch (error) {
-      console.error('Error refreshing notifications:', error);
+      // console.error('Error refreshing notifications:', error);
     }
   }, [refetch, refetchUnreadCount]);
 
@@ -471,7 +471,7 @@ export function useNotifications(
         }
         return success;
       } catch (error) {
-        console.error('Error during manual reconnection:', error);
+        // console.error('Error during manual reconnection:', error);
         toast.error('حدث خطأ أثناء إعادة الاتصال');
         return false;
       }

@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/lib/axios';
 import { UnitCorrespondenceSummaryQuery } from '../types/correspondences-summary';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const correspondencesSummaryService = {
   //BDFM/v1/api/Correspondence/GetCorrespondencesSummaryByUnits
@@ -15,7 +15,7 @@ export const correspondencesSummaryService = {
       );
       return response;
     } catch (error) {
-      console.error('Error getting correspondences summary:', error);
+      // console.error('Error getting correspondences summary:', error);
       return null;
     }
   }

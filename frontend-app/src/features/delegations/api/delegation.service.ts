@@ -6,7 +6,7 @@ import {
   CreateDelegationPayload
 } from '@/features/delegations/types/delegation';
 
-const baseUrl = process.env.API_URL || 'http://cm-back.inss.local:5000/BDFM/v1/api';
+const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
 
 export const delegationService = {
   async getDelegationList(query: Record<string, any>) {
@@ -104,7 +104,7 @@ export const delegationService = {
       }
       return (response.data as IResponse<boolean>) || null;
     } catch (error) {
-      console.error('Error deleting delegation:', error);
+      // console.error('Error deleting delegation:', error);
       return null;
     }
   }
