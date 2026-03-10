@@ -8,13 +8,13 @@ import {
   FileAttachmentQuery
 } from '@/features/attachments/types/attachment';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const attachmentService = {
   async getAttachmentList(query: FileAttachmentQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Attachments/GetAttachmentsList`,
+        `/Attachments/GetAttachmentsList`,
         { params: query }
       );
       if (response.status >= 400) {
@@ -31,7 +31,7 @@ export const attachmentService = {
   async getAttachmentDetail(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Attachments/GetAttachmentById/${id}`
+        `/Attachments/GetAttachmentById/${id}`
       );
       if (response.status >= 400) {
         // console.error(`Error fetching attachment ${id}:`, response.statusText);
@@ -47,7 +47,7 @@ export const attachmentService = {
   async createAttachment(payload: FileAttachmentPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Attachments/CreateAttachment`,
+        `/Attachments/CreateAttachment`,
         payload
       );
       if (response.status >= 400) {
@@ -85,7 +85,7 @@ export const attachmentService = {
       formData.append('CreateBy', metadata.createBy);
 
       const response = await axiosClient.post(
-        `${baseUrl}/Attachments/CreateAttachment`,
+        `/Attachments/CreateAttachment`,
         formData,
         {
           headers: {
@@ -108,7 +108,7 @@ export const attachmentService = {
   async updateAttachment(payload: FileAttachmentPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Attachments/UpdateAttachment`,
+        `/Attachments/UpdateAttachment`,
         payload
       );
       if (response.status >= 400) {
@@ -125,7 +125,7 @@ export const attachmentService = {
   async updateAttachmentStatus(payload: FileAttachmentStatus) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Attachment/UpdateAttachmentStatus`,
+        `/Attachment/UpdateAttachmentStatus`,
         payload
       );
       if (response.status >= 400) {
@@ -142,7 +142,7 @@ export const attachmentService = {
   async deleteAttachment(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/Attachment/DeleteAttachment/${id}`
+        `/Attachment/DeleteAttachment/${id}`
       );
       if (response.status >= 400) {
         // console.error('Error deleting attachment:', response.statusText);
@@ -159,7 +159,7 @@ export const attachmentService = {
   async downloadAttachment(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Attachments/DownloadAttachment/${id}/download`
+        `/Attachments/DownloadAttachment/${id}/download`
       );
       if (response.status >= 400) {
         // console.error('Error downloading attachment:', response.statusText);
@@ -174,9 +174,9 @@ export const attachmentService = {
 
   async downloadAttachmentClient(id: string) {
     try {
-      // console.log('axiosClient.get URL:', `${baseUrl}/Attachments/DownloadAttachment/${id}/download`);
+      // console.log('axiosClient.get URL:', `/Attachments/DownloadAttachment/${id}/download`);
       const response = await axiosClient.get(
-        `${baseUrl}/Attachments/DownloadAttachment/${id}/download`,
+        `/Attachments/DownloadAttachment/${id}/download`,
         { responseType: 'blob' }
       );
       // console.log('axiosClient response status:', response.status);
@@ -194,7 +194,7 @@ export const attachmentService = {
   async getAttachmentByPrimaryTableId(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Attachments/GetAttachmentsByTable`,
+        `/Attachments/GetAttachmentsByTable`,
         { params: query }
       );
       if (response.status >= 400) {
@@ -211,7 +211,7 @@ export const attachmentService = {
   async getAttachmentByPrimaryTableIdClient(query: Record<string, any>) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Attachments/GetAttachmentsByTable`,
+        `/Attachments/GetAttachmentsByTable`,
         { params: query }
       );
       if (response.status >= 400) {

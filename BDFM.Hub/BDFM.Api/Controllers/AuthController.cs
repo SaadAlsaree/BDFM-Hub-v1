@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("BDFM/v1/api/[controller]")]
     [ApiController]
     [FixedWindowRateLimit] // Apply strict rate limiting to prevent brute force
     [EnableRateLimiting("fixed")]
@@ -26,6 +26,7 @@ namespace BDFM.Api.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "SuAdmin")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
         {
             var response = await _authenticationService.RegisterAsync(request);

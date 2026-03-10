@@ -5,13 +5,13 @@ import {
   WorkflowStepSecondaryUpdate
 } from '../types/workflow-step-secondary';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const workflowStepSecondaryService = {
   async createWorkflowStepSecondary(payload: WorkflowStepSecondaryCreate) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/WorkflowStepSecondary/CreateWorkflowStepSecondary`,
+        `/WorkflowStepSecondary/CreateWorkflowStepSecondary`,
         payload
       );
       if (response.status >= 400) {
@@ -28,7 +28,7 @@ export const workflowStepSecondaryService = {
   async updateWorkflowStepSecondary(payload: WorkflowStepSecondaryUpdate) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/WorkflowStepSecondary/UpdateWorkflowStepSecondary`,
+        `/WorkflowStepSecondary/UpdateWorkflowStepSecondary`,
         payload
       );
       if (response.status >= 400) {
@@ -45,7 +45,7 @@ export const workflowStepSecondaryService = {
   async deleteWorkflowStepSecondary(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/WorkflowStepSecondary/DeleteWorkflowStepSecondary/${id}`
+        `/WorkflowStepSecondary/DeleteWorkflowStepSecondary/${id}`
       );
       if (response.status >= 400) {
         // console.error('Error deleting workflow step secondary:', response.statusText);

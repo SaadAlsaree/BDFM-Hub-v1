@@ -8,13 +8,13 @@ import {
   GetLeaveWorkflowListQuery
 } from '../types/leave-workflow';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const leaveWorkflowService = {
   async getLeaveWorkflowList(query?: GetLeaveWorkflowListQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveWorkflows/GetLeaveWorkflowList`,
+        `/LeaveWorkflows/GetLeaveWorkflowList`,
         { params: query }
       );
 
@@ -35,7 +35,7 @@ export const leaveWorkflowService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveWorkflows/GetLeaveWorkflowById/${id}`
+        `/LeaveWorkflows/GetLeaveWorkflowById/${id}`
       );
 
       if (response.status >= 400) {
@@ -51,7 +51,7 @@ export const leaveWorkflowService = {
   async createLeaveWorkflow(payload: CreateLeaveWorkflowPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveWorkflows/CreateLeaveWorkflow`,
+        `/LeaveWorkflows/CreateLeaveWorkflow`,
         payload
       );
 
@@ -68,7 +68,7 @@ export const leaveWorkflowService = {
   async updateLeaveWorkflow(payload: UpdateLeaveWorkflowPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/LeaveWorkflows/UpdateLeaveWorkflow`,
+        `/LeaveWorkflows/UpdateLeaveWorkflow`,
         payload
       );
 
@@ -89,7 +89,7 @@ export const leaveWorkflowService = {
       }
 
       const response = await axiosClient.delete(
-        `${baseUrl}/LeaveWorkflows/DeleteLeaveWorkflow/${id}`
+        `/LeaveWorkflows/DeleteLeaveWorkflow/${id}`
       );
 
       if (response.status >= 400) {

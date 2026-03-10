@@ -7,7 +7,7 @@ import {
   SyncLeaveBalancePayload
 } from '../types/leave-balance';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const leaveBalanceService = {
   async getLeaveBalanceByEmployeeId(employeeId: string, leaveType?: number) {
@@ -22,7 +22,7 @@ export const leaveBalanceService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveBalances/GetLeaveBalanceByEmployeeId/ByEmployee/${employeeId}`,
+        `/LeaveBalances/GetLeaveBalanceByEmployeeId/ByEmployee/${employeeId}`,
         { params }
       );
 
@@ -39,7 +39,7 @@ export const leaveBalanceService = {
   async getLeaveBalanceHistory(query?: GetLeaveBalanceHistoryQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveBalances/GetLeaveBalanceHistory/History`,
+        `/LeaveBalances/GetLeaveBalanceHistory/History`,
         { params: query }
       );
 
@@ -56,7 +56,7 @@ export const leaveBalanceService = {
   async syncLeaveBalance(payload: SyncLeaveBalancePayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveBalances/SyncLeaveBalance`,
+        `/LeaveBalances/SyncLeaveBalance`,
         payload
       );
 

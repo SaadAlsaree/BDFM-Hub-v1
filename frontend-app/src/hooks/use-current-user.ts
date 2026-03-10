@@ -24,7 +24,7 @@ export function useCurrentUser() {
 
   const refreshUser = useMutation({
     mutationFn: () =>
-      authApiCall(async () => await currentUserService.getCurrentUserClient()),
+      authApiCall(async () => await currentUserService.getCurrentUserClient()), 
     onSuccess: (newData) => {
       queryClient.setQueryData(['currentUser'], newData);
     }

@@ -7,14 +7,14 @@ import {
   RemoveUserPermissionDto
 } from '../types/user';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const userPermissionService = {
   // /UserPermission/AssignPermissionsToUser
   async assignUserPermissions(payload: AssignUserPermissionsDto) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserPermission/AssignPermissionsToUser`,
+        `/UserPermission/AssignPermissionsToUser`,
         payload
       );
 
@@ -32,7 +32,7 @@ export const userPermissionService = {
   async createUserPermission(payload: CreateUserPermissionDto) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserPermission/CreateUserPermission`,
+        `/UserPermission/CreateUserPermission`,
         payload
       );
       return (response.data as IResponse<boolean>) || null;
@@ -45,7 +45,7 @@ export const userPermissionService = {
   async getUserPermissions(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/UserPermission/GetPermissionsByUserId`,
+        `/UserPermission/GetPermissionsByUserId`,
         { params: query }
       );
 
@@ -63,7 +63,7 @@ export const userPermissionService = {
   async removePermissionFromUser(payload: RemoveUserPermissionDto) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserPermission/RemovePermissionFromUser`,
+        `/UserPermission/RemovePermissionFromUser`,
         payload
       );
 

@@ -10,7 +10,7 @@ import {
   ImportFromCsvResponse
 } from '@/features/users/types/user';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const userService = {
   async getUsers(query: Record<string, any>) {
@@ -46,7 +46,7 @@ export const userService = {
         params.Username = query.username;
       }
 
-      const response = await axiosInstance.get(`${baseUrl}/User/GetAllUsers`, {
+      const response = await axiosInstance.get(`/User/GetAllUsers`, {
         params
       });
 
@@ -70,7 +70,7 @@ export const userService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/User/GetUserById/${id}`
+        `/User/GetUserById/${id}`
       );
 
       if (response.status >= 400) {
@@ -88,7 +88,7 @@ export const userService = {
   async createUser(user: UserPayloadDto) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/User/CreateUser`,
+        `/User/CreateUser`,
         user
       );
 
@@ -114,7 +114,7 @@ export const userService = {
       }
 
       const response = await axiosClient.put(
-        `${baseUrl}/User/UpdateUser`,
+        `/User/UpdateUser`,
         user
       );
 
@@ -132,7 +132,7 @@ export const userService = {
 
   // async deleteUser(id: string) {
   //   try {
-  //     const response = await axiosClient.delete(`${baseUrl}/Auth/DeleteAuth/${id}`);
+  //     const response = await axiosClient.delete(`/Auth/DeleteAuth/${id}`);
 
   //     if (response.status === 400) {
   //       return null;
@@ -151,7 +151,7 @@ export const userService = {
       }
 
       const response = await axiosClient.put(
-        `${baseUrl}/User/ChangePassword`,
+        `/User/ChangePassword`,
         request
       );
 
@@ -181,7 +181,7 @@ export const userService = {
       };
 
       const response = await axiosClient.put(
-        `${baseUrl}/User/ResetPassword`,
+        `/User/ResetPassword`,
         payload
       );
 
@@ -205,7 +205,7 @@ export const userService = {
       }
 
       const response = await axiosClient.patch(
-        `${baseUrl}/ChangeStatus/ChangeStatus`,
+        `/ChangeStatus/ChangeStatus`,
         request
       );
 
@@ -229,7 +229,7 @@ export const userService = {
         return null;
       }
 
-      const response = await axiosInstance.get(`${baseUrl}/User/SearchUser`, {
+      const response = await axiosInstance.get(`/User/SearchUser`, {
         params: query
       });
 
@@ -252,7 +252,7 @@ export const userService = {
         // console.error('searchUserClient called without a search term');
         return null;
       }
-      const response = await axiosClient.get(`${baseUrl}/User/SearchUser`, {
+      const response = await axiosClient.get(`/User/SearchUser`, {
         params: query
       });
 
@@ -273,7 +273,7 @@ export const userService = {
       formData.append('File', file);
 
       const response = await axiosClient.post(
-        `${baseUrl}/User/ImportFromCsv`,
+        `/User/ImportFromCsv`,
         formData,
         {
           headers: {

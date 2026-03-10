@@ -6,12 +6,12 @@ import {
   IRolePayload
 } from '@/features/roles/types/role';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const roleService = {
   async getRoles(query: Record<string, any>) {
     try {
-      const response = await axiosInstance.get(`${baseUrl}/Role/GetRoleList`, {
+      const response = await axiosInstance.get(`/Role/GetRoleList`, {
         params: query
       });
 
@@ -40,7 +40,7 @@ export const roleService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/Role/GetRoleById/${id}`
+        `/Role/GetRoleById/${id}`
       );
 
       if (response.status >= 400) {
@@ -58,7 +58,7 @@ export const roleService = {
   async createRole(role: IRolePayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Role/CreateRole`,
+        `/Role/CreateRole`,
         role
       );
 
@@ -82,7 +82,7 @@ export const roleService = {
       }
 
       const response = await axiosClient.put(
-        `${baseUrl}/Role/UpdateRole`,
+        `/Role/UpdateRole`,
         role
       );
 
@@ -112,7 +112,7 @@ export const roleService = {
       };
 
       const response = await axiosClient.patch(
-        `${baseUrl}/Role/ChangeStatus/ChangeStatus`,
+        `/Role/ChangeStatus/ChangeStatus`,
         request
       );
 

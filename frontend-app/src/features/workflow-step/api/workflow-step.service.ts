@@ -7,7 +7,7 @@ import {
   WorkflowStepBulkInsert
 } from '../types/workflow-step';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const workflowStepService = {
   ///Workflow/CreateWorkflowStep
@@ -15,7 +15,7 @@ export const workflowStepService = {
     try {
       // console.log(JSON.stringify(payload));
       const response = await axiosClient.post(
-        `${baseUrl}/Workflow/CreateWorkflowStep`,
+        `/Workflow/CreateWorkflowStep`,
         payload
       );
       if (response.status >= 400) {
@@ -33,7 +33,7 @@ export const workflowStepService = {
   async logRecipientInternalAction(payload: LogRecipientInternalActionInput) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Workflow/LogRecipientInternalAction`,
+        `/Workflow/LogRecipientInternalAction`,
         payload
       );
       if (response.status >= 400) {
@@ -53,7 +53,7 @@ export const workflowStepService = {
   async updateStatus(payload: UpdateStatusInput) {
     try {
       const response = await axiosClient.patch(
-        `${baseUrl}/Workflow/UpdateStatus/UpdateStatus`,
+        `/Workflow/UpdateStatus/UpdateStatus`,
         payload
       );
       if (response.status >= 400) {
@@ -71,7 +71,7 @@ export const workflowStepService = {
   async completeWorkflowStep(id: string) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Workflow/CompleteWorkflowStep/${id}`
+        `/Workflow/CompleteWorkflowStep/${id}`
       );
       if (response.status >= 400) {
         // eslint-disable-next-line no-console
@@ -110,7 +110,7 @@ export const workflowStepService = {
   async createBulkWorkflowSteps(payload: WorkflowStepBulkInsert) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Workflow/CreateBulkWorkflowSteps`,
+        `/Workflow/CreateBulkWorkflowSteps`,
         payload
       );
       return (response.data as IResponse<boolean>) || null;

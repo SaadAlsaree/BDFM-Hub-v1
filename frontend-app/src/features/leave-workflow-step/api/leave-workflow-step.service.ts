@@ -7,7 +7,7 @@ import {
   CompleteLeaveWorkflowStepPayload
 } from '../types/leave-workflow-step';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const leaveWorkflowStepService = {
   async getLeaveWorkflowStepById(id: string) {
@@ -17,7 +17,7 @@ export const leaveWorkflowStepService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveWorkflowSteps/GetLeaveWorkflowStepById/${id}`
+        `/LeaveWorkflowSteps/GetLeaveWorkflowStepById/${id}`
       );
 
       if (response.status >= 400) {
@@ -37,7 +37,7 @@ export const leaveWorkflowStepService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveWorkflowSteps/GetLeaveWorkflowStepsByRequestId/ByRequestId/${leaveRequestId}`
+        `/LeaveWorkflowSteps/GetLeaveWorkflowStepsByRequestId/ByRequestId/${leaveRequestId}`
       );
 
       if (response.status >= 400) {
@@ -53,7 +53,7 @@ export const leaveWorkflowStepService = {
   async createLeaveWorkflowStep(payload: CreateLeaveWorkflowStepPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveWorkflowSteps/CreateLeaveWorkflowStep`,
+        `/LeaveWorkflowSteps/CreateLeaveWorkflowStep`,
         payload
       );
 
@@ -72,7 +72,7 @@ export const leaveWorkflowStepService = {
   ) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/LeaveWorkflowSteps/UpdateLeaveWorkflowStepStatus`,
+        `/LeaveWorkflowSteps/UpdateLeaveWorkflowStepStatus`,
         payload
       );
 
@@ -89,7 +89,7 @@ export const leaveWorkflowStepService = {
   async completeLeaveWorkflowStep(payload: CompleteLeaveWorkflowStepPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveWorkflowSteps/CompleteLeaveWorkflowStep`,
+        `/LeaveWorkflowSteps/CompleteLeaveWorkflowStep`,
         payload
       );
 

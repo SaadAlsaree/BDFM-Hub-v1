@@ -1,7 +1,7 @@
 import { axiosClient } from '@/lib/axios';
 import { IResponse } from '@/types/response';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const notificationManagementApi = {
   /**
@@ -11,7 +11,7 @@ export const notificationManagementApi = {
   async markAsRead(notificationId: string): Promise<boolean> {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Notification/MarkNotificationAsRead`,
+        `/Notification/MarkNotificationAsRead`,
         {
           notificationId
         }
@@ -30,7 +30,7 @@ export const notificationManagementApi = {
   async markAllAsRead(): Promise<boolean> {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Notification/MarkAllNotificationsAsRead`,
+        `/Notification/MarkAllNotificationsAsRead`,
         {}
       );
 
@@ -49,7 +49,7 @@ export const notificationManagementApi = {
   async getNotifications(page: number = 1, pageSize: number = 20) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Notification/GetUserNotifications`,
+        `/Notification/GetUserNotifications`,
         {
           params: { page, pageSize }
         }
@@ -73,7 +73,7 @@ export const notificationManagementApi = {
   ): Promise<boolean> {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserCorrespondenceInteraction/ReceiveNotification`,
+        `/UserCorrespondenceInteraction/ReceiveNotification`,
         {
           correspondenceId,
           receiveNotifications
@@ -93,7 +93,7 @@ export const notificationManagementApi = {
   async getUnreadCount(): Promise<number> {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Notification/GetUnreadCount`
+        `/Notification/GetUnreadCount`
       );
 
       return response.data?.data || 0;
@@ -110,7 +110,7 @@ export const notificationManagementApi = {
   async deleteNotification(notificationId: string): Promise<boolean> {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/Notification/${notificationId}`
+        `/Notification/${notificationId}`
       );
 
       return response.data?.succeeded || false;

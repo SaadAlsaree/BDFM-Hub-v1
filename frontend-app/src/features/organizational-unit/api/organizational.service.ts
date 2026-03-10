@@ -7,13 +7,13 @@ import {
   IOrganizationalUnitList
 } from '@/features/organizational-unit/types/organizational';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const organizationalService = {
   async getOrganizationalUnits(query?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/OrganizationalUnit/GetOrganizationalUnitList`,
+        `/OrganizationalUnit/GetOrganizationalUnitList`,
         { params: query }
       );
 
@@ -39,7 +39,7 @@ export const organizationalService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/OrganizationalUnit/GetOrganizationalUnitById/${id}`
+        `/OrganizationalUnit/GetOrganizationalUnitById/${id}`
       );
 
       if (response.status >= 400) {
@@ -57,7 +57,7 @@ export const organizationalService = {
   async createOrganizationalUnit(unit: CreateOrganizationalUnitPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/OrganizationalUnit/CreateOrganizationalUnit`,
+        `/OrganizationalUnit/CreateOrganizationalUnit`,
         unit
       );
 
@@ -81,7 +81,7 @@ export const organizationalService = {
       }
 
       const response = await axiosClient.put(
-        `${baseUrl}/OrganizationalUnit/UpdateOrganizationalUnit`,
+        `/OrganizationalUnit/UpdateOrganizationalUnit`,
         unit
       );
 
@@ -100,7 +100,7 @@ export const organizationalService = {
   async getOrganizationalUnitTree() {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/OrganizationalUnit/GetOrganizationalUnitTree/Tree`
+        `/OrganizationalUnit/GetOrganizationalUnitTree/Tree`
       );
 
       if (response.status >= 400) {
@@ -129,7 +129,7 @@ export const organizationalService = {
       };
 
       const response = await axiosClient.patch(
-        `${baseUrl}/ChangeStatus/ChangeStatus`,
+        `/ChangeStatus/ChangeStatus`,
         request
       );
 
@@ -149,7 +149,7 @@ export const organizationalService = {
   async getOrganizationalUnitListById(includeInactive: boolean) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/OrganizationalUnit/GetOrganizationalUnitListById`,
+        `/OrganizationalUnit/GetOrganizationalUnitListById`,
         { params: { includeInactive } }
       );
 
@@ -172,7 +172,7 @@ export const organizationalService = {
   async getOrganizationalUnitListByIdClient(includeInactive: boolean) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/OrganizationalUnit/GetOrganizationalUnitList`,
+        `/OrganizationalUnit/GetOrganizationalUnitList`,
         { params: { includeInactive } }
       );
 
@@ -193,7 +193,7 @@ export const organizationalService = {
     }
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/OrganizationalUnit/Search`,
+        `/OrganizationalUnit/Search`,
         { params: query }
       );
 
@@ -214,7 +214,7 @@ export const organizationalService = {
 
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/OrganizationalUnit/Search`,
+        `/OrganizationalUnit/Search`,
         { params: query }
       );
 
@@ -232,7 +232,7 @@ export const organizationalService = {
   async deleteOrganizationalUnit(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/OrganizationalUnit/DeleteOrganizationalUnit/${id}`
+        `/OrganizationalUnit/DeleteOrganizationalUnit/${id}`
       );
 
       if (response.status >= 400) {

@@ -20,7 +20,7 @@ import {
 } from '../create-internalMail/types/internalMail';
 import { CreatePublicMailPayload } from '../create-public-mail/types/create-public-mail';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const correspondenceService = {
   // /Correspondence/CreateOutgoingInternalMail
@@ -29,7 +29,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/CreateOutgoingInternalMail`,
+        `/Correspondence/CreateOutgoingInternalMail`,
         outgoingInternalMailPayload
       );
       if (response.status >= 400) {
@@ -49,7 +49,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/CreateIncomingInternalMail`,
+        `/Correspondence/CreateIncomingInternalMail`,
         incomingInternalMailPayload
       );
       if (response.status >= 400) {
@@ -69,7 +69,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/CreateCorrespondenceData`,
+        `/Correspondence/CreateCorrespondenceData`,
         correspondenceData
       );
       if (response.status >= 400) {
@@ -89,7 +89,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/LinkCorrespondences`,
+        `/Correspondence/LinkCorrespondences`,
         correspondenceLinkPayload
       );
       if (response.status >= 400) {
@@ -107,7 +107,7 @@ export const correspondenceService = {
   async updateCorrespondenceContent(correspondenceContent: MailDraftPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Correspondence/UpdateCorrespondenceContent`,
+        `/Correspondence/UpdateCorrespondenceContent`,
         correspondenceContent
       );
       return (response.data as IResponse<boolean>) || null;
@@ -123,7 +123,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/RegisterIncomingExternalMail`,
+        `/Correspondence/RegisterIncomingExternalMail`,
         registerIncomingExternalMail
       );
       if (response.status >= 400) {
@@ -143,7 +143,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/RegisterOutgoingExternalMail`,
+        `/Correspondence/RegisterOutgoingExternalMail`,
         outgoingExternalMailPayload
       );
       return response.data as IResponse<string>;
@@ -158,7 +158,7 @@ export const correspondenceService = {
   async searchCorrespondences(searchTerm: string) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Correspondence/SearchCorrespondences?SearchTerm=${searchTerm}`
+        `/Correspondence/SearchCorrespondences?SearchTerm=${searchTerm}`
       );
       return response.data as IResponseList<InboxList>;
     } catch (error) {
@@ -171,7 +171,7 @@ export const correspondenceService = {
   async getUserInbox(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetUserInbox`,
+        `/Correspondence/GetUserInbox`,
         {
           params: query
         }
@@ -187,7 +187,7 @@ export const correspondenceService = {
   async getOutgoingInternal(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetOutgoingInternal`,
+        `/Correspondence/GetOutgoingInternal`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -201,7 +201,7 @@ export const correspondenceService = {
   async getIncomingInternal(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetIncomingInternal`,
+        `/Correspondence/GetIncomingInternal`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -215,7 +215,7 @@ export const correspondenceService = {
   async getCorrespondenceOutgoing(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetCorrespondenceOutgoing`,
+        `/Correspondence/GetCorrespondenceOutgoing`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -229,7 +229,7 @@ export const correspondenceService = {
   async getCorrespondenceIncming(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetCorrespondenceIncming`,
+        `/Correspondence/GetCorrespondenceIncming`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -242,7 +242,7 @@ export const correspondenceService = {
   async getCorrespondenceById(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetById?id=${id}`
+        `/Correspondence/GetById?id=${id}`
       );
       return response.data as IResponse<CorrespondenceDetails>;
     } catch (error) {
@@ -255,7 +255,7 @@ export const correspondenceService = {
   async getTrashItems(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetTrashItems`,
+        `/Correspondence/GetTrashItems`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -269,7 +269,7 @@ export const correspondenceService = {
   async getStarredItems(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetStarredItems`,
+        `/Correspondence/GetStarredItems`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -283,7 +283,7 @@ export const correspondenceService = {
   async getUserDrafts(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetUserDrafts`,
+        `/Correspondence/GetUserDrafts`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -297,7 +297,7 @@ export const correspondenceService = {
   async getPostponedCorrespondences(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetPostponedCorrespondences`,
+        `/Correspondence/GetPostponedCorrespondences`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -311,7 +311,7 @@ export const correspondenceService = {
   async getLateBooks(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetLateBooks`,
+        `/Correspondence/GetLateBooks`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -325,7 +325,7 @@ export const correspondenceService = {
   async getUrgentBooks(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetUrgentBooks`,
+        `/Correspondence/GetUrgentBooks`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -339,7 +339,7 @@ export const correspondenceService = {
   async getSigningList(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetSigningList`,
+        `/Correspondence/GetSigningList`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -353,7 +353,7 @@ export const correspondenceService = {
   async getPublicMails(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetPublicMails`,
+        `/Correspondence/GetPublicMails`,
         { params: query }
       );
       return response.data as IResponseList<InboxList>;
@@ -366,7 +366,7 @@ export const correspondenceService = {
   // /Correspondence/SearchCorrespondences
   // async searchCorrespondences(query: Record<string, any>) {
   //     try {
-  //         const  response = await axiosInstance.get(`${baseUrl}/Correspondence/GetSigningList`, { params: query });
+  //         const  response = await axiosInstance.get(`/Correspondence/GetSigningList`, { params: query });
   //         return response.data as IResponseList<InboxList>;
   //     } catch (error) {
   //         return null
@@ -380,7 +380,7 @@ export const correspondenceService = {
   async createInternalMail(internalMailPayload: InternalMailPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/CreateInternalMail`,
+        `/Correspondence/CreateInternalMail`,
         internalMailPayload
       );
       return response.data as IResponse<string>;
@@ -394,7 +394,7 @@ export const correspondenceService = {
   async createMailDraft(mailDraftPayload: MailDraftPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/CreateMailDraft`,
+        `/Correspondence/CreateMailDraft`,
         mailDraftPayload
       );
       return response.data as IResponse<string>;
@@ -410,7 +410,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Correspondence/CreatePublicCorrespondence`,
+        `/Correspondence/CreatePublicCorrespondence`,
         createPublicMailPayload
       );
       return response.data as IResponse<string>;
@@ -429,7 +429,7 @@ export const correspondenceService = {
     };
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserCorrespondenceInteraction/IsInTrash`,
+        `/UserCorrespondenceInteraction/IsInTrash`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -447,7 +447,7 @@ export const correspondenceService = {
     };
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserCorrespondenceInteraction/IsPostponed`,
+        `/UserCorrespondenceInteraction/IsPostponed`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -465,7 +465,7 @@ export const correspondenceService = {
     };
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserCorrespondenceInteraction/IsRead`,
+        `/UserCorrespondenceInteraction/IsRead`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -483,7 +483,7 @@ export const correspondenceService = {
     };
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserCorrespondenceInteraction/IsStarred`,
+        `/UserCorrespondenceInteraction/IsStarred`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -504,7 +504,7 @@ export const correspondenceService = {
     };
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserCorrespondenceInteraction/ReceiveNotification`,
+        `/UserCorrespondenceInteraction/ReceiveNotification`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -518,7 +518,7 @@ export const correspondenceService = {
   async changeCorrespondenceStatus(payload: UpdateCorrespondenceStatusPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Correspondence/ChangeCorrespondenceStatus`,
+        `/Correspondence/ChangeCorrespondenceStatus`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -533,7 +533,7 @@ export const correspondenceService = {
   async createWorkflowStepTodo(payload: WorkflowStepTodoPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/WorkflowTodo/CreateWorkflowTodo`,
+        `/WorkflowTodo/CreateWorkflowTodo`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -547,7 +547,7 @@ export const correspondenceService = {
   async updateWorkflowStepTodo(payload: WorkflowStepTodoPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/WorkflowTodo/UpdateWorkflowTodo`,
+        `/WorkflowTodo/UpdateWorkflowTodo`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -561,7 +561,7 @@ export const correspondenceService = {
   async updateWorkflowStepTodoStatus(payload: WorkflowStepTodoStatusPayload) {
     try {
       const response = await axiosClient.patch(
-        `${baseUrl}/WorkflowTodo/UpdateWorkflowTodoStatus/UpdateStatus`,
+        `/WorkflowTodo/UpdateWorkflowTodoStatus/UpdateStatus`,
         payload
       );
       return response.data as IResponse<boolean>;
@@ -575,7 +575,7 @@ export const correspondenceService = {
   async deleteWorkflowStepTodo(workflowStepTodoId: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/WorkflowTodo/DeleteWorkflowTodo/${workflowStepTodoId}`
+        `/WorkflowTodo/DeleteWorkflowTodo/${workflowStepTodoId}`
       );
       return response.data as IResponse<boolean>;
     } catch (error) {
@@ -588,7 +588,7 @@ export const correspondenceService = {
   async getWorkflowStepTodoByWorkflowId(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/WorkflowTodo/GetWorkflowTodoByWorkflowId`,
+        `/WorkflowTodo/GetWorkflowTodoByWorkflowId`,
         { params: query }
       );
       return response.data as IResponseList<WorkflowStepTodoPayload>;
@@ -602,7 +602,7 @@ export const correspondenceService = {
   async getCorrespondencesSummary(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetCorrespondencesSummary`,
+        `/Correspondence/GetCorrespondencesSummary`,
         { params: searchParams }
       );
       return response.data;
@@ -616,7 +616,7 @@ export const correspondenceService = {
   async getCorrespondencesSummaryClient(searchParams?: Record<string, any>) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Correspondence/GetCorrespondencesSummary`,
+        `/Correspondence/GetCorrespondencesSummary`,
         { params: searchParams }
       );
       return response.data;
@@ -632,7 +632,7 @@ export const correspondenceService = {
   async getPendingCorrespondences(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetPending`,
+        `/Correspondence/GetPending`,
         { params: searchParams }
       );
       return response.data;
@@ -646,7 +646,7 @@ export const correspondenceService = {
   async getProcessingCorrespondences(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetProcessing`,
+        `/Correspondence/GetProcessing`,
         { params: searchParams }
       );
       return response.data;
@@ -660,7 +660,7 @@ export const correspondenceService = {
   async getReturnForEditingCorrespondences(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetReturnForEditing`,
+        `/Correspondence/GetReturnForEditing`,
         { params: searchParams }
       );
       return response.data;
@@ -674,7 +674,7 @@ export const correspondenceService = {
   async getCompletedCorrespondences(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetCompleted`,
+        `/Correspondence/GetCompleted`,
         { params: searchParams }
       );
       return response.data;
@@ -689,7 +689,7 @@ export const correspondenceService = {
   async getNotCompletedCorrespondences(searchParams?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetNotCompletedCorrespondences`,
+        `/Correspondence/GetNotCompletedCorrespondences`,
         { params: searchParams }
       );
       return response.data;
@@ -705,7 +705,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetPendingOrInProgressCorrespondences`,
+        `/Correspondence/GetPendingOrInProgressCorrespondences`,
         { params: searchParams }
       );
       return response.data;
@@ -724,7 +724,7 @@ export const correspondenceService = {
   ) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Correspondence/GetMyPendingOrInProgressCorrespondences`,
+        `/Correspondence/GetMyPendingOrInProgressCorrespondences`,
         { params: searchParams }
       );
       return response.data;

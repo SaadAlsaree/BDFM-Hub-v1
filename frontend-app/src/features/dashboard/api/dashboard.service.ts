@@ -21,7 +21,7 @@ import {
   DailyPerformanceQuery
 } from '../types/overview';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const dashboardService = {
   /**
@@ -31,7 +31,7 @@ export const dashboardService = {
   async getDashboardOverview(query?: DashboardQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetOverview`,
+        `/Dashboard/GetOverview`,
         {
           params: query
         }
@@ -57,7 +57,7 @@ export const dashboardService = {
   async getCorrespondenceMetrics(query?: CorrespondenceMetricsQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetCorrespondenceMetrics`,
+        `/Dashboard/GetCorrespondenceMetrics`,
         {
           params: query
         }
@@ -83,7 +83,7 @@ export const dashboardService = {
   async getBacklogDetails(query?: BacklogDetailsQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetBacklogDetails`,
+        `/Dashboard/GetBacklogDetails`,
         {
           params: query
         }
@@ -107,7 +107,7 @@ export const dashboardService = {
   async getPerformanceAnalytics(query?: PerformanceAnalyticsQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetPerformanceAnalytics`,
+        `/Dashboard/GetPerformanceAnalytics`,
         {
           params: query
         }
@@ -133,7 +133,7 @@ export const dashboardService = {
   async getUnreadCount(unitId?: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetUnreadCount`,
+        `/Dashboard/GetUnreadCount`,
         {
           params: unitId ? { unitId } : undefined
         }
@@ -157,7 +157,7 @@ export const dashboardService = {
   async getTypeDistribution(query?: DashboardQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetTypeDistribution`,
+        `/Dashboard/GetTypeDistribution`,
         {
           params: query
         }
@@ -183,7 +183,7 @@ export const dashboardService = {
   async getStatusDistribution(query?: DashboardQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetStatusDistribution`,
+        `/Dashboard/GetStatusDistribution`,
         {
           params: query
         }
@@ -209,7 +209,7 @@ export const dashboardService = {
   async getTopUnits(query?: Pick<DashboardQuery, 'startDate' | 'endDate'>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetTopUnits`,
+        `/Dashboard/GetTopUnits`,
         {
           params: query
         }
@@ -233,7 +233,7 @@ export const dashboardService = {
   async getAutomationPerformance(query?: DashboardQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetAutomationPerformance`,
+        `/Dashboard/GetAutomationPerformance`,
         {
           params: query
         }
@@ -257,7 +257,7 @@ export const dashboardService = {
   async getQuickStats(unitId?: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetQuickStats`,
+        `/Dashboard/GetQuickStats`,
         {
           params: unitId ? { unitId } : undefined
         }
@@ -281,7 +281,7 @@ export const dashboardService = {
   async getDailyPerformanceSummary(query?: DailyPerformanceQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Dashboard/GetDailyPerformanceSummary`,
+        `/Dashboard/GetDailyPerformanceSummary`,
         {
           params: query
         }
@@ -307,7 +307,7 @@ export const dashboardService = {
   async getDashboardOverviewClient(query?: DashboardQuery) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Dashboard/GetOverview`,
+        `/Dashboard/GetOverview`,
         {
           params: query
         }
@@ -330,7 +330,7 @@ export const dashboardService = {
   async getQuickStatsClient(unitId?: string) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Dashboard/GetQuickStats`,
+        `/Dashboard/GetQuickStats`,
         {
           params: unitId ? { unitId } : undefined
         }
@@ -353,7 +353,7 @@ export const dashboardService = {
   async getUnreadCountClient(unitId?: string) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Dashboard/GetUnreadCount`,
+        `/Dashboard/GetUnreadCount`,
         {
           params: unitId ? { unitId } : undefined
         }
@@ -376,7 +376,7 @@ export const dashboardService = {
   async getDailyPerformanceSummaryClient(query?: DailyPerformanceQuery) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Dashboard/GetDailyPerformanceSummary`,
+        `/Dashboard/GetDailyPerformanceSummary`,
         {
           params: query
         }

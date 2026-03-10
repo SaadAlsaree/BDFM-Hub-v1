@@ -3,13 +3,13 @@ import { IResponseList, IResponse } from '@/types/response';
 import { IRoleList, RolePermissionAssignmentDto } from '../types/role';
 import { IPermissionList } from '@/features/permissions/types/permission';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const rolePermissionService = {
   async updateRolePermissions(payload: RolePermissionAssignmentDto) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/RolePermission/AssignPermissionsToRole`,
+        `/RolePermission/AssignPermissionsToRole`,
         payload
       );
 
@@ -30,7 +30,7 @@ export const rolePermissionService = {
   async getPermissionsForARoleById(roleId: string, query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/RolePermission/GetPermissionsByRoleId/${roleId}/permissions`,
+        `/RolePermission/GetPermissionsByRoleId/${roleId}/permissions`,
         { params: query }
       );
 
@@ -54,7 +54,7 @@ export const rolePermissionService = {
   ) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/RolePermission/GetRolesByPermissionId/${permissionId}/roles`,
+        `/RolePermission/GetRolesByPermissionId/${permissionId}/roles`,
         { params: query }
       );
 

@@ -2,7 +2,7 @@ import { axiosClient } from '@/lib/axios';
 import { IResponse, IResponseList } from '@/types/response';
 import { Notification, NotificationQuery } from '@/types/notifications';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const notificationsApi = {
   /**
@@ -26,7 +26,7 @@ export const notificationsApi = {
       }
 
       const response = await axiosClient.get(
-        `${baseUrl}/Notification/GetUserNotifications`,
+        `/Notification/GetUserNotifications`,
         {
           params
         }
@@ -64,7 +64,7 @@ export const notificationsApi = {
       }
 
       const response = await axiosClient.get(
-        `${baseUrl}/Notification/GetUserNotifications`,
+        `/Notification/GetUserNotifications`,
         {
           params
         }
@@ -88,7 +88,7 @@ export const notificationsApi = {
   async markAsRead(id: string) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Notification/MarkNotificationAsRead`,
+        `/Notification/MarkNotificationAsRead`,
         {
           notificationId: id
         }
@@ -112,7 +112,7 @@ export const notificationsApi = {
   async markAllAsRead() {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Notification/MarkAllNotificationsAsRead`
+        `/Notification/MarkAllNotificationsAsRead`
       );
 
       if (response.status >= 400) {
@@ -178,7 +178,7 @@ export const notificationsApi = {
   async deleteNotification(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/Notification/${id}`
+        `/Notification/${id}`
       );
 
       if (response.status >= 400) {
@@ -199,7 +199,7 @@ export const notificationsApi = {
   async bulkMarkAsRead(ids: string[]) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Notification/BulkMarkAsRead`,
+        `/Notification/BulkMarkAsRead`,
         {
           notificationIds: ids
         }

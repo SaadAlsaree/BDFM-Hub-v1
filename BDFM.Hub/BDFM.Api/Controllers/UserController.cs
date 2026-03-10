@@ -11,8 +11,6 @@ using BDFM.Application.Features.Users.Queries.GetAllUsers;
 using BDFM.Application.Features.Users.Queries.GetMe;
 using BDFM.Application.Features.Users.Queries.GetUserById;
 using BDFM.Application.Features.Users.Queries.SearchUser;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace BDFM.Api.Controllers;
@@ -359,8 +357,8 @@ public class UserController : Base<UserController>
         if (string.IsNullOrEmpty(password))
             return (false, "Password is required");
 
-        if (password.Length < 12)
-            return (false, "Password must be at least 12 characters long");
+        if (password.Length < 6)
+            return (false, "Password must be at least 6 characters long");
 
         if (!password.Any(char.IsUpper))
             return (false, "Password must contain at least one uppercase letter");
@@ -370,9 +368,6 @@ public class UserController : Base<UserController>
 
         if (!password.Any(char.IsDigit))
             return (false, "Password must contain at least one number");
-
-        if (!password.Any(c => "!@#$%^&*()_+-=[]{}|;:,.<>?".Contains(c)))
-            return (false, "Password must contain at least one special character");
 
         if (password.Contains("password", StringComparison.OrdinalIgnoreCase))
             return (false, "Password cannot contain the word 'password'");

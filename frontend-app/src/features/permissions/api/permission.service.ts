@@ -6,13 +6,13 @@ import {
   IPermissionPayload
 } from '@/features/permissions/types/permission';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const permissionService = {
   async getPermissions(query?: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Permission/GetPermissionList`,
+        `/Permission/GetPermissionList`,
         { params: query }
       );
 
@@ -31,7 +31,7 @@ export const permissionService = {
   async getPermissionDetail(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Permission/GetPermissionById/${id}`
+        `/Permission/GetPermissionById/${id}`
       );
 
       if (response.status >= 400) {
@@ -49,7 +49,7 @@ export const permissionService = {
   async createPermission(payload: IPermissionPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Permission/CreatePermission`,
+        `/Permission/CreatePermission`,
         payload
       );
 
@@ -68,7 +68,7 @@ export const permissionService = {
   async updatePermission(payload: IPermissionPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Permission/UpdatePermission`,
+        `/Permission/UpdatePermission`,
         payload
       );
 
@@ -87,7 +87,7 @@ export const permissionService = {
   async updatePermissionStatus(id: string, status: number) {
     try {
       const response = await axiosClient.patch(
-        `${baseUrl}/Permission/ChangeStatus/ChangeStatus`,
+        `/Permission/ChangeStatus/ChangeStatus`,
         {
           id: id,
           statusId: status,
@@ -110,7 +110,7 @@ export const permissionService = {
   async deletePermission(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/Permission/DeletePermissionById/${id}`
+        `/Permission/DeletePermissionById/${id}`
       );
 
       if (response.status >= 400) {

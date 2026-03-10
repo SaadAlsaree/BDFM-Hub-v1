@@ -8,13 +8,13 @@ import {
   IMailFileContentQuery,
   IMailFileList
 } from '@/features/mail-files/types/mail-files';
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const mailFilesService = {
   async getMailFiles(query: IMailFileListQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/MailFile/GetMailFileList`,
+        `/MailFile/GetMailFileList`,
         { params: query }
       );
 
@@ -38,7 +38,7 @@ export const mailFilesService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/MailFile/GetMailFileById/${id}`
+        `/MailFile/GetMailFileById/${id}`
       );
 
       if (response.status >= 400) {
@@ -61,7 +61,7 @@ export const mailFilesService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/MailFile/GetMailFileContents/${id}/contents`,
+        `/MailFile/GetMailFileContents/${id}/contents`,
         {
           params: query
         }
@@ -82,7 +82,7 @@ export const mailFilesService = {
   async createMailFile(mailFile: IMailFilePayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/MailFile/CreateMailFile`,
+        `/MailFile/CreateMailFile`,
         mailFile
       );
 
@@ -106,7 +106,7 @@ export const mailFilesService = {
       }
 
       const response = await axiosClient.put(
-        `${baseUrl}/MailFile/UpdateMailFile`,
+        `/MailFile/UpdateMailFile`,
         mailFile
       );
 
@@ -136,7 +136,7 @@ export const mailFilesService = {
       };
 
       const response = await axiosClient.patch(
-        `${baseUrl}/MailFile/ChangeStatus/ChangeStatus`,
+        `/MailFile/ChangeStatus/ChangeStatus`,
         request
       );
 
@@ -156,7 +156,7 @@ export const mailFilesService = {
   async searchMailFiles(searchTerm: string) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/MailFile/SearchMailFiles?searchTerm=${searchTerm}`
+        `/MailFile/SearchMailFiles?searchTerm=${searchTerm}`
       );
       return response.data as IResponse<IMailFileList[]>;
     } catch (error) {

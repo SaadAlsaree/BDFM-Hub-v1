@@ -14,7 +14,7 @@ import {
   GetLeaveRequestsByStatusQuery
 } from '../types/leave-request';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const leaveRequestService = {
   async getLeaveRequestById(id: string) {
@@ -24,7 +24,7 @@ export const leaveRequestService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveRequests/GetLeaveRequestById/${id}`
+        `/LeaveRequests/GetLeaveRequestById/${id}`
       );
 
       if (response.status >= 400) {
@@ -40,7 +40,7 @@ export const leaveRequestService = {
   async getAllLeaveRequests(query?: GetAllLeaveRequestsQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveRequests/GetAllLeaveRequests`,
+        `/LeaveRequests/GetAllLeaveRequests`,
         { params: query }
       );
 
@@ -64,7 +64,7 @@ export const leaveRequestService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveRequests/GetLeaveRequestsByEmployeeId/ByEmployee/${employeeId}`,
+        `/LeaveRequests/GetLeaveRequestsByEmployeeId/ByEmployee/${employeeId}`,
         { params: query }
       );
 
@@ -84,7 +84,7 @@ export const leaveRequestService = {
   ) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveRequests/GetLeaveRequestsByStatus/ByStatus/${status}`,
+        `/LeaveRequests/GetLeaveRequestsByStatus/ByStatus/${status}`,
         { params: query }
       );
 
@@ -101,7 +101,7 @@ export const leaveRequestService = {
   async createLeaveRequest(payload: CreateLeaveRequestPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveRequests/CreateLeaveRequest`,
+        `/LeaveRequests/CreateLeaveRequest`,
         payload
       );
 
@@ -118,7 +118,7 @@ export const leaveRequestService = {
   async updateLeaveRequest(payload: UpdateLeaveRequestPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/LeaveRequests/UpdateLeaveRequest`,
+        `/LeaveRequests/UpdateLeaveRequest`,
         payload
       );
 
@@ -135,7 +135,7 @@ export const leaveRequestService = {
   async approveLeaveRequest(payload: ApproveLeaveRequestPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveRequests/ApproveLeaveRequest`,
+        `/LeaveRequests/ApproveLeaveRequest`,
         payload
       );
 
@@ -152,7 +152,7 @@ export const leaveRequestService = {
   async rejectLeaveRequest(payload: RejectLeaveRequestPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveRequests/RejectLeaveRequest`,
+        `/LeaveRequests/RejectLeaveRequest`,
         payload
       );
 
@@ -169,7 +169,7 @@ export const leaveRequestService = {
   async cancelLeaveRequest(payload: CancelLeaveRequestPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveRequests/CancelLeaveRequest`,
+        `/LeaveRequests/CancelLeaveRequest`,
         payload
       );
 
@@ -186,7 +186,7 @@ export const leaveRequestService = {
   async interruptLeaveRequest(payload: InterruptLeaveRequestPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveRequests/InterruptLeaveRequest`,
+        `/LeaveRequests/InterruptLeaveRequest`,
         payload
       );
 

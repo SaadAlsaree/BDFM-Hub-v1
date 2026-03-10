@@ -6,13 +6,13 @@ import {
 } from '../types/correspondence-templates';
 import { IResponse, IResponseList } from '@/types/response';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const correspondenceTemplatesService = {
   async getCorrespondenceTemplates(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/CorrespondenceTemplate/GetCorrespondenceTemplateList`,
+        `/CorrespondenceTemplate/GetCorrespondenceTemplateList`,
         { params: query }
       );
       return (
@@ -30,7 +30,7 @@ export const correspondenceTemplatesService = {
   async getCorrespondenceTemplateById(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/CorrespondenceTemplate/GetCorrespondenceTemplateById/${id}`
+        `/CorrespondenceTemplate/GetCorrespondenceTemplateById/${id}`
       );
       return (
         (response.data as IResponse<CorrespondenceTemplatesDetail>) || null
@@ -47,7 +47,7 @@ export const correspondenceTemplatesService = {
   async createCorrespondenceTemplate(payload: CorrespondenceTemplatesPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/CorrespondenceTemplate/CreateCorrespondenceTemplate`,
+        `/CorrespondenceTemplate/CreateCorrespondenceTemplate`,
         payload
       );
       return (response.data as IResponse<boolean>) || null;
@@ -66,7 +66,7 @@ export const correspondenceTemplatesService = {
   ) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/CorrespondenceTemplate/UpdateCorrespondenceTemplate`,
+        `/CorrespondenceTemplate/UpdateCorrespondenceTemplate`,
         payload
       );
       return (response.data as IResponse<boolean>) || null;
@@ -82,7 +82,7 @@ export const correspondenceTemplatesService = {
   async deleteCorrespondenceTemplate(id: string) {
     try {
       await axiosClient.delete(
-        `${baseUrl}/CorrespondenceTemplate/DeleteCorrespondenceTemplate/${id}`
+        `/CorrespondenceTemplate/DeleteCorrespondenceTemplate/${id}`
       );
       return true;
     } catch (error) {
@@ -97,7 +97,7 @@ export const correspondenceTemplatesService = {
   async changeCorrespondenceTemplateStatus(id: string, status: number) {
     try {
       await axiosClient.patch(
-        `${baseUrl}/CorrespondenceTemplate/ChangeStatus/ChangeStatus`,
+        `/CorrespondenceTemplate/ChangeStatus/ChangeStatus`,
         { status }
       );
       return true;

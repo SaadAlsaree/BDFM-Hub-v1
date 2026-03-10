@@ -6,13 +6,13 @@ import {
   CreateDelegationPayload
 } from '@/features/delegations/types/delegation';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const delegationService = {
   async getDelegationList(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Delegation/GetDelegationList`,
+        `/Delegation/GetDelegationList`,
         { params: query }
       );
       if (response.status >= 400) {
@@ -29,7 +29,7 @@ export const delegationService = {
   async getDelegationDetail(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Delegation/GetDelegationById/${id}`
+        `/Delegation/GetDelegationById/${id}`
       );
       if (response.status >= 400) {
         // console.error(`Error fetching delegation ${id}:`, response.statusText);
@@ -45,7 +45,7 @@ export const delegationService = {
   async createDelegation(delegation: CreateDelegationPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Delegation/CreateDelegation`,
+        `/Delegation/CreateDelegation`,
         delegation
       );
       if (response.status >= 400) {
@@ -62,7 +62,7 @@ export const delegationService = {
   async updateDelegation(delegation: CreateDelegationPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Delegation/UpdateDelegation`,
+        `/Delegation/UpdateDelegation`,
         delegation
       );
       if (response.status >= 400) {
@@ -79,7 +79,7 @@ export const delegationService = {
   async updateDelegationStatus(id: string, status: number) {
     try {
       const response = await axiosClient.patch(
-        `${baseUrl}/Delegation/UpdateDelegationStatus`,
+        `/Delegation/UpdateDelegationStatus`,
         { id, status }
       );
       if (response.status >= 400) {
@@ -96,7 +96,7 @@ export const delegationService = {
   async deleteDelegation(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/Delegation/DeleteDelegation/${id}`
+        `/Delegation/DeleteDelegation/${id}`
       );
       if (response.status >= 400) {
         //      console.error('Error deleting delegation:', response.statusText);

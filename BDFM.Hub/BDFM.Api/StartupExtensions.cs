@@ -1,4 +1,5 @@
 using BDFM.Application.Hubs;
+using Diwan.Infrastructure.Middleware;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Text.Json;
 using System.Threading.RateLimiting;
@@ -110,7 +111,6 @@ public static class StartupExtensions
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
-
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -119,28 +119,30 @@ public static class StartupExtensions
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication Management API");
             });
         }
-        app.UseHttpsRedirection();
 
-        //app.UseRouting();
-
-        app.UseAuthentication();
-
-
+        // 1. Exception Handling first
         app.UseCustomExceptionHandler();
 
+        // 2. Routing must be before CORS/Auth
+        app.UseRouting();
+
+        // 3. CORS after Routing to allow endpoint-aware policies
         app.UseCors("AllowSpecificOrigin");
 
+        // 4. Https Redirection after CORS to avoid preflight issues
+        app.UseHttpsRedirection();
+
+        // 5. Custom Proxy Auth
+        app.UseMiddleware<ProxyAuthMiddleware>();
+
+        // 6. Security & Identity
+        app.UseAuthentication();
         app.UseAuthorization();
 
-        // Add anti-forgery middleware
         app.UseAntiforgery();
-
-        // Rate limiting should be after authentication/authorization so we can identify the user
         app.UseRateLimiter();
 
         app.MapControllers();
-
-        // Map SignalR Hub with correct casing to match frontend
         app.MapHub<CorrespondenceHub>("/correspondenceHub");
 
         return app;

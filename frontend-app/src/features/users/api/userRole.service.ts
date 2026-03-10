@@ -6,7 +6,7 @@ import {
   IUserRoleResponse
 } from '../types/user';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 class UserRoleService {
   async updateUserRoles(userRole: AssignUserRolesDto) {
@@ -17,7 +17,7 @@ class UserRoleService {
       }
 
       const response = await axiosClient.post(
-        `${baseUrl}/UserRole/AssignRolesToUser`,
+        `/UserRole/AssignRolesToUser`,
         userRole
       );
 
@@ -43,7 +43,7 @@ class UserRoleService {
   async createUserPermission(userPermission: CreateUserRoleDto) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/UserRole/CreateUserRole`,
+        `/UserRole/CreateUserRole`,
         userPermission
       );
       return (response.data as IResponse<boolean>) || null;
@@ -57,7 +57,7 @@ class UserRoleService {
   async getRolesByUserId(userId: string) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/UserRole/GetRolesByUserId/user/${userId}/roles`,
+        `/UserRole/GetRolesByUserId/user/${userId}/roles`,
         { params: { page: 1, pageSize: 100 } }
       );
       return response.data as IResponseList<IUserRoleResponse>;
@@ -71,7 +71,7 @@ class UserRoleService {
   async getUsersByRoleId(roleId: string) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/UserRole/GetUsersByRoleId/role/${roleId}/users`,
+        `/UserRole/GetUsersByRoleId/role/${roleId}/users`,
         { params: { page: 1, pageSize: 100 } }
       );
       return response.data as IResponseList<IUserRoleResponse>;

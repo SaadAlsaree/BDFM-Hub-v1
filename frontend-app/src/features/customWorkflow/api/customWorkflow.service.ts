@@ -9,14 +9,14 @@ import {
   CustomWorkflowStepDetails
 } from '../types/customWorkflow';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const customWorkflowService = {
   ///CustomWorkflows/GetCustomWorkflowList
   async getCustomWorkflowList(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/CustomWorkflows/GetCustomWorkflowList`,
+        `/CustomWorkflows/GetCustomWorkflowList`,
         { params: query }
       );
       return response.data as IResponseList<CustomWorkflowList>;
@@ -30,7 +30,7 @@ export const customWorkflowService = {
   async getCustomWorkflowListClient(query: Record<string, any>) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/CustomWorkflows/GetCustomWorkflowList`,
+        `/CustomWorkflows/GetCustomWorkflowList`,
         { params: query }
       );
       return response.data as IResponseList<CustomWorkflowList>;
@@ -44,7 +44,7 @@ export const customWorkflowService = {
   async getCustomWorkflowById(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/CustomWorkflows/GetCustomWorkflowById/${id}`
+        `/CustomWorkflows/GetCustomWorkflowById/${id}`
       );
       return response.data as IResponse<CustomWorkflowDetails>;
     } catch (error) {
@@ -57,7 +57,7 @@ export const customWorkflowService = {
   async createCustomWorkflow(payload: CreateWorkflowPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/CustomWorkflows/CreateCustomWorkflow`,
+        `/CustomWorkflows/CreateCustomWorkflow`,
         payload
       );
       return response.data as IResponse<CustomWorkflowDetails>;
@@ -71,7 +71,7 @@ export const customWorkflowService = {
   async updateCustomWorkflow(payload: CreateWorkflowPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/CustomWorkflows/UpdateCustomWorkflow`,
+        `/CustomWorkflows/UpdateCustomWorkflow`,
         payload
       );
       return response.data as IResponse<CustomWorkflowDetails>;
@@ -85,7 +85,7 @@ export const customWorkflowService = {
   async deleteCustomWorkflow(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/CustomWorkflows/DeleteCustomWorkflow/${id}`
+        `/CustomWorkflows/DeleteCustomWorkflow/${id}`
       );
       return response.data as IResponse<boolean>;
     } catch (error) {
@@ -100,7 +100,7 @@ export const customWorkflowService = {
   async getCustomWorkflowStepList(query: Record<string, any>) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/CustomWorkflowSteps/GetCustomWorkflowStepList`,
+        `/CustomWorkflowSteps/GetCustomWorkflowStepList`,
         { params: query }
       );
       return response.data as IResponseList<CustomWorkflowStepList>;
@@ -114,7 +114,7 @@ export const customWorkflowService = {
   async getCustomWorkflowStepById(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/CustomWorkflowSteps/GetCustomWorkflowStepById/${id}`
+        `/CustomWorkflowSteps/GetCustomWorkflowStepById/${id}`
       );
       return response.data as IResponse<CustomWorkflowStepDetails>;
     } catch (error) {
@@ -127,7 +127,7 @@ export const customWorkflowService = {
   async createCustomWorkflowStep(payload: CreateWorkflowStepPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/CustomWorkflowSteps/CreateCustomWorkflowStep`,
+        `/CustomWorkflowSteps/CreateCustomWorkflowStep`,
         payload
       );
       return response.data as IResponse<CustomWorkflowStepDetails>;
@@ -141,7 +141,7 @@ export const customWorkflowService = {
   async updateCustomWorkflowStep(payload: CreateWorkflowStepPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/CustomWorkflowSteps/UpdateCustomWorkflowStep`,
+        `/CustomWorkflowSteps/UpdateCustomWorkflowStep`,
         payload
       );
       return response.data as IResponse<CustomWorkflowStepDetails>;
@@ -155,7 +155,7 @@ export const customWorkflowService = {
   async deleteCustomWorkflowStep(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/CustomWorkflowSteps/DeleteCustomWorkflowStep/${id}`
+        `/CustomWorkflowSteps/DeleteCustomWorkflowStep/${id}`
       );
       return response.data as IResponse<boolean>;
     } catch (error) {

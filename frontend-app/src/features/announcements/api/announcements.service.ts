@@ -8,13 +8,13 @@ import {
   AnnouncementDto
 } from '../types/announcements';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const announcementsService = {
   async getAnnouncements(query: IAnnouncementListQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Announcement/GetAnnouncements`,
+        `/Announcement/GetAnnouncements`,
         { params: query }
       );
 
@@ -31,7 +31,7 @@ export const announcementsService = {
   async getActiveAnnouncements(query: IAnnouncementListQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Announcement/GetActiveAnnouncements`,
+        `/Announcement/GetActiveAnnouncements`,
         { params: query }
       );
 
@@ -48,7 +48,7 @@ export const announcementsService = {
     async getActiveAnnouncementsClient(query: IAnnouncementListQuery) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Announcement/GetActiveAnnouncements`,
+        `/Announcement/GetActiveAnnouncements`,
         { params: query }
       );
 
@@ -66,7 +66,7 @@ export const announcementsService = {
   async getAnnouncementById(id: string) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Announcement/GetAnnouncementById/${id}`
+        `/Announcement/GetAnnouncementById/${id}`
       );
 
       if (response.status >= 400) {
@@ -82,7 +82,7 @@ export const announcementsService = {
   async createAnnouncement(payload: IAnnouncementPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Announcement/CreateAnnouncement`,
+        `/Announcement/CreateAnnouncement`,
         payload
       );
 
@@ -99,7 +99,7 @@ export const announcementsService = {
   async updateAnnouncement(payload: IAnnouncementPayload) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Announcement/UpdateAnnouncement`,
+        `/Announcement/UpdateAnnouncement`,
         payload
       );
 
@@ -116,7 +116,7 @@ export const announcementsService = {
   async deleteAnnouncement(id: string) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/Announcement/DeleteAnnouncement/${id}`
+        `/Announcement/DeleteAnnouncement/${id}`
       );
 
       if (response.status >= 400) {

@@ -8,14 +8,14 @@ import {
   ICommentDelete
 } from '@/features/comments/types/comments';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const commentService = {
   // /Comments/GetCommentsListByCorrespondenceId/{correspondenceId}/correspondence
   async getComments(correspondenceId: string) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Comments/GetCommentsListByCorrespondenceId/${correspondenceId}/correspondence?includeReplies=true`
+        `/Comments/GetCommentsListByCorrespondenceId/${correspondenceId}/correspondence?includeReplies=true`
       );
       if (response.status >= 400) {
         // console.error('Error fetching comments:', response.statusText);
@@ -32,7 +32,7 @@ export const commentService = {
   async createComment(comment: ICommentCreate) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/Comments/CreateComment`,
+        `/Comments/CreateComment`,
         comment
       );
       if (response.status >= 400) {
@@ -50,7 +50,7 @@ export const commentService = {
   async updateComment(comment: ICommentUpdate) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/Comments/UpdateComment`,
+        `/Comments/UpdateComment`,
         comment
       );
       if (response.status >= 400) {
@@ -68,7 +68,7 @@ export const commentService = {
   async deleteComment(comment: ICommentDelete) {
     try {
       const response = await axiosClient.delete(
-        `${baseUrl}/Comments/DeleteComment`,
+        `/Comments/DeleteComment`,
         { data: comment }
       );
       if (response.status >= 400) {

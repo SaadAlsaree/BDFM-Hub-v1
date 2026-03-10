@@ -7,13 +7,13 @@ import {
   IExternalEntityQuery
 } from '@/features/external-entities/types/external-entities';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const externalEntitiesService = {
   async getExternalEntities(query: IExternalEntityQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/ExternalEntity/GetExternalEntityList`,
+        `/ExternalEntity/GetExternalEntityList`,
         { params: query }
       );
       return response.data as IResponseList<IExternalEntityResponse>;
@@ -48,7 +48,7 @@ export const externalEntitiesService = {
 
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/ExternalEntity/GetExternalEntityById/${id}`
+        `/ExternalEntity/GetExternalEntityById/${id}`
       );
       return response.data as IResponse<IExternalEntityDetails>;
     } catch (error: any) {
@@ -69,7 +69,7 @@ export const externalEntitiesService = {
   async createExternalEntity(entity: IExternalEntityPayload) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/ExternalEntity/CreateExternalEntity`,
+        `/ExternalEntity/CreateExternalEntity`,
         entity
       );
       return response.data as IResponse<boolean>;
@@ -103,7 +103,7 @@ export const externalEntitiesService = {
 
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/ExternalEntity/UpdateExternalEntity`,
+        `/ExternalEntity/UpdateExternalEntity`,
         entity
       );
       return response.data as IResponse<boolean>;
@@ -143,7 +143,7 @@ export const externalEntitiesService = {
       };
 
       const response = await axiosClient.patch(
-        `${baseUrl}/ChangeStatus/ChangeStatus`,
+        `/ChangeStatus/ChangeStatus`,
         request
       );
       return response.data as IResponse<boolean>;

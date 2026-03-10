@@ -5,14 +5,14 @@ import {
   WorkflowStepsStatisticsResponse
 } from '../types/workflow-steps-statistics';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const workflowStepsStatisticsService = {
   ///BDFM/v1/api/Workflow/GetWorkflowStepsStatisticsByUnit
   async getWorkflowStepsStatisticsByUnit(query?: WorkflowStepsStatisticsQuery) {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/Workflow/GetWorkflowStepsStatisticsByUnit`,
+        `/Workflow/GetWorkflowStepsStatisticsByUnit`,
         { params: query }
       );
       return response.data as WorkflowStepsStatisticsResponse;
@@ -25,7 +25,7 @@ export const workflowStepsStatisticsService = {
   async downloadDelayedStepsReport(query?: IDelayedStepsReportQuery) {
     try {
       const response = await axiosClient.get(
-        `${baseUrl}/Workflow/DownloadDelayedStepsReport`,
+        `/Workflow/DownloadDelayedStepsReport`,
         {
           params: query,
           responseType: 'blob'

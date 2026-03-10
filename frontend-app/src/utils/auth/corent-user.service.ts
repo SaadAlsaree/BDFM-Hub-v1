@@ -2,12 +2,10 @@ import { axiosInstance, axiosClient } from '@/lib/axios';
 import { IResponse } from '@/types/response';
 import { UserDto } from './auth';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
-
 class CurrentUserService {
   async getCurrentUser() {
     try {
-      const response = await axiosInstance.get(`${baseUrl}/User/GetMe`);
+      const response = await axiosInstance.get(`/User/GetMe`);
       if (response.status === 400) {
         return null;
       }
@@ -23,7 +21,7 @@ class CurrentUserService {
   }
 
   async getCurrentUserClient() {
-    const response = await axiosClient.get(`${baseUrl}/User/GetMe`);
+    const response = await axiosClient.get(`/User/GetMe`);
 
     return (response.data as IResponse<UserDto>) || null;
   }

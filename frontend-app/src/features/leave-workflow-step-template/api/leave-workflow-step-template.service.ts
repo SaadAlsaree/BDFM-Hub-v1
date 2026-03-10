@@ -6,7 +6,7 @@ import {
   UpdateLeaveWorkflowStepTemplatePayload
 } from '../types/leave-workflow-step-template';
 
-const baseUrl = process.env.API_URL || 'http://localhost:5000/BDFM/v1/api';
+
 
 export const leaveWorkflowStepTemplateService = {
   async getLeaveWorkflowStepTemplateById(id: string) {
@@ -16,7 +16,7 @@ export const leaveWorkflowStepTemplateService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveWorkflowStepTemplates/GetLeaveWorkflowStepTemplateById/${id}`
+        `/LeaveWorkflowStepTemplates/GetLeaveWorkflowStepTemplateById/${id}`
       );
 
       if (response.status >= 400) {
@@ -36,7 +36,7 @@ export const leaveWorkflowStepTemplateService = {
       }
 
       const response = await axiosInstance.get(
-        `${baseUrl}/LeaveWorkflowStepTemplates/GetLeaveWorkflowStepTemplatesByWorkflowId/ByWorkflowId/${workflowId}`
+        `/LeaveWorkflowStepTemplates/GetLeaveWorkflowStepTemplatesByWorkflowId/ByWorkflowId/${workflowId}`
       );
 
       if (response.status >= 400) {
@@ -54,7 +54,7 @@ export const leaveWorkflowStepTemplateService = {
   ) {
     try {
       const response = await axiosClient.post(
-        `${baseUrl}/LeaveWorkflowStepTemplates/CreateLeaveWorkflowStepTemplate`,
+        `/LeaveWorkflowStepTemplates/CreateLeaveWorkflowStepTemplate`,
         payload
       );
 
@@ -73,7 +73,7 @@ export const leaveWorkflowStepTemplateService = {
   ) {
     try {
       const response = await axiosClient.put(
-        `${baseUrl}/LeaveWorkflowStepTemplates/UpdateLeaveWorkflowStepTemplate`,
+        `/LeaveWorkflowStepTemplates/UpdateLeaveWorkflowStepTemplate`,
         payload
       );
 
@@ -94,7 +94,7 @@ export const leaveWorkflowStepTemplateService = {
       }
 
       const response = await axiosClient.delete(
-        `${baseUrl}/LeaveWorkflowStepTemplates/DeleteLeaveWorkflowStepTemplate/${id}`
+        `/LeaveWorkflowStepTemplates/DeleteLeaveWorkflowStepTemplate/${id}`
       );
 
       if (response.status >= 400) {
