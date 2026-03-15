@@ -25,16 +25,10 @@ const createEmptyResponse = <T>(): IResponse<T> => ({
 
 // Create a base axios instance for SERVER-SIDE requests (Proxy to Backend)
 const axiosInstance = axios.create({
-<<<<<<< HEAD
   baseURL:
     typeof window !== 'undefined'
       ? process.env.NEXT_PUBLIC_API_URL || '/api/proxy'
       : process.env.API_URL || 'http://cm-back.inss.local/BDFM/v1/api',
-=======
-  baseURL: typeof window !== 'undefined' 
-    ? (process.env.NEXT_PUBLIC_API_URL || '/api/proxy')
-    : (process.env.API_URL || 'http://192.168.141.155:5000/BDFM/v1/api'),
->>>>>>> 4bf7c2a023050d69bd7607ee320d6a6507e17234
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
