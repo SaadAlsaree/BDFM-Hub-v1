@@ -25,20 +25,27 @@ const authOption: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        console.log('[AUTH_OPTION_DEBUG] Authorize called with:', credentials?.userLogin);
+        console.log(
+          '[AUTH_OPTION_DEBUG] Authorize called with:',
+          credentials?.userLogin
+        );
         if (!credentials?.userLogin || !credentials?.password) {
           return null;
         }
-// http://192.168.141.155/api/Auth/login
+        // http://localhost:5000/api/Auth/login
         try {
-          const response = await fetchAuth.post(`/Auth/login`, {
-            userLogin: credentials.userLogin,
-            password: credentials.password
-          }, {
-            headers: {
-              'X-Internal-Proxy-Key': process.env.INTERNAL_PROXY_KEY || ''
+          const response = await fetchAuth.post(
+            `/Auth/login`,
+            {
+              userLogin: credentials.userLogin,
+              password: credentials.password
+            },
+            {
+              headers: {
+                'X-Internal-Proxy-Key': process.env.INTERNAL_PROXY_KEY || ''
+              }
             }
-          });
+          );
 
           if (response && response.token) {
             return {

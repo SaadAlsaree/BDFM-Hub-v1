@@ -1,9 +1,10 @@
 // lib/fetch-client.ts
 import { getSession } from 'next-auth/react';
 
-const API_URL = typeof window !== 'undefined'
-  ? (process.env.NEXT_PUBLIC_API_URL || '/api/proxy')
-  : (process.env.API_URL || 'http://192.168.141.155/api');
+const API_URL =
+  typeof window !== 'undefined'
+    ? process.env.NEXT_PUBLIC_API_URL || '/api/proxy'
+    : process.env.API_URL || 'http://localhost:5000/api';
 
 /**
  * Base fetch client for making HTTP requests
@@ -31,7 +32,9 @@ export async function fetchClient(url: string, options: RequestInit = {}) {
   const internalProxyKey = process.env.INTERNAL_PROXY_KEY;
   const headers = {
     'Content-Type': 'application/json',
-    ...(internalProxyKey && typeof window === 'undefined' ? { 'X-Internal-Proxy-Key': internalProxyKey } : {}),
+    ...(internalProxyKey && typeof window === 'undefined'
+      ? { 'X-Internal-Proxy-Key': internalProxyKey }
+      : {}),
     ...authHeader,
     ...options.headers
   };

@@ -25,9 +25,10 @@ const createEmptyResponse = <T>(): IResponse<T> => ({
 
 // Create a base axios instance for SERVER-SIDE requests (Proxy to Backend)
 const axiosInstance = axios.create({
-  baseURL: typeof window !== 'undefined' 
-    ? (process.env.NEXT_PUBLIC_API_URL || '/api/proxy')
-    : (process.env.API_URL || 'http://192.168.141.155/BDFM/v1/api'),
+  baseURL:
+    typeof window !== 'undefined'
+      ? process.env.NEXT_PUBLIC_API_URL || '/api/proxy'
+      : process.env.API_URL || 'http://localhost:5000/BDFM/v1/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
@@ -53,12 +54,12 @@ axiosInstance.interceptors.request.use(
         if (proxyKey) {
           config.headers['X-Internal-Proxy-Key'] = proxyKey;
         }
-      } 
+      }
       // 2. Handle Client Side (Mirror axiosClient behavior)
       else {
-        // Token is handled via axiosClient.defaults.headers.common['Authorization'] 
-        // which shared the same default headers if we are not careful, 
-        // but here they are separate instances. 
+        // Token is handled via axiosClient.defaults.headers.common['Authorization']
+        // which shared the same default headers if we are not careful,
+        // but here they are separate instances.
         // However, most services using axiosInstance in browser were expecting it to work.
       }
 
@@ -90,7 +91,10 @@ axiosInstance.interceptors.response.use(
 
     // For server-side requests, return safe fallback responses instead of throwing
     // EXCEPT for SignalR Hub paths or explicit proxy calls
-    if (typeof window === 'undefined' && !error?.config?.url?.includes('correspondenceHub')) {
+    if (
+      typeof window === 'undefined' &&
+      !error?.config?.url?.includes('correspondenceHub')
+    ) {
       // Determine if this looks like a list endpoint or single item endpoint
       const url = error?.config?.url || '';
       const isListEndpoint =
