@@ -29,7 +29,7 @@ const authOption: NextAuthOptions = {
         if (!credentials?.userLogin || !credentials?.password) {
           return null;
         }
-// http://localhost:5000/api/Auth/login
+// http://192.168.141.155/api/Auth/login
         try {
           const response = await fetchAuth.post(`/Auth/login`, {
             userLogin: credentials.userLogin,
