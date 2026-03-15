@@ -15,7 +15,7 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
         private byte[] _iv;
         private readonly ILogger<CreateAttachmentsHandler> _logger;
         public CreateAttachmentsHandler(
-            IBaseRepository<Attachment> repositoryAttachments, 
+            IBaseRepository<Attachment> repositoryAttachments,
             IStorageService storageService,
             ILogger<CreateAttachmentsHandler> logger) : base(repositoryAttachments)
         {
