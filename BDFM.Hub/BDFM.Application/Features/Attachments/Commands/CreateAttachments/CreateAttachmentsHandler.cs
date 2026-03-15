@@ -64,9 +64,19 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
 
         public async Task<Response<bool>> Handle(CreateAttachmentsCommand request, CancellationToken cancellationToken)
         {
+            var fileBytes = await request.File.ConvertIFormFileToByteArray();
+            var fileName = $"{_attachmentId}{request.File.GetFileExtension()}";
+            var bucketName = request.PrimaryTableId?.ToString() ?? "General";
 
-            (_key, _iv) = _storageService.UploadFileAsync(await request.File.ConvertIFormFileToByteArray(),
-         $"{_attachmentId}{request.File.GetFileExtension()}", _attachmentId.ToString());
+            // Upload first to populate _key and _iv which are needed in MapToEntity
+            (_key, _iv) = _storageService.UploadFileAsync(fileBytes, fileName, bucketName);
+
+            if (_key == null || _iv == null)
+            {
+                _logger.LogError("File upload failed to storage. AttachmentId: {AttachmentId}", _attachmentId);
+                return ErrorsMessage.FailOnCreate.ToErrorMessage(false);
+            }
+
             return await HandleBase(request, cancellationToken);
         }
     }
