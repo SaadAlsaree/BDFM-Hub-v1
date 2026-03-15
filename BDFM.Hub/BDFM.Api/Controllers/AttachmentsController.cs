@@ -43,6 +43,7 @@ public class AttachmentsController : Base<AttachmentsController>
         return await Okey(() => _mediator.Send(command));
     }
 
+
     /// <summary>
     /// Updates an existing attachment
     /// </summary>

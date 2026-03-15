@@ -1,28 +1,19 @@
-using FluentValidation;
-
-namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments;
-
-public class CreateAttachmentsValidator : AbstractValidator<CreateAttachmentsCommand>
+namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
 {
-    public CreateAttachmentsValidator()
+    public class CreateAttachmentsValidator : AbstractValidator<CreateAttachmentsCommand>
     {
-        RuleFor(x => x.PrimaryTableId).NotEmpty();
-        RuleFor(x => x.File).NotEmpty()
-            .Must(x => x.Length <= 25 * 1024 * 1024)
-            .WithMessage("حجم الملف لا يمكن أن يتجاوز 25 ميجابايت");
+        public CreateAttachmentsValidator()
+        {
+            RuleFor(v => v.PrimaryTableId)
+                .NotEmpty()
+                .WithMessage("PrimaryTableId is required");
+            RuleFor(v => v.File)
+                .NotEmpty()
+                .WithMessage("File is required");
+            RuleFor(v => v.TableName)
+                .NotEmpty()
+                .WithMessage("TableName is required");
 
-        RuleFor(x => x.File)
-            .Must(HaveValidExtension)
-            .WithMessage("نوع الملف غير مدعوم. المسموح فقط الصور والوثائق");
-
-        RuleFor(x => x.TableName).NotEmpty();
-    }
-
-    private bool HaveValidExtension(Microsoft.AspNetCore.Http.IFormFile file)
-    {
-        if (file == null) return false;
-        var extension = System.IO.Path.GetExtension(file.FileName).ToLower();
-        var allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".txt", ".jpg", ".jpeg", ".png", ".gif" };
-        return allowedExtensions.Contains(extension);
+        }
     }
 }

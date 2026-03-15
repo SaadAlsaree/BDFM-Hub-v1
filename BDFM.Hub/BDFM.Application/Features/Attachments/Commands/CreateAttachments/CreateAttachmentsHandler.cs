@@ -14,13 +14,9 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
         private byte[] _key;
         private byte[] _iv;
         private readonly ILogger<CreateAttachmentsHandler> _logger;
-        public CreateAttachmentsHandler(
-            IBaseRepository<Attachment> repositoryAttachments,
-            IStorageService storageService,
-            ILogger<CreateAttachmentsHandler> logger) : base(repositoryAttachments)
+        public CreateAttachmentsHandler(IBaseRepository<Attachment> repositoryAttachments, IStorageService storageService) : base(repositoryAttachments)
         {
             _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _attachmentId = Guid.NewGuid();
         }
 
@@ -64,35 +60,10 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
 
         public async Task<Response<bool>> Handle(CreateAttachmentsCommand request, CancellationToken cancellationToken)
         {
-            if (request.File == null || request.File.Length == 0)
-            {
-                _logger.LogWarning("CreateAttachmentsHandler: File is null or empty. AttachmentId: {AttachmentId}", _attachmentId);
-                return ErrorsMessage.FailOnCreate.ToErrorMessage(false);
-            }
 
-            try 
-            {
-                var fileBytes = await request.File.ConvertIFormFileToByteArray();
-                var extension = request.File.GetFileExtension();
-                var fileName = $"{_attachmentId}{extension}";
-                var bucketName = request.PrimaryTableId?.ToString() ?? "General";
-
-                // Upload first to populate _key and _iv which are needed in MapToEntity
-                (_key, _iv) = _storageService.UploadFileAsync(fileBytes, fileName, bucketName);
-
-                if (_key == null || _iv == null)
-                {
-                    _logger.LogError("File upload failed to storage. AttachmentId: {AttachmentId}", _attachmentId);
-                    return ErrorsMessage.FailOnCreate.ToErrorMessage(false);
-                }
-
-                return await HandleBase(request, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error in CreateAttachmentsHandler. Handle method. AttachmentId: {AttachmentId}", _attachmentId);
-                return ErrorsMessage.FailOnCreate.ToErrorMessage(false);
-            }
+            (_key, _iv) = _storageService.UploadFileAsync(await request.File.ConvertIFormFileToByteArray(),
+         $"{_attachmentId}{request.File.GetFileExtension()}", _attachmentId.ToString());
+            return await HandleBase(request, cancellationToken);
         }
     }
 }
