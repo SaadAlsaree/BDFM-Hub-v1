@@ -33,9 +33,9 @@ export default async function Page(props: pageProps) {
   const userData = await currentUserService.getCurrentUser();
   const user = userData?.data as UserDto;
 
-  const hasRole = hasAnyRole(user, ['Correspondence']);
+  const hasRole = hasAnyRole(user, ['Admin']);
 
-  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+  const hasPermission = hasAnyPermission(user, ['Settings|GetUsers']);
 
   if (!hasRole && !hasPermission) {
     return <Unauthorized />;

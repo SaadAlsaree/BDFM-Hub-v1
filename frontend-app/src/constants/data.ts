@@ -538,21 +538,21 @@ export const navItems: NavItem[] = [
         title: 'الهيكلية',
         url: '/structure',
         icon: 'ellipsis',
-        shortcut: ['r', 'r'],
+        // shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetStructure', 'Access|All']
       },
       {
         title: 'إدارة الجهات',
         url: '/organizational-unit',
         icon: 'ellipsis',
-        shortcut: ['r', 'r'],
+        // shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetOrganizationalUnits', 'Access|All']
       },
       {
         title: 'إدارة المستخدمين',
         url: '/users',
         icon: 'ellipsis',
-        shortcut: ['u', 'u'],
+        // shortcut: ['u', 'u'],
         requiredPermissions: ['Settings|GetUsers', 'Access|All']
       },
 
@@ -560,35 +560,35 @@ export const navItems: NavItem[] = [
         title: 'إدارة الجهات الخارجية',
         url: '/external-entities',
         icon: 'ellipsis',
-        shortcut: ['r', 'r'],
+        // shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetExternalEntities', 'Access|All']
       },
       {
         title: 'إدارة نماذج الكتب',
         url: '/templates',
         icon: 'ellipsis',
-        shortcut: ['r', 'r'],
+        // shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetTemplates', 'Access|All']
       },
       {
         title: 'إدارة قوالب الكتب',
         url: '/correspondence-template',
         icon: 'ellipsis',
-        shortcut: ['r', 'r'],
+        // shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetBookTemplates', 'Access|All']
       },
       {
         title: 'إدارة مسارات العمل المخصصة',
         url: '/custom-workflow',
         icon: 'ellipsis',
-        shortcut: ['r', 'r'],
+        // shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetCustomWorkflows', 'Access|All']
       },
       {
         title: 'إدارة الإعلانات',
         url: '/announcements',
         icon: 'ellipsis',
-        shortcut: ['r', 'r'],
+        // shortcut: ['r', 'r'],
         requiredPermissions: ['Settings|GetAnnouncements', 'Access|All']
       }
       // {
