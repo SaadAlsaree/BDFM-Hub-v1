@@ -6,13 +6,14 @@ public class ProxyAuthMiddleware(RequestDelegate next, IConfiguration configurat
 
     public async Task InvokeAsync(HttpContext context)
     {
-        // Skip check for SignalR Hubs or CORS Preflight (OPTIONS)
-        if (context.Request.Path.StartsWithSegments("/correspondenceHub") ||
+        // في ملف ProxyAuthMiddleware.cs - استبدل السطر 10 بالآتي:
+        if (context.Request.Path.Value!.Contains("/correspondenceHub", StringComparison.OrdinalIgnoreCase) ||
             context.Request.Method == "OPTIONS")
         {
             await next(context);
             return;
         }
+
 
         var expectedKey = configuration["ProxySettings:ApiKey"];
 
