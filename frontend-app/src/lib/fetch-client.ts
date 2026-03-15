@@ -1,10 +1,16 @@
 // lib/fetch-client.ts
 import { getSession } from 'next-auth/react';
 
+<<<<<<< HEAD
 const API_URL =
   typeof window !== 'undefined'
     ? process.env.NEXT_PUBLIC_API_URL || '/api/proxy'
     : process.env.API_URL || 'http://localhost:5000/api';
+=======
+const API_URL = typeof window !== 'undefined'
+  ? (process.env.NEXT_PUBLIC_API_URL || '/api/proxy')
+  : (process.env.API_URL || 'http://192.168.141.155:5000/api');
+>>>>>>> 4bf7c2a023050d69bd7607ee320d6a6507e17234
 
 /**
  * Base fetch client for making HTTP requests
