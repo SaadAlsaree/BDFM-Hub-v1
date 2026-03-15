@@ -11,7 +11,7 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments.Valid
             ".exe", ".bat", ".cmd", ".com", ".sh", ".vbs", ".js", ".jar",
             ".ps1", ".psm1", ".ps1xml", ".psc1", ".psc1xml", ".psc2", ".psc2xml",
             ".msh", ".msh1", ".msh2", ".mshxml", ".msh1xml", ".msh2xml",
-            ".scf", ".reg", ".inf", ".url", ".lnk", ".pif"
+            ".scf", ".reg", ".inf", ".url", ".lnk", ".pif", ".msi", ".msp"
         };
 
         private static readonly string[] SuspiciousFileNames = 
@@ -25,8 +25,8 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments.Valid
 
         private static readonly string[] ValidFileExtensions = 
         {
-            ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".doc", ".docx",
-            ".xls", ".xlsx", ".txt", ".zip", ".rar", ".7z", ".csv"
+            ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".txt",
+            ".jpg", ".jpeg", ".png", ".gif"
         };
 
         public CreateAttachmentsCommandValidator()
@@ -54,6 +54,14 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments.Valid
             RuleFor(x => x.PrimaryTableId)
                 .NotEmpty()
                 .WithMessage("Primary table ID is required");
+
+            RuleFor(x => x.TableName)
+                .Must(t => (int)t > 0)
+                .WithMessage("Valid TableName is required");
+
+            RuleFor(x => x.CreateBy)
+                .NotEmpty()
+                .WithMessage("CreateBy is required");
         }
 
         private static bool HaveValidExtension(IFormFile file)

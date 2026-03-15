@@ -14,9 +14,13 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
         private byte[] _key;
         private byte[] _iv;
         private readonly ILogger<CreateAttachmentsHandler> _logger;
-        public CreateAttachmentsHandler(IBaseRepository<Attachment> repositoryAttachments, IStorageService storageService) : base(repositoryAttachments)
+        public CreateAttachmentsHandler(
+            IBaseRepository<Attachment> repositoryAttachments, 
+            IStorageService storageService,
+            ILogger<CreateAttachmentsHandler> logger) : base(repositoryAttachments)
         {
             _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _attachmentId = Guid.NewGuid();
         }
 

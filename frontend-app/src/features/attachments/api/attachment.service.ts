@@ -90,7 +90,8 @@ export const attachmentService = {
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            // Remove manual Content-Type to allow browser to set boundary
+            'Content-Type': undefined
           }
         }
       );

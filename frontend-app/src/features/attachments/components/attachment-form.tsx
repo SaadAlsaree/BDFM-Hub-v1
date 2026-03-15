@@ -57,8 +57,19 @@ const AttachmentForm: React.FC<AttachmentFormProps> = ({
   title = 'المرفقات',
   description = 'أضف المرفقات المتعلقة بالسجل (اختياري)',
   maxFiles = 25,
-  maxFileSize = 25, // 10MB default
-  acceptedFileTypes = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
+  maxFileSize = 25,
+  acceptedFileTypes = [
+    '.pdf',
+    '.doc',
+    '.docx',
+    '.xls',
+    '.xlsx',
+    '.txt',
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.gif'
+  ],
   disabled = false
 }) => {
   const { data: session } = useSession();

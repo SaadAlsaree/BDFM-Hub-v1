@@ -1,10 +1,10 @@
-﻿
+
 
 namespace BDFM.Persistence.Repositories;
 public class StorageService : IStorageService
 {
-    private static byte[] Key = default!;
-    private static byte[] IV = default!;
+    private byte[] Key = default!;
+    private byte[] IV = default!;
 
     private readonly string _host;
     private readonly string _username;
@@ -98,7 +98,7 @@ public class StorageService : IStorageService
             return iv;
         }
     }
-    public static byte[] Encrypt(byte[] data)
+    public byte[] Encrypt(byte[] data)
     {
         using (var aes = Aes.Create())
         {
