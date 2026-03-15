@@ -51,12 +51,31 @@ async function handleProxyRequest(
       method,
       data: body,
       headers: proxyHeaders as any,
+      responseType: 'arraybuffer', // Get raw data to avoid corruption of binary files
       ...(isHubRequest && process.env.API_URL ? { 
         baseURL: process.env.API_URL.replace(/\/BDFM\/v1\/api\/?$/, '') 
       } : {})
     });
 
-    return NextResponse.json(apiResponse.data, { status: apiResponse.status });
+    // Check if the response is JSON or something else (like biological/binary)
+    const responseContentType = apiResponse.headers['content-type'] || 'application/json';
+    
+    // If we have data, return it with the correct content type
+    // Ensure we handle both binary data (Buffer/ArrayBuffer) and fallback POJOs from axios interceptors
+    let responseBody: any = apiResponse.data;
+    if (responseBody && typeof responseBody === 'object' && !(responseBody instanceof Buffer) && !(responseBody instanceof ArrayBuffer)) {
+      responseBody = JSON.stringify(responseBody);
+    }
+
+    return new NextResponse(responseBody, { 
+      status: apiResponse.status,
+      headers: {
+        'Content-Type': responseContentType,
+        ...(apiResponse.headers['content-disposition'] && { 
+          'Content-Disposition': apiResponse.headers['content-disposition'] 
+        })
+      }
+    });
   } catch (error: any) {
     console.error('[GLOBAL_API_PROXY_ERROR]', error?.message || error);
     
