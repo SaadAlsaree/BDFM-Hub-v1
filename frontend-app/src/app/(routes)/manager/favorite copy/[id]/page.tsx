@@ -7,6 +7,8 @@ import { currentUserService } from '@/utils/auth/corent-user.service';
 import { UserDto } from '@/utils/auth/auth';
 import CorrespondenceView from '@/features/president/common/correspondence-view';
 import FormCardSkeleton from '@/components/form-card-skeleton';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import Unauthorized from '@/components/auth/unauthorized';
 
 interface Props {
   params: Promise<{
@@ -23,6 +25,18 @@ const FavoriteDetailPage = async (props: Props) => {
 
   const userData = await currentUserService.getCurrentUser();
   const user = userData?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Manager', 'President', 'SuAdmin']);
+
+  const hasPermission = hasAnyPermission(user, [
+    'Correspondence|Manager',
+    'Correspondence|President',
+    'Access|All'
+  ]);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
 
   if (user.isDefaultPassword === true) {
     return (

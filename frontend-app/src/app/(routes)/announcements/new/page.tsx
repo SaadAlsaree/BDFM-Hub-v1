@@ -2,12 +2,36 @@ import PageContainer from '@/components/layout/page-container';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { AnnouncementForm } from '@/features/announcements';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import Unauthorized from '@/components/auth/unauthorized';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
 export const metadata = {
   title: 'إنشاء إعلان جديد'
 };
 
-export default function NewAnnouncementPage() {
+export default async function NewAnnouncementPage() {
+  const data = await currentUserService.getCurrentUser();
+  const user = data?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Admin', 'President']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|President', 'Access|All']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
+  if (user.isDefaultPassword === true) {
+    return (
+      <PageContainer scrollable={false}>
+        <DefaultPasswordWarning />
+      </PageContainer>
+    );
+  }
+
   return (
     <PageContainer scrollable={true}>
       <div className='flex flex-1 flex-col space-y-4'>

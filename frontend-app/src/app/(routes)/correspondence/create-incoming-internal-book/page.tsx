@@ -18,6 +18,7 @@ export const dynamic = 'force-dynamic';
 
 const CreateIncomingInternalBook = async () => {
   const userData = await currentUserService.getCurrentUser();
+  
   const hasPermission = hasAnyPermission(userData?.data as UserDto, [
     'Correspondence|Create',
     'Access|All'

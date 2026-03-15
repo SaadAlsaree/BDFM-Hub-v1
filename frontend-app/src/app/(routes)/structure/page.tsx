@@ -8,7 +8,12 @@ import {
   IOrganizationalUnitTree,
   IOrganizationalUnitList
 } from '@/features/organizational-unit/types/organizational';
+import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import Unauthorized from '@/components/auth/unauthorized';
 import { Suspense } from 'react';
+import { UserDto } from '@/utils/auth/auth';
 
 export const metadata = {
   title: 'الهيكلية'
@@ -54,7 +59,28 @@ function buildTree(
   return roots;
 }
 
+
+
 const StructerPage = async () => {
+
+    const userData = await currentUserService.getCurrentUser();
+    const user = userData?.data as UserDto;
+  
+    const hasRole = hasAnyRole(user, ['Admin']);
+  
+    const hasPermission = hasAnyPermission(user, ['Settings|GetUsers']);
+  
+    if (!hasRole && !hasPermission) {
+      return <Unauthorized />;
+    }
+  
+    if (user.isDefaultPassword === true) {
+      return (
+        <PageContainer scrollable={false}>
+          <DefaultPasswordWarning />
+        </PageContainer>
+      );
+    }
   try {
     // Try to get the organizational unit tree structure first
     const treeData = await organizationalService.getOrganizationalUnitTree();

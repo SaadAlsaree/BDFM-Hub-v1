@@ -33,9 +33,10 @@ export default async function ForwardedBooksPage(
   const data = await currentUserService.getCurrentUser();
   const user = data?.data as UserDto;
 
-  const hasRole = hasAnyRole(user, ['President', 'SuAdmin']);
+  const hasRole = hasAnyRole(user, ['Manager', 'President', 'SuAdmin']);
 
   const hasPermission = hasAnyPermission(user, [
+    'Correspondence|Manager',
     'Correspondence|President',
     'Access|All'
   ]);

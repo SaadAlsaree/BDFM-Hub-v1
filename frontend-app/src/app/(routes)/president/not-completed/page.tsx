@@ -13,6 +13,7 @@ import { UserDto } from '@/utils/auth/auth';
 import Unauthorized from '@/components/auth/unauthorized';
 import { DefaultPasswordWarning } from '@/features/profile/components/default-password-warning';
 
+
 export const metadata = {
   title: 'غير المكتملة'
 };

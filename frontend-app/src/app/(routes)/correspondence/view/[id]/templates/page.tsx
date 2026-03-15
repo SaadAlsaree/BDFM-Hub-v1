@@ -5,6 +5,8 @@ import { DefaultPasswordWarning } from '@/features/profile/components/default-pa
 import TemplatesView from '@/features/templates/components/templates-view';
 import { UserDto } from '@/utils/auth/auth';
 import { currentUserService } from '@/utils/auth/corent-user.service';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import Unauthorized from '@/components/auth/unauthorized';
 
 interface Props {
   params: Promise<{
@@ -20,7 +22,15 @@ const TemplatesPage = async (props: Props) => {
   const correspondenceDetails = correspondence?.data as CorrespondenceDetails;
   const data = await currentUserService.getCurrentUser();
   const user = data?.data as UserDto;
-  
+
+  const hasRole = hasAnyRole(user, ['Correspondence']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox', 'Access|All']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
   if (user.isDefaultPassword === true) {
     return (
       <PageContainer scrollable={false}>

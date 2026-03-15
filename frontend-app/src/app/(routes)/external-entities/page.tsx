@@ -32,9 +32,9 @@ const ExternalEntitiesPage = async (props: pageProps) => {
   const userData = await currentUserService.getCurrentUser();
   const user = userData?.data as UserDto;
 
-  const hasRole = hasAnyRole(user, ['Correspondence']);
+  const hasRole = hasAnyRole(user, ['Admin', 'SuAdmin']);
 
-  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+  const hasPermission = hasAnyPermission(user, ['Settings|GetExternalEntities']);
 
   if (!hasRole && !hasPermission) {
     return <Unauthorized />;

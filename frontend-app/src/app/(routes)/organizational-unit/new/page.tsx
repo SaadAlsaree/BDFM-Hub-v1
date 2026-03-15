@@ -17,9 +17,9 @@ const NewOrganizationalUnitPage = async () => {
   const data = await currentUserService.getCurrentUser();
   const user = data?.data as UserDto;
 
-  const hasRole = hasAnyRole(user, ['Correspondence']);
+  const hasRole = hasAnyRole(user, ['Admin']);
 
-  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+  const hasPermission = hasAnyPermission(user, ['Settings|CreateOrganizationalUnit']);
 
   if (!hasRole && !hasPermission) {
     return <Unauthorized />;

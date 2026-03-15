@@ -30,13 +30,15 @@ const SigningCorrespondencePage = async (
 
   const userData = await currentUserService.getCurrentUser();
   const hasRole = hasAllRoles(userData?.data as UserDto, [
-    'Correspondence',
-    'Manager'
+    'Manager',
+    'President',
+    'SuAdmin'
   ]);
 
   const hasPermission = hasAllPermissions(userData?.data as UserDto, [
-    'Correspondence|Get|Signing',
-    'Correspondence|Manager'
+    'Correspondence|Manager',
+    'Correspondence|President',
+    'Access|All'
   ]);
 
   if (!hasRole && !hasPermission) {

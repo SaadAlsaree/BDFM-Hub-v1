@@ -13,6 +13,8 @@ import Link from 'next/link';
 import { searchParamsCache } from '@/lib/searchparams';
 import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import Unauthorized from '@/components/auth/unauthorized';
 
 export const metadata = {
   title: 'الإعلانات'
@@ -28,6 +30,15 @@ const AnnouncementsPage = async (props: AnnouncementsPageProps) => {
 
   const data = await currentUserService.getCurrentUser();
   const user = data?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['Admin', 'President']);
+
+  const hasPermission = hasAnyPermission(user, ['Correspondence|President', 'Access|All']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
+
 
   if (user.isDefaultPassword === true) {
     return (

@@ -29,11 +29,12 @@ export default async function InboxPage(props: InboxPageProps) {
   const data = await currentUserService.getCurrentUser();
   const user = data?.data as UserDto;
 
-  const hasRole = hasAllRoles(user, ['Correspondence', 'Manager']);
+  const hasRole = hasAllRoles(user, ['Manager', 'President', 'SuAdmin']);
 
   const hasPermission = hasAllPermissions(user, [
-    'Correspondence|GetUserInbox',
-    'Correspondence|Manager'
+    'Correspondence|Manager',
+    'Correspondence|President',
+    'Access|All'
   ]);
 
   if (!hasRole && !hasPermission) {

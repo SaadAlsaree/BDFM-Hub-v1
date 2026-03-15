@@ -1,4 +1,3 @@
-import KBar from '@/components/kbar';
 import AppSidebar from '@/components/layout/app-sidebar';
 import Header from '@/components/layout/header';
 import { AnnouncementBanner, AnnouncementProvider } from '@/components/layout/announcement-banner';
@@ -22,7 +21,7 @@ export default async function DashboardLayout({
   const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true';
   return (
     <SessionValidator>
-      <KBar>
+      {/* <KBar> */}
         <AnnouncementProvider>
           <SidebarProvider defaultOpen={defaultOpen}>
             <AppSidebar />
@@ -35,7 +34,7 @@ export default async function DashboardLayout({
             </SidebarInset>
           </SidebarProvider>
         </AnnouncementProvider>
-      </KBar>
+      {/* </KBar> */}
     </SessionValidator>
   );
 }

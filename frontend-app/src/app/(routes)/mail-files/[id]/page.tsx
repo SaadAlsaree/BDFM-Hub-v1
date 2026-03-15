@@ -4,6 +4,10 @@ import { mailFilesService } from '@/features/mail-files/api/mail-files.service';
 import MailFileViewPage from '@/features/mail-files/components/mail-file-view-page';
 import { IMailFileDetail } from '@/features/mail-files/types/mail-files';
 import React, { Suspense } from 'react';
+import { hasAnyPermission, hasAnyRole } from '@/utils/auth/auth-utils';
+import { currentUserService } from '@/utils/auth/corent-user.service';
+import { UserDto } from '@/utils/auth/auth';
+import Unauthorized from '@/components/auth/unauthorized';
 
 export const metadata = {
   title: 'بيانات الاضبارة',
@@ -16,6 +20,17 @@ type pageProps = {
 const page = async (props: pageProps) => {
   const params = await props.params;
   const mailFile = await mailFilesService.getMailFileById(params.id);
+
+  const data = await currentUserService.getCurrentUser();
+  const user = data?.data as UserDto;
+
+  const hasRole = hasAnyRole(user, ['FileManagement']);
+
+  const hasPermission = hasAnyPermission(user, ['FileManagement|GetFiles']);
+
+  if (!hasRole && !hasPermission) {
+    return <Unauthorized />;
+  }
 
   return (
     <PageContainer scrollable>

@@ -32,9 +32,9 @@ const MailFilesPage = async (props: pageProps) => {
   const data = await currentUserService.getCurrentUser();
   const user = data?.data as UserDto;
 
-  const hasRole = hasAnyRole(user, ['Correspondence']);
+  const hasRole = hasAnyRole(user, ['FileManagement']);
 
-  const hasPermission = hasAnyPermission(user, ['Correspondence|GetUserInbox']);
+  const hasPermission = hasAnyPermission(user, ['FileManagement|GetFiles']);
 
   if (!hasRole && !hasPermission) {
     return <Unauthorized />;
