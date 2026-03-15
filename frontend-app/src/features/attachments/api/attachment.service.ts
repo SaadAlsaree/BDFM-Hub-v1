@@ -50,6 +50,7 @@ export const attachmentService = {
         `/Attachments/CreateAttachment`,
         payload
       );
+      console.log(response);
       if (response.status >= 400) {
         // console.error('Error creating attachment:', response.statusText);
         return null;

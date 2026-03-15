@@ -40,8 +40,8 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments.Valid
                 .WithMessage("File cannot be empty");
 
             RuleFor(x => x.File)
-                .Must(file => file.Length <= 10 * 1024 * 1024)
-                .WithMessage("File size cannot exceed 10MB");
+                .Must(file => file.Length <= 25 * 1024 * 1024)
+                .WithMessage("File size cannot exceed 25MB");
 
             RuleFor(x => x.File)
                 .Must(HaveValidExtension)
