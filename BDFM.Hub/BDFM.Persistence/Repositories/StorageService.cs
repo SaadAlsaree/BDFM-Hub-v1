@@ -1,19 +1,25 @@
 
+using Microsoft.Extensions.Logging;
+using System.Security.Cryptography;
+using FluentFTP;
+using Microsoft.Extensions.Configuration;
 
 namespace BDFM.Persistence.Repositories;
 public class StorageService : IStorageService
 {
-    private static byte[] Key = default!;
-    private static byte[] IV = default!;
+    private byte[] Key = default!;
+    private byte[] IV = default!;
 
+    private readonly ILogger<StorageService> _logger;
     private readonly string _host;
     private readonly string _username;
     private readonly string _password;
     private readonly int _port;
     private readonly int _op;
 
-    public StorageService(IConfiguration configuration)
+    public StorageService(IConfiguration configuration, ILogger<StorageService> logger)
     {
+        _logger = logger;
         Key = GenerateAESKey();
         IV = GenerateAESIv();
         _host = configuration.GetValue<string>("FTP:Host")!;
@@ -25,34 +31,53 @@ public class StorageService : IStorageService
 
     public (byte[], byte[]) UploadFileAsync(byte[] binaryFile, string fileName, string bucketName)
     {
-
-        using var client = new FtpClient(_host, _username, _password, _port, new FtpConfig()
+        try
         {
-            DataConnectionConnectTimeout = 5000,
-            ReadTimeout = 5000,
-            ConnectTimeout = 5000,
-            RetryAttempts = 3,
-            DataConnectionType = _op == 1 ? FtpDataConnectionType.AutoActive : FtpDataConnectionType.PASV,
-            LogToConsole = true,
-        });
+            using var client = new FtpClient(_host, _username, _password, _port, new FtpConfig()
+            {
+                DataConnectionConnectTimeout = 5000,
+                ReadTimeout = 5000,
+                ConnectTimeout = 5000,
+                RetryAttempts = 3,
+                DataConnectionType = _op == 1 ? FtpDataConnectionType.AutoActive : FtpDataConnectionType.PASV,
+                LogToConsole = true,
+            });
 
-        client.Connect(true);
-        if (!client.IsAuthenticated)
-            return (null!, null!);
-        if (!client.IsConnected)
-            return (null!, null!);
-        if (!client.DirectoryExists(bucketName))
-        {
-            client.CreateDirectory(bucketName);
+            client.Connect();
+            if (!client.IsConnected)
+            {
+                _logger.LogError("FTP Client failed to connect to {Host}:{Port}", _host, _port);
+                return (null!, null!);
+            }
+
+            if (!client.IsAuthenticated)
+            {
+                _logger.LogError("FTP Client failed to authenticate user {Username} on {Host}", _username, _host);
+                return (null!, null!);
+            }
+
+            if (!client.DirectoryExists(bucketName))
+            {
+                _logger.LogInformation("Creating directory {BucketName} on FTP server", bucketName);
+                client.CreateDirectory(bucketName);
+            }
+
+            var encryptedContents = Encrypt(binaryFile);
+            var status = client.UploadBytes(encryptedContents, $"{bucketName}/{fileName}");
+
+            if (status != FtpStatus.Success)
+            {
+                _logger.LogError("FTP Upload failed with status {Status} for file {FileName} in bucket {BucketName}", status, fileName, bucketName);
+                return (null!, null!);
+            }
+
+            return (Key, IV);
         }
-        var encryptedContents = Encrypt(binaryFile);
-        var status = client.UploadBytes(encryptedContents, $"{bucketName}/{fileName}");
-        if (status != FtpStatus.Success)
+        catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Exception occurred during FTP upload to {Host}. Bucket: {BucketName}, File: {FileName}", _host, bucketName, fileName);
+            return (null!, null!);
         }
-        client.AutoDispose();
-        return (Key, IV);
     }
 
     public byte[] DownloadFile(string fileName, string bucketName, byte[] _key, byte[] _iv)
@@ -98,7 +123,7 @@ public class StorageService : IStorageService
             return iv;
         }
     }
-    public static byte[] Encrypt(byte[] data)
+    public byte[] Encrypt(byte[] data)
     {
         using (var aes = Aes.Create())
         {

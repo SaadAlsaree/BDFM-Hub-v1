@@ -8,26 +8,28 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
 {
     public class CreateAttachmentsHandler : CreateHandler<Attachment, CreateAttachmentsCommand>, IRequestHandler<CreateAttachmentsCommand, Response<bool>>
     {
-
         private readonly IStorageService _storageService;
-        private readonly Guid _attachmentId;
-        private byte[] _key;
-        private byte[] _iv;
         private readonly ILogger<CreateAttachmentsHandler> _logger;
-        public CreateAttachmentsHandler(IBaseRepository<Attachment> repositoryAttachments, IStorageService storageService) : base(repositoryAttachments)
+        private readonly Guid _attachmentId;
+        private byte[] _key = default!;
+        private byte[] _iv = default!;
+
+        public CreateAttachmentsHandler(
+            IBaseRepository<Attachment> repositoryAttachments, 
+            IStorageService storageService,
+            ILogger<CreateAttachmentsHandler> logger) : base(repositoryAttachments)
         {
             _storageService = storageService ?? throw new ArgumentNullException(nameof(storageService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _attachmentId = Guid.NewGuid();
         }
 
         protected override Expression<Func<Attachment, bool>> ExistencePredicate(CreateAttachmentsCommand request) => null!;
 
-
         protected override Attachment MapToEntity(CreateAttachmentsCommand request)
         {
             try
             {
-                // Extract file information from IFormFile
                 var originalFileName = request.File?.FileName ?? "unknown";
                 var fileExtension = request.File?.GetFileExtension() ?? "";
                 var fileSize = request.FileSize ?? request.File?.Length ?? 0;
@@ -37,7 +39,7 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
                 return new Attachment
                 {
                     Id = _attachmentId,
-                    PrimaryTableId = request.PrimaryTableId ?? Guid.Empty, // Handle required field
+                    PrimaryTableId = request.PrimaryTableId ?? Guid.Empty,
                     TableName = request.TableName,
                     FileName = originalFileName,
                     FilePath = filePath,
@@ -56,14 +58,36 @@ namespace BDFM.Application.Features.Attachments.Commands.CreateAttachments
             }
         }
 
-
-
         public async Task<Response<bool>> Handle(CreateAttachmentsCommand request, CancellationToken cancellationToken)
         {
+            if (request.File == null || request.File.Length == 0)
+            {
+                _logger.LogWarning("CreateAttachmentsHandler: File is null or empty. AttachmentId: {AttachmentId}", _attachmentId);
+                return ErrorsMessage.FailOnCreate.ToErrorMessage(false);
+            }
 
-            (_key, _iv) = _storageService.UploadFileAsync(await request.File.ConvertIFormFileToByteArray(),
-         $"{_attachmentId}{request.File.GetFileExtension()}", _attachmentId.ToString());
-            return await HandleBase(request, cancellationToken);
+            try
+            {
+                var fileBytes = await request.File.ConvertIFormFileToByteArray();
+                var extension = request.File.GetFileExtension();
+                var fileName = $"{_attachmentId}{extension}";
+                var bucketName = request.PrimaryTableId?.ToString() ?? "General";
+
+                (_key, _iv) = _storageService.UploadFileAsync(fileBytes, fileName, bucketName);
+
+                if (_key == null || _iv == null)
+                {
+                    _logger.LogError("File upload failed to storage. AttachmentId: {AttachmentId}", _attachmentId);
+                    return ErrorsMessage.FailOnCreate.ToErrorMessage(false);
+                }
+
+                return await HandleBase(request, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error in CreateAttachmentsHandler. Handle method. AttachmentId: {AttachmentId}", _attachmentId);
+                return ErrorsMessage.FailOnCreate.ToErrorMessage(false);
+            }
         }
     }
 }
