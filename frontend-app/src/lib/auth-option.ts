@@ -33,7 +33,7 @@ const authOption: NextAuthOptions = {
           return null;
         }
 <<<<<<< HEAD
-        // http://localhost:5000/api/Auth/login
+        // http://cm-back.inss.local/api/Auth/login
 =======
 // http://192.168.141.155:5000/api/Auth/login
 >>>>>>> 4bf7c2a023050d69bd7607ee320d6a6507e17234
