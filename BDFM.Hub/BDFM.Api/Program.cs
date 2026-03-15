@@ -9,7 +9,6 @@ Log.Information("BDFM API Starting up!");
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
-     .WriteTo.Console()
      .ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddLogging();
